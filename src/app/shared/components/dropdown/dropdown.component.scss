@@ -1,0 +1,101 @@
+:host {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-flex;
+}
+
+.dropdown-trigger {
+  display: inline-flex;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  z-index: 1050;
+  min-width: 220px;
+  background: var(--oefa-surface-modal, #FFFFFF);
+  border: 1px solid var(--oefa-border-color, #E2E8F0);
+  border-radius: var(--oefa-radius-md, 8px);
+  box-shadow: var(--oefa-shadow-flyout, 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1));
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: dropdownPop var(--oefa-duration-short-4, 200ms) var(--oefa-ease-emphasized-decel, cubic-bezier(0.05, 0.7, 0.1, 1));
+
+  &.align-right {
+    right: 0;
+    left: auto;
+  }
+
+  &.align-left {
+    left: 0;
+    right: auto;
+  }
+}
+
+/* Soporte y normalización de items dentro del ng-content */
+::ng-deep .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  color: var(--oefa-text-primary, #1E293B);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
+  white-space: nowrap;
+
+  &:hover {
+    background-color: var(--oefa-surface-subtle, #F8FAFC);
+    color: var(--oefa-primary-root, #144AA7);
+  }
+
+  &.text-danger {
+    color: var(--oefa-error-root, #E51A2F);
+
+    &:hover {
+      background-color: var(--oefa-error-container, #FFEFF1);
+      color: var(--oefa-error-on-container, #AA1223);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+::ng-deep .dropdown-divider {
+  height: 1px;
+  background-color: var(--oefa-border-color, #E2E8F0);
+  margin: 4px 0;
+}
+
+@keyframes dropdownPop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-menu, ::ng-deep .dropdown-item {
+    animation: none !important;
+    transition: none !important;
+  }
+}

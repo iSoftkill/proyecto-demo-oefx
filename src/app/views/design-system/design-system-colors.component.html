@@ -1,0 +1,404 @@
+<div class="ds-colors-container">
+  <!-- Toast flotante de copiado -->
+  @if (copiedToken()) {
+    <div class="copy-toast">
+      <i class="bi bi-clipboard-check-fill"></i>
+      <span>Copiado al portapapeles: <strong>{{ copiedToken() }}</strong></span>
+    </div>
+  }
+
+  <!-- Cabecera del Módulo -->
+  <header class="ds-header">
+    <div class="ds-header-info">
+      <div class="ds-title-row">
+        <h2>🎨 Catálogo Integral de Colores & Tokens OEFA</h2>
+        <span class="ds-version-pill">WCAG 2.2 AA/AAA Verificado</span>
+      </div>
+      <p class="ds-subtitle">
+        Tokens semánticos de color, escalas monocromáticas (tonal ramps 10–99), contrastes normados y guía de aplicación en componentes institucionales.
+      </p>
+    </div>
+
+    <!-- Buscador y estadísticas rápidas -->
+    <div class="ds-controls">
+      <div class="search-box">
+        <i class="bi bi-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Buscar token, HEX, componente o uso..."
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+        />
+        @if (searchQuery()) {
+          <button class="clear-btn" (click)="searchQuery.set('')" title="Limpiar búsqueda">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        }
+      </div>
+    </div>
+  </header>
+
+  <!-- Pestañas de Navegación del Catálogo -->
+  <nav class="ds-tabs-nav">
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'all'"
+      (click)="selectedTab.set('all')">
+      <i class="bi bi-grid-fill"></i>
+      Todos los Tokens
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'semantics'"
+      (click)="selectedTab.set('semantics')">
+      <i class="bi bi-palette-fill"></i>
+      Identidad & Estados Semánticos
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'ramps'"
+      (click)="selectedTab.set('ramps')">
+      <i class="bi bi-bar-chart-steps"></i>
+      Escalas Monocromáticas (Tonal Ramps 10-99)
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'surfaces'"
+      (click)="selectedTab.set('surfaces')">
+      <i class="bi bi-layers-fill"></i>
+      Superficies & Textos Neutros
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'dark'"
+      (click)="selectedTab.set('dark')">
+      <i class="bi bi-moon-stars-fill"></i>
+      Modo Oscuro (Inversiones WCAG)
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'matrix'"
+      (click)="selectedTab.set('matrix')">
+      <i class="bi bi-check2-circle"></i>
+      Aplicación en Componentes & Contraste
+    </button>
+  </nav>
+
+  <!-- SECCIÓN 1: VISTA DE TOKENS EN GRID (Cards detalladas con Uso y Dónde se Aplica) -->
+  @if (selectedTab() !== 'ramps' && selectedTab() !== 'matrix') {
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <h3 class="section-title">Tokens Semánticos de Color</h3>
+          <span class="section-meta">Mostrando {{ filteredTokens().length }} tokens documentados con valores computados y reglas de accesibilidad.</span>
+        </div>
+        <span class="badge-count">{{ filteredTokens().length }} tokens</span>
+      </div>
+
+      <div class="tokens-grid">
+        @for (item of filteredTokens(); track item.token) {
+          <article class="color-token-card">
+            <!-- Muestra visual del color -->
+            <div
+              class="token-swatch"
+              [style.background-color]="item.hex"
+              [style.color]="item.textColor"
+              [style.border]="item.borderColor ? '1px solid ' + item.borderColor : 'none'"
+              (click)="copyToClipboard(item.hex, 'HEX')"
+              title="Clic para copiar código HEX">
+              <span class="swatch-hex">{{ item.hex }}</span>
+              <span class="swatch-copy-hint"><i class="bi bi-copy"></i> Copiar</span>
+            </div>
+
+            <!-- Información detallada del token -->
+            <div class="token-body">
+              <div class="token-header-row">
+                <span class="category-tag">{{ item.categoryLabel }}</span>
+                <span class="wcag-pill" [ngClass]="item.wcagClass">{{ item.wcagBadge }}</span>
+              </div>
+
+              <h4 class="token-title">{{ item.name }}</h4>
+
+              <div class="token-code-row">
+                <code class="token-code" (click)="copyToClipboard('var(' + item.token + ')', 'CSS Variable')">
+                  var({{ item.token }})
+                </code>
+                <button
+                  class="btn-icon-copy"
+                  (click)="copyToClipboard('var(' + item.token + ')', 'CSS Variable')"
+                  title="Copiar CSS Variable">
+                  <i class="bi bi-clipboard"></i>
+                </button>
+              </div>
+
+              <!-- Explicación de uso -->
+              <div class="token-detail-block">
+                <span class="detail-label"><i class="bi bi-info-circle"></i> Uso y Propósito:</span>
+                <p class="detail-text">{{ item.usage }}</p>
+              </div>
+
+              <!-- Dónde se aplica en la UI -->
+              <div class="token-detail-block">
+                <span class="detail-label"><i class="bi bi-window-desktop"></i> Dónde se aplica:</span>
+                <div class="tags-cloud">
+                  @for (app of item.appliedIn; track app) {
+                    <span class="applied-chip">{{ app }}</span>
+                  }
+                </div>
+              </div>
+
+              <!-- Ratio de contraste WCAG si existe -->
+              @if (item.contrastRatio) {
+                <div class="contrast-footer">
+                  <i class="bi bi-shield-check"></i>
+                  <span>Contraste: <strong>{{ item.contrastRatio }}</strong></span>
+                </div>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- SECCIÓN 2: ESCALAS MONOCROMÁTICAS (TONAL RAMPS 10 A 99) -->
+  @if (selectedTab() === 'all' || selectedTab() === 'ramps') {
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <h3 class="section-title">Escalas Monocromáticas (Tonal Ramps 10–99)</h3>
+          <p class="section-meta">
+            Sistemas de escala tonal continua inspirados en Material Design 3. Mantienen el matiz institucional original variando matemáticamente la luminosidad.
+            Permiten generar hovers, active states, focus rings, variantes de dark mode y series analíticas sin alterar la identidad gráfica.
+          </p>
+        </div>
+      </div>
+
+      <div class="ramps-container">
+        @for (ramp of tonalRamps; track ramp.name) {
+          <div class="ramp-card">
+            <div class="ramp-header">
+              <div class="ramp-title-group">
+                <span class="ramp-badge-role" [attr.data-role]="ramp.role">{{ ramp.role | uppercase }}</span>
+                <h4 class="ramp-title">{{ ramp.name }}</h4>
+              </div>
+              <p class="ramp-desc">{{ ramp.description }}</p>
+            </div>
+
+            <!-- Tira continua visual de tonos -->
+            <div class="ramp-strip">
+              @for (step of ramp.steps; track step.step) {
+                <div
+                  class="ramp-step"
+                  [style.background-color]="step.hex"
+                  [style.color]="step.textColor"
+                  (click)="copyToClipboard(step.hex, ramp.role + '-' + step.step)"
+                  [title]="step.token + ' (' + step.hex + ') — ' + step.usageNote">
+                  <span class="step-num">{{ step.step }}</span>
+                  @if (step.isRoot) {
+                    <span class="root-dot" title="Color Raíz Institucional">★</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Desglose tabular interactivo de la escala -->
+            <div class="ramp-table-wrap">
+              <table class="ramp-table">
+                <thead>
+                  <tr>
+                    <th>Paso</th>
+                    <th>Color</th>
+                    <th>Valor HEX</th>
+                    <th>Token CSS</th>
+                    <th>Uso Recomendado & Aplicación</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (step of ramp.steps; track step.step) {
+                    <tr [class.highlight-root]="step.isRoot">
+                      <td class="td-step">
+                        <span class="step-pill" [class.is-root-pill]="step.isRoot">
+                          {{ step.step }}
+                          @if (step.isRoot) { (Raíz) }
+                        </span>
+                      </td>
+                      <td class="td-swatch">
+                        <div class="mini-swatch" [style.background-color]="step.hex"></div>
+                      </td>
+                      <td class="td-hex">
+                        <code>{{ step.hex }}</code>
+                      </td>
+                      <td class="td-token">
+                        <code>var({{ step.token }})</code>
+                      </td>
+                      <td class="td-usage">{{ step.usageNote }}</td>
+                      <td class="td-action">
+                        <button
+                          class="btn-mini-copy"
+                          (click)="copyToClipboard(step.hex, 'HEX ' + step.step)"
+                          title="Copiar HEX">
+                          <i class="bi bi-clipboard"></i> HEX
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- SECCIÓN 3: MATRIZ DE CONTRASTE Y APLICACIÓN EN COMPONENTES REALES -->
+  @if (selectedTab() === 'all' || selectedTab() === 'matrix') {
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <h3 class="section-title">Laboratorio de Aplicación: Tokens en Componentes Reales</h3>
+          <span class="section-meta">Demostración en vivo de cómo los tokens primarios, secundarios, estados y tonal ramps cobran vida en la interfaz de OEFA.</span>
+        </div>
+      </div>
+
+      <div class="preview-lab-grid">
+        <!-- Tarjeta 1: Componente Reutilizable oefa-button -->
+        <div class="lab-card">
+          <h4 class="lab-card-title"><i class="bi bi-hand-index-thumb"></i> Componente Reutilizable: &lt;oefa-button&gt;</h4>
+          <p class="lab-card-desc">Consumiendo directamente el componente institucional compartido con sus variantes de token.</p>
+          
+          <div class="lab-demo-row">
+            <oefa-button variant="primary">
+              <i class="bi bi-plus-lg"></i>
+              Acción Primaria
+            </oefa-button>
+            <oefa-button variant="secondary">
+              <i class="bi bi-filter"></i>
+              Secundario / Filtro
+            </oefa-button>
+            <oefa-button variant="danger">
+              <i class="bi bi-trash3"></i>
+              Destructivo
+            </oefa-button>
+            <oefa-button variant="ghost">
+              Ghost
+            </oefa-button>
+            <oefa-button variant="excel">
+              <i class="bi bi-file-earmark-excel"></i>
+              Excel
+            </oefa-button>
+          </div>
+          
+          <div class="token-code-note">
+            Componente: <code>&lt;oefa-button variant="primary|secondary|danger|ghost|excel"&gt;</code> (estilos sincronizados en <code>styles.scss</code>).
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Componente Reutilizable oefa-status-badge -->
+        <div class="lab-card">
+          <h4 class="lab-card-title"><i class="bi bi-tags"></i> Componente Reutilizable: &lt;oefa-status-badge&gt;</h4>
+          <p class="lab-card-desc">Mapeo automático de los 6 estados universales normados bajo WCAG 2.2 AA.</p>
+
+          <div class="lab-demo-row">
+            <oefa-status-badge status="EN_PROCESO" [dot]="true" />
+            <oefa-status-badge status="CONFORME" [dot]="true" />
+            <oefa-status-badge status="OBSERVADO" [dot]="true" />
+            <oefa-status-badge status="VENCIDO" [dot]="true" />
+            <oefa-status-badge status="PREVISION" [dot]="true" />
+            <oefa-status-badge status="BORRADOR" [dot]="true" />
+          </div>
+
+          <div class="token-code-note">
+            Componente: <code>&lt;oefa-status-badge [status]="estado" [dot]="true" /&gt;</code>. Cambios en <code>status.utils.ts</code> o <code>styles.scss</code> impactan aquí automáticamente.
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: Componente Reutilizable oefa-alert -->
+        <div class="lab-card full-width-card">
+          <h4 class="lab-card-title"><i class="bi bi-bell"></i> Componente Reutilizable: &lt;oefa-alert&gt;</h4>
+          <p class="lab-card-desc">Alertas institucionales compartidas con soporte accesible <code>role="alert|status"</code> e iconos SVG.</p>
+
+          <div class="alerts-stack">
+            <oefa-alert
+              type="info"
+              title="Información de Orden:"
+              message="El entregable N° 2 se encuentra en proceso de revisión por el área usuaria. Tokens: --oefa-primary-container + --oefa-primary-on-container."
+            />
+            <oefa-alert
+              type="success"
+              title="Conformidad Otorgada:"
+              message="La Orden de Servicio N° 2025-00123 ha sido finalizada al 100%. Tokens: --oefa-success-container + --oefa-success-on-container."
+            />
+            <oefa-alert
+              type="warning"
+              title="Observación Pendiente:"
+              message="Faltan 5 días calendario para el vencimiento de la subsanación. Tokens: --oefa-tertiary-container + --oefa-tertiary-on-container."
+            />
+            <oefa-alert
+              type="error"
+              title="Plazo Vencido:"
+              message="El plazo máximo de entrega concluyó sin presentación de informe técnico. Tokens: --oefa-error-container + --oefa-error-on-container."
+            />
+          </div>
+        </div>
+
+        <!-- Tarjeta 4: Componente Reutilizable oefa-bento-kpi-tile -->
+        <div class="lab-card">
+          <h4 class="lab-card-title"><i class="bi bi-speedometer2"></i> Componente Reutilizable: &lt;oefa-bento-kpi-tile&gt;</h4>
+          <p class="lab-card-desc">Tarjeta Bento KPI oficial con esquina de 20px, micro-gráfico sparkline y status badge integrado.</p>
+
+          <oefa-bento-kpi-tile
+            title="Órdenes Activas"
+            value="1,428"
+            metricLabel="órdenes"
+            trendLabel="+12.4% vs mes anterior"
+            accentColor="var(--oefa-primary-root)"
+            status="CONFORME"
+            chartType="sparkline"
+          />
+        </div>
+
+        <!-- Tarjeta 5: Tabla de Datos con oefa-status-badge -->
+        <div class="lab-card">
+          <h4 class="lab-card-title"><i class="bi bi-table"></i> Jerarquía en Tablas de Datos</h4>
+          <p class="lab-card-desc">Superficies <code>--oefa-surface-subtle</code> en cabecera y badges compactos (<code>size="sm"</code>).</p>
+
+          <div class="demo-mini-table-wrap">
+            <table class="demo-mini-table">
+              <thead>
+                <tr>
+                  <th>N° Trámite</th>
+                  <th>Monto S/</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="selected-row">
+                  <td><strong>OS-2025-004</strong> (Sel)</td>
+                  <td>14,500.00</td>
+                  <td><oefa-status-badge status="EN_PROCESO" size="sm" /></td>
+                </tr>
+                <tr>
+                  <td>OS-2025-005</td>
+                  <td>28,300.00</td>
+                  <td><oefa-status-badge status="CONFORME" size="sm" /></td>
+                </tr>
+                <tr>
+                  <td>OS-2025-006</td>
+                  <td>9,200.00</td>
+                  <td><oefa-status-badge status="OBSERVADO" size="sm" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="token-code-note">
+            Fila seleccionada utiliza <code>--oefa-primary-container</code> para feedback visual accesible.
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,104 @@
+:host {
+  display: inline-flex;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--oefa-radius-md, 8px);
+  cursor: pointer;
+  transition: background-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              border-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              transform var(--oefa-duration-short-1, 50ms) var(--oefa-ease-standard, ease);
+  font-family: inherit;
+  line-height: 1;
+
+  &:active:not(:disabled) {
+    transform: scale(0.94);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+/* 1. Variante Default (Botón de acción con ícono cuadrado) */
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background-color: var(--oefa-surface-card, #FFFFFF);
+  border: 1px solid var(--oefa-border-color, #E2E8F0);
+  color: var(--oefa-text-secondary, #64748B);
+
+  &:hover:not(:disabled) {
+    color: var(--oefa-primary-root, #144AA7);
+    background-color: var(--oefa-surface-subtle, #F8FAFC);
+    border-color: var(--oefa-primary-container-hc, #A4C1F4);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--oefa-primary-container, #EEF4FF);
+  }
+}
+
+/* 2. Variante Close (Botón cerrar modal/drawer) */
+.btn-drawer-close {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--oefa-radius-sm, 6px);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--oefa-text-secondary, #64748B);
+
+  &:hover:not(:disabled) {
+    background-color: var(--oefa-surface-muted, #F1F5F9);
+    color: var(--oefa-text-primary, #1E293B);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--oefa-border-color, #E2E8F0);
+  }
+}
+
+/* 3. Variante Kebab (Menú contextual ⋮) */
+.btn-kebab {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background-color: var(--oefa-surface-card, #FFFFFF);
+  border: 1px solid var(--oefa-border-color, #E2E8F0);
+  color: var(--oefa-text-secondary, #64748B);
+  font-size: 1.15rem;
+
+  &:hover:not(:disabled) {
+    color: var(--oefa-text-primary, #1E293B);
+    background-color: var(--oefa-surface-subtle, #F8FAFC);
+    border-color: var(--oefa-primary-container-hc, #A4C1F4);
+  }
+}
+
+/* 4. Variante Ghost (Sin borde ni fondo hasta el hover) */
+.btn-icon.btn-ghost {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--oefa-text-secondary, #64748B);
+
+  &:hover:not(:disabled) {
+    background-color: var(--oefa-surface-muted, #F1F5F9);
+    color: var(--oefa-text-primary, #1E293B);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none !important;
+    transform: none !important;
+  }
+}

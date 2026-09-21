@@ -1,0 +1,198 @@
+<div class="login-page-wrapper" data-node-id="48:11676">
+  <!-- Contenedor para Imagen / SVG de Fondo -->
+  <div class="login-bg-container" title="Contenedor para Imagen de Fondo / SVG Background">
+    <div class="bg-overlay"></div>
+  </div>
+
+  <!-- Cuerpo de la Vista de Login -->
+  <div class="login-body-container" data-node-id="48:11678">
+    <div class="login-grid-container" data-node-id="48:11681">
+
+      <!-- Panel Izquierdo: Textos del Sistema -->
+      <div class="login-hero-section" data-node-id="48:11682">
+        <div class="system-title-group" data-node-id="48:11683">
+          <p class="hero-welcome-text" data-node-id="48:11685">Bienvenidos al</p>
+          <h1 class="hero-main-title" data-node-id="48:11687">Sistema de Gestión Documental</h1>
+          <h2 class="hero-sub-title" data-node-id="48:11688">SIGED</h2>
+        </div>
+      </div>
+
+      <!-- Panel Derecho: Tarjeta de Iniciar Sesión -->
+      <div class="login-card-section" data-node-id="48:11689">
+        <div class="login-card" data-node-id="48:11690">
+
+          <!-- Logo Oficial OEFA -->
+          <div class="logo-oefa-svg-container" title="Logo Oficial OEFA" data-node-id="48:11692">
+            <img src="images/logo_oefa_primary.svg" alt="Organismo de Evaluación y Fiscalización Ambiental - OEFA"
+              class="oefa-official-logo-img" />
+          </div>
+
+
+          <!-- Título del Sistema para modo Móvil (se visualiza dentro de la tarjeta en móvil) -->
+          <div class="mobile-hero-title" data-node-id="158:3103">
+            <p class="mobile-welcome-text" data-node-id="158:3105">Bienvenidos al</p>
+            <h2 class="mobile-main-title" data-node-id="158:3107">Sistema de Gestión Documental</h2>
+            <h3 class="mobile-sub-title" data-node-id="158:3108">SIGED</h3>
+          </div>
+
+
+          <div class="card-inner-container" data-node-id="48:11748">
+            <div class="card-headline-group" data-node-id="48:11751">
+              <h3 class="card-headline-title" data-node-id="48:11752">Iniciar Sesión</h3>
+            </div>
+
+            <!-- Formulario de Autenticación -->
+            <form class="login-form" (submit)="onSubmit($event)" data-node-id="48:11753" novalidate>
+
+              <!-- Banner de Error Accesible (WCAG 2.2 SC 3.3.1 & 4.1.3) -->
+              <!-- .oefa-alert-banner: Patrón global — design-system-oefa.md §8.4, styles.scss -->
+              <div *ngIf="errorMessage()" id="login-error-alert" class="oefa-alert-banner" role="alert"
+                aria-live="assertive" tabindex="-1">
+                <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                <span class="alert-text">{{ errorMessage() }}</span>
+              </div>
+
+              <!-- Input Usuario -->
+              <div class="input-form-group" data-node-id="48:11754">
+                <label class="input-label" for="login-usuario">Usuario</label>
+                <!-- .oefa-form-field: Patrón global — design-system-oefa.md §8.4, styles.scss -->
+                <div class="oefa-form-field" [class.has-error]="errorMessage()">
+                  <div class="field-icon" aria-hidden="true" title="Ícono Usuario">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      aria-hidden="true">
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                  </div>
+                  <input id="login-usuario" type="text" class="field-input" placeholder="Ingrese su usuario"
+                    [value]="usuario()" (input)="usuario.set($any($event.target).value); errorMessage.set(null)"
+                    autocomplete="username" [attr.aria-invalid]="errorMessage() ? 'true' : 'false'"
+                    [attr.aria-describedby]="errorMessage() ? 'login-error-alert' : null" required />
+                </div>
+              </div>
+
+              <!-- Input Contraseña -->
+              <div class="input-form-group" data-node-id="48:11755">
+                <label class="input-label" for="login-password">Contraseña</label>
+                <!-- .oefa-form-field: Patrón global — design-system-oefa.md §8.4, styles.scss -->
+                <div class="oefa-form-field" [class.has-error]="errorMessage()">
+                  <div class="field-icon" aria-hidden="true" title="Ícono Candado">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      aria-hidden="true">
+                      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                  </div>
+                  <input id="login-password" [type]="showPassword() ? 'text' : 'password'" class="field-input"
+                    placeholder="Ingrese su contraseña" [value]="password()"
+                    (input)="password.set($any($event.target).value); errorMessage.set(null)"
+                    autocomplete="current-password" [attr.aria-invalid]="errorMessage() ? 'true' : 'false'"
+                    [attr.aria-describedby]="errorMessage() ? 'login-error-alert' : null" required />
+
+                  <!-- .password-toggle: SC 3.3.8 Accessible Authentication | SC 2.5.8 Target Size -->
+                  <button type="button" class="password-toggle" (click)="togglePasswordVisibility()"
+                    [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                    [attr.aria-pressed]="showPassword()"
+                    [title]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+                    <svg *ngIf="!showPassword()" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    <svg *ngIf="showPassword()" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" aria-hidden="true">
+                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                      <line x1="2" x2="22" y1="2" y2="22" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Contenedor para Captcha / Cloudflare Turnstile SVG -->
+              <div class="captcha-status-container" title="Contenedor para Widget Captcha / Cloudflare Turnstile SVG"
+                data-node-id="48:11756">
+                <div class="captcha-badge-mock">
+                  <div class="captcha-success-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                      fill="currentColor">
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                    </svg>
+                  </div>
+                  <span class="captcha-success-text">Success!</span>
+                  <div class="captcha-brand">
+                    <span class="cloudflare-title">CLOUDFLARE</span>
+                    <span class="cloudflare-terms">Privacy · Terms</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botón Submit -->
+              <div class="button-group" data-node-id="48:11759">
+                <button type="submit" class="btn btn-primary w-full" [disabled]="isLoading()" data-node-id="48:11760">
+                  <span *ngIf="!isLoading()">Iniciar Sesión</span>
+                  <span *ngIf="isLoading()">Ingresando...</span>
+                </button>
+              </div>
+
+            </form>
+
+            <div class="card-divider"></div>
+
+            <!-- Sección ¿Necesitas ayuda? -->
+            <div class="help-section" data-node-id="156:2947">
+              <span class="help-title" data-node-id="157:2953">¿Necesitas ayuda?</span>
+
+              <div class="help-options-row" data-node-id="158:2962">
+                <!-- .oefa-help-card: Patrón global — design-system-oefa.md §8.6, styles.scss -->
+                <button type="button" class="oefa-help-card" title="Abrir Centro de Ayuda OEFA"
+                  (click)="abrirCentroAyuda()" data-node-id="157:2954">
+                  <div class="help-card-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+                    </svg>
+                  </div>
+                  <div class="help-card-text">
+                    <span>Centro de</span>
+                    <span>Ayuda</span>
+                  </div>
+                </button>
+
+                <button type="button" class="oefa-help-card" title="Contactar a Soporte Técnico (Gmail)"
+                  (click)="contactarSoporte()" data-node-id="158:2958">
+                  <div class="help-card-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect width="20" height="16" x="2" y="4" rx="2" />
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
+                  </div>
+                  <div class="help-card-text">
+                    <span>Contactar</span>
+                    <span>a Soporte</span>
+                  </div>
+                </button>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

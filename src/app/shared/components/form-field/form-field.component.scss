@@ -1,0 +1,65 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.form-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--oefa-text-primary, #1E293B);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required-indicator {
+  color: var(--oefa-error-root, #E51A2F);
+  font-weight: 700;
+}
+
+.input-wrapper {
+  display: flex;
+  width: 100%;
+
+  /* Asegurar que el control proyectado tome el ancho completo si corresponde */
+  ::ng-deep input,
+  ::ng-deep select,
+  ::ng-deep textarea {
+    width: 100%;
+  }
+}
+
+.form-help {
+  font-size: 0.75rem;
+  color: var(--oefa-text-secondary, #64748B);
+  line-height: 1.3;
+}
+
+.form-error {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--oefa-error-root, #E51A2F);
+  line-height: 1.3;
+}
+
+/* Modificador cuando hay error */
+.form-group.has-error {
+  ::ng-deep input,
+  ::ng-deep select,
+  ::ng-deep textarea {
+    border-color: var(--oefa-error-root, #E51A2F) !important;
+    background-color: var(--oefa-error-container, #FFEFF1) !important;
+
+    &:focus {
+      outline: 2px solid var(--oefa-error-root, #E51A2F) !important;
+      outline-offset: 1px;
+    }
+  }
+}

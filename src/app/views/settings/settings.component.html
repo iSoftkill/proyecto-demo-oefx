@@ -1,0 +1,943 @@
+<div class="settings-container">
+
+  <!-- ══ PAGE HEADER ══════════════════════════════════════ -->
+  <div class="page-header">
+    <div class="page-header-title">
+      <div class="header-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          <path d="M4.93 4.93a10 10 0 0 0 0 14.14"/>
+          <path d="M19.07 4.93 4.93 19.07"/>
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Configuración del Sistema</h1>
+        <p class="page-subtitle">Administración centralizada — acceso exclusivo para <strong>Administrador</strong></p>
+      </div>
+    </div>
+    <span class="role-badge">🔐 ADMINISTRADOR</span>
+  </div>
+
+  <!-- ══ TABS NAV ══════════════════════════════════════════ -->
+  <div class="tabs-nav-container">
+    <div class="tabs-nav" dragScroll>
+      <button type="button" class="tab-button" [class.active]="activeTab() === 'org-tree'" (click)="activeTab.set('org-tree')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span>Árbol Organizacional</span>
+        <span class="tab-badge">{{ flatOrgNodes().length }}</span>
+      </button>
+
+      <button type="button" class="tab-button" [class.active]="activeTab() === 'users'" (click)="activeTab.set('users')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Usuarios y Accesos</span>
+        <span class="tab-badge">{{ users().length }}</span>
+      </button>
+
+      <button type="button" class="tab-button" [class.active]="activeTab() === 'states'" (click)="activeTab.set('states')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>Estados y Badges</span>
+        <span class="tab-badge">{{ states.length }}</span>
+      </button>
+
+      <button type="button" class="tab-button" [class.active]="activeTab() === 'params'" (click)="activeTab.set('params')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/>
+          <line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>
+          <line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/>
+          <line x1="17" y1="16" x2="23" y2="16"/>
+        </svg>
+        <span>Parámetros y SIGED</span>
+      </button>
+
+      <button type="button" class="tab-button" [class.active]="activeTab() === 'proyectos'" (click)="activeTab.set('proyectos')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+        <span>Proyectos y Mant.</span>
+        <span class="tab-badge">{{ proyectoStoreService.proyectos().length }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+        TAB 1: ÁRBOL ORGANIZACIONAL
+  ══════════════════════════════════════════════════════════ -->
+  @if (activeTab() === 'org-tree') {
+    <div class="tab-content-area">
+      <div class="card">
+        <div class="card-header">
+          <div class="header-title-group">
+            <h3>Árbol Organizacional OEFA</h3>
+            <span class="text-muted" style="font-size:0.8125rem;">Jerarquía: Dirección → Subdirección / Oficina → Área funcional</span>
+          </div>
+          <div class="header-actions">
+            <input
+              type="text"
+              class="search-input"
+              placeholder="🔍 Buscar nodo..."
+              [(ngModel)]="orgSearch"
+            />
+            <button class="btn btn-primary btn-sm" (click)="openAddNodeModal()">
+              + Nuevo Nodo / Oficina
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="org-tree-wrapper">
+            @for (root of filteredOrgTree(); track root.id) {
+              <div class="tree-node tree-root">
+                <div class="tree-node-row" (click)="toggleNode(root)">
+                  <div class="tree-node-prefix">
+                    <svg class="chevron" [class.rotated]="root.isExpanded"
+                      xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                  </div>
+                  <span class="tree-level-badge level-dir">DIR</span>
+                  <span class="tree-label font-semibold">{{ root.label }}</span>
+                  <span class="tree-code font-mono">{{ root.code }}</span>
+                  @if (root.inUse) {
+                    <span class="in-use-badge">En uso</span>
+                  }
+                  @if (!root.isActive) {
+                    <span class="inactive-badge">Inactivo</span>
+                  }
+                  <div class="tree-node-actions" (click)="$event.stopPropagation()">
+                    <button class="btn-tree-action" title="Editar" (click)="editNode(root)">✏️</button>
+                    <button class="btn-tree-action danger" [disabled]="root.inUse" [title]="root.inUse ? 'En uso: no se puede eliminar' : 'Eliminar nodo'" (click)="deleteNode(root)">🗑️</button>
+                  </div>
+                </div>
+
+                @if (root.isExpanded && root.children) {
+                  @for (child of root.children; track child.id) {
+                    <div class="tree-node tree-child">
+                      <div class="tree-node-row" (click)="toggleNode(child)">
+                        <div class="tree-node-prefix child-prefix">
+                          <svg class="chevron" [class.rotated]="child.isExpanded"
+                            xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                          </svg>
+                        </div>
+                        <span class="tree-level-badge level-sub">SUB</span>
+                        <span class="tree-label">{{ child.label }}</span>
+                        <span class="tree-code font-mono">{{ child.code }}</span>
+                        @if (child.inUse) {
+                          <span class="in-use-badge">En uso</span>
+                        }
+                        <div class="tree-node-actions" (click)="$event.stopPropagation()">
+                          <button class="btn-tree-action" title="Editar" (click)="editNode(child)">✏️</button>
+                          <button class="btn-tree-action danger" [disabled]="child.inUse" (click)="deleteNode(child)">🗑️</button>
+                        </div>
+                      </div>
+
+                      @if (child.isExpanded && child.children) {
+                        @for (area of child.children; track area.id) {
+                          <div class="tree-node tree-grandchild">
+                            <div class="tree-node-row">
+                              <div class="tree-node-prefix grandchild-prefix"></div>
+                              <span class="tree-level-badge level-area">ÁREA</span>
+                              <span class="tree-label">{{ area.label }}</span>
+                              <span class="tree-code font-mono">{{ area.code }}</span>
+                              @if (area.inUse) {
+                                <span class="in-use-badge">En uso</span>
+                              }
+                              <div class="tree-node-actions" (click)="$event.stopPropagation()">
+                                <button class="btn-tree-action" title="Editar" (click)="editNode(area)">✏️</button>
+                                <button class="btn-tree-action danger" [disabled]="area.inUse" (click)="deleteNode(area)">🗑️</button>
+                              </div>
+                            </div>
+                          </div>
+                        }
+                      }
+                    </div>
+                  }
+                }
+              </div>
+            } @empty {
+              <p class="empty-row">No se encontraron nodos organizacionales.</p>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════════════════════
+        TAB 2: USUARIOS Y ACCESOS
+  ══════════════════════════════════════════════════════════ -->
+  @if (activeTab() === 'users') {
+    <div class="tab-content-area">
+      <div class="card">
+        <div class="card-header">
+          <div class="header-title-group">
+            <h3>Gestión de Usuarios y Accesos</h3>
+            <span class="text-muted" style="font-size:0.8125rem;">Alta vía SSO institucional · Asignación de rol y nodos de acceso</span>
+          </div>
+          <div class="header-actions">
+            <select class="form-select-sm" [(ngModel)]="userRoleFilter">
+              <option value="">Todos los roles</option>
+              <option value="ADMINISTRADOR">Administrador</option>
+              <option value="OPERADOR">Operador</option>
+              <option value="VISUALIZADOR">Visualizador</option>
+            </select>
+            <button class="btn btn-primary btn-sm" (click)="openAddUserModal()">
+              + Registrar Usuario SSO
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:200px;">Nombre Completo</th>
+                <th style="width:220px;">Correo SSO</th>
+                <th style="width:130px;">Rol</th>
+                <th style="width:200px;">Nodos de Acceso</th>
+                <th style="width:110px;">Último Acceso</th>
+                <th style="width:90px;">Estado</th>
+                <th style="width:100px;text-align:right;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of filteredUsers(); track user.id) {
+                <tr class="table-row">
+                  <td class="font-medium">
+                    <div class="user-avatar-row">
+                      <div class="user-avatar">{{ user.name.charAt(0) }}</div>
+                      <div>
+                        <div class="font-semibold">{{ user.name }}</div>
+                        <div class="text-muted" style="font-size:0.75rem;">{{ user.ssoCode }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="font-mono text-secondary" style="font-size:0.8125rem;">{{ user.email }}</td>
+                  <td>
+                    <span class="role-chip" [class]="getRoleClass(user.role)">{{ user.role }}</span>
+                  </td>
+                  <td>
+                    <div class="node-chips">
+                      @for (nid of user.nodeAccess.slice(0,2); track nid) {
+                        <span class="node-chip">{{ getNodeLabel(nid) }}</span>
+                      }
+                      @if (user.nodeAccess.length > 2) {
+                        <span class="node-chip more">+{{ user.nodeAccess.length - 2 }}</span>
+                      }
+                    </div>
+                  </td>
+                  <td class="text-muted" style="font-size:0.8125rem;">{{ user.lastLogin }}</td>
+                  <td>
+                    <span class="status-dot" [class.active]="user.isActive"></span>
+                    <span style="font-size:0.8125rem;">{{ user.isActive ? 'Activo' : 'Inactivo' }}</span>
+                  </td>
+                  <td style="text-align:right;">
+                    <div class="row-actions">
+                      <button class="btn-row-action" title="Editar usuario y accesos" (click)="editUser(user)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                      </button>
+                      <button class="btn-row-action danger" title="Desactivar usuario" (click)="toggleUserActive(user)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="7" class="empty-row">No hay usuarios registrados con ese filtro.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════════════════════
+        TAB 3: CATÁLOGO DE ESTADOS Y BADGES
+  ══════════════════════════════════════════════════════════ -->
+  @if (activeTab() === 'states') {
+    <div class="tab-content-area">
+      <div class="card">
+        <div class="card-header">
+          <div class="header-title-group">
+            <h3>Catálogo de Estados Oficiales y Badges de Trazabilidad</h3>
+            <span class="text-muted" style="font-size:0.8125rem;">9 estados del ciclo de vida del entregable · Paleta WCAG 2.2 AA/AAA</span>
+          </div>
+          <span class="info-chip">📋 Solo visualización y activar/desactivar</span>
+        </div>
+        <div class="card-body">
+
+          <!-- Vista previa de badges de trazabilidad -->
+          <div class="states-grid">
+            @for (state of states; track state.id) {
+              <div class="state-card" [class.inactive-card]="!state.isActive">
+                <div class="state-card-top">
+                  <div class="state-order-num">{{ state.displayOrder }}</div>
+                  <label class="toggle-switch" title="{{ state.isActive ? 'Desactivar estado' : 'Activar estado' }}">
+                    <input type="checkbox" [(ngModel)]="state.isActive" />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <span class="badge-status" [class]="state.badgeClass">{{ state.code }}</span>
+                <div class="state-card-info">
+                  <div class="font-semibold" style="font-size:0.875rem;">{{ state.label }}</div>
+                  <div class="text-muted" style="font-size:0.75rem;margin-top:4px;">{{ state.description }}</div>
+                </div>
+                <div class="state-color-swatch" [style.background]="state.colorHex" [title]="state.colorHex"></div>
+              </div>
+            }
+          </div>
+
+          <!-- Sección: Badges de Acción de Trazabilidad -->
+          <div class="divider"></div>
+          <h4 style="margin-bottom:16px;font-size:1rem;">Badges de Acción en Bitácora de Trazabilidad</h4>
+          <div class="action-badges-table">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Badge Visual</th>
+                  <th>Etiqueta Estandarizada</th>
+                  <th>Evento Disparador</th>
+                  <th>Clase CSS</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (badge of actionBadges; track badge.label) {
+                  <tr class="table-row">
+                    <td><span class="badge-action-chip" [class]="badge.cssClass">{{ badge.label }}</span></td>
+                    <td class="font-medium" style="font-size:0.875rem;">{{ badge.label }}</td>
+                    <td class="text-secondary" style="font-size:0.8125rem;">{{ badge.trigger }}</td>
+                    <td class="font-mono text-muted" style="font-size:0.75rem;">.{{ badge.cssClass }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════════════════════
+        TAB 4: PARÁMETROS Y SIGED
+  ══════════════════════════════════════════════════════════ -->
+  @if (activeTab() === 'params') {
+    <div class="tab-content-area">
+      <div class="params-grid">
+
+        <!-- Card 1: Regla de cómputo de plazos -->
+        <div class="card">
+          <div class="card-header">
+            <h3>⚖️ Regla de Cómputo de Plazos (LPAG)</h3>
+          </div>
+          <div class="card-body">
+            <p class="param-description">Define la fórmula global de cálculo de la <strong>Fecha Límite de Entrega</strong> de los entregables.</p>
+            <div class="segmented-switch full-width">
+              <button type="button" class="switch-btn" [class.active]="startDayRule === 'NEXT_DAY'" (click)="startDayRule = 'NEXT_DAY'">
+                <strong>Al día siguiente</strong>
+                <span class="switch-sub">Fecha Límite = Fecha Base + Plazo</span>
+              </button>
+              <button type="button" class="switch-btn" [class.active]="startDayRule === 'SAME_DAY'" (click)="startDayRule = 'SAME_DAY'">
+                <strong>El mismo día</strong>
+                <span class="switch-sub">Fecha Límite = Fecha Base + Plazo − 1</span>
+              </button>
+            </div>
+            <div class="info-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span>La regla <strong>Al día siguiente</strong> está recomendada por la LPAG (Ley N° 27444 art. 146.1). Cualquier cambio aplica globalmente a nuevas órdenes.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Reglas de alertas y recordatorios -->
+        <div class="card">
+          <div class="card-header">
+            <h3>🔔 Alertas Automáticas de Vencimiento</h3>
+          </div>
+          <div class="card-body">
+            <p class="param-description">Configura cuándo y cómo se emiten las alertas por proximidad de fecha límite de entregables.</p>
+            <div class="alert-rules-list">
+              @for (rule of alertRules; track rule.id) {
+                <div class="alert-rule-row">
+                  <div class="rule-offset">
+                    <span class="offset-badge" [class]="getOffsetClass(rule.offsetDays)">{{ rule.offsetDays === 0 ? '¡HOY!' : rule.offsetDays + 'd antes' }}</span>
+                  </div>
+                  <div class="rule-channel">
+                    <select class="form-select-sm" [(ngModel)]="rule.channel">
+                      <option value="EMAIL">📧 Solo Email</option>
+                      <option value="INTERNO">🔔 Solo Interno</option>
+                      <option value="AMBOS">📧+🔔 Ambos canales</option>
+                    </select>
+                  </div>
+                  <div class="rule-inherit">
+                    <label class="checkbox-label-inline">
+                      <input type="checkbox" [(ngModel)]="rule.inheritsChildren" />
+                      Herencia a subnodos
+                    </label>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" [(ngModel)]="rule.isActive" />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Integración SIGED -->
+        <div class="card">
+          <div class="card-header">
+            <h3>🔗 Integración SIGED</h3>
+          </div>
+          <div class="card-body">
+            <p class="param-description">Parámetros de conexión con el sistema SIGED del OEFA para la validación y sincronización de expedientes.</p>
+            <div class="form-grid params-form">
+              <div class="form-group col-span-2">
+                <label class="form-label">URL del Servicio SIGED (API REST) *</label>
+                <input type="url" class="form-input font-mono" [(ngModel)]="sigedConfig.apiUrl"
+                  placeholder="https://siged.oefa.gob.pe/api/v1/" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">API Key / Token de Autenticación</label>
+                <input type="password" class="form-input font-mono" [(ngModel)]="sigedConfig.apiKey"
+                  placeholder="••••••••••••••••••••••••" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Timeout de Conexión (segundos)</label>
+                <input type="number" class="form-input font-mono" [(ngModel)]="sigedConfig.timeoutSec"
+                  min="5" max="120" />
+              </div>
+              <div class="form-group col-span-2">
+                <label class="checkbox-label highlight">
+                  <input type="checkbox" [(ngModel)]="sigedConfig.validateOnEntry" />
+                  <div>
+                    <span class="font-bold">Validación en tiempo real al ingresar código SIGED</span>
+                    <span class="sub-info">Consulta la API SIGED al momento de tipear el código de expediente para confirmar su existencia</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="siged-status-bar">
+              <div class="status-indicator" [class.connected]="sigedConfig.isConnected">
+                <span class="status-dot-lg" [class.active]="sigedConfig.isConnected"></span>
+                <span>{{ sigedConfig.isConnected ? 'Conexión activa con SIGED' : 'Sin conexión verificada con SIGED' }}</span>
+              </div>
+              <button class="btn btn-secondary btn-sm" (click)="testSigedConnection()">
+                🔄 Probar Conexión
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Información del sistema -->
+        <div class="card system-info-card">
+          <div class="card-header">
+            <h3>ℹ️ Información del Sistema</h3>
+          </div>
+          <div class="card-body">
+            <div class="system-info-grid">
+              <div class="info-item"><span class="info-label">Versión SEOSC</span><span class="info-value font-mono">v1.0.0-beta</span></div>
+              <div class="info-item"><span class="info-label">Framework</span><span class="info-value">Angular 20+ (Standalone)</span></div>
+              <div class="info-item"><span class="info-label">Base de Datos</span><span class="info-value">Oracle 19c · Esquema GEP</span></div>
+              <div class="info-item"><span class="info-label">Design System</span><span class="info-value">OEFA DS · WCAG 2.2 AA/AAA</span></div>
+              <div class="info-item"><span class="info-label">Última Compilación</span><span class="info-value font-mono">2026-08-20</span></div>
+              <div class="info-item"><span class="info-label">Entorno</span><span class="info-value"><span class="env-badge dev">DESARROLLO</span></span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Botón guardar parámetros -->
+      <div class="params-footer">
+        <button class="btn btn-secondary" (click)="resetParams()">Restablecer Defaults</button>
+        <button class="btn btn-primary" (click)="saveParams()">💾 Guardar Parámetros del Sistema</button>
+      </div>
+    </div>
+  }
+
+  <!-- ══════════════════════════════════════════════════════
+        TAB 5: PROYECTOS Y MANTENIMIENTOS
+  ══════════════════════════════════════════════════════════ -->
+  @if (activeTab() === 'proyectos') {
+    <div class="tab-content-area">
+      <div class="card">
+        <div class="card-header">
+          <div class="header-title-group">
+            <h3>Proyectos y Mantenimientos</h3>
+            <span class="text-muted" style="font-size:0.8125rem;">Catálogo administrado internamente. Futura fuente externa via sync automático (campo TX_ORIGEN).</span>
+          </div>
+          <div class="header-actions">
+            <input type="text" class="search-input" placeholder="🔍 Buscar proyecto..." [(ngModel)]="proyectoSearch" />
+            <button class="btn btn-primary btn-sm" (click)="openAddProyectoModal()">
+              + Nuevo Proyecto / Mantenimiento
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th style="width:130px;">Tipo</th>
+                <th style="width:100px;">Origen</th>
+                <th style="width:110px;">F. Inicio</th>
+                <th style="width:110px;">F. Fin</th>
+                <th style="width:80px;">Estado</th>
+                <th style="width:80px;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of filteredProyectos(); track p.id) {
+                <tr [class.row-inactive]="!p.activo">
+                  <td class="font-mono font-bold">{{ p.codigo }}</td>
+                  <td>{{ p.nombre }}</td>
+                  <td>
+                    <span class="type-badge" [class.badge-proyecto]="p.tipo === 'PROYECTO'" [class.badge-mantenimiento]="p.tipo === 'MANTENIMIENTO'">
+                      {{ p.tipo === 'PROYECTO' ? '📊 Proyecto' : '🔧 Mantenimiento' }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="origen-badge" [class.badge-externo]="p.origen === 'EXTERNO'">
+                      {{ p.origen === 'EXTERNO' ? '🔗 Externo' : '⚙️ Interno' }}
+                    </span>
+                  </td>
+                  <td class="font-mono">{{ p.fechaInicio || '—' }}</td>
+                  <td class="font-mono">{{ p.fechaFin || '∞ continuo' }}</td>
+                  <td>
+                    <label class="toggle-switch">
+                      <input type="checkbox" [checked]="p.activo" (change)="proyectoStoreService.toggleActivo(p.id)" [disabled]="p.origen === 'EXTERNO'" />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </td>
+                  <td class="text-center">
+                    <button class="btn-tree-action" title="Editar" (click)="editProyecto(p)" [disabled]="p.origen === 'EXTERNO'">✏️</button>
+                  </td>
+                </tr>
+              }
+              @if (filteredProyectos().length === 0) {
+                <tr><td colspan="8" class="empty-row">No hay proyectos o mantenimientos registrados.</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
+
+<!-- ══ MODAL: NUEVO / EDITAR PROYECTO O MANTENIMIENTO ══════════ -->
+@if (showProyectoModal()) {
+  <div class="modal-backdrop" (click)="closeProyectoModal()">
+    <div class="modal-card modal-md" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon node-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>{{ isEditingProyecto() ? 'Editar Proyecto / Mantenimiento' : 'Agregar Nuevo Proyecto / Mantenimiento' }}</h3>
+            <p class="modal-sub">Catálogo de referencia para la vinculación de entregables de OS y OC.</p>
+          </div>
+        </div>
+        <button class="btn-close" (click)="closeProyectoModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-grid">
+          <!-- Tipo de Intervención: Segmented Switch -->
+          <div class="form-group col-span-3">
+            <label class="form-label">Tipo de Intervención *</label>
+            <div class="segmented-switch full-width">
+              <button
+                type="button"
+                class="switch-btn"
+                [class.active]="proyectoForm.tipo === 'PROYECTO'"
+                (click)="proyectoForm.tipo = 'PROYECTO'"
+              >
+                <strong>📊 Proyecto</strong>
+                <span class="switch-sub">Plazo e hitos definidos</span>
+              </button>
+              <button
+                type="button"
+                class="switch-btn"
+                [class.active]="proyectoForm.tipo === 'MANTENIMIENTO'"
+                (click)="proyectoForm.tipo = 'MANTENIMIENTO'"
+              >
+                <strong>🔧 Mantenimiento</strong>
+                <span class="switch-sub">Continuo o recurrente</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Código Único -->
+          <div class="form-group">
+            <label class="form-label">Código Único *</label>
+            <input type="text" class="form-input font-mono" [(ngModel)]="proyectoForm.codigo" placeholder="PRY-2026-001" />
+          </div>
+
+          <!-- Área dueña / responsable -->
+          <div class="form-group col-span-2">
+            <label class="form-label">Área / Oficina Dueña (Opcional)</label>
+            <select class="form-select" [(ngModel)]="proyectoForm.nodoCodigo">
+              <option value="">— Ninguna (Transversal) —</option>
+              @for (nodo of orgStoreService.flatActiveAreas(); track nodo.code) {
+                <option [value]="nodo.code">{{ nodo.fullLabel }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Nombre / Descripción -->
+          <div class="form-group col-span-3">
+            <label class="form-label">Nombre / Descripción del Proyecto *</label>
+            <input type="text" class="form-input" [(ngModel)]="proyectoForm.nombre" placeholder="Ej: Implementación del Sistema de Gestión Electrónica de Documentos v2" />
+          </div>
+
+          <!-- Fecha Inicio -->
+          <div class="form-group">
+            <label class="form-label">Fecha de Inicio</label>
+            <input type="date" class="form-input font-mono" [(ngModel)]="proyectoForm.fechaInicio" />
+          </div>
+
+          <!-- Fecha Fin -->
+          <div class="form-group col-span-2">
+            <label class="form-label">Fecha de Término <span class="text-muted">(Opcional)</span></label>
+            <input type="date" class="form-input font-mono" [(ngModel)]="proyectoForm.fechaFin" />
+            <span class="help-text">Dejar en blanco para mantenimientos continuos sin fecha fin.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeProyectoModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveProyecto()" [disabled]="!proyectoForm.codigo?.trim() || !proyectoForm.nombre?.trim()">
+          {{ isEditingProyecto() ? '💾 Guardar Cambios' : '+ Registrar Proyecto' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ══ MODAL 1: NUEVO / EDITAR NODO ORGANIZACIONAL (OFICINA / ÁREA) ══════ -->
+@if (showNodeModal()) {
+  <div class="modal-backdrop" (click)="closeNodeModal()">
+    <div class="modal-card modal-md" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon node-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div>
+            <h3>{{ isEditingNode() ? 'Editar Nodo Organizacional' : 'Agregar Nueva Oficina / Área' }}</h3>
+            <p class="modal-sub">Estructura jerárquica para filtrado de órdenes y asignación de accesos.</p>
+          </div>
+        </div>
+        <button class="btn-close" (click)="closeNodeModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group col-span-2">
+            <label class="form-label">Nivel Jerárquico del Nodo *</label>
+            <div class="segmented-switch full-width">
+              <button
+                type="button"
+                class="switch-btn"
+                [class.active]="nodeForm.level === 'direccion'"
+                (click)="onNodeLevelChange('direccion')"
+              >
+                <strong>Dirección (Raíz)</strong>
+                <span class="switch-sub">Nivel 1</span>
+              </button>
+              <button
+                type="button"
+                class="switch-btn"
+                [class.active]="nodeForm.level === 'subdireccion'"
+                (click)="onNodeLevelChange('subdireccion')"
+              >
+                <strong>Subdirección / Oficina</strong>
+                <span class="switch-sub">Nivel 2</span>
+              </button>
+              <button
+                type="button"
+                class="switch-btn"
+                [class.active]="nodeForm.level === 'area'"
+                (click)="onNodeLevelChange('area')"
+              >
+                <strong>Área Funcional</strong>
+                <span class="switch-sub">Nivel 3</span>
+              </button>
+            </div>
+          </div>
+
+          @if (nodeForm.level === 'area') {
+            <div class="form-group col-span-2">
+              <label class="form-label">Dependencia Padre (Dirección de Primer Nivel u Oficina de Segundo Nivel) *</label>
+              <select [(ngModel)]="nodeForm.parentId" class="form-select font-medium">
+                <option [value]="null">-- Seleccione Dependencia Padre (Dirección u Oficina) --</option>
+                @for (dir of orgTree(); track dir.id) {
+                  <optgroup [label]="'🏢 DIRECCIÓN: ' + dir.label + ' (' + dir.code + ')'">
+                    <option [value]="dir.id">
+                      🏢 [DIR] {{ dir.label }} ({{ dir.code }}) — Asignar directo a Dirección
+                    </option>
+                    @if (dir.children && dir.children.length > 0) {
+                      @for (sub of dir.children; track sub.id) {
+                        <option [value]="sub.id">
+                          &nbsp;&nbsp;&nbsp;&nbsp;🏛️ [SUB] {{ sub.label }} ({{ sub.code }})
+                        </option>
+                      }
+                    }
+                  </optgroup>
+                }
+              </select>
+            </div>
+          } @else if (nodeForm.level === 'subdireccion') {
+            <div class="form-group col-span-2">
+              <label class="form-label">Dirección Padre (Primer Nivel) *</label>
+              <select [(ngModel)]="nodeForm.parentId" class="form-select font-medium">
+                <option [value]="null">-- Seleccione Dirección Padre --</option>
+                @for (dir of orgTree(); track dir.id) {
+                  <option [value]="dir.id">
+                    🏢 [DIR] {{ dir.label }} ({{ dir.code }})
+                  </option>
+                }
+              </select>
+            </div>
+          }
+
+          <div class="form-group col-span-2">
+            <label class="form-label">Nombre Oficial de la Oficina / Área *</label>
+            <input
+              type="text"
+              [(ngModel)]="nodeForm.label"
+              class="form-input"
+              placeholder="Ej. Subdirección de Sanciones y Ejecución Coactiva"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Código Siglas *</label>
+            <input
+              type="text"
+              [(ngModel)]="nodeForm.code"
+              class="form-input font-mono"
+              placeholder="Ej. DFA-SSEC"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Estado Operativo</label>
+            <label class="checkbox-label highlight" style="height:38px;padding:6px 12px;align-items:center;">
+              <input type="checkbox" [(ngModel)]="nodeForm.isActive" />
+              <span class="font-bold" style="font-size:0.8125rem;">Nodo Activo</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeNodeModal()">Cancelar</button>
+        <button
+          class="btn btn-primary"
+          [disabled]="!nodeForm.label.trim() || !nodeForm.code.trim() || (nodeForm.level !== 'direccion' && !nodeForm.parentId)"
+          (click)="saveNodeSubmit()"
+        >
+          💾 {{ isEditingNode() ? 'Guardar Cambios' : 'Crear Oficina' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ══ MODAL 2: REGISTRAR / EDITAR USUARIO Y ACCESOS SSO ═══════════════ -->
+@if (showUserModal()) {
+  <div class="modal-backdrop" (click)="closeUserModal()">
+    <div class="modal-card modal-lg" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon user-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <h3>{{ isEditingUser() ? 'Editar Usuario y Matriz de Accesos' : 'Alta de Usuario SSO Institucional' }}</h3>
+            <p class="modal-sub">Asignación de rol e identificación de dependencias OEFA autorizadas.</p>
+          </div>
+        </div>
+        <button class="btn-close" (click)="closeUserModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label class="form-label">Código DNI / SSO Institucional *</label>
+            <div class="input-with-button">
+              <input
+                type="text"
+                [(ngModel)]="userForm.ssoCode"
+                class="form-input font-mono"
+                placeholder="Ej. SSO-45892011"
+              />
+              <button type="button" class="btn btn-secondary btn-sm" (click)="lookupSsoMock()" title="Buscar en SSO OEFA">
+                🔍 SSO
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Correo Electrónico OEFA *</label>
+            <input
+              type="email"
+              [(ngModel)]="userForm.email"
+              class="form-input font-mono"
+              placeholder="ejemplo@oefa.gob.pe"
+            />
+          </div>
+
+          <div class="form-group col-span-2">
+            <label class="form-label">Nombres y Apellidos Completos *</label>
+            <input
+              type="text"
+              [(ngModel)]="userForm.name"
+              class="form-input"
+              placeholder="Ej. Marco Antonio Silva Paredes"
+            />
+          </div>
+
+          <div class="form-group col-span-2">
+            <label class="form-label">Rol y Permisos de Sistema *</label>
+            <div class="role-selector-grid">
+              <label class="role-card" [class.selected]="userForm.role === 'ADMINISTRADOR'" (click)="userForm.role = 'ADMINISTRADOR'">
+                <span class="role-chip admin">ADMINISTRADOR</span>
+                <span class="role-title">Acceso Total</span>
+                <span class="role-sub">Gestiona configuración, usuarios, órdenes y auditoría.</span>
+              </label>
+
+              <label class="role-card" [class.selected]="userForm.role === 'OPERADOR'" (click)="userForm.role = 'OPERADOR'">
+                <span class="role-chip op">OPERADOR</span>
+                <span class="role-title">Gestión Operativa</span>
+                <span class="role-sub">Crea órdenes, registra eventos SIGED, observaciones y conformidades.</span>
+              </label>
+
+              <label class="role-card" [class.selected]="userForm.role === 'VISUALIZADOR'" (click)="userForm.role = 'VISUALIZADOR'">
+                <span class="role-chip viewer">VISUALIZADOR</span>
+                <span class="role-title">Lectura y Reportes</span>
+                <span class="role-sub">Consulta información y exporta reportes de dependencias autorizadas.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Matriz Checklist de Accesos por Nodo Organizacional -->
+          <div class="form-group col-span-2">
+            <div class="access-matrix-header">
+              <label class="form-label">Nodos y Dependencias OEFA Autorizadas ({{ userForm.nodeAccess.length }} seleccionadas) *</label>
+              <button type="button" class="btn-link" (click)="toggleAllNodeAccess()">
+                {{ userForm.nodeAccess.length === flatOrgNodes().length ? 'Desmarcar Todos' : 'Seleccionar Todos' }}
+              </button>
+            </div>
+
+            <div class="access-tree-box">
+              @for (root of orgTree(); track root.id) {
+                <div class="access-node-group">
+                  <label class="access-checkbox-row root-row">
+                    <input
+                      type="checkbox"
+                      [checked]="isNodeSelectedInUserForm(root.id)"
+                      (change)="toggleUserNodeSelection(root.id)"
+                    />
+                    <span class="tree-level-badge level-dir">DIR</span>
+                    <span class="font-bold">{{ root.label }}</span>
+                    <span class="font-mono text-muted">({{ root.code }})</span>
+                  </label>
+
+                  @if (root.children) {
+                    @for (child of root.children; track child.id) {
+                      <div class="access-node-group child-group">
+                        <label class="access-checkbox-row child-row">
+                          <input
+                            type="checkbox"
+                            [checked]="isNodeSelectedInUserForm(child.id)"
+                            (change)="toggleUserNodeSelection(child.id)"
+                          />
+                          <span class="tree-level-badge level-sub">SUB</span>
+                          <span class="font-medium">{{ child.label }}</span>
+                          <span class="font-mono text-muted">({{ child.code }})</span>
+                        </label>
+
+                        @if (child.children) {
+                          @for (area of child.children; track area.id) {
+                            <label class="access-checkbox-row grandchild-row">
+                              <input
+                                type="checkbox"
+                                [checked]="isNodeSelectedInUserForm(area.id)"
+                                (change)="toggleUserNodeSelection(area.id)"
+                              />
+                              <span class="tree-level-badge level-area">ÁREA</span>
+                              <span>{{ area.label }}</span>
+                              <span class="font-mono text-muted">({{ area.code }})</span>
+                            </label>
+                          }
+                        }
+                      </div>
+                    }
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeUserModal()">Cancelar</button>
+        <button
+          class="btn btn-primary"
+          [disabled]="!userForm.name.trim() || !userForm.email.trim() || userForm.nodeAccess.length === 0"
+          (click)="saveUserSubmit()"
+        >
+          💾 {{ isEditingUser() ? 'Guardar Cambios' : 'Registrar Usuario SSO' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

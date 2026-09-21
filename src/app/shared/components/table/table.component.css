@@ -1,0 +1,79 @@
+.oefa-table-container {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-lg);
+  box-shadow: var(--oefa-shadow-sm);
+}
+
+.oefa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.oefa-table th {
+  padding: 12px 16px;
+  background-color: var(--oefa-surface-submenu);
+  color: var(--oefa-text-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--oefa-border-color);
+  user-select: none;
+}
+
+.oefa-table th.sortable {
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.oefa-table th.sortable:hover {
+  background-color: var(--oefa-surface-subtle);
+  color: var(--oefa-primary-root);
+}
+
+.th-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sort-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--oefa-primary-root);
+}
+
+.sort-neutral {
+  opacity: 0.35;
+}
+
+.oefa-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--oefa-border-color);
+  color: var(--oefa-text-primary);
+  vertical-align: middle;
+}
+
+.oefa-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.oefa-table tbody tr:hover {
+  background-color: var(--oefa-surface-submenu);
+}
+
+.oefa-table tbody tr.clickable {
+  cursor: pointer;
+}
+
+.skeleton-tr td {
+  padding: 16px;
+}
+
+.empty-cell {
+  padding: 32px 16px !important;
+  text-align: center;
+}

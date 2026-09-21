@@ -1,0 +1,453 @@
+<div class="form-container">
+  <div class="top-nav">
+    <button class="btn-back" (click)="goBack()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Volver al listado
+    </button>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Registro de Nueva Orden</span>
+  </div>
+
+  <div class="form-workspace-wrapper">
+    <!-- Visual Stepper Header -->
+    <div class="stepper-header">
+      <div class="step-item" [class.active]="currentStep() === 1" [class.completed]="currentStep() > 1" (click)="goToStep(1)">
+        <div class="step-badge">1</div>
+        <div class="step-info">
+          <span class="step-title">Clasificación y Datos</span>
+          <span class="step-sub">Información general y proveedor</span>
+        </div>
+      </div>
+
+      <div class="step-divider"></div>
+
+      <div class="step-item" [class.active]="currentStep() === 2" [class.completed]="false">
+        <div class="step-badge">2</div>
+        <div class="step-info">
+          <span class="step-title">Programación de Entregables</span>
+          <span class="step-sub">Plazos, porcentajes y montos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 1: Datos de la Orden y Proveedor -->
+    @if (currentStep() === 1) {
+      <form [formGroup]="orderForm" (ngSubmit)="goToStep2()" class="form-body">
+        
+        <!-- SECCIÓN 1: Clasificación de la Orden -->
+        <div class="form-section">
+          <h3 class="section-title">1. Clasificación de la Orden</h3>
+
+          <div class="form-grid">
+            <!-- Fila 1: Tipo de Documento -->
+            <div class="form-group col-span-3">
+              <label class="form-label">Tipo de Documento *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" formControlName="orderType" value="OS" (change)="updateFormattedCode()" />
+                  <span class="radio-custom font-semibold">Órden de Servicio (OS)</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" formControlName="orderType" value="OC" (change)="updateFormattedCode()" />
+                  <span class="radio-custom font-semibold">Órden de Compra (OC)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Fila 2: Número de Orden + Fecha de Notificación + N° de Contrato -->
+            <div class="form-group">
+              <label class="form-label">Número de Orden *</label>
+              <input 
+                type="text" 
+                formControlName="orderNumberDigits" 
+                class="form-input font-mono" 
+                [class.input-error]="isDuplicateOrder()"
+                placeholder="Ej: 78" 
+                maxlength="5"
+                (input)="onNumberInput($event)"
+              />
+              @if (isDuplicateOrder()) {
+                <div class="duplicate-error-badge">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  <span>¡Atención! La orden <strong>{{ formattedCode() }}</strong> ya existe en el sistema. Ingrese un número distinto.</span>
+                </div>
+              } @else {
+                <div class="code-preview">
+                  Código resultante: <strong class="color-primary">{{ formattedCode() }}</strong>
+                </div>
+              }
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Fecha de Notificación *</label>
+              <input type="date" formControlName="notificationDate" class="form-input" (change)="recalculateDeliverableDates()" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">N° Contrato / Registro (Opcional)</label>
+              <input 
+                type="text" 
+                formControlName="contractNumber" 
+                class="form-input font-mono" 
+                placeholder="Ej: CONTRATO N° 012-2026-OEFA/GAF" 
+              />
+              <span class="help-text">Mapeo de previsión / contrato SIGED</span>
+            </div>
+
+            <!-- Fila 3: Descripción del Servicio -->
+            <div class="form-group col-span-3">
+              <label class="form-label">Descripción del Servicio / Objeto de Contratación *</label>
+              <textarea 
+                formControlName="serviceDescription" 
+                class="form-textarea" 
+                rows="3" 
+                placeholder="Detalle del objeto del contrato u orden de servicio/compra..."
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: Datos del Proveedor y Área -->
+        <div class="form-section">
+          <h3 class="section-title">2. Datos del Proveedor y Área Solicitante</h3>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">RUC * (11 dígitos)</label>
+              <input 
+                type="text" 
+                formControlName="ruc" 
+                class="form-input font-mono" 
+                placeholder="20123456789" 
+                maxlength="11" 
+              />
+              @if (orderForm.get('ruc')?.touched && orderForm.get('ruc')?.invalid) {
+                <span class="error-msg">Debe ingresar exactamente 11 dígitos numéricos</span>
+              }
+            </div>
+
+            <div class="form-group col-span-2">
+              <label class="form-label">Razon Social / Nombre del Proveedor *</label>
+              <input type="text" formControlName="providerName" class="form-input" placeholder="Razón Social del Contratista" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Tipo de Contratista *</label>
+              <select formControlName="contractorType" class="form-select">
+                <option value="JURIDICA">PERSONA JURÍDICA</option>
+                <option value="LOCADOR">LOCADOR DE SERVICIOS (NATURAL)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Área Solicitante *</label>
+              <select formControlName="requestingArea" class="form-select">
+                @for (area of orgStoreService.flatActiveAreas(); track area.code) {
+                  <option [value]="area.code">{{ area.fullLabel }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Proyecto / Mantenimiento</label>
+              <select formControlName="projectId" class="form-select" (change)="propagateProjectToDeliverables()">
+                <option value="">— Sin asignar —</option>
+                @for (p of proyectoStoreService.activeProyectos(); track p.id) {
+                  <option [value]="p.id">
+                    [{{ p.tipo === 'PROYECTO' ? 'PRY' : 'MNT' }}] {{ p.codigo }} — {{ p.nombre }}
+                  </option>
+                }
+              </select>
+              <span class="help-text">Valor por defecto para todos los entregables. Editable fila por fila en el Paso 2.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Monto Total Presupuestado (S/) *</label>
+              <input type="number" formControlName="totalAmount" class="form-input font-mono" placeholder="0.00" (input)="recalculateDeliverableAmounts()" />
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 3: Casuísticas Especiales -->
+        <div class="form-section">
+          <h3 class="section-title">3. Casuísticas Especiales</h3>
+
+          <div class="form-grid">
+            <div class="form-group col-span-3">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="requiresExtraVb" />
+                <div>
+                  <span class="font-bold">¿Requiere Visto Bueno (VB) Adicional?</span>
+                  <p class="help-text">Requiere aprobación de otra área u oficina del árbol OEFA</p>
+                </div>
+              </label>
+            </div>
+
+            @if (orderForm.get('requiresExtraVb')?.value) {
+              <div class="form-group col-span-2">
+                <label class="form-label">Área de Destino del VB Adicional *</label>
+                <select formControlName="extraVbArea" class="form-select">
+                  <option value="">Seleccionar área del árbol organizacional...</option>
+                  <option value="OTI_DEV">OTI - Subdirección de Desarrollo de Software</option>
+                  <option value="DFA_AGUA">DFA - Subdirección de Supervisión de Agua</option>
+                  <option value="OAJ_CONTRATOS">OAJ - Oficina de Contrataciones</option>
+                </select>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Form Actions Step 1 -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" (click)="goBack()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!orderForm.valid">
+            Continuar a Entregables (Paso 2) &rarr;
+          </button>
+        </div>
+      </form>
+    }
+
+    <!-- PASO 2: Programación de Entregables (Integrado en pantalla sin modal) -->
+    @if (currentStep() === 2) {
+      <div class="step2-container">
+        
+        <!-- Resumen de Datos del Paso 1 -->
+        <div class="order-summary-card">
+          <div class="summary-info">
+            <div class="summary-main">
+              <span class="summary-code font-mono font-bold">{{ formattedCode() }}</span>
+              <span class="summary-provider">{{ orderForm.get('providerName')?.value }} (RUC: {{ orderForm.get('ruc')?.value }})</span>
+            </div>
+            <div class="summary-meta">
+              <span><strong>Área:</strong> {{ orderForm.get('requestingArea')?.value }}</span>
+              <span><strong>Notificación:</strong> {{ formatDateToDDMMYYYY(orderForm.get('notificationDate')?.value) }}</span>
+              <span><strong>Monto Total:</strong> <strong class="color-primary font-mono">S/ {{ orderForm.get('totalAmount')?.value | number:'1.2-2' }}</strong></span>
+            </div>
+          </div>
+
+          <button class="btn btn-sm btn-secondary" (click)="goToStep(1)">
+            ✏ Modificar Datos del Paso 1
+          </button>
+        </div>
+
+        <!-- Config Bar -->
+        <div class="deliverable-config-bar">
+          <div class="config-item">
+            <label class="checkbox-label highlight">
+              <input type="checkbox" [(ngModel)]="isRecurrent" (change)="onRecurrentToggle()" />
+              <div>
+                <span class="font-bold">¿Es Servicio Recurrente?</span>
+                <span class="sub-info">Habilita edición de Fecha Inicial por entregable</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- Segmented Switch Button: Suma desde notificado? -->
+          <div class="config-item">
+            <label class="form-label">¿Sumar desde notificado?</label>
+            <div class="segmented-switch">
+              <button 
+                type="button" 
+                class="switch-btn" 
+                [class.active]="startDayRule === 'NEXT_DAY'" 
+                (click)="setStartDayRule('NEXT_DAY')"
+              >
+                Al día siguiente
+              </button>
+              <button 
+                type="button" 
+                class="switch-btn" 
+                [class.active]="startDayRule === 'SAME_DAY'" 
+                (click)="setStartDayRule('SAME_DAY')"
+              >
+                El mismo día
+              </button>
+            </div>
+          </div>
+
+          <div class="config-item">
+            <span class="meta-mini-label">Suma de Porcentajes</span>
+            <span 
+              class="badge-percent"
+              [class.valid]="totalPercentSum() === 100"
+              [class.invalid]="totalPercentSum() !== 100"
+            >
+              {{ totalPercentSum() }}% 
+              @if (totalPercentSum() === 100) { (100% OK) } @else { (Debe ser 100%) }
+            </span>
+          </div>
+        </div>
+
+        <!-- Banner Explicativo -->
+        <div class="alert-info">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>
+            <strong>Cómputo del Plazo:</strong> 
+            @if (startDayRule === 'NEXT_DAY') {
+              Sumando plazos en Días Calendario <strong>al día siguiente de notificado</strong> (estándar LPAG).
+            } @else {
+              Sumando plazos en Días Calendario <strong>desde el mismo día de notificado</strong>.
+            }
+            @if (isRecurrent) {
+              | <em>Modo Recurrente Activo:</em> Puede modificar la Fecha Inicial de cualquier fila.
+            }
+          </span>
+        </div>
+
+        <!-- Table Action Header -->
+        <div class="table-action-header">
+          <span class="table-action-title font-semibold">Programación de Entregables ({{ generatedDeliverables().length }})</span>
+          <button 
+            class="btn btn-sm btn-primary" 
+            (click)="addDeliverableRow()"
+            [disabled]="generatedDeliverables().length >= 36"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Agregar Entregable ({{ generatedDeliverables().length }}/36)
+          </button>
+        </div>
+
+        <!-- Deliverables Schedule Table (With Permanent 'Fecha Inicial' Column) -->
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 45px;">N°</th>
+                <th>Denominación de Entregable</th>
+                
+                <!-- Permanent Column: Fecha Inicial -->
+                <th style="width: 150px;" [class.col-recurrent-header]="isRecurrent">
+                  Fecha Inicial {{ isRecurrent ? '(Editable)' : '' }}
+                </th>
+
+                <th style="width: 140px;">Plazo (Días Cal.)</th>
+                <th style="width: 150px;">Fecha Límite Calculada</th>
+                <th style="width: 100px;">% Pago</th>
+                <th style="width: 140px;">Monto Calculado</th>
+                <th style="width: 170px;">Proyecto / Mant.</th>
+                <th style="width: 55px; text-align: center;">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (del of generatedDeliverables(); track del.id; let i = $index) {
+                <tr>
+                  <td class="font-bold text-center">{{ i + 1 }}</td>
+                  
+                  <!-- Readonly fixed sequential name -->
+                  <td class="font-semibold color-primary">
+                    <span class="deliverable-readonly-name">Entregable N° {{ i + 1 }}</span>
+                  </td>
+
+                  <!-- Permanent Column: Fecha Inicial -->
+                  <td [class.col-recurrent-cell]="isRecurrent">
+                    @if (isRecurrent) {
+                      <input 
+                        type="date" 
+                        [(ngModel)]="del.startDate" 
+                        class="table-input font-mono highlight-date" 
+                        (change)="recalculateDeliverableDates()"
+                      />
+                    } @else {
+                      <span class="readonly-date-badge font-mono">{{ del.startDate }}</span>
+                    }
+                  </td>
+
+                  <td>
+                    <div class="input-inline">
+                      <input 
+                        type="number" 
+                        [(ngModel)]="del.daysOffset" 
+                        class="table-input width-80 font-mono" 
+                        (input)="recalculateDeliverableDates()" 
+                      />
+                      <span class="text-sub">días</span>
+                    </div>
+                  </td>
+                  <td>
+                    <input 
+                      type="date" 
+                      [(ngModel)]="del.dueDate" 
+                      class="table-input font-mono font-bold text-primary-dark" 
+                    />
+                    @if (isPrevisionDate(del.dueDate)) {
+                      <div class="prevision-badge-inline">
+                        🔒 PREVISIÓN {{ getYearFromDate(del.dueDate) }}
+                      </div>
+                    }
+                  </td>
+                  <td>
+                    <div class="input-inline">
+                      <input 
+                        type="number" 
+                        [(ngModel)]="del.amountPercent" 
+                        class="table-input width-60 font-mono" 
+                        (input)="recalculateDeliverableAmounts()" 
+                      />
+                      <span class="text-sub">%</span>
+                    </div>
+                  </td>
+                  <td class="font-mono font-bold">
+                    S/ {{ del.calculatedAmount | number:'1.2-2' }}
+                  </td>
+                  <!-- Proyecto / Mantenimiento — editable fila por fila -->
+                  <td>
+                    <select [(ngModel)]="del.projectId" class="table-input table-select-project">
+                      <option value="">— Sin asignar —</option>
+                      @for (p of proyectoStoreService.activeProyectos(); track p.id) {
+                        <option [value]="p.id">
+                          [{{ p.tipo === 'PROYECTO' ? 'PRY' : 'MNT' }}] {{ p.codigo }}
+                        </option>
+                      }
+                    </select>
+                    @if (del.projectId) {
+                      <span class="project-badge" [class.badge-proyecto]="getProyectoTipo(del.projectId) === 'PROYECTO'" [class.badge-mantenimiento]="getProyectoTipo(del.projectId) === 'MANTENIMIENTO'">
+                        {{ getProyectoTipo(del.projectId) === 'PROYECTO' ? 'PRY' : 'MNT' }}
+                      </span>
+                    }
+                  </td>
+                  <td class="text-center">
+                    <button 
+                      class="btn-icon-danger" 
+                      (click)="removeDeliverableRow(i)"
+                      [disabled]="generatedDeliverables().length <= 1"
+                      title="Eliminar Entregable"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 6h18"/>
+                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        @if (totalPercentSum() !== 100) {
+          <div class="alert-warning">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span><strong>Advertencia de Porcentaje:</strong> La suma actual de los porcentajes es <strong>{{ totalPercentSum() }}%</strong>. Para guardar la orden, la suma total debe ser exactamente 100%.</span>
+          </div>
+        }
+
+        <!-- Step 2 Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" (click)="goToStep(1)">&larr; Anterior (Datos de la Orden)</button>
+          <button 
+            type="button" 
+            class="btn btn-primary" 
+            (click)="confirmAndSaveOrder()"
+            [disabled]="totalPercentSum() !== 100 || generatedDeliverables().length === 0"
+          >
+            Confirmar y Guardar Orden Definitiva
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

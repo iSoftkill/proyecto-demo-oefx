@@ -1,0 +1,75 @@
+<header class="oefa-header">
+  <div class="header-left">
+    <button class="icon-btn menu-toggle" [class.active]="navService.sidebarMode() === 'pinned'"
+      [attr.aria-pressed]="navService.sidebarMode() === 'pinned'" (click)="navService.togglePinned()"
+      title="Alternar Menú Sidebar Fijo / Flotante">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" x2="20" y1="12" y2="12" />
+        <line x1="4" x2="20" y1="6" y2="6" />
+        <line x1="4" x2="20" y1="18" y2="18" />
+      </svg>
+    </button>
+
+    <!-- Logo OEFA oficial SVG -->
+    <div class="oefa-brand-logo">
+      <img src="images/logo_oefa_primary.svg" alt="OEFA - Organismo de Evaluación y Fiscalización Ambiental"
+        class="oefa-header-logo-img" />
+    </div>
+
+
+    <div class="brand-divider"></div>
+
+    <!-- Logo/Subtítulo del Sistema PLusd -->
+    <div class="system-brand">
+      <span class="plusd-title">SEOSC</span>
+      <span class="plusd-sub">Seguimiento de Ordenes <br>de Servicios y Compras</span>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <!-- Alternar Modo Oscuro / Claro (WCAG 2.2 Accesible) -->
+    <button class="icon-btn header-action theme-toggle-btn"
+      (click)="themeService.toggleTheme()"
+      [title]="themeService.isDarkMode() ? 'Cambiar a Modo Claro (Actual: Oscuro)' : 'Cambiar a Modo Oscuro (Actual: Claro)'"
+      [attr.aria-label]="themeService.isDarkMode() ? 'Cambiar a Modo Claro' : 'Cambiar a Modo Oscuro'">
+      @if (themeService.isDarkMode()) {
+        <!-- Sol (Activar Modo Claro) -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2" />
+          <path d="M12 20v2" />
+          <path d="m4.93 4.93 1.41 1.41" />
+          <path d="m17.66 17.66 1.41 1.41" />
+          <path d="M2 12h2" />
+          <path d="M20 12h2" />
+          <path d="m6.34 17.66-1.41 1.41" />
+          <path d="m19.07 4.93-1.41 1.41" />
+        </svg>
+      } @else {
+        <!-- Luna (Activar Modo Oscuro) -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+        </svg>
+      }
+    </button>
+
+    <!-- Notificaciones -->
+    <button class="icon-btn header-action" title="Notificaciones">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+      </svg>
+      <span class="notification-badge">3</span>
+    </button>
+
+    <!-- Selector de Aplicaciones (Waffle / Grid interactivo) -->
+    <oefa-app-launcher></oefa-app-launcher>
+
+    <!-- Avatar / Perfil del usuario con Menú Desplegable desacoplado -->
+    <oefa-user-menu (logout)="onLogout()"></oefa-user-menu>
+  </div>
+</header>

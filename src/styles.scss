@@ -1,0 +1,3015 @@
+/* Fonts: Poppins (Display/Headings) e Inter (Body/Tables/Inputs) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Sass Breakpoint Variables (para uso en @media queries) */
+$oefa-bp-sm: 640px;
+$oefa-bp-md: 768px;
+$oefa-bp-lg: 1024px;
+$oefa-bp-xl: 1280px;
+$oefa-header-height: 64px;
+
+:root {
+  /* Header Component Tokens */
+  --oefa-header-height: 64px;
+  --oefa-header-padding-x: 20px;
+  --oefa-header-padding-x-mobile: 12px;
+  --oefa-header-logo-height: 36px;
+  --oefa-header-logo-height-mobile: 30px;
+
+  /* Color Tokens OEFA (Primary, Secondary, Tertiary, Success, Error, Neutral) */
+  --oefa-primary-root: #144AA7;
+  --oefa-primary-on: #FFFFFF;
+  --oefa-primary-container: #EEF4FF;
+  --oefa-primary-on-container: #002463;
+  --oefa-primary-container-hc: #A4C1F4;
+
+  --oefa-secondary-root: #44BFB5;
+  --oefa-secondary-ui-safe: #2C817A;
+  --oefa-secondary-container: #EEFFFE;
+  --oefa-secondary-on-container: #005D58;
+  --oefa-secondary-container-hc: #B3E5E1;
+
+  --oefa-tertiary-root: #FFB500;
+  --oefa-tertiary-ui-safe: #996D00;
+  --oefa-tertiary-container: #FFF0CC;
+  --oefa-tertiary-on-container: #664800;
+  --oefa-tertiary-container-hc: #FFE199;
+
+  --oefa-success-root: #8CCD3A;
+  --oefa-success-ui-safe: #578221;
+  --oefa-success-container: #F7FFEE;
+  --oefa-success-on-container: #386200;
+  --oefa-success-container-hc: #D0EAAE;
+
+  --oefa-error-root: #E51A2F;
+  --oefa-error-on: #FFFFFF;
+  --oefa-error-container: #FFEFF1;
+  --oefa-error-on-container: #AA1223;
+  --oefa-error-container-hc: #EEC4C9;
+
+  /* Tonal Ramps (Escalas Monocromáticas M3 - 10 a 99) */
+  --oefa-primary-10: #05142E;
+  --oefa-primary-20: #0B285B;
+  --oefa-primary-30: #103D89;
+  --oefa-primary-40: #1651B6;
+  --oefa-primary-50: #1B65E4;
+  --oefa-primary-60: #4984E9;
+  --oefa-primary-70: #76A3EF;
+  --oefa-primary-80: #A4C1F4;
+  --oefa-primary-90: #D1E0FA;
+  --oefa-primary-95: #E8F0FC;
+  --oefa-primary-99: #FAFCFE;
+
+  --oefa-secondary-10: #0A2825;
+  --oefa-secondary-20: #134F49;
+  --oefa-secondary-30: #27726C;
+  --oefa-secondary-40: #349890;
+  --oefa-secondary-50: #41BEB4;
+  --oefa-secondary-60: #67CBC3;
+  --oefa-secondary-70: #8DD8D2;
+  --oefa-secondary-80: #B3E5E1;
+  --oefa-secondary-90: #D9F2F0;
+  --oefa-secondary-95: #ECF8F7;
+  --oefa-secondary-99: #FBFEFD;
+
+  --oefa-tertiary-10: #332400;
+  --oefa-tertiary-20: #664800;
+  --oefa-tertiary-30: #996D00;
+  --oefa-tertiary-40: #CC9100;
+  --oefa-tertiary-50: #FFB500;
+  --oefa-tertiary-60: #FFC433;
+  --oefa-tertiary-70: #FFD366;
+  --oefa-tertiary-80: #FFE199;
+  --oefa-tertiary-90: #FFF0CC;
+  --oefa-tertiary-95: #FFF8E5;
+  --oefa-tertiary-99: #FFFEFA;
+
+  --oefa-success-10: #1B290A;
+  --oefa-success-20: #375115;
+  --oefa-success-30: #527A1F;
+  --oefa-success-40: #6DA329;
+  --oefa-success-50: #88CB34;
+  --oefa-success-60: #A0D65C;
+  --oefa-success-70: #B8E085;
+  --oefa-success-80: #D0EAAE;
+  --oefa-success-90: #E7F5D6;
+  --oefa-success-95: #F3FAEB;
+  --oefa-success-99: #FDFEFB;
+
+  --oefa-error-10: #2E0509;
+  --oefa-error-20: #5C0A13;
+  --oefa-error-30: #89101C;
+  --oefa-error-40: #B71526;
+  --oefa-error-50: #E51A2F;
+  --oefa-error-60: #EA4859;
+  --oefa-error-70: #EF7682;
+  --oefa-error-80: #F5A3AC;
+  --oefa-error-90: #FAD1D5;
+  --oefa-error-95: #FCE8EA;
+  --oefa-error-99: #FEFAFB;
+
+  --oefa-neutral-50: #F8FAFC;
+  --oefa-neutral-100: #F1F5F9;
+  --oefa-neutral-200: #E2E8F0;
+  --oefa-neutral-300: #CBD5E1;
+  --oefa-neutral-400: #94A3B8;
+  --oefa-neutral-500: #64748B;
+  --oefa-neutral-600: #475569;
+  --oefa-neutral-700: #334155;
+  --oefa-neutral-800: #1E293B;
+  --oefa-neutral-900: #0F172A;
+  --oefa-neutral-950: #0B1120;
+
+  /* Surfaces — Light Theme */
+  --oefa-surface-app: #F0F4F9;
+  --oefa-surface-card: #FFFFFF;
+  --oefa-surface-header: #FFFFFF;
+  --oefa-surface-rail: #FFFFFF;
+  --oefa-surface-submenu: #F8FAFC;
+  --oefa-surface-workspace: #FFFFFF;
+  --oefa-surface-modal: #FFFFFF;
+  --oefa-surface-subtle: #F8FAFC;
+  --oefa-surface-muted: #F1F5F9;
+  --oefa-surface-input: #FFFFFF;
+  --oefa-surface-login-bg: #0A1128;
+  --oefa-surface-tooltip: #0F172A;
+  --oefa-tooltip-text: #F8FAFC;
+  --oefa-border-color: #E2E8F0;
+  --oefa-border-color-subtle: #F1F5F9;
+
+  /* Focus Indicator (WCAG 2.2 SC 2.4.13) */
+  --oefa-focus-ring: #144AA7;
+  --oefa-focus-glow: rgba(20, 74, 167, 0.20);
+  --oefa-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23334155' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+
+  /* Scrollbars */
+  --oefa-scrollbar-track: transparent;
+  --oefa-scrollbar-thumb: #CBD5E1;
+  --oefa-scrollbar-thumb-hover: #94A3B8;
+
+  /* Responsive Breakpoints Tokens */
+  --oefa-breakpoint-sm: 640px;
+  --oefa-breakpoint-md: 768px;
+  --oefa-breakpoint-lg: 1024px;
+  --oefa-breakpoint-xl: 1280px;
+
+  /* Text colors - WCAG 2.2 AA/AAA Compliant (Min contrast ratio 4.5:1) */
+  --oefa-text-primary: #1D1D1B;
+  --oefa-text-secondary: #334155;
+  --oefa-text-muted: #475569;
+  --oefa-text-on-dark: #DEDEDE;
+  --oefa-login-overlay: rgba(0, 0, 0, 0.55);
+
+  /* Typography */
+  --oefa-font-display: 'Poppins', sans-serif;
+  --oefa-font-body: 'Inter', system-ui, sans-serif;
+  --oefa-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --oefa-letter-spacing-uppercase: 0.04em;
+
+  /* Radii & Shadows */
+  --oefa-radius-sm: 6px;
+  --oefa-radius-md: 10px;
+  --oefa-radius-lg: 16px;
+  --oefa-radius-xl: 24px;
+  --oefa-radius-full: 9999px;
+
+  --oefa-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --oefa-shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --oefa-shadow-flyout: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+
+  /* Motion & Animation Tokens (Material 3 Expressive) */
+  --oefa-ease-linear: cubic-bezier(0, 0, 1, 1);
+  --oefa-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --oefa-ease-standard-decel: cubic-bezier(0, 0, 0.2, 1);
+  --oefa-ease-standard-accel: cubic-bezier(0.3, 0, 1, 1);
+  --oefa-ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --oefa-ease-emphasized-decel: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --oefa-ease-emphasized-accel: cubic-bezier(0.3, 0, 0.8, 0.15);
+
+  --oefa-duration-short-1: 50ms;
+  --oefa-duration-short-2: 100ms;
+  --oefa-duration-short-3: 150ms;
+  --oefa-duration-short-4: 200ms;
+  --oefa-duration-short: 150ms;
+  --oefa-duration-medium-1: 250ms;
+  --oefa-duration-medium-2: 300ms;
+  --oefa-duration-medium: 300ms;
+  --oefa-duration-long-1: 350ms;
+  --oefa-duration-long-2: 400ms;
+  --oefa-duration-long: 450ms;
+
+  color-scheme: light;
+}
+
+/* ==========================================================================
+   OEFA DESIGN TOKENS — DARK THEME (WCAG 2.2 AA/AAA COMPLIANT)
+   ========================================================================== */
+[data-theme="dark"],
+body.dark-theme {
+  color-scheme: dark;
+
+  /* Tonal Inversions for Dark Backgrounds */
+  --oefa-primary-root: #76A3EF;
+  --oefa-primary-on: #05142E;
+  --oefa-primary-container: #103D89;
+  --oefa-primary-on-container: #D1E0FA;
+  --oefa-primary-container-hc: #23529E;
+
+  --oefa-secondary-root: #67CBC3;
+  --oefa-secondary-ui-safe: #8DD8D2;
+  --oefa-secondary-container: #134F49;
+  --oefa-secondary-on-container: #D9F2F0;
+
+  --oefa-tertiary-root: #FFD366;
+  --oefa-tertiary-ui-safe: #FFE199;
+  --oefa-tertiary-container: #4D3600;
+  --oefa-tertiary-on-container: #FFE199;
+  --oefa-tertiary-container-hc: #664800;
+
+  --oefa-success-root: #A0D65C;
+  --oefa-success-ui-safe: #B8E085;
+  --oefa-success-container: #233B0C;
+  --oefa-success-on-container: #E7F5D6;
+
+  --oefa-error-root: #F87171;
+  --oefa-error-on: #4A0D15;
+  --oefa-error-container: #4A0D15;
+  --oefa-error-on-container: #FAD1D5;
+
+  /* Surfaces — Elevation hierarchy on deep slate #0B1120 */
+  --oefa-surface-app: #0B1120;
+  --oefa-surface-card: #131C2E;
+  --oefa-surface-header: #0F172A;
+  --oefa-surface-rail: #0F172A;
+  --oefa-surface-submenu: #111827;
+  --oefa-surface-workspace: #131C2E;
+  --oefa-surface-modal: #1E293B;
+  --oefa-surface-subtle: #172238;
+  --oefa-surface-muted: #1E293B;
+  --oefa-surface-input: #0F172A;
+  --oefa-surface-login-bg: #0A1128;
+  --oefa-surface-tooltip: #1E293B;
+  --oefa-tooltip-text: #F8FAFC;
+  --oefa-border-color: #334155;
+  --oefa-border-color-subtle: #1E293B;
+
+  /* Focus Indicator (WCAG 2.2 SC 2.4.13) */
+  --oefa-focus-ring: #76A3EF;
+  --oefa-focus-glow: rgba(118, 163, 239, 0.25);
+  --oefa-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+
+  /* Scrollbars */
+  --oefa-scrollbar-track: #0B1120;
+  --oefa-scrollbar-thumb: #334155;
+  --oefa-scrollbar-thumb-hover: #475569;
+
+  /* High Contrast Text in Dark Mode (WCAG 2.2 AA/AAA) */
+  --oefa-text-primary: #F8FAFC;
+  --oefa-text-secondary: #CBD5E1;
+  --oefa-text-muted: #94A3B8;
+  --oefa-text-on-dark: #F8FAFC;
+  --oefa-login-overlay: linear-gradient(135deg, rgba(11, 17, 32, 0.88) 0%, rgba(5, 20, 46, 0.78) 100%);
+
+  /* Shadows for Dark Mode Elevation */
+  --oefa-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --oefa-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --oefa-shadow-flyout: 0 10px 25px -5px rgba(0, 0, 0, 0.65), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --oefa-primary-root: #76A3EF;
+    --oefa-primary-on: #05142E;
+    --oefa-primary-container: #103D89;
+    --oefa-primary-on-container: #D1E0FA;
+    --oefa-primary-container-hc: #23529E;
+
+    --oefa-secondary-root: #67CBC3;
+    --oefa-secondary-ui-safe: #8DD8D2;
+    --oefa-secondary-container: #134F49;
+    --oefa-secondary-on-container: #D9F2F0;
+
+    --oefa-tertiary-root: #FFD366;
+    --oefa-tertiary-ui-safe: #FFE199;
+    --oefa-tertiary-container: #4D3600;
+    --oefa-tertiary-on-container: #FFE199;
+    --oefa-tertiary-container-hc: #664800;
+
+    --oefa-success-root: #A0D65C;
+    --oefa-success-ui-safe: #B8E085;
+    --oefa-success-container: #233B0C;
+    --oefa-success-on-container: #E7F5D6;
+
+    --oefa-error-root: #F87171;
+    --oefa-error-on: #4A0D15;
+    --oefa-error-container: #4A0D15;
+    --oefa-error-on-container: #FAD1D5;
+
+    --oefa-surface-app: #0B1120;
+    --oefa-surface-card: #131C2E;
+    --oefa-surface-header: #0F172A;
+    --oefa-surface-rail: #0F172A;
+    --oefa-surface-submenu: #111827;
+    --oefa-surface-workspace: #131C2E;
+    --oefa-surface-modal: #1E293B;
+    --oefa-surface-subtle: #172238;
+    --oefa-surface-muted: #1E293B;
+    --oefa-surface-input: #0F172A;
+    --oefa-surface-login-bg: #0A1128;
+    --oefa-border-color: #334155;
+    --oefa-border-color-subtle: #1E293B;
+
+    --oefa-focus-ring: #76A3EF;
+    --oefa-focus-glow: rgba(118, 163, 239, 0.25);
+    --oefa-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+
+    --oefa-scrollbar-track: #0B1120;
+    --oefa-scrollbar-thumb: #334155;
+    --oefa-scrollbar-thumb-hover: #475569;
+
+    --oefa-text-primary: #F8FAFC;
+    --oefa-text-secondary: #CBD5E1;
+    --oefa-text-muted: #94A3B8;
+    --oefa-text-on-dark: #F8FAFC;
+    --oefa-login-overlay: linear-gradient(135deg, rgba(11, 17, 32, 0.88) 0%, rgba(5, 20, 46, 0.78) 100%);
+
+    --oefa-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --oefa-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+    --oefa-shadow-flyout: 0 10px 25px -5px rgba(0, 0, 0, 0.65), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Reset Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: var(--oefa-font-body);
+  font-size: 16px;
+  color: var(--oefa-text-primary);
+  background-color: var(--oefa-surface-app);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography styles */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--oefa-font-display);
+  font-weight: 600;
+  color: var(--oefa-text-primary);
+}
+
+h1 {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+/* ==========================================================================
+   OEFA STATUS BADGES — 6 ESTADOS UNIVERSALES (WCAG 2.2 AA CON RELACIÓN > 4.5:1)
+   ========================================================================== */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--oefa-radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.2;
+
+  /* 1. INFO (Azul institucional: Container #EEF4FF, On #002463 | Ratio 14.8:1) */
+  &.info,
+  &.registered {
+    background-color: var(--oefa-primary-container);
+    color: var(--oefa-primary-on-container);
+    border: 1px solid var(--oefa-primary-container-hc);
+  }
+
+  /* 2. ÉXITO (Verde institucional: Container #F7FFEE, On #386200 | Ratio 8.1:1) */
+  &.exito,
+  &.success,
+  &.conforme {
+    background-color: var(--oefa-success-container);
+    color: var(--oefa-success-on-container);
+    border: 1px solid var(--oefa-success-container-hc);
+  }
+
+  /* 3. DANGER / WARNING (Ámbar / Naranja preventivo: Container #FFF0CC, On #664800 | Ratio 8.4:1) */
+  &.danger,
+  &.warning,
+  &.observado {
+    background-color: var(--oefa-tertiary-container);
+    color: var(--oefa-tertiary-on-container);
+    border: 1px solid var(--oefa-tertiary-container-hc);
+  }
+
+  /* 4. ERROR (Rojo crítico: Container #FFEFF1, On #AA1223 | Ratio 7.9:1) */
+  &.error,
+  &.desestimado {
+    background-color: var(--oefa-error-container);
+    color: var(--oefa-error-on-container);
+    border: 1px solid var(--oefa-error-container-hc);
+  }
+
+  /* 5. NEUTRAL (Gris de sistema: Container #F1F5F9, On #1E293B | Ratio 11.2:1) */
+  &.neutral,
+  &.gray {
+    background-color: var(--oefa-surface-muted);
+    color: var(--oefa-text-primary);
+    border: 1px solid var(--oefa-border-color);
+  }
+
+  /* 6. ALTERNO (Turquesa secundario OEFA: Container #EEFFFE, On #005D58 | Ratio 6.5:1) */
+  &.alterno,
+  &.secondary,
+  &.prevision {
+    background-color: var(--oefa-secondary-container);
+    color: var(--oefa-secondary-on-container);
+    border: 1px solid var(--oefa-secondary-container-hc);
+  }
+
+  /* Variantes de tamaño */
+  &.badge-sm {
+    padding: 2px 7px;
+    font-size: 0.6875rem;
+    gap: 4px;
+
+    .badge-dot {
+      width: 5px;
+      height: 5px;
+    }
+  }
+
+  &.badge-md {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    gap: 6px;
+  }
+
+  /* Punto semántico indicador (WCAG 2.2 SC 1.4.1 - no depender solo de color) */
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+    flex-shrink: 0;
+  }
+}
+
+/* Skeleton Loader (RNF 5) */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--oefa-surface-muted) 0px, var(--oefa-border-color) 50px, var(--oefa-surface-muted) 100px);
+  background-size: 200px 100%;
+  animation: skeleton-shimmer 1.5s infinite ease-in-out;
+  border-radius: var(--oefa-radius-sm);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--oefa-scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--oefa-scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--oefa-scrollbar-thumb-hover);
+}
+
+/* WCAG 2.2 Accessible Labels & Subtitles */
+.meta-label {
+  color: var(--oefa-text-secondary) !important;
+  font-weight: 600 !important;
+}
+
+.text-muted,
+.sub-info,
+.help-expand-hint {
+  color: var(--oefa-text-muted) !important;
+}
+
+/* ==========================================================================
+   OEFA DESIGN TOKENS — BUTTONS & INTERACTIVE ACTIONS
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--oefa-radius-md);
+  font-family: var(--oefa-font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  cursor: pointer;
+  transition: background-color var(--oefa-duration-short) var(--oefa-ease-standard),
+              border-color var(--oefa-duration-short) var(--oefa-ease-standard),
+              color var(--oefa-duration-short) var(--oefa-ease-standard),
+              box-shadow var(--oefa-duration-short) var(--oefa-ease-standard),
+              transform var(--oefa-duration-short-1) var(--oefa-ease-standard);
+  user-select: none;
+  text-decoration: none;
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-focus-ring);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+}
+
+/* Button Sizing Variants */
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
+  border-radius: var(--oefa-radius-sm);
+  gap: 6px;
+}
+
+.btn-xs {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  border-radius: var(--oefa-radius-sm);
+  gap: 4px;
+}
+
+.btn-lg {
+  padding: 12px 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  border-radius: var(--oefa-radius-md);
+  gap: 10px;
+}
+
+/* Primary Button (Blue OEFA) */
+.btn-primary {
+  background-color: var(--oefa-primary-root);
+  color: var(--oefa-primary-on);
+  box-shadow: 0 2px 6px rgba(20, 74, 167, 0.25);
+
+  &:hover:not(:disabled) {
+    filter: brightness(0.92);
+    box-shadow: 0 4px 12px rgba(20, 74, 167, 0.35);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(20, 74, 167, 0.2);
+  }
+}
+
+/* Secondary Button (Border / Surface Neutral) */
+.btn-secondary {
+  background-color: var(--oefa-surface-card);
+  color: var(--oefa-text-primary);
+  border-color: var(--oefa-border-color);
+  box-shadow: var(--oefa-shadow-sm);
+
+  &:hover:not(:disabled) {
+    background-color: var(--oefa-surface-subtle);
+    border-color: var(--oefa-primary-root);
+    color: var(--oefa-primary-root);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--oefa-surface-muted);
+  }
+}
+
+/* Excel Export Button (Success Green Accent) */
+.btn-excel {
+  background-color: #107C41;
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(16, 124, 65, 0.25);
+
+  &:hover:not(:disabled) {
+    background-color: #0C5E31;
+    box-shadow: 0 4px 12px rgba(16, 124, 65, 0.35);
+  }
+}
+
+/* Danger / Destructive Button (Error Red Accent) */
+.btn-danger {
+  background-color: var(--oefa-error-root);
+  color: var(--oefa-error-on);
+  box-shadow: 0 2px 6px rgba(229, 26, 47, 0.25);
+
+  &:hover:not(:disabled) {
+    background-color: #C71325;
+    box-shadow: 0 4px 12px rgba(229, 26, 47, 0.35);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(229, 26, 47, 0.2);
+  }
+}
+
+/* Ghost Button (Transparent with Hover) */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--oefa-text-secondary);
+  border-color: transparent;
+
+  &:hover:not(:disabled) {
+    background-color: var(--oefa-surface-muted);
+    color: var(--oefa-text-primary);
+  }
+}
+
+/* Clear Filters Button */
+.btn-clear-filters {
+  background: var(--oefa-surface-muted);
+  border: 1px solid var(--oefa-border-color);
+  color: var(--oefa-text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--oefa-radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: var(--oefa-border-color);
+    color: var(--oefa-error-root);
+  }
+}
+
+/* Toggle Filters Button */
+.btn-toggle-filters {
+  background-color: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  color: var(--oefa-text-primary);
+  padding: 6px 12px;
+  border-radius: var(--oefa-radius-sm);
+  font-family: var(--oefa-font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    border-color: var(--oefa-primary-root);
+    color: var(--oefa-primary-root);
+    background-color: var(--oefa-surface-subtle);
+  }
+
+  &.active {
+    background-color: var(--oefa-primary-container);
+    color: var(--oefa-primary-root);
+    border-color: var(--oefa-primary-root);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-focus-ring);
+    outline-offset: 1px;
+  }
+}
+
+.badge-filter-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--oefa-primary-root);
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+/* Segmented Switch & View Mode Switcher */
+.segmented-switch,
+.view-switch-group {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--oefa-surface-muted);
+  border: 1px solid var(--oefa-border-color);
+  padding: 3px;
+  border-radius: var(--oefa-radius-md);
+  gap: 2px;
+  box-sizing: border-box;
+
+  &.full-width {
+    width: 100%;
+    display: flex;
+  }
+}
+
+.switch-btn,
+.switch-mode-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  border-radius: var(--oefa-radius-sm);
+  font-family: var(--oefa-font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--oefa-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--oefa-duration-short) var(--oefa-ease-standard),
+              color var(--oefa-duration-short) var(--oefa-ease-standard),
+              box-shadow var(--oefa-duration-short) var(--oefa-ease-standard),
+              transform var(--oefa-duration-short-1) var(--oefa-ease-standard);
+  outline: none;
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  &:hover:not(.active) {
+    color: var(--oefa-text-primary);
+    background-color: var(--oefa-surface-subtle);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-focus-ring);
+    outline-offset: 1px;
+  }
+
+  &.active {
+    background-color: var(--oefa-primary-root);
+    color: var(--oefa-primary-on);
+    box-shadow: var(--oefa-shadow-sm);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.view-switch-group {
+  .switch-mode-text {
+    display: inline;
+  }
+
+  @media (max-width: 768px) {
+    .switch-mode-text {
+      display: none;
+    }
+    .switch-mode-btn {
+      padding: 7px 9px;
+      min-width: 36px;
+      height: 36px;
+      justify-content: center;
+    }
+  }
+}
+
+/* ── Header Actions & Responsive Kebab Menu Pattern ──────────────────────── */
+.header-actions-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+.kebab-menu-container {
+  display: none;
+  position: relative;
+
+  @media (max-width: 768px) {
+    display: inline-block;
+  }
+}
+
+.btn-kebab {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-md);
+  color: var(--oefa-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--oefa-text-primary);
+    background-color: var(--oefa-surface-subtle);
+    border-color: var(--oefa-border-strong, #ccc);
+  }
+
+  &.active {
+    background-color: var(--oefa-surface-subtle);
+    color: var(--oefa-primary-root);
+    border-color: var(--oefa-primary-root);
+  }
+}
+
+.kebab-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  left: auto;
+  min-width: 250px;
+  max-width: calc(100vw - 48px);
+  z-index: 1050;
+}
+
+/* Advanced Filters Panel */
+.advanced-filters-panel {
+  margin-top: 14px;
+  background-color: var(--oefa-surface-subtle);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-md);
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL TOAST COMPONENT — <oefa-toast> + ToastService
+   OEFA Design System Standard (WCAG 2.2 — role=alert/status)
+   ══════════════════════════════════════════════════════════════ */
+
+/* Contenedor de la región de toasts */
+.oefa-toast-region {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100;
+  pointer-events: none;
+
+  .oefa-toast-item {
+    pointer-events: auto;
+    min-width: 320px;
+    max-width: 440px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--oefa-surface-card);
+    border-radius: var(--oefa-radius-md);
+    border: 1px solid var(--oefa-border-color);
+    box-shadow: var(--oefa-shadow-flyout);
+    font-family: var(--oefa-font-body);
+    font-size: 0.875rem;
+    color: var(--oefa-text-primary);
+    animation: oefa-toast-in 0.25s ease;
+
+    /* Variantes semánticas — borde izquierdo distintivo */
+    &.toast-success { border-left: 4px solid var(--oefa-success-root); }
+    &.toast-info    { border-left: 4px solid var(--oefa-primary-root); }
+    &.toast-warning { border-left: 4px solid var(--oefa-warning-root); }
+    &.toast-error   { border-left: 4px solid var(--oefa-error-root); }
+
+    .toast-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    &.toast-success .toast-icon { color: var(--oefa-success-root); }
+    &.toast-info    .toast-icon { color: var(--oefa-primary-root); }
+    &.toast-warning .toast-icon { color: var(--oefa-warning-root); }
+    &.toast-error   .toast-icon { color: var(--oefa-error-root); }
+
+    .toast-body {
+      flex: 1;
+      min-width: 0;
+
+      .toast-title {
+        font-weight: 700;
+        font-size: 0.875rem;
+        margin-bottom: 2px;
+        color: var(--oefa-text-primary);
+      }
+      .toast-message {
+        font-size: 0.8125rem;
+        color: var(--oefa-text-secondary);
+        line-height: 1.4;
+      }
+    }
+
+    .toast-close {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--oefa-text-muted);
+      padding: 2px;
+      border-radius: var(--oefa-radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s;
+      &:hover { color: var(--oefa-text-primary); }
+      &:focus-visible { outline: 2px solid var(--oefa-primary-root); outline-offset: 2px; }
+    }
+  }
+
+  /* Animación de salida */
+  .oefa-toast-item.toast-leaving {
+    animation: oefa-toast-out 0.2s ease forwards;
+  }
+}
+
+@keyframes oefa-toast-in {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes oefa-toast-out {
+  from { transform: translateY(0);    opacity: 1; }
+  to   { transform: translateY(8px);  opacity: 0; }
+}
+
+/* Quick Action Floating '+' Button (Rail Sidebar) */
+.btn-quick-add {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--oefa-radius-full);
+  background-color: var(--oefa-primary-root);
+  color: var(--oefa-primary-on);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(20, 74, 167, 0.3);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    transform: scale(1.08);
+    filter: brightness(0.92);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+/* TextButton Hyperlink for Order Cells in Matrix */
+.btn-order-link {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 10px;
+  border: 1px solid var(--oefa-primary-container-hc);
+  border-radius: var(--oefa-radius-sm);
+  background-color: var(--oefa-primary-container);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+
+  &:hover {
+    background-color: var(--oefa-primary-container-hc);
+    border-color: var(--oefa-primary-root);
+    box-shadow: 0 2px 6px rgba(20, 74, 167, 0.15);
+  }
+
+  .order-code {
+    color: var(--oefa-primary-root);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .sub-info {
+    font-size: 0.75rem;
+    color: var(--oefa-text-secondary);
+    margin-top: 2px;
+  }
+
+  .link-hint {
+    font-size: 0.6875rem;
+    color: var(--oefa-primary-root);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+}
+
+/* Micro Tree Actions (Edit ✏️ / Delete 🗑️) */
+.btn-tree-action {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--oefa-radius-sm);
+  border: 1px solid var(--oefa-border-color);
+  background: var(--oefa-surface-card);
+  color: var(--oefa-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--oefa-surface-subtle);
+    color: var(--oefa-primary-root);
+    border-color: var(--oefa-primary-container-hc);
+  }
+
+  &.danger:hover:not(:disabled) {
+    background: var(--oefa-error-container);
+    color: var(--oefa-error-root);
+    border-color: #FECDD3;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+/* ==========================================================================
+   OEFA DESIGN TOKENS — BADGES & CHIPS
+   ========================================================================== */
+.project-badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: var(--oefa-radius-full);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.badge-proyecto {
+  background-color: var(--oefa-primary-container);
+  color: var(--oefa-primary-on-container);
+  border: 1px solid var(--oefa-primary-container-hc);
+}
+
+.badge-mantenimiento {
+  background-color: var(--oefa-success-container);
+  color: var(--oefa-success-on-container);
+  border: 1px solid #C0ED85;
+}
+
+.siged-chip {
+  font-family: monospace;
+  font-size: 0.75rem;
+  background: var(--oefa-surface-muted);
+  color: var(--oefa-text-secondary);
+  padding: 3px 8px;
+  border-radius: var(--oefa-radius-sm);
+  border: 1px solid var(--oefa-border-color);
+}
+
+.area-chip {
+  background: var(--oefa-primary-container);
+  color: var(--oefa-primary-on-container);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--oefa-radius-sm);
+}
+
+.del-num-badge {
+  font-size: 0.6875rem;
+  background: var(--oefa-surface-muted);
+  color: var(--oefa-text-secondary);
+  padding: 3px 8px;
+  border-radius: var(--oefa-radius-sm);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   OEFA DESIGN TOKENS — TABLES & CARDS
+   ========================================================================== */
+.card {
+  background: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-lg);
+  box-shadow: var(--oefa-shadow-sm);
+}
+
+.data-table,
+.excel-data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.875rem;
+
+  thead th {
+    background-color: var(--oefa-surface-subtle);
+    color: var(--oefa-text-secondary);
+    font-family: var(--oefa-font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 12px 14px;
+    border-bottom: 1.5px solid var(--oefa-border-color);
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--oefa-border-color);
+    color: var(--oefa-text-primary);
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover td {
+    background-color: var(--oefa-surface-subtle);
+  }
+}
+
+.excel-data-table {
+  thead th {
+    background-color: var(--oefa-surface-muted);
+    border-bottom: 2px solid var(--oefa-border-color);
+  }
+
+  tbody td {
+    padding: 10px 12px;
+  }
+
+  .grouped-order-cell {
+    background-color: var(--oefa-surface-subtle);
+    border-right: 2px solid var(--oefa-border-color);
+    vertical-align: top;
+    padding: 8px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL OEFA-TABLE COMPONENT — <oefa-table>
+   OEFA Design System Standard (WCAG 2.2 — aria-sort)
+   ══════════════════════════════════════════════════════════════ */
+
+.oefa-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.875rem;
+    font-family: var(--oefa-font-body);
+  }
+
+  thead th {
+    background-color: var(--oefa-surface-subtle);
+    color: var(--oefa-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--oefa-border-color);
+    text-align: left;
+    white-space: nowrap;
+    user-select: none;
+
+    &.sortable {
+      cursor: pointer;
+      &:hover { color: var(--oefa-primary-root); }
+    }
+
+    /* Indicador de ordenamiento activo */
+    &[aria-sort="ascending"]  .sort-indicator::after { content: ' ↑'; color: var(--oefa-primary-root); }
+    &[aria-sort="descending"] .sort-indicator::after { content: ' ↓'; color: var(--oefa-primary-root); }
+    &[aria-sort="none"]       .sort-indicator::after { content: ' ⇅'; color: var(--oefa-text-muted); }
+  }
+
+  tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--oefa-border-color);
+    color: var(--oefa-text-primary);
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr.row-clickable {
+    cursor: pointer;
+    &:hover td { background-color: var(--oefa-surface-subtle); }
+    &:focus-within td { outline: 2px solid var(--oefa-primary-root); outline-offset: -2px; }
+  }
+
+  /* Alineaciones de columna */
+  .col-right  { text-align: right; }
+  .col-center { text-align: center; }
+}
+
+/* ==========================================================================
+   OEFA DESIGN TOKENS — PAGINACIÓN DE TABLAS (.pagination-bar)
+   ========================================================================== */
+.pagination-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: var(--oefa-surface-subtle);
+  border-top: 1px solid var(--oefa-border-color);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pagination-text {
+  font-size: 0.8125rem;
+  color: var(--oefa-text-secondary);
+  font-weight: 500;
+}
+
+.page-size-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: var(--oefa-text-secondary);
+}
+
+.page-size-select {
+  padding: 4px 8px;
+  border-radius: var(--oefa-radius-sm);
+  border: 1px solid var(--oefa-border-color);
+  background-color: var(--oefa-surface-card);
+  font-size: 0.8125rem;
+  color: var(--oefa-text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+
+  &:focus {
+    border-color: var(--oefa-primary-root);
+  }
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-page-nav, .btn-page {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--oefa-border-color);
+  background-color: var(--oefa-surface-card);
+  color: var(--oefa-text-primary);
+  border-radius: var(--oefa-radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+
+  &:hover:not(:disabled) {
+    background-color: var(--oefa-surface-subtle);
+    border-color: var(--oefa-primary-root);
+    color: var(--oefa-primary-root);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: transparent;
+  }
+
+  &.active {
+    background-color: var(--oefa-primary-root);
+    border-color: var(--oefa-primary-root);
+    color: #ffffff;
+  }
+}
+
+/* Utilities */
+.font-mono {
+  font-family: var(--oefa-font-mono);
+  font-feature-settings: 'tnum';
+  font-variant-numeric: tabular-nums;
+}
+
+.tracking-uppercase {
+  letter-spacing: var(--oefa-letter-spacing-uppercase, 0.04em);
+  text-transform: uppercase;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.color-primary {
+  color: var(--oefa-primary-root);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* ==========================================================================
+   OEFA DESIGN TOKENS — INPUTS & FORM CONTROLS
+   ========================================================================== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL FORM FIELD WCAG 2.2 — Campo con ícono + estados
+   Patrón estándar: login, perfil, formularios institucionales
+   design-tokens.json > forms.formField
+   ══════════════════════════════════════════════════════════════ */
+
+/**
+ * .oefa-form-field — Contenedor input con ícono lateral
+ * Uso: <div class="oefa-form-field [has-error]"> <svg/> <input/> [<button.password-toggle/>] </div>
+ */
+.oefa-form-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  box-sizing: border-box;
+  background-color: var(--oefa-surface-input);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-sm);
+  padding: 0 12px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus-within {
+    border-color: var(--oefa-primary-root);
+    box-shadow: 0 0 0 3px var(--oefa-focus-glow);
+  }
+
+  &.has-error {
+    border-color: var(--oefa-error-root);
+    &:focus-within {
+      border-color: var(--oefa-error-root);
+      box-shadow: 0 0 0 3px rgba(229, 26, 47, 0.25);
+    }
+  }
+
+  .field-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--oefa-text-muted);
+    flex-shrink: 0;
+  }
+
+  .field-input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--oefa-font-body);
+    font-size: 0.875rem;
+    color: var(--oefa-text-primary);
+    &::placeholder { color: var(--oefa-text-muted); }
+  }
+}
+
+/**
+ * .password-toggle — Botón ver/ocultar contraseña
+ * WCAG 2.2: SC 3.3.8 Accessible Authentication | SC 2.5.8 Target Size Min (24x24px)
+ * Atributos requeridos: type="button", aria-label, aria-pressed
+ */
+.password-toggle {
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--oefa-text-muted);
+  cursor: pointer;
+  border-radius: var(--oefa-radius-sm);
+  flex-shrink: 0;
+  transition: color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    color: var(--oefa-primary-root);
+    background-color: var(--oefa-surface-muted);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+/**
+ * .oefa-alert-banner — Banner inline de error/validación
+ * WCAG 2.2: SC 3.3.1 Error Identification | SC 4.1.3 Status Messages
+ * Atributos OBLIGATORIOS en el HTML: role="alert", aria-live="assertive", tabindex="-1"
+ * REGLA: Usar SIEMPRE para errores de formulario/autenticación. NUNCA reemplazar por Toast.
+ * El Toast es para notificaciones temporales. El alert-banner es para errores que el usuario DEBE leer.
+ */
+.oefa-alert-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background-color: var(--oefa-error-container);
+  color: var(--oefa-error-on-container);
+  border: 1px solid var(--oefa-error-root);
+  border-radius: var(--oefa-radius-sm);
+  font-family: var(--oefa-font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  outline: none;
+  animation: oefa-alert-in 0.2s ease-in-out;
+
+  &:focus {
+    box-shadow: 0 0 0 2px var(--oefa-focus-ring);
+  }
+
+  .alert-icon {
+    flex-shrink: 0;
+    color: var(--oefa-error-root);
+  }
+
+  .alert-text { flex: 1; }
+
+  /* Variante: Warning */
+  &.alert-warning {
+    background-color: var(--oefa-warning-container);
+    color: var(--oefa-warning-on-container);
+    border-color: var(--oefa-warning-root);
+    .alert-icon { color: var(--oefa-warning-root); }
+  }
+
+  /* Variante: Info */
+  &.alert-info {
+    background-color: var(--oefa-primary-container);
+    color: var(--oefa-primary-on-container);
+    border-color: var(--oefa-primary-root);
+    .alert-icon { color: var(--oefa-primary-root); }
+  }
+}
+
+@keyframes oefa-alert-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/**
+ * .oefa-help-card — Tarjeta compacta de soporte/ayuda
+ * Uso: Centro de Ayuda, Contactar Soporte, Ir a Portal, etc.
+ * design-tokens.json > helpActionCard
+ */
+.oefa-help-card {
+  flex: 1;
+  background-color: var(--oefa-surface-subtle);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-md);
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  text-decoration: none;
+  background: none;
+
+  .help-card-icon {
+    color: var(--oefa-primary-root);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  .help-card-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    span {
+      font-family: var(--oefa-font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1.15;
+      text-align: center;
+      color: var(--oefa-text-primary);
+      transition: color 0.15s ease;
+    }
+  }
+
+  &:hover {
+    background-color: var(--oefa-primary-container);
+    border-color: var(--oefa-primary-root);
+    box-shadow: var(--oefa-shadow-sm);
+
+    .help-card-icon {
+      color: var(--oefa-primary-root);
+      transform: translateY(-1px) scale(1.08);
+    }
+
+    .help-card-text span { color: var(--oefa-primary-root); }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-focus-ring);
+    outline-offset: 1px;
+  }
+}
+
+.form-label {
+  font-family: var(--oefa-font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--oefa-text-secondary);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  font-family: var(--oefa-font-body);
+  font-size: 0.875rem;
+  padding: 10px 14px;
+  border-radius: var(--oefa-radius-md);
+  border: 1px solid var(--oefa-border-color);
+  background-color: var(--oefa-surface-input);
+  color: var(--oefa-text-primary);
+  outline: none;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  text-overflow: ellipsis;
+
+  &:focus {
+    border-color: var(--oefa-primary-root);
+    box-shadow: 0 0 0 3px var(--oefa-focus-glow);
+  }
+
+  &::placeholder {
+    color: var(--oefa-text-muted);
+  }
+
+  &:disabled {
+    background-color: var(--oefa-surface-muted);
+    border-color: var(--oefa-border-color-subtle);
+    color: var(--oefa-text-muted);
+    cursor: not-allowed;
+    opacity: 0.75;
+  }
+}
+
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 36px;
+  background-image: var(--oefa-select-chevron);
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;
+  cursor: pointer;
+
+  option {
+    background-color: var(--oefa-surface-card);
+    color: var(--oefa-text-primary);
+  }
+}
+
+.form-select-sm {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 36px;
+  padding: 0 30px 0 10px;
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-sm);
+  font-family: var(--oefa-font-body);
+  font-size: 0.875rem;
+  background-color: var(--oefa-surface-input);
+  color: var(--oefa-text-primary);
+  background-image: var(--oefa-select-chevron);
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 14px 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  &:focus {
+    border-color: var(--oefa-primary-root);
+    box-shadow: 0 0 0 3px var(--oefa-focus-glow);
+  }
+
+  &:disabled {
+    background-color: var(--oefa-surface-muted);
+    border-color: var(--oefa-border-color-subtle);
+    color: var(--oefa-text-muted);
+    cursor: not-allowed;
+    opacity: 0.75;
+  }
+
+  option {
+    background-color: var(--oefa-surface-card);
+    color: var(--oefa-text-primary);
+  }
+}
+
+select,
+input,
+textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--oefa-primary-root);
+  cursor: pointer;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"] {
+  color-scheme: inherit;
+
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.75;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+body.dark-theme input[type="date"]::-webkit-calendar-picker-indicator,
+body.dark-theme input[type="time"]::-webkit-calendar-picker-indicator,
+body.dark-theme input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.8);
+}
+
+.form-help {
+  font-size: 0.75rem;
+  color: var(--oefa-text-muted);
+}
+
+/* Controles de edición en tablas (Data Table Inputs & Selects) */
+.table-input {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: var(--oefa-radius-sm);
+  border: 1px solid var(--oefa-border-color);
+  font-size: 0.875rem;
+  font-family: inherit;
+  background-color: var(--oefa-surface-input);
+  color: var(--oefa-text-primary);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  &:focus {
+    border-color: var(--oefa-primary-root);
+    box-shadow: 0 0 0 2px var(--oefa-focus-glow);
+  }
+
+  &::placeholder {
+    color: var(--oefa-text-muted);
+  }
+
+  &:disabled {
+    background-color: var(--oefa-surface-muted);
+    border-color: var(--oefa-border-color-subtle);
+    color: var(--oefa-text-muted);
+    cursor: not-allowed;
+    opacity: 0.75;
+  }
+}
+
+select.table-input,
+.table-select-project {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 24px;
+  background-image: var(--oefa-select-chevron);
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  background-size: 12px 12px;
+  cursor: pointer;
+
+  option {
+    background-color: var(--oefa-surface-card);
+    color: var(--oefa-text-primary);
+  }
+}
+
+.highlight-date {
+  border-color: var(--oefa-primary-container-hc) !important;
+  background-color: var(--oefa-surface-input) !important;
+  color: var(--oefa-text-primary) !important;
+}
+
+/* ==========================================================================
+   OEFA DESIGN TOKENS — TABS & NAVIGATION MOLECULES
+   ========================================================================== */
+.tabs-header {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid var(--oefa-border-color);
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  padding: 10px 16px;
+  font-family: var(--oefa-font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--oefa-text-secondary);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--oefa-primary-root);
+    background-color: var(--oefa-surface-subtle);
+  }
+
+  &.active {
+    color: var(--oefa-primary-root);
+    border-bottom-color: var(--oefa-primary-root);
+    background-color: var(--oefa-surface-card);
+  }
+}
+
+.tab-badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 100px;
+  background-color: var(--oefa-primary-container);
+  color: var(--oefa-primary-on-container);
+}
+
+/* ==========================================================================
+   OEFA DESIGN TOKENS — STEPPER WIZARD (3-STEP PROGRESS)
+   ========================================================================== */
+.step-wizard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 2;
+
+  .step-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--oefa-surface-muted);
+    color: var(--oefa-text-muted);
+    font-family: var(--oefa-font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--oefa-border-color);
+    transition: all 0.2s ease;
+  }
+
+  .step-title {
+    font-family: var(--oefa-font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--oefa-text-muted);
+  }
+
+  .step-desc {
+    font-size: 0.75rem;
+    color: var(--oefa-text-muted);
+  }
+
+  &.active {
+    .step-circle {
+      background-color: var(--oefa-primary-root);
+      color: var(--oefa-primary-on);
+      border-color: var(--oefa-primary-root);
+      box-shadow: 0 0 0 4px rgba(118, 163, 239, 0.25);
+    }
+
+    .step-title {
+      color: var(--oefa-primary-root);
+      font-weight: 700;
+    }
+  }
+
+  &.completed {
+    .step-circle {
+      background-color: var(--oefa-success-ui-safe);
+      color: #FFFFFF;
+      border-color: var(--oefa-success-ui-safe);
+    }
+
+    .step-title {
+      color: var(--oefa-text-primary);
+    }
+  }
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background-color: var(--oefa-border-color);
+  margin: 0 16px;
+
+  &.completed {
+    background-color: var(--oefa-success-ui-safe);
+  }
+}
+
+/* ==========================================================================
+   OEFA DESIGN TOKENS — RESPONSIVE MEDIA QUERIES & BREAKPOINTS
+   ========================================================================== */
+
+/* Tablet & Mobile (< 768px) */
+@media (max-width: $oefa-bp-md) {
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 12px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .modal-dialog {
+    width: 94% !important;
+    margin: 12px !important;
+  }
+
+  .step-wizard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+
+    .step-line {
+      display: none;
+    }
+  }
+}
+
+/* Mobile Small (< 640px) */
+@media (max-width: $oefa-bp-sm) {
+  h1 {
+    font-size: 1.5rem !important;
+    line-height: 1.875rem !important;
+  }
+
+  h2 {
+    font-size: 1.25rem !important;
+    line-height: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.125rem !important;
+    line-height: 1.375rem !important;
+  }
+
+  .spec-row,
+  .chip-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL TAB COMPONENT — OEFA Design System Standard
+   Reutilizable en todos los proyectos basados en este starter.
+   
+   Variantes disponibles:
+     • (default)      → pill-tabs: fondo card, border-radius
+     • underline-tabs → borde inferior, sin background sólido
+   
+   Scroll horizontal automático cuando las pestañas no caben.
+   ══════════════════════════════════════════════════════════════ */
+
+/* Contenedor exterior (cada vista puede customizar border/bg) */
+.tabs-nav-container {
+  overflow: hidden;
+  cursor: grab;                   /* Indica que es arrastrable con mouse */
+  &:active { cursor: grabbing; }
+}
+
+/* Barra de pestañas — scroll horizontal cuando no caben */
+.tabs-nav {
+  display: flex;
+  gap: 0;
+  padding: 6px 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* Ocultar scrollbar pero mantener funcionalidad */
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge legacy */
+  &::-webkit-scrollbar {
+    display: none;                /* Chrome/Safari */
+  }
+  /* Drag-to-scroll con mouse: implementado en DragScrollDirective */
+  /* Uso: <div class="tabs-nav" dragScroll> */
+}
+
+/* Flechas de Navegación estilo Material UI (aparecen al hacer hover en el contenedor) */
+.tab-scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--oefa-border-color, #E2E8F0);
+  background: var(--oefa-surface-card, #FFFFFF);
+  color: var(--oefa-text-primary, #1D1D1B);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, background-color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    background-color: var(--oefa-primary-container, #EEF4FF);
+    color: var(--oefa-primary-root, #144AA7);
+    transform: translateY(-50%) scale(1.08);
+  }
+
+  &.visible {
+    /* Mostrar flechas únicamente cuando se hace hover en la barra contenedora */
+    .tabs-nav-container:hover & {
+      opacity: 0.92;
+      pointer-events: auto;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &.tab-scroll-arrow-left {
+    left: 6px;
+  }
+
+  &.tab-scroll-arrow-right {
+    right: 6px;
+  }
+}
+
+/* Botón individual de pestaña */
+.tab-button {
+  display: flex;
+  flex-shrink: 0;                 /* Evita que se compriman */
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: none;
+  background: transparent;
+  border-radius: var(--oefa-radius-sm);
+  cursor: pointer;
+  color: var(--oefa-text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--oefa-surface-subtle);
+    color: var(--oefa-primary-root);
+  }
+  &.active {
+    background: var(--oefa-primary-container);
+    color: var(--oefa-primary-on-container);
+    font-weight: 600;
+  }
+}
+
+/* Badge dentro de pestaña */
+.tab-badge {
+  background: var(--oefa-surface-muted);
+  color: var(--oefa-text-secondary);
+  border-radius: 100px;
+  padding: 1px 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  .active & {
+    background: var(--oefa-primary-root);
+    color: var(--oefa-primary-on);
+  }
+}
+
+/* Área de contenido debajo de las pestañas */
+.tab-content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL RESPONSIVE TABLE FILTERS COMPONENT — OEFA Design System
+   ══════════════════════════════════════════════════════════════ */
+
+/* Carrusel de Chips de Filtro Rápido */
+.filter-chips-carousel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 4px 0;
+  width: 100%;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  height: 32px;
+  border-radius: var(--oefa-radius-full);
+  background-color: var(--oefa-surface-subtle);
+  border: 1px solid var(--oefa-border-color);
+  color: var(--oefa-text-secondary);
+  font-family: var(--oefa-font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              border-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              transform var(--oefa-duration-short-1, 50ms) var(--oefa-ease-standard, ease);
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &:hover {
+    border-color: var(--oefa-primary-root);
+    color: var(--oefa-primary-root);
+    background-color: var(--oefa-primary-container);
+  }
+
+  &.active {
+    background-color: var(--oefa-primary-root);
+    border-color: var(--oefa-primary-root);
+    color: var(--oefa-primary-on);
+    font-weight: 600;
+  }
+
+  &.chip-clear {
+    border-style: dashed;
+    color: var(--oefa-error-root);
+    border-color: var(--oefa-error-root);
+
+    &:hover {
+      background-color: var(--oefa-error-container);
+    }
+  }
+}
+
+/* Backdrop y Drawer Deslizable Móvil */
+.mobile-filter-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 120;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  animation: backdropFadeIn 0.2s ease-out;
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mobile-filter-drawer {
+  background-color: var(--oefa-surface-card);
+  width: 100%;
+  max-width: 500px;
+  max-height: 88vh;
+  max-height: 88dvh;
+  border-radius: 20px 20px 0 0;
+  box-shadow: var(--oefa-shadow-flyout);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: drawerSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-top: 1px solid var(--oefa-border-color);
+}
+
+@keyframes drawerSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--oefa-border-color);
+  flex-shrink: 0;
+
+  .drawer-title-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--oefa-text-primary);
+    }
+  }
+
+  .btn-drawer-close {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--oefa-text-secondary);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: var(--oefa-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: var(--oefa-surface-subtle);
+      color: var(--oefa-text-primary);
+    }
+  }
+}
+
+.drawer-body {
+  padding: 18px 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1 1 auto;
+}
+
+.drawer-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--oefa-border-color);
+  background-color: var(--oefa-surface-subtle);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-shrink: 0;
+
+  .btn-drawer-clear {
+    flex: 1;
+  }
+
+  .btn-drawer-apply {
+    flex: 2;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL SKELETON COMPONENT — OEFA Design System (WCAG 2.2)
+   ══════════════════════════════════════════════════════════════ */
+
+.oefa-skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--oefa-surface-subtle, #F8FAFC);
+  border-radius: var(--oefa-radius-sm, 4px);
+  display: block;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(226, 232, 240, 0) 0%,
+      rgba(226, 232, 240, 0.65) 50%,
+      rgba(226, 232, 240, 0) 100%
+    );
+    transform: translateX(-100%);
+    animation: oefa-shimmer 1.5s infinite ease-in-out;
+  }
+
+  &.skeleton-text {
+    border-radius: var(--oefa-radius-sm, 4px);
+    margin-bottom: 4px;
+    &:last-child { margin-bottom: 0; }
+  }
+
+  &.skeleton-rect {
+    border-radius: var(--oefa-radius-md, 8px);
+  }
+
+  &.skeleton-circle {
+    border-radius: var(--oefa-radius-full, 9999px);
+  }
+}
+
+/* Modo oscuro para Skeleton */
+[data-theme="dark"] .oefa-skeleton {
+  background-color: var(--oefa-surface-subtle, #172238);
+
+  &::after {
+    background: linear-gradient(
+      90deg,
+      rgba(30, 41, 59, 0) 0%,
+      rgba(51, 65, 85, 0.45) 50%,
+      rgba(30, 41, 59, 0) 100%
+    );
+  }
+}
+
+@keyframes oefa-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL USER MENU COMPONENT — <oefa-user-menu>
+   OEFA Design System Standard (8.3 — WCAG 2.2)
+   ══════════════════════════════════════════════════════════════ */
+
+.oefa-user-menu {
+  position: relative;
+  display: inline-block;
+
+  .user-menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: var(--oefa-radius-full);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--oefa-text-primary);
+    transition: background 0.15s;
+    &:hover { background: var(--oefa-surface-subtle); }
+    &:focus-visible { outline: 2px solid var(--oefa-primary-root); outline-offset: 2px; }
+  }
+
+  .user-menu-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--oefa-radius-full);
+    background: linear-gradient(135deg, var(--oefa-primary-root), var(--oefa-secondary-root));
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    flex-shrink: 0;
+  }
+
+  .user-menu-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 300px;
+    background: var(--oefa-surface-card);
+    border: 1px solid var(--oefa-border-color);
+    border-radius: var(--oefa-radius-md);
+    box-shadow: var(--oefa-shadow-flyout);
+    z-index: 50;
+    overflow: hidden;
+    animation: oefa-toast-in 0.15s ease;
+  }
+
+  .user-menu-profile {
+    padding: 16px;
+    background: var(--oefa-surface-subtle);
+    border-bottom: 1px solid var(--oefa-border-color);
+
+    .profile-name   { font-weight: 700; font-size: 0.875rem; color: var(--oefa-text-primary); }
+    .profile-role   { font-size: 0.75rem; color: var(--oefa-text-secondary); }
+    .profile-email  { font-size: 0.75rem; color: var(--oefa-text-muted); }
+    .profile-area   {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.6875rem;
+      padding: 2px 8px;
+      border-radius: var(--oefa-radius-full);
+      background: var(--oefa-primary-container);
+      color: var(--oefa-primary-on-container);
+      font-weight: 600;
+    }
+  }
+
+  .user-menu-section {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--oefa-border-color);
+    &:last-child { border-bottom: none; }
+  }
+
+  .user-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--oefa-text-primary);
+    font-size: 0.875rem;
+    text-align: left;
+    transition: background 0.15s;
+    &:hover { background: var(--oefa-surface-subtle); }
+    &:focus-visible { outline: 2px solid var(--oefa-primary-root); outline-offset: -2px; }
+    &.logout-item { color: var(--oefa-error-root); }
+  }
+
+  /* Selector de tema — píldoras */
+  .theme-pills {
+    display: flex;
+    gap: 4px;
+    padding: 8px 16px;
+
+    .theme-pill {
+      flex: 1;
+      padding: 5px 8px;
+      border-radius: var(--oefa-radius-full);
+      border: 1px solid var(--oefa-border-color);
+      background: none;
+      color: var(--oefa-text-secondary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      &:hover { background: var(--oefa-surface-subtle); }
+      &.active {
+        background: var(--oefa-primary-root);
+        color: var(--oefa-primary-on);
+        border-color: var(--oefa-primary-root);
+      }
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL DATE PICKER COMPONENT — <oefa-date-picker>
+   OEFA Design System Standard (8.4 — WCAG 2.2 SC 1.3.5)
+   ══════════════════════════════════════════════════════════════ */
+
+.oefa-date-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .date-picker-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--oefa-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .required-mark { color: var(--oefa-error-root); }
+  }
+
+  .date-picker-input {
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--oefa-border-color);
+    border-radius: var(--oefa-radius-sm);
+    background: var(--oefa-surface-card);
+    color: var(--oefa-text-primary);
+    font-family: var(--oefa-font-body);
+    font-size: 0.875rem;
+    width: 100%;
+    box-sizing: border-box;
+    color-scheme: light dark;
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--oefa-primary-root);
+      box-shadow: 0 0 0 3px var(--oefa-primary-container);
+    }
+
+    &:disabled {
+      background: var(--oefa-surface-muted);
+      border-color: var(--oefa-border-color-subtle);
+      color: var(--oefa-text-muted);
+      cursor: not-allowed;
+    }
+
+    &.has-error {
+      border-color: var(--oefa-error-root);
+      &:focus { box-shadow: 0 0 0 3px var(--oefa-error-container); }
+    }
+  }
+
+  .date-picker-error {
+    font-size: 0.75rem;
+    color: var(--oefa-error-root);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL INSTITUTIONAL TOOLTIP — WCAG 2.2 SC 1.4.13
+   Tooltip rápido (~150ms), accesible y adaptativo Light/Dark
+   design-tokens.json > tooltip
+   ══════════════════════════════════════════════════════════════ */
+[data-oefa-tooltip] {
+  position: relative;
+
+  &::after {
+    content: attr(data-oefa-tooltip);
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%) scale(0.96);
+    background-color: var(--oefa-surface-tooltip, #0F172A);
+    color: var(--oefa-tooltip-text, #F8FAFC);
+    font-family: var(--oefa-font-body, 'Inter', sans-serif);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    padding: 5px 9px;
+    border-radius: var(--oefa-radius-sm, 4px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.12s ease 150ms, transform 0.12s ease 150ms, visibility 0.12s ease 150ms;
+    z-index: 1000;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: calc(100% + 4px);
+    top: 50%;
+    transform: translateY(-50%) scale(0.96);
+    border: 5px solid transparent;
+    border-right-color: var(--oefa-surface-tooltip, #0F172A);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.12s ease 150ms, transform 0.12s ease 150ms, visibility 0.12s ease 150ms;
+    z-index: 1000;
+  }
+
+  &:hover::after,
+  &:hover::before,
+  &:focus-visible::after,
+  &:focus-visible::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) scale(1);
+  }
+
+  &:not(:hover):not(:focus-visible)::after,
+  &:not(:hover):not(:focus-visible)::before {
+    transition-delay: 0s;
+  }
+
+  /* Variante: Arriba */
+  &[data-tooltip-pos="top"] {
+    &::after {
+      left: 50%;
+      top: auto;
+      bottom: calc(100% + 8px);
+      transform: translateX(-50%) scale(0.96);
+    }
+    &::before {
+      left: 50%;
+      top: auto;
+      bottom: calc(100% + 2px);
+      transform: translateX(-50%) scale(0.96);
+      border-right-color: transparent;
+      border-top-color: var(--oefa-surface-tooltip, #0F172A);
+    }
+    &:hover::after, &:hover::before,
+    &:focus-visible::after, &:focus-visible::before {
+      transform: translateX(-50%) scale(1);
+    }
+  }
+
+  /* Variante: Abajo */
+  &[data-tooltip-pos="bottom"] {
+    &::after {
+      left: 50%;
+      top: calc(100% + 8px);
+      transform: translateX(-50%) scale(0.96);
+    }
+    &::before {
+      left: 50%;
+      top: calc(100% + 2px);
+      transform: translateX(-50%) scale(0.96);
+      border-right-color: transparent;
+      border-bottom-color: var(--oefa-surface-tooltip, #0F172A);
+    }
+    &:hover::after, &:hover::before,
+    &:focus-visible::after, &:focus-visible::before {
+      transform: translateX(-50%) scale(1);
+    }
+  }
+}
+
+/* ==========================================================================
+   OEFA SELECTION CARD COMPONENT
+   ========================================================================== */
+.oefa-selection-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  min-height: 48px;
+  background-color: var(--oefa-surface-card);
+  border: 1.5px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-md, 8px);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+
+  &:hover:not(.disabled) {
+    border-color: var(--oefa-primary-root);
+    background-color: var(--oefa-surface-subtle);
+  }
+
+  &.selected {
+    border-color: var(--oefa-primary-root);
+    background-color: var(--oefa-primary-container);
+
+    [data-theme="dark"] & {
+      background-color: rgba(118, 163, 239, 0.12);
+      border-color: var(--oefa-primary-root);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-focus-ring);
+    outline-offset: 2px;
+  }
+
+  &.disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+/* ==========================================================================
+   OEFA FILE UPLOADER COMPONENT
+   ========================================================================== */
+.oefa-file-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px;
+  border: 2px dashed var(--oefa-border-color);
+  border-radius: var(--oefa-radius-md, 8px);
+  background-color: var(--oefa-surface-subtle);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--oefa-duration-short) var(--oefa-ease-standard),
+              background-color var(--oefa-duration-short) var(--oefa-ease-standard),
+              transform var(--oefa-duration-medium) var(--oefa-ease-emphasized),
+              box-shadow var(--oefa-duration-medium) var(--oefa-ease-emphasized);
+  box-sizing: border-box;
+
+  &:hover:not(.disabled) {
+    border-color: var(--oefa-primary-root);
+    background-color: var(--oefa-surface-card);
+    transform: translateY(-2px);
+    box-shadow: var(--oefa-shadow-md);
+  }
+
+  &.drag-active {
+    border-color: var(--oefa-primary-root);
+    background-color: var(--oefa-primary-container);
+
+    [data-theme="dark"] & {
+      background-color: rgba(118, 163, 239, 0.15);
+    }
+  }
+
+  &.has-error {
+    border-color: var(--oefa-error-root);
+    background-color: var(--oefa-error-container);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-focus-ring);
+    outline-offset: 2px;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* ==========================================================================
+   OEFA ALERT COMPONENT (BANNER & INLINE ALERTS)
+   ========================================================================== */
+.oefa-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--oefa-radius-md, 8px);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  box-sizing: border-box;
+  transition: opacity var(--oefa-duration-short-4, 200ms) var(--oefa-ease-standard, ease),
+              transform var(--oefa-duration-short-4, 200ms) var(--oefa-ease-standard, ease);
+  position: relative;
+
+  &.bordered {
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-top: 1px solid var(--oefa-border-color);
+    border-right: 1px solid var(--oefa-border-color);
+    border-bottom: 1px solid var(--oefa-border-color);
+  }
+
+  /* 1. Variante INFO */
+  &.alert-info {
+    background-color: var(--oefa-primary-container);
+    color: var(--oefa-primary-on-container);
+    border-left-color: var(--oefa-primary-root);
+
+    .alert-icon {
+      color: var(--oefa-primary-root);
+    }
+  }
+
+  /* 2. Variante SUCCESS */
+  &.alert-success {
+    background-color: var(--oefa-success-container);
+    color: var(--oefa-success-on-container);
+    border-left-color: var(--oefa-success-ui-safe);
+
+    .alert-icon {
+      color: var(--oefa-success-ui-safe);
+    }
+  }
+
+  /* 3. Variante WARNING */
+  &.alert-warning {
+    background-color: var(--oefa-tertiary-container);
+    color: var(--oefa-tertiary-on-container);
+    border-left-color: var(--oefa-tertiary-root);
+
+    .alert-icon {
+      color: var(--oefa-tertiary-ui-safe);
+    }
+  }
+
+  /* 4. Variante ERROR */
+  &.alert-error {
+    background-color: var(--oefa-error-container);
+    color: var(--oefa-error-on-container);
+    border-left-color: var(--oefa-error-root);
+
+    .alert-icon {
+      color: var(--oefa-error-root);
+    }
+  }
+
+  /* 5. Variante NEUTRAL */
+  &.alert-neutral {
+    background-color: var(--oefa-surface-subtle);
+    color: var(--oefa-text-primary);
+    border-left-color: var(--oefa-border-color-strong, #94a3b8);
+
+    .alert-icon {
+      color: var(--oefa-text-secondary);
+    }
+  }
+
+  .alert-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+  }
+
+  .alert-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .alert-title {
+    display: block;
+    font-weight: 700;
+    font-family: var(--oefa-font-display, inherit);
+    margin-bottom: 2px;
+  }
+
+  .alert-message {
+    margin: 0;
+  }
+
+  .alert-close-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: currentColor;
+    opacity: 0.6;
+    padding: 2px;
+    margin-left: 8px;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: opacity var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--oefa-focus-ring);
+      outline-offset: 1px;
+    }
+  }
+}
+
+/* ==========================================================================
+   OEFA Progress Bar Component (.oefa-progress-bar)
+   ========================================================================== */
+.oefa-progress-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+
+  .progress-bar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.8125rem;
+  }
+
+  .progress-bar-label {
+    font-weight: 600;
+    color: var(--oefa-text-primary);
+  }
+
+  .progress-bar-subtext {
+    font-size: 0.75rem;
+    color: var(--oefa-text-secondary);
+  }
+
+  .progress-bar-track {
+    width: 100%;
+    background: var(--oefa-surface-container, #e2e8f0);
+    border-radius: var(--oefa-radius-full, 9999px);
+    overflow: hidden;
+    position: relative;
+    height: 8px;
+  }
+
+  &.size-sm .progress-bar-track {
+    height: 6px;
+  }
+
+  &.size-lg .progress-bar-track {
+    height: 12px;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--oefa-primary-root, #144AA7);
+    border-radius: var(--oefa-radius-full, 9999px);
+    transition: width var(--oefa-duration-medium, 300ms) var(--oefa-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+
+  &.variant-success .progress-bar-fill {
+    background: #16a34a; /* UI-safe green */
+  }
+
+  &.variant-warning .progress-bar-fill {
+    background: var(--oefa-tertiary-root, #FFB500);
+  }
+
+  &.variant-danger .progress-bar-fill {
+    background: var(--oefa-error-root, #B3261E);
+  }
+}
+
+/* ==========================================================================
+   OEFA GLOBAL MOTION UTILITIES (Material 3 Expressive)
+   ========================================================================== */
+.oefa-motion-fade-in {
+  animation: oefaFadeIn var(--oefa-duration-medium) var(--oefa-ease-emphasized-decel) forwards;
+}
+
+.oefa-motion-scale-in {
+  animation: oefaScaleIn var(--oefa-duration-medium) var(--oefa-ease-emphasized-decel) forwards;
+}
+
+.oefa-motion-slide-up {
+  animation: oefaSlideUp var(--oefa-duration-medium) var(--oefa-ease-emphasized-decel) forwards;
+}
+
+.oefa-motion-spring-hover {
+  transition: transform var(--oefa-duration-medium) var(--oefa-ease-emphasized),
+              box-shadow var(--oefa-duration-medium) var(--oefa-ease-emphasized);
+  will-change: transform;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.01);
+  }
+
+  &:active {
+    transform: scale(0.99);
+    transition-duration: var(--oefa-duration-short);
+  }
+}
+
+@keyframes oefaFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes oefaScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes oefaSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* WCAG 2.2 SC 2.3.3: Accesibilidad para reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,1004 @@
+{
+  "meta": {
+    "descripcion": "Design tokens generales OEFA — reutilizables entre proyectos. Colores raiz y Poppins confirmados por el usuario / Manual de Identidad. Todo lo demas (tonal ramps, tonos UI-safe, correcciones de contraste, escala tipografica revisada) es propuesta tecnica verificada con formula de contraste WCAG 2.1/2.2.",
+    "pendiente_validar": [
+      "Confirmar con el Manual de Identidad OEFA si Inter es aceptable como fuente de cuerpo, o si existe una tipografia institucional secundaria ya definida",
+      "Confirmar valores de 'Alto Contraste' propuestos para Primary, Secondary, Tertiary, Success (antes incompletos o duplicados del Container normal)"
+    ]
+  },
+
+  "color": {
+    "primary": {
+      "root": "#144AA7",
+      "onPrimary": "#FFFFFF",
+      "container": "#EEF4FF",
+      "onContainer": "#002463",
+      "containerAltoContraste": {
+        "_fix": "Antes identico al Container normal (bug de copia). Corregido con tono mas saturado + on-color mas oscuro.",
+        "value": "#A4C1F4",
+        "on": "#05142E",
+        "contrastRatio": "10.05:1"
+      },
+      "uiSafeOnWhite": {
+        "_nota": "Root ya cumple 8.18:1 sobre blanco, no necesita variante ajustada.",
+        "value": "#144AA7"
+      },
+      "tonalRamp": {
+        "10": "#05142E", "20": "#0B285B", "30": "#103D89", "40": "#1651B6",
+        "50": "#1B65E4", "60": "#4984E9", "70": "#76A3EF", "80": "#A4C1F4",
+        "90": "#D1E0FA", "95": "#E8F0FC", "99": "#FAFCFE"
+      }
+    },
+
+    "secondary": {
+      "root": "#44BFB5",
+      "onSecondary": "#1D1D1B",
+      "container": "#EEFFFE",
+      "onContainer": "#005D58",
+      "containerAltoContraste": {
+        "_fix": "No existia. Propuesta siguiendo el mismo patron usado en Error (bg mas saturado que el container, on-color mas oscuro que el on-container).",
+        "value": "#B3E5E1",
+        "on": "#27726C",
+        "contrastRatio": "5.1:1 approx"
+      },
+      "uiSafeOnWhite": {
+        "_nota": "Root da solo 2.24:1 sobre blanco (no cumple 3:1 minimo para icono/texto pequeno). Version ajustada calculada para >=4.5:1.",
+        "value": "#2C817A",
+        "contrastRatio": "4.64:1"
+      },
+      "tonalRamp": {
+        "10": "#0A2825", "20": "#134F49", "30": "#27726C", "40": "#349890",
+        "50": "#41BEB4", "60": "#67CBC3", "70": "#8DD8D2", "80": "#B3E5E1",
+        "90": "#D9F2F0", "95": "#ECF8F7", "99": "#FBFEFD"
+      }
+    },
+
+    "tertiary": {
+      "_uso": "WARNING",
+      "root": "#FFB500",
+      "onTertiary": "#503915",
+      "container": {
+        "_fix": "Antes era una copia exacta de Primary Container (EEF4FF/002463) — bug, un warning ambar no puede tener contenedor azul. Corregido a un tinte de ambar.",
+        "value": "#FFF0CC",
+        "on": "#664800",
+        "contrastRatio": "8.43:1"
+      },
+      "containerAltoContraste": {
+        "_fix": "Antes copia identica del Container. Corregido con bg mas saturado + on-color mas oscuro, mismo patron que Error.",
+        "value": "#FFE199",
+        "on": "#332400",
+        "contrastRatio": "15.07:1"
+      },
+      "uiSafeOnWhite": {
+        "_nota": "Root da 1.77:1 sobre blanco (muy por debajo del minimo). Version ajustada calculada para >=4.5:1 — usar SOLO para texto/icono pequeno sobre blanco, nunca reemplaza el root en superficies grandes.",
+        "value": "#996D00",
+        "contrastRatio": "4.62:1"
+      },
+      "tonalRamp": {
+        "10": "#332400", "20": "#664800", "30": "#996D00", "40": "#CC9100",
+        "50": "#FFB500", "60": "#FFC433", "70": "#FFD366", "80": "#FFE199",
+        "90": "#FFF0CC", "95": "#FFF8E5", "99": "#FFFEFA"
+      }
+    },
+
+    "success": {
+      "root": "#8CCD3A",
+      "onSuccess": {
+        "original": { "value": "#495D2E", "contrastRatioVsRoot": "3.78:1", "_nota": "Solo cumple AA para texto GRANDE (>=18px) o iconos (min 3:1). No cumple para texto normal." },
+        "corregidoParaTextoNormal": { "value": "#32510A", "contrastRatioVsRoot": "4.71:1", "_nota": "Usar este valor si el texto sobre fondo Success es de tamano normal (<18px)." }
+      },
+      "container": "#F7FFEE",
+      "onContainerValue": "#386200",
+      "containerAltoContraste": {
+        "_fix": "No existia. Propuesta siguiendo el mismo patron de Error.",
+        "value": "#D0EAAE",
+        "on": "#1B290A",
+        "contrastRatio": "13.5:1 approx"
+      },
+      "uiSafeOnWhite": {
+        "_nota": "Root da 1.97:1 sobre blanco (no cumple minimo 3:1). Version ajustada calculada para >=4.5:1.",
+        "value": "#578221",
+        "contrastRatio": "4.55:1"
+      },
+      "tonalRamp": {
+        "10": "#1B290A", "20": "#375115", "30": "#527A1F", "40": "#6DA329",
+        "50": "#88CB34", "60": "#A0D65C", "70": "#B8E085", "80": "#D0EAAE",
+        "90": "#E7F5D6", "95": "#F3FAEB", "99": "#FDFEFB"
+      }
+    },
+
+    "error": {
+      "_nota": "Este era el unico rol ya correctamente diferenciado entre Container y Container Alto Contraste en la propuesta original. Se mantiene igual, solo documentado.",
+      "root": "#E51A2F",
+      "onError": "#FFFFFF",
+      "container": "#FFEFF1",
+      "onContainer": "#AA1223",
+      "containerAltoContraste": { "value": "#EEC4C9", "on": "#490008" },
+      "uiSafeOnWhite": {
+        "_nota": "Root ya cumple 4.65:1 sobre blanco, no necesita variante ajustada.",
+        "value": "#E51A2F"
+      },
+      "tonalRamp": {
+        "10": "#2E0509", "20": "#5C0A13", "30": "#89101C", "40": "#B71526",
+        "50": "#E51A2F", "60": "#EA4859", "70": "#EF7682", "80": "#F5A3AC",
+        "90": "#FAD1D5", "95": "#FCE8EA", "99": "#FEFAFB"
+      }
+    },
+
+    "neutral": {
+      "primaryText": "#1D1D1B",
+      "secondaryText": "#334155",
+      "tertiaryText": "#475569",
+      "textOnDark": { "value": "#DEDEDE", "_uso": "Texto sobre fondos oscuros institucionales (hero del login). Contraste vs #0A1128: ~12:1 (AAA)" },
+      "surface": "#EEF4FF",
+      "surfaceContainer": "#FDFDFD",
+      "onSurfaceContainer": "#353534",
+      "surfaceLoginBg": { "value": "#0A1128", "_uso": "Fondo full-screen oscuro de la vista Login. Azul institucional profundo." }
+    },
+
+    "themes": {
+      "_descripcion": "Tokens semánticos por modo de color — Fuente de verdad para CSS custom properties e interoperabilidad entre sistemas OEFA.",
+      "light": {
+        "surfaces": {
+          "app": "#F0F4F9",
+          "card": "#FFFFFF",
+          "header": "#FFFFFF",
+          "rail": "#FFFFFF",
+          "submenu": "#F8FAFC",
+          "workspace": "#FFFFFF",
+          "modal": "#FFFFFF",
+          "subtle": "#F8FAFC",
+          "muted": "#F1F5F9",
+          "input": "#FFFFFF",
+          "border": "#E2E8F0",
+          "borderSubtle": "#F1F5F9",
+          "loginOverlay": "rgba(0, 0, 0, 0.55)"
+        },
+        "text": {
+          "primary": "#1D1D1B",
+          "secondary": "#334155",
+          "muted": "#475569",
+          "onPrimary": "#FFFFFF"
+        },
+        "primary": {
+          "root": "#144AA7",
+          "on": "#FFFFFF",
+          "container": "#EEF4FF",
+          "onContainer": "#002463",
+          "containerHc": "#A4C1F4"
+        },
+        "secondary": {
+          "root": "#44BFB5",
+          "uiSafe": "#2C817A",
+          "container": "#EEFFFE",
+          "onContainer": "#005D58"
+        },
+        "tertiary": {
+          "root": "#FFB500",
+          "uiSafe": "#996D00",
+          "container": "#FFF0CC",
+          "onContainer": "#664800",
+          "containerHc": "#FFE199"
+        },
+        "success": {
+          "root": "#8CCD3A",
+          "uiSafe": "#578221",
+          "container": "#F7FFEE",
+          "onContainer": "#386200"
+        },
+        "error": {
+          "root": "#E51A2F",
+          "container": "#FFEFF1",
+          "onContainer": "#AA1223"
+        },
+        "shadows": {
+          "sm": "0 1px 3px rgba(15, 23, 42, 0.06)",
+          "md": "0 4px 16px rgba(15, 23, 42, 0.08)",
+          "flyout": "0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08)"
+        },
+        "focusGlow": "rgba(20, 74, 167, 0.20)"
+      },
+      "dark": {
+        "wcagCompliance": "WCAG 2.2 AA/AAA strictly verified",
+        "surfaces": {
+          "app": "#0B1120",
+          "card": "#131C2E",
+          "header": "#0F172A",
+          "rail": "#0F172A",
+          "submenu": "#111827",
+          "workspace": "#131C2E",
+          "modal": "#1E293B",
+          "subtle": "#172238",
+          "muted": "#1E293B",
+          "input": "#0F172A",
+          "border": "#334155",
+          "borderSubtle": "#1E293B",
+          "loginOverlay": "linear-gradient(135deg, rgba(11, 17, 32, 0.88) 0%, rgba(5, 20, 46, 0.78) 100%)"
+        },
+        "text": {
+          "primary": "#F8FAFC",
+          "secondary": "#CBD5E1",
+          "muted": "#94A3B8",
+          "onPrimary": "#05142E"
+        },
+        "primary": {
+          "root": "#76A3EF",
+          "on": "#05142E",
+          "container": "#103D89",
+          "onContainer": "#D1E0FA",
+          "containerHc": "#23529E"
+        },
+        "secondary": {
+          "root": "#67CBC3",
+          "uiSafe": "#8DD8D2",
+          "container": "#134F49",
+          "onContainer": "#D9F2F0"
+        },
+        "tertiary": {
+          "root": "#FFD366",
+          "uiSafe": "#FFE199",
+          "container": "#4D3600",
+          "onContainer": "#FFE199",
+          "containerHc": "#664800"
+        },
+        "success": {
+          "root": "#A0D65C",
+          "uiSafe": "#B8E085",
+          "container": "#233B0C",
+          "onContainer": "#E7F5D6"
+        },
+        "error": {
+          "root": "#F87171",
+          "container": "#4A0D15",
+          "onContainer": "#FAD1D5"
+        },
+        "shadows": {
+          "sm": "0 1px 3px rgba(0, 0, 0, 0.4)",
+          "md": "0 4px 16px rgba(0, 0, 0, 0.5)",
+          "flyout": "0 10px 25px -5px rgba(0, 0, 0, 0.65), 0 8px 10px -6px rgba(0, 0, 0, 0.5)"
+        },
+        "focusGlow": "rgba(118, 163, 239, 0.25)"
+      }
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "display": "Poppins",
+      "body": "Inter",
+      "mono": "JetBrains Mono, ui-monospace, monospace",
+      "fallback": "Arial, system-ui, sans-serif",
+      "_nota": "Poppins para H1-H4/titulos de card. Inter para parrafos, tablas, formularios, botones, badges. Mono para codigos OS/OC, expedientes SIGED, RUCs y montos tabulares."
+    },
+    "fontWeightMap": {
+      "Regular": 400, "Medium": 500, "SemiBold": 600, "Bold": 700, "ExtraBold": 800
+    },
+    "unidad_recomendada": "rem (base 16px) en vez de px fijo, por WCAG 1.4.4",
+    "scale_web": {
+      "h1": { "fontFamily": "display", "size": 36, "lineHeight": 40, "weight": "SemiBold" },
+      "h2": { "fontFamily": "display", "size": 30, "lineHeight": 36, "weight": "SemiBold" },
+      "h3": { "fontFamily": "display", "size": 24, "lineHeight": 32, "weight": "SemiBold" },
+      "h4": { "fontFamily": "display", "size": 20, "lineHeight": 28, "weight": "SemiBold" },
+      "h5_label": {
+        "fontFamily": "body", "size": 16, "lineHeight": 22, "weight": "Medium",
+        "_fix": "Original era 14/20, casi igual al parrafo (16/24) — poco salto jerarquico. Ajustado a 16/22 y reclasificado como Label, no Heading."
+      },
+      "paragraphRegular": { "fontFamily": "body", "size": 16, "lineHeight": 24, "weight": "Regular" },
+      "paragraphSemiBold": { "fontFamily": "body", "size": 16, "lineHeight": 24, "weight": "SemiBold" },
+      "paragraphBold": { "fontFamily": "body", "size": 16, "lineHeight": 24, "weight": "Bold" },
+      "buttonXsmall": { "fontFamily": "body", "size": 12, "lineHeight": 16, "weight": "Medium" },
+      "buttonSmall": { "fontFamily": "body", "size": 14, "lineHeight": 20, "weight": "Medium" },
+      "buttonMedium": { "fontFamily": "body", "size": 16, "lineHeight": 24, "weight": "Medium" },
+      "buttonLarge": { "fontFamily": "display", "size": 24, "lineHeight": 32, "weight": "Medium", "_restriccion": "Solo landing/hero/CTA de marketing. No usar en pantallas operativas del sistema." },
+      "buttonXlarge": { "fontFamily": "display", "size": 32, "lineHeight": 40, "weight": "Medium", "_restriccion": "Solo landing/hero/CTA de marketing." },
+      "componentsXsmall": { "fontFamily": "body", "size": 8, "lineHeight": 14, "weight": "Medium", "_restriccion": "Solo elementos decorativos (ej. punto numerico de contador). Nunca texto con informacion que el usuario deba leer." },
+      "componentsSmall": { "fontFamily": "body", "size": 10, "lineHeight": 18, "weight": "Medium" },
+      "componentsMedium": { "fontFamily": "body", "size": 12, "lineHeight": 20, "weight": "Medium" },
+      "componentsLarge": { "fontFamily": "body", "size": 14, "lineHeight": 22, "weight": "Medium" },
+      "componentsXlarge": { "fontFamily": "body", "size": 16, "lineHeight": 24, "weight": "Medium" }
+    },
+    "letterSpacing": {
+      "default": 0,
+      "uppercaseLabelsChips": "+0.04em",
+      "_nota": "Agregar tracking positivo solo cuando el texto se muestre en MAYUSCULAS (badges de estado, eyebrows). El resto se mantiene en 0."
+    }
+  },
+
+  "iconSize": {
+    "_regla": "El tamano del icono siempre es igual al lineHeight del texto que lo acompana.",
+    "derivadoDe": [
+      { "contexto": "badge/chip pequeno", "ligadoA": "componentsSmall", "lineHeight": 18, "iconSize": 18 },
+      { "contexto": "badge/chip normal", "ligadoA": "componentsMedium", "lineHeight": 20, "iconSize": 20 },
+      { "contexto": "item de menu / rail", "ligadoA": "componentsXlarge", "lineHeight": 24, "iconSize": 24 },
+      { "contexto": "boton medium", "ligadoA": "buttonMedium", "lineHeight": 24, "iconSize": 24 },
+      { "contexto": "titulo de card (H4)", "ligadoA": "h4", "lineHeight": 28, "iconSize": 28 },
+      { "contexto": "boton large (marketing)", "ligadoA": "buttonLarge", "lineHeight": 32, "iconSize": 32 }
+    ]
+  },
+
+  "breakpoints": {
+    "_descripcion": "Puntos de corte responsivos oficiales OEFA para adaptación en dispositivos.",
+    "sm": { "value": "640px", "token": "--oefa-breakpoint-sm", "target": "Móvil / Celular", "behavior": "Formularios 1 columna, botones 100% ancho, títulos compactos." },
+    "md": { "value": "768px", "token": "--oefa-breakpoint-md", "target": "Tablet vertical", "behavior": "Menú lateral colapsable / drawer, scroll horizontal táctil en tablas." },
+    "lg": { "value": "1024px", "token": "--oefa-breakpoint-lg", "target": "Tablet horizontal / Laptop", "behavior": "Sidebar fijo (pinned), layout login conmuta a 1 columna centrada sin hero lateral." },
+    "xl": { "value": "1280px", "token": "--oefa-breakpoint-xl", "target": "Desktop", "behavior": "Layout completo sin scroll horizontal forzado." }
+  },
+
+  "motion": {
+    "_descripcion": "Curvas y duraciones Material 3 Expressive para micro-interacciones, transiciones y animaciones fluidas.",
+    "easing": {
+      "linear": { "value": "cubic-bezier(0, 0, 1, 1)", "token": "--oefa-ease-linear", "uso": "Progreso lineal / rotaciones continuas (spinners)." },
+      "standard": { "value": "cubic-bezier(0.2, 0, 0, 1)", "token": "--oefa-ease-standard", "uso": "Hover de botones, checkboxes, inputs y chips." },
+      "standardDecelerate": { "value": "cubic-bezier(0, 0, 0.2, 1)", "token": "--oefa-ease-standard-decel", "uso": "Elementos que entran al viewport suavemente." },
+      "standardAccelerate": { "value": "cubic-bezier(0.3, 0, 1, 1)", "token": "--oefa-ease-standard-accel", "uso": "Elementos que salen del viewport." },
+      "emphasized": { "value": "cubic-bezier(0.2, 0, 0, 1)", "token": "--oefa-ease-emphasized", "uso": "Elevaciones con resorte suave, cards bento, modales y drawers." },
+      "emphasizedDecelerate": { "value": "cubic-bezier(0.05, 0.7, 0.1, 1)", "token": "--oefa-ease-emphasized-decel", "uso": "Apertura prominente de flyouts y modales." },
+      "emphasizedAccelerate": { "value": "cubic-bezier(0.3, 0, 0.8, 0.15)", "token": "--oefa-ease-emphasized-accel", "uso": "Cierre rápido de elementos superpuestos." }
+    },
+    "duration": {
+      "short1": { "value": "50ms", "token": "--oefa-duration-short-1" },
+      "short2": { "value": "100ms", "token": "--oefa-duration-short-2" },
+      "short3": { "value": "150ms", "token": "--oefa-duration-short-3" },
+      "short4": { "value": "200ms", "token": "--oefa-duration-short-4" },
+      "short": { "value": "150ms", "token": "--oefa-duration-short", "uso": "Feedback táctil inmediato, active states, micro-checkmarks." },
+      "medium1": { "value": "250ms", "token": "--oefa-duration-medium-1" },
+      "medium2": { "value": "300ms", "token": "--oefa-duration-medium-2" },
+      "medium": { "value": "300ms", "token": "--oefa-duration-medium", "uso": "Transiciones de hover, expansión de cards, morphing y toasts." },
+      "long1": { "value": "350ms", "token": "--oefa-duration-long-1" },
+      "long2": { "value": "400ms", "token": "--oefa-duration-long-2" },
+      "long": { "value": "450ms", "token": "--oefa-duration-long", "uso": "Entrada y salida de modales completos, drawers laterales." }
+    },
+    "microInteractions": {
+      "iconTilt": {
+        "degree": "8deg",
+        "scale": 1.12,
+        "duration": "var(--oefa-duration-medium)",
+        "easing": "var(--oefa-ease-emphasized)",
+        "uso": "Contenedores interactivos de selección o destino (bento, catalog, selection, launcher, dropzone)."
+      }
+    }
+  },
+
+  "components": {
+    "_nota": "Tokens de componentes reutilizables. Fuente de verdad para todos los proyectos OEFA basados en este starter.",
+
+    "bentoKpiTile": {
+      "_descripcion": "Tarjeta métrica Bento con esquinas de 20px, rellenos pastel suaves (4-8% tint), micro-gráficos (donut, gauge, bars, sparkline) y transiciones elásticas M3.",
+      "borderRadius": "20px",
+      "padding": "20px",
+      "shadowDefault": "0 10px 30px -10px rgba(15, 23, 42, 0.04)",
+      "shadowHover": "0 20px 40px -10px rgba(15, 23, 42, 0.10)",
+      "transition": "transform var(--oefa-duration-medium) var(--oefa-ease-emphasized), box-shadow var(--oefa-duration-medium) var(--oefa-ease-emphasized)",
+      "iconHoverTransform": "rotate(8deg) scale(1.12)",
+      "microCharts": ["donut", "gauge", "bars", "sparkline"]
+    },
+
+    "catalogCard": {
+      "_descripcion": "Tarjeta de catálogo Bento para tableros, módulos y sistemas con tags OEFA, micro-actividad (sparkline, bar, pulse) y acción fluida.",
+      "borderRadius": "18px",
+      "padding": "22px",
+      "shadowDefault": "0 8px 24px -6px rgba(15, 23, 42, 0.04)",
+      "shadowHover": "0 18px 36px -8px rgba(20, 74, 167, 0.12)",
+      "transition": "transform var(--oefa-duration-medium) var(--oefa-ease-emphasized), box-shadow var(--oefa-duration-medium) var(--oefa-ease-emphasized), border-color var(--oefa-duration-short) var(--oefa-ease-standard)",
+      "iconHoverTransform": "rotate(8deg) scale(1.12)"
+    },
+
+    "filterSidebar": {
+      "_descripcion": "Panel lateral de filtrado avanzado facetado para escritorio y bottom sheet deslizable accesible para dispositivos móviles.",
+      "desktopWidth": "280px",
+      "borderRadiusDesktop": "16px",
+      "borderRadiusMobile": "20px 20px 0 0",
+      "maxHeightMobile": "88vh",
+      "transition": "transform var(--oefa-duration-medium) var(--oefa-ease-emphasized)"
+    },
+
+    "tabs": {
+      "_descripcion": "Sistema de pestanas con scroll horizontal automatico cuando no caben. Ver implementacion en styles.scss seccion GLOBAL TAB COMPONENT.",
+      "variants": {
+        "pill": {
+          "_descripcion": "Fondo card con border-radius. Usado en: configuraciones, vistas con card contenedora.",
+          "container": { "background": "surface-card", "border": "1px solid border-color", "borderRadius": "radius-md" },
+          "nav": { "padding": "6px 8px", "gap": 0, "overflowX": "auto", "scrollbarVisible": false },
+          "button": {
+            "padding": "10px 18px",
+            "fontSize": 14,
+            "fontWeight": 500,
+            "borderRadius": "radius-sm",
+            "color": "text-secondary",
+            "colorHover": "primary-root",
+            "backgroundHover": "#F1F5F9",
+            "backgroundActive": "primary-container",
+            "colorActive": "primary-root",
+            "fontWeightActive": 600
+          }
+        },
+        "underline": {
+          "_descripcion": "Borde inferior sin background solido. Usado en: order-detail, vistas de detalle con fondo blanco.",
+          "container": { "borderBottom": "2px solid border-color" },
+          "nav": { "padding": "0", "gap": "4px", "overflowX": "auto", "scrollbarVisible": false },
+          "button": {
+            "padding": "12px 20px",
+            "fontSize": 15,
+            "fontWeight": 600,
+            "borderBottom": "3px solid transparent",
+            "borderRadius": 0,
+            "marginBottom": -2,
+            "colorActive": "primary-root",
+            "borderBottomActive": "3px solid primary-root",
+            "fontWeightActive": 700
+          }
+        }
+      },
+      "badge": {
+        "background": "#E2E8F0",
+        "color": "text-secondary",
+        "borderRadius": "100px",
+        "padding": "1px 8px",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "backgroundActive": "primary-root",
+        "colorActive": "#FFFFFF"
+      },
+      "behavior": {
+        "flexShrink": 0,
+        "whiteSpace": "nowrap",
+        "scrollHorizontal": true,
+        "hideScrollbar": true,
+        "dragScrollMouse": true,
+        "dragOnTabButtons": true,
+        "dragThresholdPx": 6,
+        "navArrowsOnHover": true,
+        "navArrowsStyle": "Material UI Floating Circular Buttons",
+        "dragScrollImpl": "DragScrollDirective — /frontend/src/app/directives/drag-scroll.directive.ts"
+      }
+    },
+
+    "submenuPanel": {
+      "_descripcion": "Panel lateral flotante de opciones (estilo Gmail/Material 3).",
+      "width": "260px",
+      "pinnedWidth": "260px",
+      "floatingFlyoutWidth": "260px",
+      "textTruncation": {
+        "overflow": "hidden",
+        "textOverflow": "ellipsis",
+        "whiteSpace": "nowrap"
+      },
+      "accessibility": {
+        "tooltipAttribute": "title",
+        "ariaAttribute": "aria-label",
+        "wcagLevel": "2.2 AA"
+      }
+    },
+
+    "forms": {
+      "_descripcion": "Tokens estandar para inputs, selects, textareas y controles en modo claro y oscuro.",
+      "input": {
+        "padding": "10px 14px",
+        "borderRadius": "radius-md",
+        "borderWidth": "1px",
+        "fontSize": 14,
+        "lineHeight": 20
+      },
+      "select": {
+        "padding": "10px 36px 10px 14px",
+        "borderRadius": "radius-md",
+        "chevronColorLight": "#334155",
+        "chevronColorDark": "#94A3B8"
+      },
+      "selectSm": {
+        "height": "36px",
+        "padding": "0 32px 0 10px",
+        "borderRadius": "radius-sm",
+        "fontSize": 14
+      },
+      "tableInput": {
+        "padding": "6px 8px",
+        "borderRadius": "radius-sm",
+        "fontSize": 14
+      },
+      "tableSelect": {
+        "padding": "6px 24px 6px 8px",
+        "borderRadius": "radius-sm",
+        "fontSize": 14
+      },
+      "formField": {
+        "_descripcion": "Campo de formulario con ícono lateral y manejo de estados (focus, error, disabled). Patrón estándar OEFA para login, perfil y formularios institucionales.",
+        "height": "44px",
+        "padding": "0 12px",
+        "borderRadius": "radius-sm",
+        "border": "1px solid border-color",
+        "background": "surface-input",
+        "focusBorderColor": "primary-root",
+        "focusGlow": "0 0 0 3px var(--oefa-focus-glow)",
+        "errorBorderColor": "error-root",
+        "errorGlow": "0 0 0 3px rgba(229, 26, 47, 0.25)",
+        "iconColor": "text-muted"
+      },
+      "alertBanner": {
+        "_descripcion": "Banner de alerta de error inline (WCAG 2.2 SC 3.3.1 Error Identification / SC 4.1.3 Status Messages). Permanece visible en el formulario — no usar Toast para errores de autenticación.",
+        "padding": "10px 12px",
+        "borderRadius": "radius-sm",
+        "background": "error-container",
+        "color": "error-on-container",
+        "border": "1px solid error-root",
+        "fontSize": 13,
+        "fontWeight": 500,
+        "ariaRole": "alert",
+        "ariaLive": "assertive",
+        "focusable": true,
+        "wcagCriteria": ["SC 3.3.1 Error Identification", "SC 4.1.3 Status Messages"]
+      },
+      "passwordToggle": {
+        "_descripcion": "Botón ver/ocultar contraseña (WCAG 2.2 SC 3.3.8 Accessible Authentication / SC 2.5.8 Target Size Minimum).",
+        "size": "32px",
+        "borderRadius": "radius-sm",
+        "color": "text-muted",
+        "hoverColor": "primary-root",
+        "hoverBackground": "surface-muted",
+        "focusRing": "2px solid focus-ring",
+        "wcagCriteria": ["SC 3.3.8 Accessible Authentication", "SC 2.5.8 Target Size Minimum"]
+      }
+    },
+
+    "segmentedSwitch": {
+      "_descripcion": "Selector conmutador de modos y vistas (ej: agrupado vs plano, recurrente vs único).",
+      "container": {
+        "background": "surface-muted",
+        "border": "1px solid border-color",
+        "borderRadius": "radius-md",
+        "padding": "3px",
+        "gap": "2px"
+      },
+      "button": {
+        "padding": "6px 14px",
+        "borderRadius": "radius-sm",
+        "fontSize": 13,
+        "fontWeight": 600,
+        "color": "text-secondary",
+        "colorActive": "primary-on",
+        "backgroundActive": "primary-root"
+      }
+    },
+
+    "filterToggle": {
+      "_descripcion": "Botón disparador de filtros avanzados con indicador de estado activo.",
+      "padding": "6px 12px",
+      "borderRadius": "radius-sm",
+      "fontSize": 13,
+      "fontWeight": 600,
+      "background": "surface-card",
+      "border": "1px solid border-color",
+      "backgroundActive": "primary-container",
+      "colorActive": "primary-root"
+    },
+
+    "statusBadges": {
+      "_descripcion": "Badges de estado universales con relación de contraste WCAG 2.2 AA (> 4.5:1) y soporte dot (SC 1.4.1).",
+      "borderRadius": "radius-full",
+      "fontWeight": 600,
+      "dotSize": {
+        "sm": "5px",
+        "md": "6px"
+      },
+      "sizes": {
+        "sm": { "padding": "2px 7px", "fontSize": 11, "lineHeight": 14 },
+        "md": { "padding": "4px 10px", "fontSize": 12, "lineHeight": 16 }
+      },
+      "variants": {
+        "error": { "background": "#FFEFF1", "color": "#AA1223", "border": "rgba(229, 26, 47, 0.3)", "contrastRatio": "7.9:1" },
+        "info": { "background": "#EEF4FF", "color": "#002463", "border": "#A4C1F4", "contrastRatio": "14.8:1" },
+        "exito": { "background": "#F7FFEE", "color": "#386200", "border": "rgba(140, 205, 58, 0.35)", "contrastRatio": "8.1:1" },
+        "danger": { "background": "#FFF0CC", "color": "#664800", "border": "#FFE199", "contrastRatio": "8.4:1" },
+        "neutral": { "background": "#F1F5F9", "color": "#1E293B", "border": "#E2E8F0", "contrastRatio": "11.2:1" },
+        "alterno": { "background": "#EEFFFE", "color": "#005D58", "border": "rgba(68, 191, 181, 0.4)", "contrastRatio": "6.5:1" }
+      }
+    },
+
+    "chips": {
+      "_descripcion": "Etiquetas semánticas de negocio para proyectos, SIGED, áreas y entregables.",
+      "project": { "fontSize": 11, "padding": "3px 9px", "borderRadius": "radius-full" },
+      "siged": { "fontFamily": "monospace", "fontSize": 12, "padding": "3px 8px", "borderRadius": "radius-sm" },
+      "area": { "fontSize": 12, "padding": "3px 8px", "borderRadius": "radius-sm" },
+      "deliverable": { "fontSize": 11, "padding": "3px 8px", "borderRadius": "radius-sm" }
+    },
+
+    "treeNode": {
+      "_descripcion": "Átomo de jerarquía de nodos organizacionales en árboles desplegables.",
+      "levelBadges": {
+        "dir": { "background": "primary-container", "color": "primary-on-container" },
+        "sub": { "background": "secondary-container", "color": "secondary-on-container" },
+        "area": { "background": "tertiary-container", "color": "tertiary-on-container" }
+      },
+      "codeBadge": {
+        "background": "surface-muted",
+        "color": "text-muted",
+        "border": "1px solid border-color-subtle"
+      }
+    },
+
+    "toast": {
+      "_descripcion": "Notificación emergente reactiva temporal en esquina inferior derecha con gestión por ToastService.",
+      "background": "surface-card",
+      "borderRadius": "radius-md",
+      "boxShadow": "shadow-flyout",
+      "minWidth": "320px",
+      "maxWidth": "440px",
+      "zIndex": 100,
+      "variants": {
+        "success": { "borderLeft": "4px solid var(--oefa-success-root)", "iconColor": "var(--oefa-success-root)" },
+        "info": { "borderLeft": "4px solid var(--oefa-primary-root)", "iconColor": "var(--oefa-primary-root)" },
+        "warning": { "borderLeft": "4px solid var(--oefa-warning-root)", "iconColor": "var(--oefa-warning-root)" },
+        "error": { "borderLeft": "4px solid var(--oefa-error-root)", "iconColor": "var(--oefa-error-root)" }
+      }
+    },
+
+    "helpActionCard": {
+      "_descripcion": "Tarjetas compactas de soporte y ayuda (ej: Centro de Ayuda, Contactar Soporte).",
+      "background": "surface-subtle",
+      "border": "1px solid border-color",
+      "borderRadius": "radius-md",
+      "padding": "10px 8px",
+      "iconColor": "primary-root",
+      "textColor": "text-primary",
+      "hoverBackground": "primary-container",
+      "hoverBorder": "primary-root",
+      "hoverColor": "primary-root"
+    },
+
+    "pagination": {
+      "_descripcion": "Barra de paginación para tablas de datos y matrices institucionales.",
+      "defaultPageSize": 10,
+      "pageSizeOptions": [10, 25, 50, 100],
+      "bar": {
+        "padding": "12px 20px",
+        "background": "surface-subtle",
+        "borderTop": "1px solid border-color",
+        "gap": "12px"
+      },
+      "text": {
+        "fontSize": 13,
+        "color": "text-secondary",
+        "fontWeight": 500
+      },
+      "button": {
+        "minWidth": "32px",
+        "height": "32px",
+        "borderRadius": "radius-sm",
+        "fontSize": 13,
+        "fontWeight": 600,
+        "border": "1px solid border-color",
+        "background": "surface-card",
+        "color": "text-primary",
+        "backgroundActive": "primary-root",
+        "colorActive": "onPrimary"
+      },
+      "select": {
+        "padding": "4px 8px",
+        "borderRadius": "radius-sm",
+        "fontSize": 13,
+        "fontWeight": 600,
+        "border": "1px solid border-color",
+        "background": "surface-card"
+      }
+    },
+
+    "header": {
+      "_descripcion": "Cabecera superior del shell institucional OEFA. Reutilizable en todas las aplicaciones.",
+      "height": "64px",
+      "surfaceLight": "surface-header",
+      "surfaceDark": "#0F172A",
+      "borderBottom": "1px solid border-color",
+      "zIndex": 40,
+      "padding": {
+        "desktop": "0 20px",
+        "mobile": "0 12px"
+      },
+      "logo": {
+        "heightDesktop": "36px",
+        "heightTablet": "30px",
+        "heightMobile": "26px"
+      },
+      "responsive": {
+        "lg": "1024px: Oculta subtitulo descriptivo del sistema (.plusd-sub), manteniendo acronimo/titulo.",
+        "md": "768px: Oculta nombre de usuario (.user-name) y flecha; reduce padding a 12px y altura de logo a 30px.",
+        "sm": "640px: Oculta divisor y marca de sistema (.brand-divider, .system-brand) priorizando logo OEFA; oculta boton directo de tema (.theme-toggle-btn) por existir dentro del menu de usuario; prioriza y mantiene visible el lanzador de apps (.apps-btn)."
+      }
+    },
+
+    "tableFilters": {
+      "_descripcion": "Componente de filtrado de datos para tablas y matrices con soporte responsivo móvil (Bottom Sheet Drawer y Chips).",
+      "breakpointTrigger": "1024px (--oefa-breakpoint-lg)",
+      "mobileDrawer": {
+        "width": "100%",
+        "maxWidth": "480px",
+        "maxHeight": "90vh",
+        "borderRadius": "20px 20px 0 0",
+        "background": "surface-card",
+        "backdropBlur": "3px",
+        "backdropColor": "rgba(15, 23, 42, 0.55)",
+        "zIndex": 95
+      },
+      "chips": {
+        "height": "32px",
+        "padding": "4px 12px",
+        "borderRadius": "radius-full",
+        "fontSize": 13,
+        "fontWeight": 500,
+        "background": "surface-subtle",
+        "backgroundActive": "primary-root",
+        "colorActive": "#FFFFFF"
+      },
+      "triggerButton": {
+        "height": "38px",
+        "borderRadius": "radius-md",
+        "badgeColor": "primary-root"
+      }
+    },
+
+    "feedback": {
+      "_descripcion": "Tokens para patrones de carga y espera: Skeleton vs Spinner según WCAG 2.2.",
+      "skeleton": {
+        "bgBase": "var(--oefa-surface-subtle, #F8FAFC)",
+        "bgShimmer": "linear-gradient(90deg, rgba(226, 232, 240, 0) 0%, rgba(226, 232, 240, 0.65) 50%, rgba(226, 232, 240, 0) 100%)",
+        "bgShimmerDark": "linear-gradient(90deg, rgba(30, 41, 59, 0) 0%, rgba(51, 65, 85, 0.5) 50%, rgba(30, 41, 59, 0) 100%)",
+        "animationDuration": "1.5s",
+        "borderRadius": {
+          "text": "var(--oefa-radius-sm, 4px)",
+          "rect": "var(--oefa-radius-md, 8px)",
+          "circle": "var(--oefa-radius-full, 9999px)"
+        }
+      },
+      "spinner": {
+        "color": "var(--oefa-primary-root, #144AA7)",
+        "trackColor": "var(--oefa-border-color, #E2E8F0)",
+        "animationDuration": "0.8s",
+        "sizes": {
+          "sm": "20px",
+          "md": "36px",
+          "lg": "48px"
+        }
+      }
+    },
+
+    "stepper": {
+      "_descripcion": "Stepper y Wizard Progresivo con soporte horizontal y vertical responsivo.",
+      "circleSize": "36px",
+      "circleFontSize": 15,
+      "circleFontWeight": 700,
+      "circleBorderWidth": "2px",
+      "horizontalLineHeight": "2px",
+      "verticalLineWidth": "2px",
+      "verticalLineHeight": "32px",
+      "verticalLineMarginLeft": "17px",
+      "activeFocusGlow": "0 0 0 4px var(--oefa-primary-container)",
+      "responsiveMobileBreakpoint": "640px (--oefa-breakpoint-sm)"
+    },
+
+    "table": {
+      "_descripcion": "Tabla de datos institucional reutilizable con soporte de ordenamiento tipado, loading skeleton y empty state.",
+      "header": {
+        "background": "surface-subtle",
+        "color": "text-secondary",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "textTransform": "uppercase",
+        "letterSpacing": "0.04em",
+        "padding": "12px 16px",
+        "borderBottom": "2px solid border-color"
+      },
+      "row": {
+        "borderBottom": "1px solid border-color",
+        "hoverBackground": "surface-subtle",
+        "padding": "12px 16px",
+        "fontSize": 14,
+        "color": "text-primary"
+      },
+      "sortableHeader": {
+        "hoverColor": "primary-root",
+        "activeIndicatorColor": "primary-root"
+      }
+    },
+
+    "userMenu": {
+      "_descripcion": "Menú flotante de perfil de usuario institucional con selector de tema, centro de ayuda y logout.",
+      "trigger": {
+        "borderRadius": "radius-full",
+        "avatarSize": "36px",
+        "focusRing": "focus-ring"
+      },
+      "dropdown": {
+        "width": "300px",
+        "background": "surface-card",
+        "border": "1px solid border-color",
+        "borderRadius": "radius-md",
+        "boxShadow": "shadow-flyout",
+        "zIndex": 50
+      },
+      "profileHeader": {
+        "background": "surface-subtle",
+        "padding": "16px",
+        "borderBottom": "1px solid border-color"
+      },
+      "themePills": {
+        "borderRadius": "radius-full",
+        "activeBackground": "primary-root",
+        "activeColor": "#FFFFFF"
+      }
+    },
+
+    "datePicker": {
+      "_descripcion": "Selector de fecha nativo accesible implementando ControlValueAccessor y WCAG 2.2 AA.",
+      "input": {
+        "height": "40px",
+        "borderRadius": "radius-sm",
+        "border": "1px solid border-color",
+        "background": "surface-card",
+        "color": "text-primary",
+        "padding": "8px 12px",
+        "focusBorder": "primary-root",
+        "focusRing": "0 0 0 3px var(--oefa-primary-container)"
+      },
+      "label": {
+        "fontSize": 13,
+        "fontWeight": 600,
+        "color": "text-secondary",
+        "marginBottom": "4px"
+      },
+      "errorState": {
+        "borderColor": "error-root",
+        "focusRing": "0 0 0 3px var(--oefa-error-container)",
+        "textColor": "error-root"
+      }
+    },
+
+    "tooltip": {
+      "_descripcion": "Tooltip institucional accesible de respuesta rápida (~150ms) estilo Material Design 3 / Google (WCAG 2.2 SC 1.4.13).",
+      "delay": "150ms",
+      "surface": "#0F172A",
+      "textColor": "#F8FAFC",
+      "fontSize": "0.75rem",
+      "fontWeight": 500,
+      "padding": "6px 10px",
+      "borderRadius": "radius-sm",
+      "boxShadow": "0 4px 14px rgba(0, 0, 0, 0.25)",
+      "zIndex": 1000
+    },
+
+    "navigationRail": {
+      "_descripcion": "Barra de navegación vertical institucional (Rail 80px) con soporte para nombres de módulo multilínea y foco accesible.",
+      "railWidth": "80px",
+      "itemPadding": "8px 4px",
+      "itemBorderRadius": "radius-md",
+      "labelMaxLines": 2,
+      "labelLineHeight": 1.15,
+      "labelFontSize": "0.6875rem",
+      "focusRing": {
+        "width": "2px",
+        "offset": "2px",
+        "color": "focus-ring"
+      }
+    },
+
+    "selectionCard": {
+      "_descripcion": "Tarjeta interactiva de selección para opciones de trámite, tarifarios o modalidades de entrega (WCAG 2.2 SC 2.5.8).",
+      "minHeight": "48px",
+      "borderRadius": "radius-md",
+      "padding": "16px",
+      "border": "1.5px solid border-color",
+      "background": "surface-card",
+      "selectedBorder": "primary-root",
+      "selectedBackground": "primary-container",
+      "hoverBorder": "primary-root",
+      "indicatorSize": "20px"
+    },
+
+    "fileUploader": {
+      "_descripcion": "Dropzone accesible para carga de archivos con validación inmediata de tamaño y formato (WCAG 2.2 SC 4.1.3).",
+      "minHeight": "140px",
+      "borderRadius": "radius-md",
+      "border": "2px dashed border-color",
+      "dragActiveBorder": "primary-root",
+      "dragActiveBackground": "primary-container",
+      "padding": "24px 16px",
+      "iconSize": "36px",
+      "errorTextColor": "error-root",
+      "errorBorder": "2px dashed error-root"
+    },
+
+    "alert": {
+      "_descripcion": "Alertas contextuales y banners institucionales con 5 estados semánticos (WCAG 2.2 SC 1.4.3 y SC 4.1.3).",
+      "borderRadius": "radius-md",
+      "padding": "14px 18px",
+      "accentBorderWidth": "4px",
+      "gap": "12px",
+      "fontSize": "0.875rem",
+      "lineHeight": 1.45,
+      "variants": {
+        "info": {
+          "background": "primary-container",
+          "border": "primary-root",
+          "color": "primary-on-container",
+          "iconColor": "primary-root"
+        },
+        "success": {
+          "background": "success-container",
+          "border": "success-ui-safe",
+          "color": "success-on-container",
+          "iconColor": "success-ui-safe"
+        },
+        "warning": {
+          "background": "tertiary-container",
+          "border": "tertiary-root",
+          "color": "tertiary-on-container",
+          "iconColor": "tertiary-ui-safe"
+        },
+        "error": {
+          "background": "error-container",
+          "border": "error-root",
+          "color": "error-on-container",
+          "iconColor": "error-root"
+        },
+        "neutral": {
+          "background": "surface-subtle",
+          "border": "border-color",
+          "color": "text-primary",
+          "iconColor": "text-secondary"
+        }
+      }
+    },
+    "modal": {
+      "_descripcion": "Diálogos modales accesibles con backdrop blur, trampeo de foco y variantes semánticas (WCAG 2.2 SC 2.1.2).",
+      "radius": "radius-lg",
+      "border": "border-color",
+      "shadow": "shadow-lg",
+      "sizes": {
+        "sm": "420px",
+        "md": "560px",
+        "lg": "760px",
+        "xl": "980px",
+        "full": "calc(100vw - 32px)"
+      },
+      "variants": {
+        "default": { "borderTop": "none" },
+        "info": { "borderTop": "primary-root", "iconBg": "primary-container", "iconColor": "primary-root" },
+        "success": { "borderTop": "success-ui-safe", "iconBg": "success-container", "iconColor": "success-ui-safe" },
+        "warning": { "borderTop": "tertiary-ui-safe", "iconBg": "tertiary-container", "iconColor": "tertiary-on-container" },
+        "danger": { "borderTop": "error-root", "iconBg": "error-container", "iconColor": "error-on-container" }
+      }
+    },
+    "button": {
+      "_descripcion": "Botones interactivos institucionales con reset de borde a 1px transparente para evitar efectos glassmorphism de navegadores, tipografía Inter 600 y Material Motion M3.",
+      "radius": "radius-md",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderDefault": "transparent",
+      "borderSecondary": "border-color",
+      "focusRing": "focus-ring",
+      "focusOffset": "2px",
+      "motionDuration": "duration-short",
+      "motionEase": "ease-standard",
+      "motionActiveScale": 0.98,
+      "variants": {
+        "primary": { "background": "primary-root", "color": "primary-on", "border": "transparent", "shadow": "0 2px 6px rgba(20, 74, 167, 0.25)" },
+        "secondary": { "background": "surface-card", "color": "text-primary", "border": "border-color", "shadow": "shadow-sm" },
+        "ghost": { "background": "transparent", "color": "text-secondary", "border": "transparent", "shadow": "none" },
+        "excel": { "background": "#107C41", "color": "#FFFFFF", "border": "transparent", "shadow": "0 2px 6px rgba(16, 124, 65, 0.25)" },
+        "danger": { "background": "error-root", "color": "error-on", "border": "transparent", "shadow": "0 2px 6px rgba(229, 26, 47, 0.25)" }
+      }
+    },
+    "collapsible": {
+      "_descripcion": "Molécula de Divulgación Progresiva (Progressive Disclosure) para datos opcionales y filtros secundarios.",
+      "radius": "radius-md",
+      "paddingHeader": "12px 16px",
+      "paddingContent": "16px",
+      "transition": "transform var(--oefa-duration-medium) var(--oefa-ease-emphasized)",
+      "chevronRotate": "180deg",
+      "variants": {
+        "dashed": { "border": "1px dashed border-color", "background": "surface-subtle" },
+        "bordered": { "border": "1px solid border-color", "background": "surface-card" },
+        "card": { "border": "1px solid border-color", "background": "surface-card", "shadow": "shadow-sm" }
+      }
+    }
+  }
+}
+

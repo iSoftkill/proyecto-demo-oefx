@@ -1,0 +1,156 @@
+<div class="user-menu-wrapper">
+  <!-- Trigger button -->
+  <button 
+    class="user-profile-trigger" 
+    (click)="toggleMenu()" 
+    [class.active]="isOpen()"
+    [attr.aria-expanded]="isOpen()" 
+    aria-haspopup="menu"
+    title="Opciones de Cuenta y Perfil"
+  >
+    <div class="avatar-circle">
+      <span>{{ user.initials }}</span>
+    </div>
+    <span class="user-name">{{ user.name }}</span>
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron-icon"
+      [class.rotated]="isOpen()">
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </button>
+
+  <!-- Dropdown Menu -->
+  @if (isOpen()) {
+    <div class="user-dropdown-menu" role="menu">
+      <!-- 1. Encabezado Obligatorio del Perfil -->
+      <div class="menu-user-header">
+        <div class="menu-avatar">{{ user.initials }}</div>
+        <div class="menu-user-info">
+          <span class="menu-user-name">{{ user.name }}</span>
+          <span class="menu-user-role">{{ user.role }}</span>
+          <span class="menu-user-email">{{ user.email }}</span>
+          <div class="menu-user-node">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <span>{{ user.area }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <!-- 2. Opciones de Gestión -->
+      <div class="menu-section">
+        <button class="menu-item" (click)="onProfileClick()" role="menuitem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span>Mi Perfil</span>
+        </button>
+
+        <button class="menu-item" (click)="onChangeAreaClick()" role="menuitem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+            <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+            <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+            <path d="M10 6h4" />
+            <path d="M10 10h4" />
+            <path d="M10 14h4" />
+            <path d="M10 18h4" />
+          </svg>
+          <span>Cambiar Área / Nodo</span>
+        </button>
+
+        <button class="menu-item" (click)="onPreferencesClick()" role="menuitem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <span>Preferencias del Sistema</span>
+        </button>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <!-- Selector de Tema (Light / Dark / Auto) -->
+      <div class="menu-theme-selector">
+        <span class="theme-selector-label">Tema de Interfaz</span>
+        <div class="theme-options-pills">
+          <button type="button" class="theme-pill" [class.active]="themeService.currentTheme() === 'light'"
+            (click)="setTheme('light')" title="Activar Modo Claro" aria-label="Activar Modo Claro">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2" />
+              <path d="M12 20v2" />
+              <path d="M2 12h2" />
+              <path d="M20 12h2" />
+            </svg>
+            <span>Claro</span>
+          </button>
+          <button type="button" class="theme-pill" [class.active]="themeService.currentTheme() === 'dark'"
+            (click)="setTheme('dark')" title="Activar Modo Oscuro" aria-label="Activar Modo Oscuro">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </svg>
+            <span>Oscuro</span>
+          </button>
+          <button type="button" class="theme-pill" [class.active]="themeService.currentTheme() === 'system'"
+            (click)="setTheme('system')" title="Seguir preferencia del Sistema Operativo"
+            aria-label="Seguir preferencia del Sistema Operativo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <rect width="20" height="14" x="2" y="3" rx="2" />
+              <line x1="8" x2="16" y1="21" y2="21" />
+              <line x1="12" x2="12" y1="17" y2="21" />
+            </svg>
+            <span>Auto</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <!-- 3. Sección Centro de Ayuda -->
+      <div class="menu-section">
+        <button class="menu-item" (click)="onHelpClick()" role="menuitem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="item-icon-help">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+            <line x1="12" x2="12.01" y1="17" y2="17" />
+          </svg>
+          <div class="item-text-group">
+            <span>Centro de Ayuda</span>
+            <span class="item-subtext">Manuales, Guías y Soporte OTI</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <!-- 4. Sección Cierre de Sesión -->
+      <div class="menu-section">
+        <button class="menu-item logout-item" (click)="onLogout()" role="menuitem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" x2="9" y1="12" y2="12" />
+          </svg>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+    </div>
+  }
+</div>

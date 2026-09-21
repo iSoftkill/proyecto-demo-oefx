@@ -1,0 +1,109 @@
+.oefa-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 2000;
+  max-width: 420px;
+  pointer-events: none;
+}
+
+.oefa-toast-item {
+  pointer-events: auto;
+  padding: 12px 16px;
+  border-radius: var(--oefa-radius-md);
+  box-shadow: var(--oefa-shadow-flyout);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: oefa-toast-in var(--oefa-duration-medium-1, 250ms) var(--oefa-ease-emphasized-decel, cubic-bezier(0.05, 0.7, 0.1, 1));
+  border: 1px solid transparent;
+}
+
+@keyframes oefa-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.toast-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.toast-close-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--oefa-radius-sm);
+  color: inherit;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              background-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
+}
+
+.toast-close-btn:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Tipos de Toast */
+.toast-info {
+  background-color: var(--oefa-primary-container);
+  color: var(--oefa-primary-on-container);
+  border-color: var(--oefa-primary-container-hc);
+}
+
+.toast-success {
+  background-color: var(--oefa-success-container);
+  color: var(--oefa-success-on-container);
+  border-color: var(--oefa-success-ui-safe);
+}
+
+.toast-warning {
+  background-color: var(--oefa-tertiary-container);
+  color: var(--oefa-tertiary-on-container);
+  border-color: var(--oefa-tertiary-container-hc);
+}
+
+.toast-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #f87171;
+}
+
+@media (max-width: 640px) {
+  .oefa-toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oefa-toast-item {
+    animation: none !important;
+    transition: none !important;
+  }
+}

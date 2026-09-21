@@ -1,0 +1,133 @@
+<!-- 1. Pinned Main Submenu Drawer -->
+@if (navService.sidebarMode() === 'pinned' && activeNavItem()?.children?.length) {
+  <aside class="submenu-panel pinned">
+    <ng-container *ngTemplateOutlet="panelContent; context: { nav: activeNavItem() }"></ng-container>
+  </aside>
+}
+
+<!-- 2. Floating Submenu or Hover Flyout Overlay (Gmail-like Preview) -->
+@if (showFloatingOverlay(); as floatingNav) {
+  <aside 
+    class="submenu-panel floating-flyout" 
+    (mouseenter)="onPanelMouseEnter()"
+    (mouseleave)="onPanelMouseLeave()"
+  >
+    <ng-container *ngTemplateOutlet="panelContent; context: { nav: floatingNav }"></ng-container>
+  </aside>
+}
+
+<!-- Shared Reusable Panel Content Template -->
+<ng-template #panelContent let-activeNav="nav">
+  <div class="panel-container">
+    @for (group of activeNav.children; track group.groupName) {
+      <div class="tree-group">
+        <!-- Group Title Header -->
+        <div class="group-header">
+          <span class="group-title">{{ group.groupName }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"/>
+          </svg>
+        </div>
+
+        <!-- Tree Items -->
+        <div class="tree-children">
+          @for (item of group.items; track item.id) {
+            <div class="tree-node">
+              <div 
+                class="tree-item-row"
+                [class.selected]="navService.selectedTreeItemId() === item.id"
+                [title]="item.label"
+                [attr.aria-label]="item.label"
+                (click)="onItemRowClick(item, $event)"
+              >
+                <div class="item-label-group">
+                  <span class="item-text" [title]="item.label">{{ item.label }}</span>
+                  @if (item.badgeDot) {
+                    <span class="badge-dot" title="Notificación pendiente"></span>
+                  }
+                  @if (item.badgeCount) {
+                    <span class="badge-count">{{ item.badgeCount }}</span>
+                  }
+                </div>
+
+                @if (item.children && item.children.length > 0) {
+                  <svg 
+                    class="chevron-icon" 
+                    [class.expanded]="item.isExpanded !== false"
+                    (click)="toggleExpand(item, $event)"
+                    xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                }
+              </div>
+
+              <!-- Subchildren (Level 2: Hijo) -->
+              @if (item.children && item.children.length > 0 && item.isExpanded !== false) {
+                <div class="sub-tree">
+                  @for (sub of item.children; track sub.id) {
+                    <div class="tree-node">
+                      <div 
+                        class="tree-item-row sub-row"
+                        [class.selected]="navService.selectedTreeItemId() === sub.id"
+                        [title]="sub.label"
+                        [attr.aria-label]="sub.label"
+                        (click)="onItemRowClick(sub, $event)"
+                      >
+                        <div class="item-label-group">
+                          <span class="item-text" [title]="sub.label">{{ sub.label }}</span>
+                          @if (sub.badgeDot) {
+                            <span class="badge-dot" title="Notificación pendiente"></span>
+                          }
+                          @if (sub.badgeCount) {
+                            <span class="badge-count">{{ sub.badgeCount }}</span>
+                          }
+                        </div>
+
+                        @if (sub.children && sub.children.length > 0) {
+                          <svg 
+                            class="chevron-icon" 
+                            [class.expanded]="sub.isExpanded !== false"
+                            (click)="toggleExpand(sub, $event)"
+                            xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          >
+                            <polyline points="6 9 12 15 18 9"/>
+                          </svg>
+                        }
+                      </div>
+
+                      <!-- Subchildren (Level 3: Nieto) -->
+                      @if (sub.children && sub.children.length > 0 && sub.isExpanded !== false) {
+                        <div class="sub-tree sub-tree-level3">
+                          @for (grandchild of sub.children; track grandchild.id) {
+                            <div 
+                              class="tree-item-row sub-row grandchild-row"
+                              [class.selected]="navService.selectedTreeItemId() === grandchild.id"
+                              [title]="grandchild.label"
+                              [attr.aria-label]="grandchild.label"
+                              (click)="selectItem(grandchild)"
+                            >
+                              <div class="item-label-group">
+                                <span class="item-text" [title]="grandchild.label">{{ grandchild.label }}</span>
+                                @if (grandchild.badgeDot) {
+                                  <span class="badge-dot" title="Notificación pendiente"></span>
+                                }
+                                @if (grandchild.badgeCount) {
+                                  <span class="badge-count">{{ grandchild.badgeCount }}</span>
+                                }
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</ng-template>

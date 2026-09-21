@@ -1,0 +1,390 @@
+/* Contenedor Principal Full Screen */
+.login-page-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 650px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--oefa-surface-login-bg);
+  /* Azul institucional oscuro — token surface-login-bg */
+}
+
+/* Contenedor para Imagen de Fondo / SVG Background */
+.login-bg-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url('/images/bg-login_2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
+  /* Reduce la presencia del holograma */
+
+  .bg-overlay {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(8px);
+    /* Suaviza el ruido y bordes duros */
+    background: var(--oefa-login-overlay);
+    transition: background 0.3s ease;
+  }
+}
+
+
+
+/* Estructura Interna en Grid/Flex */
+.login-body-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-grid-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 48px;
+}
+
+/* Panel Izquierdo Hero */
+.login-hero-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.system-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-welcome-text {
+  font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+  font-size: 1.875rem;
+  /* 30px */
+  font-weight: 600;
+  color: var(--oefa-text-on-dark);
+  line-height: 2.25rem;
+  /* 36px */
+  margin: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+
+.hero-main-title {
+  font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+  font-size: 3.625rem;
+  /* 58px */
+  font-weight: 700;
+  color: var(--oefa-neutral-100, #FFFFFF);
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-sub-title {
+  font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+  font-size: 2.25rem;
+  /* 36px */
+  font-weight: 700;
+  color: var(--oefa-primary-container-hc, #76A3EF);
+  line-height: 2.5rem;
+  /* 40px */
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Panel Derecho: Tarjeta Login */
+.login-card-section {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  width: 402px;
+  background-color: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-xl, 16px);
+  padding: 32px;
+  box-shadow: var(--oefa-shadow-flyout);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Contenedor Logo OEFA SVG / Imagen */
+.logo-oefa-svg-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+.oefa-official-logo-img {
+  max-height: 48px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  transition: filter 0.2s ease;
+}
+
+:host-context([data-theme="dark"]) .oefa-official-logo-img,
+:host-context(.dark) .oefa-official-logo-img {
+  filter: brightness(0) invert(1);
+}
+
+
+.card-inner-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-headline-group {
+  width: 100%;
+}
+
+.card-headline-title {
+  font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--oefa-text-primary);
+  margin: 0;
+}
+
+/* Formulario */
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.captcha-disclaimer {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.625rem;
+  color: var(--oefa-text-muted);
+  text-align: center;
+  margin: 0;
+}
+
+.input-label {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--oefa-text-primary);
+}
+
+/* Formulario: patrones globales (.oefa-form-field, .password-toggle, .oefa-alert-banner) residen en styles.scss */
+
+
+/* Contenedor Captcha / Cloudflare SVG */
+.captcha-status-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+
+.captcha-badge-mock {
+  width: 100%;
+  max-width: 280px;
+  height: 52px;
+  background-color: var(--oefa-surface-subtle);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-sm);
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.captcha-checkbox-col {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.captcha-checkbox-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--oefa-border-color);
+  background-color: var(--oefa-surface-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--oefa-success-root);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.captcha-success-text {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--oefa-text-secondary);
+}
+
+.captcha-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.cloudflare-title {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.65rem;
+  font-weight: 800;
+  /* color: #F97316; — Naranja de marca Cloudflare (tercero). Uso local permitido por ser una marca externa. */
+  color: #F97316;
+  letter-spacing: 0.04em;
+}
+
+.cloudflare-terms {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.6rem;
+  color: var(--oefa-text-tertiary, #94A3B8);
+}
+
+/* Botón Submit */
+.button-group {
+  width: 100%;
+
+  .btn {
+    width: 100%;
+    height: 42px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+
+.card-divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--oefa-border-color, #F1F5F9);
+  margin: 4px 0;
+}
+
+/* Sección ¿Necesitas ayuda? */
+.help-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.help-title {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--oefa-text-secondary);
+}
+
+.help-options-row {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+}
+
+/* .oefa-help-card: patrón global en styles.scss */
+
+
+/* Título Móvil dentro de la tarjeta (Oculto en desktop) */
+.mobile-hero-title {
+  display: none;
+}
+
+/* Responsividad — Alineado con OEFA Design Tokens (--oefa-breakpoint-lg: 1024px) */
+@media (max-width: 1024px) {
+  .login-body-container {
+    padding: 16px;
+  }
+
+  .login-grid-container {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .login-hero-section {
+    display: none;
+    /* En móvil el título pasa al interior de la tarjeta según Figma 158:2977 */
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    padding: 24px 20px;
+    gap: 16px;
+    border-radius: var(--oefa-radius-lg, 12px);
+  }
+
+  /* En móvil/tablet se oculta 'Iniciar Sesión' para evitar redundancia y maximizar espacio vertical */
+  .card-headline-group {
+    display: none;
+  }
+
+  .mobile-hero-title {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: left;
+    gap: 2px;
+    padding-top: 4px;
+
+    .mobile-welcome-text {
+      font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--oefa-text-secondary);
+      line-height: 1.5rem;
+      margin: 0;
+    }
+
+    .mobile-main-title {
+      font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--oefa-primary-root);
+      line-height: 2rem;
+      margin: 0;
+    }
+
+    .mobile-sub-title {
+      font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--oefa-text-primary);
+      line-height: 2rem;
+      margin: 0;
+    }
+  }
+}

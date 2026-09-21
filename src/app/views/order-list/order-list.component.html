@@ -1,0 +1,1082 @@
+<div class="list-container">
+  <!-- Header Sección -->
+  <oefa-page-header
+    [title]="orderType === 'OS' ? 'Órdenes de Servicio (OS)' : 'Órdenes de Compra (OC)'"
+    [subtitle]="'Gestión y seguimiento de entregables de ' + (orderType === 'OS' ? 'servicios locadores y personas jurídicas' : 'bienes y compras')">
+    <div actions class="header-actions-wrapper">
+      <!-- Switch de Vista Reutilizable OEFA -->
+      <oefa-segmented-switch
+        [options]="viewModeOptions"
+        [selected]="viewMode()"
+        (selectedChange)="changeViewMode($event)"
+        ariaLabel="Cambiar modo de vista" />
+
+      <!-- Hidden File Input for POI Excel Import -->
+      <input type="file" #poiFileInput (change)="onPoiFileSelected($event)" accept=".xlsx" style="display: none;" />
+
+      <!-- Botones Desktop (visibles en pantallas medianas y grandes) -->
+      <div class="header-desktop-actions">
+        <oefa-button variant="excel" (clicked)="exportToCsv()" title="Exportar vista actual a Excel (.csv)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+          Exportar Excel
+        </oefa-button>
+        <oefa-button variant="secondary" (clicked)="resetCache()" title="Restablecer datos mock de prueba">
+          🔄 Reset Cache
+        </oefa-button>
+
+        <!-- Dropdown Nueva OS/OC + Importar Excel con OefaDropdownComponent -->
+        <oefa-dropdown [isOpen]="showCreateDropdown()" (isOpenChange)="showCreateDropdown.set($event)" align="right">
+          <div trigger>
+            <button class="btn btn-primary" [disabled]="isImportingPoi()">
+              @if (isImportingPoi()) {
+                <span class="spinner-small"></span>
+                Importando...
+              } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="12" />
+                </svg>
+                Nueva {{ orderType }}
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              }
+            </button>
+          </div>
+
+          <div menu class="dropdown-create-menu">
+            <button class="dropdown-item" (click)="poiFileInput.click()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              <div class="dropdown-item-content">
+                <span class="dropdown-item-title">Importar desde Excel (POI)</span>
+                <span class="dropdown-item-sub">Carga masiva desde archivo POI_Financiero.xlsx</span>
+              </div>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" (click)="closeCreateDropdown(); goToCreate()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <div class="dropdown-item-content">
+                <span class="dropdown-item-title">Crear manualmente</span>
+                <span class="dropdown-item-sub">Registrar orden mediante formulario</span>
+              </div>
+            </button>
+          </div>
+        </oefa-dropdown>
+      </div>
+
+      <!-- Menú Kebab (3 puntos): Se muestra en móvil / sin espacio -->
+      <oefa-dropdown [isOpen]="showKebabMenu()" (isOpenChange)="showKebabMenu.set($event)" align="right" class="kebab-menu-container">
+        <div trigger>
+          <button type="button" class="btn-kebab" [class.active]="showKebabMenu()"
+            title="Más opciones" aria-label="Más opciones" [disabled]="isImportingPoi()">
+            @if (isImportingPoi()) {
+              <span class="spinner-small" style="border-top-color: var(--oefa-primary-root);"></span>
+            } @else {
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="1.5"></circle>
+                <circle cx="12" cy="5" r="1.5"></circle>
+                <circle cx="12" cy="19" r="1.5"></circle>
+              </svg>
+            }
+          </button>
+        </div>
+
+        <div menu class="dropdown-create-menu kebab-dropdown-menu">
+          <button class="dropdown-item" (click)="goToCreateFromKebab()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="12" />
+            </svg>
+            <div class="dropdown-item-content">
+              <span class="dropdown-item-title">Nueva {{ orderType }}</span>
+              <span class="dropdown-item-sub">Registrar orden mediante formulario</span>
+            </div>
+          </button>
+
+          <button class="dropdown-item" (click)="importPoiFromKebab(poiFileInput)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <div class="dropdown-item-content">
+              <span class="dropdown-item-title">Importar desde Excel (POI)</span>
+              <span class="dropdown-item-sub">Carga masiva POI_Financiero.xlsx</span>
+            </div>
+          </button>
+
+          <div class="dropdown-divider"></div>
+
+          <button class="dropdown-item" (click)="exportCsvFromKebab()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+            <div class="dropdown-item-content">
+              <span class="dropdown-item-title">Exportar Excel (.csv)</span>
+              <span class="dropdown-item-sub">Descargar vista actual</span>
+            </div>
+          </button>
+
+          <button class="dropdown-item" (click)="resetCacheFromKebab()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 4v6h-6"></path>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+            </svg>
+            <div class="dropdown-item-content">
+              <span class="dropdown-item-title">Reset Cache</span>
+              <span class="dropdown-item-sub">Restablecer datos mock</span>
+            </div>
+          </button>
+        </div>
+      </oefa-dropdown>
+    </div>
+  </oefa-page-header>
+
+  <!-- Filter Bar -->
+  <div class="card filter-card">
+    <!-- 1. Vista Desktop (> 768px) -->
+    <div class="desktop-filter-bar">
+      <div class="filter-group">
+        <div class="search-box">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)"
+            [placeholder]="viewMode() === 'orders' ? 'Buscar por N° de orden, proveedor o RUC...' : 'Buscar entregable (ej: ENTREGABLE 1), N° orden, SIGED...'"
+            class="search-input" />
+        </div>
+
+        <div class="select-group">
+          <select [ngModel]="selectedArea()" (ngModelChange)="selectedArea.set($event)" class="select-input">
+            <option value="">Todas las Áreas</option>
+            @for (area of distinctRequestingAreas(); track area) {
+            <option [value]="area">{{ area }}</option>
+            }
+          </select>
+
+          <select [ngModel]="selectedStatus()" (ngModelChange)="selectedStatus.set($event)" class="select-input">
+            @for (opt of currentStatusOptions(); track opt.value) {
+            <option [value]="opt.value">{{ opt.value ? opt.label : 'Todos los Estados' }}</option>
+            }
+          </select>
+
+          <select [ngModel]="selectedYear()" (ngModelChange)="selectedYear.set($event)" class="select-input">
+            <option value="">Todos los Años</option>
+            <option value="2026">Año 2026</option>
+            <option value="2025">Año 2025</option>
+          </select>
+
+          <!-- Botón Filtros Avanzados -->
+          <button type="button" class="btn-toggle-filters" [class.active]="showAdvancedFilters()"
+            (click)="showAdvancedFilters.set(!showAdvancedFilters())">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+            </svg>
+            Filtros Avanzados
+            @if (hasActiveAdvancedFilters()) {
+            <span class="badge-filter-dot"></span>
+            }
+          </button>
+
+          @if (hasAnyActiveFilter()) {
+          <button type="button" class="btn-clear-filters" (click)="clearAllFilters()" title="Limpiar todos los filtros">
+            &times; Limpiar
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- Drawer de Filtros Avanzados en Desktop -->
+      @if (showAdvancedFilters()) {
+      <div class="advanced-filters-panel">
+        <div class="advanced-grid">
+          <div class="adv-field">
+            <label class="adv-label">Criterio de Fecha a Filtrar</label>
+            <select [ngModel]="dateField()" (ngModelChange)="dateField.set($event)" class="adv-input">
+              <option value="NOTIFICATION">Fecha de Notificación (Orden)</option>
+              <option value="START">Fecha de Inicio (Entregables)</option>
+              <option value="DUE">Fecha de Vencimiento / Fin (Entregables)</option>
+            </select>
+          </div>
+
+          <div class="adv-field">
+            <oefa-date-picker
+              label="Fecha Desde"
+              placeholder="DD/MM/AAAA"
+              [ngModel]="dateFrom()"
+              (ngModelChange)="dateFrom.set($event)" />
+          </div>
+
+          <div class="adv-field">
+            <oefa-date-picker
+              label="Fecha Hasta"
+              placeholder="DD/MM/AAAA"
+              [ngModel]="dateTo()"
+              (ngModelChange)="dateTo.set($event)" />
+          </div>
+
+          <div class="adv-field">
+            <label class="adv-label">Tipo de Contratista</label>
+            <select [ngModel]="contractorType()" (ngModelChange)="contractorType.set($event)" class="adv-input">
+              <option value="">Todos (Persona Jurídica y Locador)</option>
+              <option value="JURÍDICA">Persona Jurídica</option>
+              <option value="LOCADOR">Locador de Servicios (Natural)</option>
+            </select>
+          </div>
+
+          <div class="adv-field">
+            <label class="adv-label">Monto Total Mínimo (S/)</label>
+            <input type="number" [ngModel]="amountMin()" (ngModelChange)="amountMin.set($event)" placeholder="0.00"
+              class="adv-input font-mono" />
+          </div>
+
+          <div class="adv-field">
+            <label class="adv-label">Monto Total Máximo (S/)</label>
+            <input type="number" [ngModel]="amountMax()" (ngModelChange)="amountMax.set($event)"
+              placeholder="Sin límite" class="adv-input font-mono" />
+          </div>
+
+          <div class="adv-field">
+            <label class="adv-label">Proyecto / Mantenimiento</label>
+            <select [ngModel]="selectedProyecto()" (ngModelChange)="selectedProyecto.set($event)" class="adv-input">
+              <option value="">Todos los Proyectos/Mantenimientos</option>
+              @for (p of proyectoStoreService.activeProyectos(); track p.id) {
+              <option [value]="p.id">
+                [{{ p.tipo === 'PROYECTO' ? 'PRY' : 'MNT' }}] {{ p.codigo }} — {{ p.nombre }}
+              </option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- 2. Vista Móvil (≤ 768px): Barra Compacta + Chips Rápidos -->
+    <div class="mobile-filter-bar">
+      <div class="mobile-search-row">
+        <div class="search-box">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)"
+            [placeholder]="viewMode() === 'orders' ? 'Buscar N° orden, proveedor...' : 'Buscar entregable, SIGED...'"
+            class="search-input" />
+        </div>
+
+        <button type="button" class="btn-mobile-filter-trigger" [class.has-active]="activeFiltersCount() > 0"
+          (click)="openFilterDrawer()" title="Abrir filtros de búsqueda"
+          aria-label="Abrir panel de filtros de búsqueda">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+          </svg>
+          <span class="trigger-label">Filtros</span>
+          @if (activeFiltersCount() > 0) {
+          <span class="filter-count-badge">{{ activeFiltersCount() }}</span>
+          }
+        </button>
+      </div>
+
+      <!-- Carrusel Horizontal de Chips de Estado -->
+      <div class="filter-chips-carousel">
+        @for (opt of currentStatusOptions(); track opt.value) {
+        <button type="button" class="filter-chip" [class.active]="selectedStatus() === opt.value"
+          (click)="selectStatusChip(opt.value)">
+          {{ opt.label }}
+        </button>
+        }
+        @if (hasAnyActiveFilter()) {
+        <button type="button" class="filter-chip chip-clear" (click)="clearAllFilters()"
+          title="Limpiar todos los filtros">
+          &times; Limpiar todo
+        </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Modal Bottom Sheet / Drawer de Filtros Móvil -->
+  @if (isMobileFilterDrawerOpen()) {
+  <div class="mobile-filter-backdrop" (click)="closeFilterDrawer()" role="dialog" aria-modal="true"
+    aria-label="Filtros de Búsqueda">
+    <div class="mobile-filter-drawer" (click)="$event.stopPropagation()">
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <h3>Filtros de Búsqueda</h3>
+          @if (activeFiltersCount() > 0) {
+          <span class="filter-count-badge">{{ activeFiltersCount() }} activos</span>
+          }
+        </div>
+        <button type="button" class="btn-drawer-close" (click)="closeFilterDrawer()"
+          aria-label="Cerrar panel de filtros">
+          &times;
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <!-- Filtros Principales -->
+        <div class="drawer-section">
+          <label class="adv-label">Área Solicitante</label>
+          <select [ngModel]="selectedArea()" (ngModelChange)="selectedArea.set($event)"
+            class="select-input mobile-drawer-select">
+            <option value="">Todas las Áreas</option>
+            @for (area of distinctRequestingAreas(); track area) {
+            <option [value]="area">{{ area }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="drawer-section">
+          <label class="adv-label">{{ viewMode() === 'orders' ? 'Estado de Orden' : 'Estado de Entregable' }}</label>
+          <select [ngModel]="selectedStatus()" (ngModelChange)="selectedStatus.set($event)"
+            class="select-input mobile-drawer-select">
+            @for (opt of currentStatusOptions(); track opt.value) {
+            <option [value]="opt.value">{{ opt.value ? opt.label : 'Todos los Estados' }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="drawer-section">
+          <label class="adv-label">Año</label>
+          <select [ngModel]="selectedYear()" (ngModelChange)="selectedYear.set($event)"
+            class="select-input mobile-drawer-select">
+            <option value="">Todos los Años</option>
+            <option value="2026">Año 2026</option>
+            <option value="2025">Año 2025</option>
+          </select>
+        </div>
+
+        <!-- Acordeón de Filtros Avanzados dentro del Drawer -->
+        <div class="adv-accordion-card">
+          <button type="button" class="adv-accordion-header" (click)="showAdvancedFilters.set(!showAdvancedFilters())">
+            <div class="accordion-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+              </svg>
+              <span class="accordion-title">Filtros Avanzados</span>
+              @if (hasActiveAdvancedFilters()) {
+              <span class="badge-filter-dot"></span>
+              }
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" class="accordion-arrow" [class.rotated]="showAdvancedFilters()">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          @if (showAdvancedFilters()) {
+          <div class="adv-accordion-body">
+            <div class="adv-field">
+              <label class="adv-label">Criterio de Fecha</label>
+              <select [ngModel]="dateField()" (ngModelChange)="dateField.set($event)" class="adv-input">
+                <option value="NOTIFICATION">Fecha de Notificación (Orden)</option>
+                <option value="START">Fecha de Inicio (Entregables)</option>
+                <option value="DUE">Fecha de Vencimiento / Fin (Entregables)</option>
+              </select>
+            </div>
+
+            <div class="adv-field">
+              <oefa-date-picker
+                label="Fecha Desde"
+                placeholder="DD/MM/AAAA"
+                [ngModel]="dateFrom()"
+                (ngModelChange)="dateFrom.set($event)" />
+            </div>
+
+            <div class="adv-field">
+              <oefa-date-picker
+                label="Fecha Hasta"
+                placeholder="DD/MM/AAAA"
+                [ngModel]="dateTo()"
+                (ngModelChange)="dateTo.set($event)" />
+            </div>
+
+            <div class="adv-field">
+              <label class="adv-label">Tipo de Contratista</label>
+              <select [ngModel]="contractorType()" (ngModelChange)="contractorType.set($event)" class="adv-input">
+                <option value="">Todos (Persona Jurídica y Locador)</option>
+                <option value="JURÍDICA">Persona Jurídica</option>
+                <option value="LOCADOR">Locador de Servicios (Natural)</option>
+              </select>
+            </div>
+
+            <div class="adv-field">
+              <label class="adv-label">Monto Total Mínimo (S/)</label>
+              <input type="number" [ngModel]="amountMin()" (ngModelChange)="amountMin.set($event)" placeholder="0.00"
+                class="adv-input font-mono" />
+            </div>
+
+            <div class="adv-field">
+              <label class="adv-label">Monto Total Máximo (S/)</label>
+              <input type="number" [ngModel]="amountMax()" (ngModelChange)="amountMax.set($event)"
+                placeholder="Sin límite" class="adv-input font-mono" />
+            </div>
+
+            <div class="adv-field">
+              <label class="adv-label">Proyecto / Mantenimiento</label>
+              <select [ngModel]="selectedProyecto()" (ngModelChange)="selectedProyecto.set($event)" class="adv-input">
+                <option value="">Todos los Proyectos/Mantenimientos</option>
+                @for (p of proyectoStoreService.activeProyectos(); track p.id) {
+                <option [value]="p.id">
+                  [{{ p.tipo === 'PROYECTO' ? 'PRY' : 'MNT' }}] {{ p.codigo }} — {{ p.nombre }}
+                </option>
+                }
+              </select>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <button type="button" class="btn btn-secondary btn-drawer-clear" (click)="clearAllFilters()"
+          [disabled]="!hasAnyActiveFilter()">
+          Limpiar todo
+        </button>
+        <button type="button" class="btn btn-primary btn-drawer-apply" (click)="closeFilterDrawer()">
+          Ver {{ viewMode() === 'orders' ? filteredOrders().length : flatDeliverables().length }} Resultados
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- VISTA 1: TABLA GENERAL POR ÓRDENES CONSOLIDADAS -->
+  @if (viewMode() === 'orders') {
+  <div class="card table-card">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 140px;" class="sortable-th" (click)="toggleSort('number')">
+            <div class="th-content">
+              <span>N° Orden</span>
+              <span class="sort-indicator">{{ sortColumn() === 'number' ? (sortDirection() === 'asc' ? '▲' : '▼') : '⇅'
+                }}</span>
+            </div>
+          </th>
+          <th style="width: 220px;" class="sortable-th provider-th" (click)="toggleSort('provider')">
+            <div class="th-content">
+              <span>Proveedor / Razón Social</span>
+              <span class="sort-indicator">{{ sortColumn() === 'provider' ? (sortDirection() === 'asc' ? '▲' : '▼') :
+                '⇅' }}</span>
+            </div>
+          </th>
+          <th class="service-th">Descripción del Servicio</th>
+          <th class="sortable-th" (click)="toggleSort('area')">
+            <div class="th-content">
+              <span>Área Solicitante</span>
+              <span class="sort-indicator">{{ sortColumn() === 'area' ? (sortDirection() === 'asc' ? '▲' : '▼') : '⇅'
+                }}</span>
+            </div>
+          </th>
+          <th style="width: 125px;" class="sortable-th" (click)="toggleSort('date')">
+            <div class="th-content">
+              <span>Fecha Notif.</span>
+              <span class="sort-indicator">{{ sortColumn() === 'date' ? (sortDirection() === 'asc' ? '▲' : '▼') : '⇅'
+                }}</span>
+            </div>
+          </th>
+          <th style="width: 130px;" class="sortable-th" (click)="toggleSort('amount')">
+            <div class="th-content">
+              <span>Monto Total</span>
+              <span class="sort-indicator">{{ sortColumn() === 'amount' ? (sortDirection() === 'asc' ? '▲' : '▼') : '⇅'
+                }}</span>
+            </div>
+          </th>
+          <th style="width: 110px;">% Avance</th>
+          <th style="width: 120px;" class="sortable-th" (click)="toggleSort('status')">
+            <div class="th-content">
+              <span>Estado</span>
+              <span class="sort-indicator">{{ sortColumn() === 'status' ? (sortDirection() === 'asc' ? '▲' : '▼') : '⇅'
+                }}</span>
+            </div>
+          </th>
+          <th style="width: 80px; text-align: right;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (order of paginatedOrders(); track order.id) {
+        <tr class="table-row" (click)="openOrderDrawer(order)">
+          <td>
+            <div class="font-mono font-semibold color-primary">{{ formatOrderNumber(order.number) }}</div>
+            @if (order.contractNumber) {
+            <div class="font-mono" style="font-size: 0.72rem; color: #475569; margin-top: 2px; font-weight: 500;">{{
+              order.contractNumber }}</div>
+            }
+          </td>
+          <td class="provider-cell">
+            <div class="font-medium provider-text" [title]="order.provider">{{ order.provider }}</div>
+            <div style="display: flex; gap: 4px; align-items: center; flex-wrap: wrap; margin-top: 2px;">
+              @if (order.isRecurrent) {
+              <span class="badge-tag">Recurrente</span>
+              }
+              @for (pBadge of getProyectoBadgesForOrder(order); track pBadge.label) {
+              <span class="project-badge" [class.badge-proyecto]="pBadge.tipo === 'PROYECTO'"
+                [class.badge-mantenimiento]="pBadge.tipo === 'MANTENIMIENTO'">
+                {{ pBadge.label }}
+              </span>
+              }
+            </div>
+          </td>
+          <td class="service-cell" [title]="order.serviceDescription">
+            <div class="service-text">{{ order.serviceDescription }}</div>
+          </td>
+          <td class="area-cell"><span class="area-chip" [title]="order.requestingArea">{{ order.requestingArea }}</span>
+          </td>
+          <td class="font-mono">{{ formatDateToDDMMYYYY(order.notificationDate) }}</td>
+          <td class="font-mono font-semibold">S/ {{ order.totalAmount | number:'1.2-2' }}</td>
+          <td style="min-width: 120px;">
+            <oefa-progress-bar [value]="order.progressPercent" size="sm" [showValueText]="true" />
+          </td>
+          <td>
+            <oefa-status-badge [status]="order.status" />
+          </td>
+          <td style="text-align: right;">
+            <button class="icon-btn-action" title="Ver Detalle de Orden"
+              (click)="goToDetail(order.id); $event.stopPropagation()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="9" style="padding: 24px 0;">
+            <oefa-empty-state
+              icon="search"
+              title="No se encontraron órdenes"
+              [description]="'No se encontraron órdenes de ' + orderType + ' con los filtros aplicados.'"
+              actionText="Limpiar Filtros"
+              [compact]="true"
+              (actionClick)="clearAllFilters()"
+            ></oefa-empty-state>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    <!-- Paginador Reutilizable OEFA Vista Órdenes -->
+    <oefa-pagination
+      [currentPage]="currentPage()"
+      [pageSize]="pageSize()"
+      [totalItems]="totalOrders()"
+      [pageSizeOptions]="pageSizeOptions"
+      itemLabel="órdenes"
+      (pageChange)="goToPage($event)"
+      (pageSizeChange)="onPageSizeChange($event)" />
+  </div>
+  }
+
+  <!-- VISTA 2: MATRIZ PLANA DE ENTREGABLES TIPO EXCEL -->
+  @if (viewMode() === 'deliverables') {
+  <div class="card table-card">
+    <div class="table-wrapper">
+      <table class="excel-data-table">
+        <thead>
+          <tr>
+            <th style="width: 140px;">N° {{ orderType }}</th>
+            <th style="width: 140px;">N° ENTREGABLE</th>
+            <th style="width: 100px;">INICIO</th>
+            <th style="width: 80px; text-align: center;">MÁX DÍAS</th>
+            <th style="width: 100px;">FECHA FIN</th>
+            <th style="width: 90px; text-align: right;">PORCENTAJE</th>
+            <th style="width: 110px; text-align: right;">MONTO</th>
+            <th style="width: 150px;">PROYECTO / MANT.</th>
+            <th class="siged-col">SIGED</th>
+            <th style="width: 120px;">ESTADO</th>
+            <th style="width: 70px; text-align: center;">ACCIÓN</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of paginatedFlatDeliverables(); track row.deliverableId; let idx = $index) {
+          <tr class="deliverable-matrix-row"
+            [class.is-selected]="selectedDeliverable()?.deliverableId === row.deliverableId"
+            (click)="openDeliverableDrawer(row)">
+            <!-- COLUMNA N° OS/OC CON ROWSPAN DINÁMICO (BOTÓN VÍNCULO DIRECTO A ORDEN) -->
+            @if (shouldShowOrderCell(paginatedFlatDeliverables(), idx)) {
+            <td [attr.rowspan]="getOrderRowspan(paginatedFlatDeliverables(), idx)" class="grouped-order-cell"
+              (click)="$event.stopPropagation()">
+              <button type="button" class="btn-order-link" (click)="goToDetail(row.orderId); $event.stopPropagation()"
+                [title]="'Ir al detalle completo de ' + formatOrderNumber(row.orderNumber)">
+                <span class="order-code font-mono font-bold">{{ formatOrderNumber(row.orderNumber) }}</span>
+                <span class="sub-info text-ellipsis" [title]="row.provider">{{ row.provider }}</span>
+                <span class="link-hint">Ver Orden ↗</span>
+              </button>
+            </td>
+            }
+
+            <td class="font-medium text-center">
+              <span class="del-num-badge font-bold">ENTREGABLE N° {{ row.deliverableNum }}</span>
+            </td>
+            <td class="font-mono">{{ formatDateToDDMMYYYY(row.startDate) }}</td>
+            <td class="font-mono text-center font-bold">{{ row.daysOffset }}</td>
+            <td class="font-mono font-semibold color-primary">{{ formatDateToDDMMYYYY(row.dueDate) }}</td>
+            <td class="font-mono text-right font-bold">{{ row.amountPercent | number:'1.2-2' }}%</td>
+            <td class="font-mono text-right font-semibold">S/ {{ row.amount | number:'1.2-2' }}</td>
+            <td>
+              @if (row.proyectoLabel) {
+              <span class="project-badge" [class.badge-proyecto]="row.proyectoTipo === 'PROYECTO'"
+                [class.badge-mantenimiento]="row.proyectoTipo === 'MANTENIMIENTO'">
+                {{ row.proyectoLabel }}
+              </span>
+              } @else {
+              <span class="text-muted font-italic" style="font-size: 0.75rem;">— Sin asignar</span>
+              }
+            </td>
+            <td class="siged-cell">
+              @if (row.sigedCode) {
+              <div class="siged-copy-container">
+                <span class="siged-chip font-mono">{{ row.sigedCode }}</span>
+                <button type="button" class="btn-copy-siged" [class.copied]="copiedSiged() === row.sigedCode"
+                  (click)="copyToClipboard(row.sigedCode, $event)"
+                  [title]="copiedSiged() === row.sigedCode ? '¡Copiado!' : 'Copiar SIGED'">
+                  @if (copiedSiged() === row.sigedCode) {
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  } @else {
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                  </svg>
+                  }
+                </button>
+              </div>
+              } @else {
+              <span class="text-muted font-italic">Sin registrar</span>
+              }
+            </td>
+            <td>
+              <oefa-status-badge [status]="row.status" />
+            </td>
+            <td class="text-center">
+              <button class="icon-btn-action" title="Ver Detalle del Entregable (Side Canvas)"
+                (click)="openDeliverableDrawer(row); $event.stopPropagation()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="10" style="padding: 24px 0;">
+              <oefa-empty-state
+                icon="inbox"
+                title="No se encontraron entregables"
+                description="No hay entregables que coincidan con los criterios de búsqueda actuales."
+                actionText="Limpiar Filtros"
+                [compact]="true"
+                (actionClick)="clearAllFilters()"
+              ></oefa-empty-state>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginador Reutilizable OEFA Vista Matriz Entregables -->
+    <oefa-pagination
+      [currentPage]="matrixCurrentPage()"
+      [pageSize]="matrixPageSize()"
+      [totalItems]="totalMatrixOrders()"
+      [pageSizeOptions]="matrixPageSizeOptions"
+      itemLabel="órdenes (con entregables completos)"
+      (pageChange)="goToMatrixPage($event)"
+      (pageSizeChange)="onMatrixPageSizeChange($event)" />
+  </div>
+  }
+
+  <!-- SIDE CANVAS DRAWER: DETALLE DEL ENTREGABLE -->
+  @if (selectedDeliverable(); as del) {
+  <div class="drawer-overlay" (click)="closeDeliverableDrawer()">
+    <div class="drawer-panel" (click)="$event.stopPropagation()">
+      <!-- Drawer Header -->
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <span class="drawer-badge-num font-mono font-bold">ENTREGABLE N° {{ del.deliverableNum }}</span>
+          <h3 class="drawer-title">{{ del.deliverableName }}</h3>
+          <oefa-status-badge [status]="del.status" />
+        </div>
+        <oefa-icon-button variant="close" (btnClick)="closeDeliverableDrawer()" ariaLabel="Cerrar panel (Esc)"></oefa-icon-button>
+      </div>
+
+      <!-- Drawer Body -->
+      <div class="drawer-body">
+        <!-- Referencia de la Orden -->
+        <div class="drawer-section order-ref-box">
+          <div class="order-ref-header">
+            <span class="font-mono font-bold color-primary text-lg">{{ formatOrderNumber(del.orderNumber) }}</span>
+            <span class="order-year-chip font-mono">{{ del.orderYear }}</span>
+          </div>
+          <p class="provider-name font-medium">{{ del.provider }}</p>
+          <div class="area-chip-row">
+            <span class="area-chip">📍 {{ del.requestingArea }}</span>
+          </div>
+        </div>
+
+        <!-- Detalle Financiero y de Plazos -->
+        <div class="drawer-section">
+          <h4 class="drawer-section-title">📊 Información de Cómputo y Montos</h4>
+          <div class="drawer-info-grid">
+            <div class="info-cell">
+              <span class="info-label">Fecha de Inicio</span>
+              <span class="info-val font-mono">{{ formatDateToDDMMYYYY(del.startDate) }}</span>
+            </div>
+            <div class="info-cell">
+              <span class="info-label">Plazo Otorgado</span>
+              <span class="info-val font-mono font-bold">{{ del.daysOffset }} Días Cal.</span>
+            </div>
+            <div class="info-cell">
+              <span class="info-label">Fecha Límite</span>
+              <span class="info-val font-mono font-bold color-primary">{{ formatDateToDDMMYYYY(del.dueDate) }}</span>
+            </div>
+            <div class="info-cell">
+              <span class="info-label">Mes Programado</span>
+              <span class="info-val text-capitalize">{{ del.monthText }}</span>
+            </div>
+            <div class="info-cell">
+              <span class="info-label">Porcentaje de Pago</span>
+              <span class="info-val font-mono font-bold">{{ del.amountPercent | number:'1.2-2' }}%</span>
+            </div>
+            <div class="info-cell">
+              <span class="info-label">Monto Programado</span>
+              <span class="info-val font-mono font-bold text-success">S/ {{ del.amount | number:'1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto / Mantenimiento -->
+        <div class="drawer-section">
+          <h4 class="drawer-section-title">📌 Proyecto / Mantenimiento</h4>
+          @if (del.proyectoLabel) {
+          <div class="project-drawer-card" [class.is-proyecto]="del.proyectoTipo === 'PROYECTO'"
+            [class.is-mantenimiento]="del.proyectoTipo === 'MANTENIMIENTO'">
+            <span class="proy-type-tag font-bold">
+              {{ del.proyectoTipo === 'PROYECTO' ? '📊 Proyecto' : '🔧 Mantenimiento' }}
+            </span>
+            <span class="proy-code-title font-mono font-semibold">{{ del.proyectoLabel }}</span>
+          </div>
+          } @else {
+          <div class="empty-info-box">
+            <span class="text-muted font-italic">Sin proyecto o mantenimiento asignado</span>
+          </div>
+          }
+        </div>
+
+        <!-- Integración SIGED -->
+        <div class="drawer-section">
+          <h4 class="drawer-section-title">🔗 Gestión Documental (SIGED)</h4>
+          @if (del.sigedCode) {
+          <div class="siged-drawer-card">
+            <span class="siged-label">Código de Expediente</span>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <span class="siged-code font-mono font-bold">{{ del.sigedCode }}</span>
+              <button type="button" class="btn-copy-siged drawer-copy-btn"
+                [class.copied]="copiedSiged() === del.sigedCode" (click)="copyToClipboard(del.sigedCode, $event)"
+                [title]="copiedSiged() === del.sigedCode ? '¡Copiado!' : 'Copiar SIGED'">
+                @if (copiedSiged() === del.sigedCode) {
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                }
+              </button>
+            </div>
+          </div>
+          } @else {
+          <div class="empty-info-box">
+            <span class="text-muted font-italic">Aún no se ha registrado código SIGED</span>
+          </div>
+          }
+        </div>
+
+        <!-- Botón Acción Completa -->
+        <div class="drawer-actions-panel">
+          <button class="btn btn-primary full-width-btn" (click)="goToDetail(del.orderId)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            Ver Ficha Completa de la Orden ({{ formatOrderNumber(del.orderNumber) }})
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- SIDE CANVAS DRAWER: RESUMEN RÁPIDO DE ORDEN (OS / OC) -->
+  @if (selectedOrderDrawer(); as ord) {
+  <div class="drawer-overlay" (click)="closeOrderDrawer()">
+    <div class="drawer-panel order-drawer-panel" (click)="$event.stopPropagation()">
+      <!-- Drawer Header -->
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="drawer-badge-num font-mono font-bold">{{ ord.type }} N° {{ formatOrderNumber(ord.number)
+              }}</span>
+            <oefa-status-badge [status]="ord.status" />
+          </div>
+          <h3 class="drawer-title" [title]="ord.provider">{{ ord.provider }}</h3>
+          @if (ord.ruc) {
+          <span class="font-mono text-muted" style="font-size: 0.8rem;">RUC: {{ ord.ruc }}</span>
+          }
+        </div>
+        <oefa-icon-button variant="close" (btnClick)="closeOrderDrawer()" ariaLabel="Cerrar panel (Esc)"></oefa-icon-button>
+      </div>
+
+      <!-- Drawer Body -->
+      <div class="drawer-body">
+        <!-- Tarjeta de Metadatos y Avance -->
+        <div class="drawer-section order-ref-box">
+          <div class="drawer-info-grid">
+            <div class="info-cell">
+              <span class="info-label">Área Solicitante</span>
+              <span class="info-val">{{ ord.requestingArea }}</span>
+            </div>
+            <div class="info-cell">
+              <span class="info-label">Fecha Notificación</span>
+              <span class="info-val font-mono">{{ formatDateToDDMMYYYY(ord.notificationDate) }}</span>
+            </div>
+            <div class="info-cell">
+              <span class="info-label">Monto Total</span>
+              <span class="info-val font-mono font-bold" style="color: var(--oefa-primary-root);">S/ {{ ord.totalAmount
+                | number:'1.2-2' }}</span>
+            </div>
+            <div class="info-cell">
+              <span class="info-label">% Avance</span>
+              <div style="margin-top: 4px; max-width: 160px;">
+                <oefa-progress-bar [value]="ord.progressPercent" size="sm" [showValueText]="true" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Descripción del Servicio / Adquisición -->
+        @if (ord.serviceDescription) {
+        <div class="drawer-section">
+          <h4 class="drawer-section-title">📝 Descripción del {{ ord.type === 'OC' ? 'Bien / Adquisición' : 'Servicio'
+            }}</h4>
+          <p class="service-desc-drawer">{{ ord.serviceDescription }}</p>
+        </div>
+        }
+
+        <!-- Tabla de Entregables -->
+        <div class="drawer-section">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <h4 class="drawer-section-title" style="margin: 0;">📑 Entregables Programados ({{ ord.deliverables?.length
+              || 0 }})</h4>
+          </div>
+
+          @if (ord.deliverables && ord.deliverables.length > 0) {
+          <div class="drawer-table-wrapper">
+            <table class="drawer-mini-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px; text-align: center;">N°Entr.</th>
+                  <th>Fecha Fin</th>
+                  <th style="text-align: right;">Monto</th>
+                  <th>Estado</th>
+                  <th>SIGED</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (d of ord.deliverables; track d.id; let idx = $index) {
+                <tr>
+                  <td class="text-center font-medium">
+                    <span class="del-num-badge font-bold">N° {{ idx + 1 }}</span>
+                  </td>
+                  <td class="font-mono">{{ formatDateToDDMMYYYY(d.dueDate) }}</td>
+                  <td class="font-mono text-right font-semibold">
+                    S/ {{ d.amount | number:'1.2-2' }}
+                    @if (d.amountPercent) {
+                    <span class="text-muted" style="font-size: 0.75rem;">({{ d.amountPercent }}%)</span>
+                    }
+                  </td>
+                  <td>
+                    <oefa-status-badge [status]="d.status" />
+                  </td>
+                  <td>
+                    @if (d.sigedCode) {
+                    <div class="siged-copy-container">
+                      <span class="siged-chip font-mono">{{ d.sigedCode }}</span>
+                      <button type="button" class="btn-copy-siged" [class.copied]="copiedSiged() === d.sigedCode"
+                        (click)="copyToClipboard(d.sigedCode, $event)"
+                        [title]="copiedSiged() === d.sigedCode ? '¡Copiado!' : 'Copiar SIGED'">
+                        @if (copiedSiged() === d.sigedCode) {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        } @else {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                        }
+                      </button>
+                    </div>
+                    } @else {
+                    <span class="text-muted font-italic" style="font-size: 0.75rem;">—</span>
+                    }
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          } @else {
+          <div class="empty-info-box">
+            <span class="text-muted font-italic">Esta orden aún no registra entregables programados.</span>
+          </div>
+          }
+        </div>
+
+        <!-- Si es OC y tiene bienes -->
+        @if (ord.type === 'OC' && ord.bienes && ord.bienes.length > 0) {
+        <div class="drawer-section">
+          <h4 class="drawer-section-title">📦 Bienes Adquiridos ({{ ord.bienes.length }})</h4>
+          <div class="drawer-table-wrapper">
+            <table class="drawer-mini-table">
+              <thead>
+                <tr>
+                  <th>Ítem</th>
+                  <th>Descripción</th>
+                  <th style="text-align: right;">Cant.</th>
+                  <th style="text-align: right;">P. Unit</th>
+                  <th style="text-align: right;">Importe</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (b of ord.bienes; track b.idRq) {
+                <tr>
+                  <td class="font-mono">{{ b.itemPoi || b.itemRq || '-' }}</td>
+                  <td [title]="b.descripcionBien || b.detalleRq || ''">
+                    <div style="max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                      {{ b.descripcionBien || b.detalleRq || '-' }}
+                    </div>
+                  </td>
+                  <td class="font-mono text-right">{{ b.cantidadTotal || 1 }}</td>
+                  <td class="font-mono text-right">S/ {{ (b.precioUnitario || 0) | number:'1.2-2' }}</td>
+                  <td class="font-mono text-right font-semibold">S/ {{ b.importeRq | number:'1.2-2' }}</td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        }
+
+        <!-- Botón Acción Completa -->
+        <div class="drawer-actions-panel" style="margin-top: 24px;">
+          <button class="btn btn-primary full-width-btn" (click)="goToDetail(ord.id)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            Ver Detalle Completo de la Orden
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Modal Resumen Importación POI -->
+  <oefa-modal
+    [isOpen]="!!(poiImportResult() || poiImportError())"
+    [title]="poiImportError() ? 'Error en la importación' : 'Importación de POI completada'"
+    [variant]="poiImportError() ? 'danger' : 'info'"
+    size="md"
+    confirmText="Entendido"
+    [cancelText]="''"
+    (confirm)="closePoiModal()"
+    (close)="closePoiModal()">
+    @if (poiImportError()) {
+      <div class="alert-error-box">
+        {{ poiImportError() }}
+      </div>
+    } @else if (poiImportResult(); as res) {
+      <p class="poi-summary-msg">{{ res.mensaje }}</p>
+      <div class="poi-stats-grid">
+        <div class="poi-stat-box">
+          <span class="poi-stat-num">{{ res.itemInsert }}</span>
+          <span class="poi-stat-lbl">Ítems Nuevos</span>
+        </div>
+        <div class="poi-stat-box">
+          <span class="poi-stat-num">{{ res.itemUpdate }}</span>
+          <span class="poi-stat-lbl">Ítems Actualizados</span>
+        </div>
+        <div class="poi-stat-box">
+          <span class="poi-stat-num">{{ res.itemBloqueo }}</span>
+          <span class="poi-stat-lbl">Ítems Bloqueados</span>
+        </div>
+        <div class="poi-stat-box">
+          <span class="poi-stat-num">{{ res.itemInactivo }}</span>
+          <span class="poi-stat-lbl">Ítems Inactivados</span>
+        </div>
+        <div class="poi-stat-box">
+          <span class="poi-stat-num">{{ res.rqInsert }}</span>
+          <span class="poi-stat-lbl">RQs Nuevos</span>
+        </div>
+        <div class="poi-stat-box">
+          <span class="poi-stat-num">{{ res.rqUpdate }}</span>
+          <span class="poi-stat-lbl">RQs Actualizados</span>
+        </div>
+      </div>
+    }
+  </oefa-modal>
+</div>

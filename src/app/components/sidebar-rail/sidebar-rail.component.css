@@ -1,0 +1,203 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar-rail {
+  width: 80px;
+  height: 100%;
+  background-color: var(--oefa-surface-rail);
+  border-right: 1px solid var(--oefa-border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  z-index: 30;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.quick-action-wrapper {
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.btn-quick-add {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--oefa-primary-root);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(20, 74, 167, 0.3);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    transform: scale(1.08);
+    filter: brightness(0.92);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.rail-nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 0 6px 40px;
+  box-sizing: border-box;
+
+  /* Scrollbar fina para rail de 80px */
+  scrollbar-width: thin;
+  scrollbar-color: var(--oefa-border-color) transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--oefa-border-color);
+    border-radius: 4px;
+  }
+}
+
+/* Espacio fijo en el flujo para evitar layout shifts al expandir */
+.rail-item-wrapper {
+  position: relative;
+  width: 100%;
+  height: 72px;
+  flex-shrink: 0;
+}
+
+/* Botón interactivo absoluto: se expande hacia abajo en hover sin mover a los demás */
+.rail-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 72px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--oefa-radius-md);
+  padding: 6px 4px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--oefa-text-secondary);
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  box-sizing: border-box;
+  z-index: 1;
+
+  /* Expansión estilo Google Apps (Waffle Menu) */
+  &:hover {
+    z-index: 40;
+    background-color: var(--oefa-surface-card);
+    border-color: var(--oefa-border-color);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+    color: var(--oefa-primary-root);
+
+    .item-label {
+      -webkit-line-clamp: unset;
+      display: block;
+      overflow: visible;
+      color: var(--oefa-text-primary);
+    }
+  }
+
+  /* Modo Foco Accesible (WCAG 2.2 SC 2.4.7 & 2.4.13) */
+  &:focus-visible {
+    z-index: 45;
+    outline: 2px solid var(--oefa-focus-ring);
+    outline-offset: 2px;
+    border-radius: var(--oefa-radius-md);
+    background-color: var(--oefa-surface-card);
+    border-color: var(--oefa-border-color);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+
+    .item-label {
+      -webkit-line-clamp: unset;
+      display: block;
+      overflow: visible;
+      color: var(--oefa-text-primary);
+    }
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &.active {
+    background-color: var(--oefa-primary-container);
+    border-color: transparent;
+    color: var(--oefa-primary-root);
+
+    .icon-container {
+      background-color: var(--oefa-primary-container-hc);
+      border-radius: var(--oefa-radius-sm);
+    }
+
+    .item-label {
+      font-weight: 600;
+      color: var(--oefa-primary-on-container);
+    }
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--oefa-primary-container);
+      border-color: var(--oefa-primary-container-hc);
+      box-shadow: 0 4px 14px rgba(20, 74, 167, 0.2);
+
+      .item-label {
+        color: var(--oefa-primary-on-container);
+      }
+    }
+  }
+}
+
+.icon-container {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+/* Nombres de módulos a 2 líneas con clamp controlado en reposo */
+.item-label {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  line-height: 1.15;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
+  hyphens: auto;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0 2px;
+}

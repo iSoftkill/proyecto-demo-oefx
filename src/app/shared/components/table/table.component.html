@@ -1,0 +1,74 @@
+<div class="oefa-table-container">
+  <table class="oefa-table" role="table">
+    <thead>
+      <tr>
+        @for (col of columns; track col.key) {
+          <th 
+            [style.width]="col.width || 'auto'"
+            [style.text-align]="col.align || 'left'"
+            [class.sortable]="col.sortable"
+            (click)="onHeaderClick(col)"
+            [attr.aria-sort]="sortColumn() === col.key ? (sortDirection() === 'asc' ? 'ascending' : 'descending') : null"
+          >
+            <div class="th-content" [style.justify-content]="col.align === 'right' ? 'flex-end' : (col.align === 'center' ? 'center' : 'flex-start')">
+              <span>{{ col.header }}</span>
+              @if (col.sortable) {
+                <span class="sort-indicator" [class.active]="sortColumn() === col.key">
+                  @if (sortColumn() === col.key && sortDirection() === 'desc') {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m6 9 6 6 6-6"/>
+                    </svg>
+                  } @else if (sortColumn() === col.key && sortDirection() === 'asc') {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m18 15-6-6-6 6"/>
+                    </svg>
+                  } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sort-neutral">
+                      <path d="m7 15 5 5 5-5"/>
+                      <path d="m7 9 5-5 5 5"/>
+                    </svg>
+                  }
+                </span>
+              }
+            </div>
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @if (loading) {
+        @for (item of dummySkeletonRows; track $index) {
+          <tr class="skeleton-tr">
+            @for (col of columns; track col.key) {
+              <td>
+                <oefa-skeleton variant="text" width="80%" height="16px"></oefa-skeleton>
+              </td>
+            }
+          </tr>
+        }
+      } @else if (data.length > 0) {
+        @for (row of data; track $index) {
+          <tr 
+            [class.clickable]="rowClickable" 
+            (click)="onRowClick(row)"
+          >
+            @for (col of columns; track col.key) {
+              <td [style.text-align]="col.align || 'left'">
+                {{ row[col.key] !== undefined && row[col.key] !== null ? row[col.key] : '-' }}
+              </td>
+            }
+          </tr>
+        }
+      } @else {
+        <tr>
+          <td [attr.colspan]="columns.length" class="empty-cell">
+            <oefa-empty-state
+              [title]="emptyTitle"
+              [description]="emptyDescription"
+            ></oefa-empty-state>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

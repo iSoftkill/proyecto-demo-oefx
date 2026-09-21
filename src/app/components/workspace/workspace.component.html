@@ -1,0 +1,71 @@
+@if (isLoginRoute()) {
+  <router-outlet></router-outlet>
+} @else {
+  <div class="oefa-app-layout">
+    <!-- Top Institutional Header -->
+    <app-header></app-header>
+
+    <!-- Main Shell Body -->
+    <div class="app-body">
+      <!-- Desktop Sidebar (Rail + Submenu Drawer) -->
+      @if (!navService.isMobileScreen()) {
+        <app-sidebar-rail></app-sidebar-rail>
+        <app-submenu-panel></app-submenu-panel>
+      }
+
+      <!-- Mobile Floating Overlay Drawer (When hamburger menu is active on mobile) -->
+      @if (navService.isMobileScreen() && navService.sidebarMode() !== 'hidden') {
+        <div class="mobile-sidebar-backdrop" (click)="navService.sidebarMode.set('hidden')">
+          <div class="mobile-sidebar-container" (click)="$event.stopPropagation()">
+            <app-mobile-nav-drawer></app-mobile-nav-drawer>
+          </div>
+        </div>
+      }
+
+      <!-- Main Workspace Container -->
+      <main class="workspace-main" (click)="onWorkspaceClick()">
+        <div class="workspace-card">
+          <router-outlet></router-outlet>
+        </div>
+      </main>
+    </div>
+
+    <!-- Quick Action '+' Modal -->
+    @if (navService.isQuickActionOpen()) {
+      <div class="modal-backdrop" (click)="navService.closeQuickAction()">
+        <div class="modal-dialog" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h3>Acción Rápida — Crear Nuevo Registro</h3>
+            <button class="btn-close" (click)="navService.closeQuickAction()">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p class="modal-desc">Seleccione el tipo de documento que desea registrar en el sistema:</p>
+
+            <div class="action-grid">
+              <button class="action-card" (click)="navService.closeQuickAction(); navigateTo('/nueva-orden')">
+                <div class="action-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+                </div>
+                <div class="action-text">
+                  <span class="action-title">Nueva Órden de Servicio (OS)</span>
+                  <span class="action-sub">Servicios locadores, personas jurídicas y recurrentes</span>
+                </div>
+              </button>
+
+              <button class="action-card" (click)="navService.closeQuickAction(); navigateTo('/nueva-orden')">
+                <div class="action-icon alt">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                </div>
+                <div class="action-text">
+                  <span class="action-title">Nueva Órden de Compra (OC)</span>
+                  <span class="action-sub">Adquisición de bienes, productos y equipamiento</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}
+
