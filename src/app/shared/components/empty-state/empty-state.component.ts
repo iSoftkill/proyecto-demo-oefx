@@ -90,9 +90,10 @@ import { OefaButtonComponent } from '../button/button.component';
       width: 72px;
       height: 72px;
       border-radius: 50%;
-      background-color: var(--oefa-surface-subtle, #f8fafc);
-      color: var(--oefa-text-secondary, #475569);
-      border: 1px solid var(--oefa-border-color, #e2e8f0);
+      background-color: var(--oefa-surface-subtle);
+      color: var(--oefa-primary-root);
+      border: 1px solid var(--oefa-border-color);
+      transition: all var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
     }
 
     .compact .empty-icon-wrapper {
@@ -101,8 +102,8 @@ import { OefaButtonComponent } from '../button/button.component';
     }
 
     .compact .empty-icon-wrapper svg {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
     }
 
     .empty-content {
@@ -117,13 +118,13 @@ import { OefaButtonComponent } from '../button/button.component';
       font-family: var(--oefa-font-display, inherit);
       font-size: 1rem;
       font-weight: 700;
-      color: var(--oefa-text-primary, #0f172a);
+      color: var(--oefa-text-primary);
     }
 
     .empty-desc {
       margin: 0;
       font-size: 0.875rem;
-      color: var(--oefa-text-secondary, #475569);
+      color: var(--oefa-text-secondary);
       line-height: 1.5;
     }
 

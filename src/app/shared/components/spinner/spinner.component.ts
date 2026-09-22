@@ -43,8 +43,8 @@ import { CommonModule } from '@angular/common';
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(2px);
+      background-color: var(--oefa-surface-backdrop, rgba(255, 255, 255, 0.85));
+      backdrop-filter: blur(3px);
       z-index: 9999;
     }
 
@@ -52,7 +52,7 @@ import { CommonModule } from '@angular/common';
       border-radius: 50%;
       border-style: solid;
       border-color: var(--oefa-border-color, #e2e8f0);
-      border-top-color: var(--oefa-primary-root, #006654);
+      border-top-color: var(--oefa-primary-root, #144AA7);
       animation: oefa-spin 0.8s linear infinite;
     }
 
@@ -78,7 +78,7 @@ import { CommonModule } from '@angular/common';
       font-size: 0.875rem;
       font-weight: 500;
       color: var(--oefa-text-secondary, #475569);
-      font-family: var(--oefa-font-sans, inherit);
+      font-family: var(--oefa-font-body, inherit);
     }
 
     .sr-only {

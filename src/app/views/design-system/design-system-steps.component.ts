@@ -98,11 +98,11 @@ import { OefaSegmentedSwitchComponent, SegmentedOption } from '../../shared/comp
     .ds-container { display: flex; flex-direction: column; gap: 24px; }
     .ds-header { display: flex; justify-content: space-between; align-items: flex-start; }
     .subtitle { font-size: 0.875rem; color: var(--oefa-text-secondary); margin-top: 4px; }
-    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
+    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: var(--oefa-radius-full); }
 
-    .ds-card { background: white; border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); }
-    .card-header { padding: 18px 24px; border-bottom: 1px solid var(--oefa-border-color); }
-    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-primary-root); }
+    .ds-card { background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); box-shadow: var(--oefa-shadow-sm); }
+    .card-header { padding: 18px 24px; background: var(--oefa-surface-subtle); border-bottom: 1px solid var(--oefa-border-color); border-radius: calc(var(--oefa-radius-lg) - 1px) calc(var(--oefa-radius-lg) - 1px) 0 0; }
+    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-text-primary); font-family: var(--oefa-font-display); }
     .header-with-switch { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
     .card-body { padding: 32px 24px; display: flex; flex-direction: column; gap: 28px; }
 
@@ -120,7 +120,7 @@ import { OefaSegmentedSwitchComponent, SegmentedOption } from '../../shared/comp
     .step-preview-box { padding: 18px; border-radius: var(--oefa-radius-md); background: var(--oefa-surface-subtle); border: 1px solid var(--oefa-border-color); }
     .wizard-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--oefa-border-color); padding-top: 20px; }
 
-    .code-block { margin: 0; padding: 14px; background: #0f172a; color: #f8fafc; border-radius: var(--oefa-radius-md); font-family: var(--oefa-font-mono, monospace); font-size: 0.8125rem; overflow-x: auto; }
+    .code-block { margin: 0; padding: 14px; background: var(--oefa-surface-subtle); color: var(--oefa-text-primary); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-md); font-family: var(--oefa-font-mono, monospace); font-size: 0.8125rem; overflow-x: auto; }
   `]
 })
 export class DesignSystemStepsComponent {

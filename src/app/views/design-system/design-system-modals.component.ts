@@ -175,20 +175,54 @@ import { OefaProgressBarComponent } from '../../shared/components/progress-bar/p
           </p>
         </div>
       </oefa-modal>
+      <!-- Tarjeta 2: Especificación y Regla de Borde Perimetral -->
+      <div class="card ds-card">
+        <div class="card-header">
+          <h3>2. Especificación de Uso y Borde Perimetral</h3>
+          <span class="text-muted">Diseño institucional sin franja superior coloreada (<code>border-top: none</code>), con contorno perimetral sutil e iconos contextuales accesibles.</span>
+        </div>
+        <div class="card-body">
+          <pre class="code-block">&lt;!-- Modal Semántico con Contorno Perimetral Limpio --&gt;
+&lt;oefa-modal
+  [isOpen]="isOpen"
+  title="Confirmación de Operación"
+  subtitle="Expediente SIGED-2026"
+  variant="danger"
+  size="sm"
+  confirmText="Anular Registro"
+  cancelText="Cancelar"
+  (confirm)="onAnular()"
+  (close)="isOpen = false"&gt;
+  &lt;p&gt;¿Está seguro de anular el entregable? Esta acción no se puede deshacer.&lt;/p&gt;
+&lt;/oefa-modal&gt;</pre>
+        </div>
+      </div>
     </div>
   `,
   styles: [`
     .ds-container { display: flex; flex-direction: column; gap: 24px; }
     .ds-header { display: flex; justify-content: space-between; align-items: flex-start; }
     .subtitle { font-size: 0.875rem; color: var(--oefa-text-secondary); margin-top: 4px; }
-    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
+    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: var(--oefa-radius-full); }
 
-    .ds-card { background: white; border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); }
-    .card-header { padding: 18px 24px; border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; }
-    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-primary-root); }
+    .ds-card { background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); box-shadow: var(--oefa-shadow-sm); }
+    .card-header { padding: 18px 24px; background: var(--oefa-surface-subtle); border-bottom: 1px solid var(--oefa-border-color); border-radius: calc(var(--oefa-radius-lg) - 1px) calc(var(--oefa-radius-lg) - 1px) 0 0; display: flex; flex-direction: column; gap: 2px; }
+    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-text-primary); font-family: var(--oefa-font-display); }
     .card-body { padding: 24px; }
 
     .trigger-buttons-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+
+    .code-block {
+      background: var(--oefa-surface-subtle);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md);
+      padding: 16px;
+      font-size: 0.8125rem;
+      color: var(--oefa-text-primary);
+      margin: 0;
+      overflow-x: auto;
+      font-family: var(--oefa-font-mono, monospace);
+    }
   `]
 })
 export class DesignSystemModalsComponent {

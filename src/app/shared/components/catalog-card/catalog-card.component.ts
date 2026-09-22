@@ -118,15 +118,15 @@ export interface CatalogChipConfig {
   `,
   styles: [`
     .bento-catalog-card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 18px;
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-lg, 16px);
       padding: 22px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 16px;
-      box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.04);
+      box-shadow: var(--oefa-shadow-sm);
       transition: transform var(--oefa-duration-medium) var(--oefa-ease-emphasized),
                   box-shadow var(--oefa-duration-medium) var(--oefa-ease-emphasized),
                   border-color var(--oefa-duration-short) var(--oefa-ease-standard);
@@ -134,14 +134,14 @@ export interface CatalogChipConfig {
       outline: none;
 
       &:focus-visible {
-        box-shadow: 0 0 0 3px var(--oefa-focus-glow), 0 8px 24px -6px rgba(15, 23, 42, 0.04);
+        box-shadow: 0 0 0 3px var(--oefa-focus-glow), var(--oefa-shadow-sm);
         border-color: var(--oefa-primary-root);
       }
 
       &:hover {
         transform: translateY(-4px);
-        box-shadow: 0 18px 36px -8px rgba(20, 74, 167, 0.12);
-        border-color: #cbd5e1;
+        box-shadow: var(--oefa-shadow-md);
+        border-color: var(--oefa-border-color-strong, #cbd5e1);
 
         .bcc-icon-box {
           transform: rotate(8deg) scale(1.12);
@@ -172,12 +172,13 @@ export interface CatalogChipConfig {
     .bcc-icon-box {
       width: 44px;
       height: 44px;
-      background: white;
-      border-radius: 14px;
+      background: var(--oefa-surface-subtle);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md, 12px);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      box-shadow: var(--oefa-shadow-sm);
       flex-shrink: 0;
       transition: transform var(--oefa-duration-medium) var(--oefa-ease-emphasized);
     }
@@ -186,7 +187,7 @@ export interface CatalogChipConfig {
       font-size: 0.6875rem;
       font-weight: 700;
       padding: 4px 10px;
-      border-radius: 999px;
+      border-radius: var(--oefa-radius-full);
       letter-spacing: 0.02em;
     }
 
@@ -202,14 +203,14 @@ export interface CatalogChipConfig {
       font-family: var(--oefa-font-display, 'Poppins', sans-serif);
       font-size: 1rem;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--oefa-text-primary);
       line-height: 1.35;
     }
 
     .bcc-description {
       margin: 0;
       font-size: 0.8125rem;
-      color: #64748b;
+      color: var(--oefa-text-secondary);
       line-height: 1.5;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -227,15 +228,16 @@ export interface CatalogChipConfig {
     .bcc-tag {
       font-size: 0.6875rem;
       font-weight: 500;
-      background: #f1f5f9;
-      color: #475569;
+      background: var(--oefa-surface-muted);
+      color: var(--oefa-text-secondary);
       padding: 2px 8px;
-      border-radius: 6px;
+      border-radius: var(--oefa-radius-sm, 6px);
+      border: 1px solid var(--oefa-border-color);
     }
 
     .bcc-footer {
       padding-top: 14px;
-      border-top: 1px solid #f1f5f9;
+      border-top: 1px solid var(--oefa-border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -256,7 +258,7 @@ export interface CatalogChipConfig {
 
     .mini-stat-label {
       font-size: 0.625rem;
-      color: #94a3b8;
+      color: var(--oefa-text-muted);
       font-weight: 600;
       text-transform: uppercase;
     }
@@ -269,14 +271,15 @@ export interface CatalogChipConfig {
     .mini-bar-track {
       width: 54px;
       height: 5px;
-      background: #e2e8f0;
-      border-radius: 999px;
+      background: var(--oefa-surface-muted);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-full);
       overflow: hidden;
     }
 
     .mini-bar-fill {
       height: 100%;
-      border-radius: 999px;
+      border-radius: var(--oefa-radius-full);
     }
 
     .mini-pulse-wrap {
@@ -288,14 +291,14 @@ export interface CatalogChipConfig {
     .pulse-dot {
       width: 8px;
       height: 8px;
-      background: #10b981;
+      background: var(--oefa-success-ui-safe);
       border-radius: 50%;
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 0 0 3px var(--oefa-focus-glow);
     }
 
     .bcc-time {
       font-size: 0.6875rem;
-      color: #94a3b8;
+      color: var(--oefa-text-muted);
     }
 
     .bcc-btn {
@@ -307,7 +310,7 @@ export interface CatalogChipConfig {
       border: none;
       cursor: pointer;
       padding: 6px 12px;
-      border-radius: 10px;
+      border-radius: var(--oefa-radius-md, 10px);
       transition: transform var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
                   filter var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
 

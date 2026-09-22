@@ -32,7 +32,7 @@ interface CalendarDay {
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="oefa-date-range-wrapper" [class.has-error]="!!error" [class.is-disabled]="disabled">
+    <div class="oefa-date-range-wrapper" [class.is-open]="isOpen()" [class.has-error]="!!error" [class.is-disabled]="disabled">
       <!-- Etiqueta Accesible -->
       @if (label) {
         <label [for]="inputId" class="date-range-label">
@@ -222,6 +222,10 @@ interface CalendarDay {
       gap: 6px;
       position: relative;
       width: 100%;
+
+      &.is-open {
+        z-index: 1050;
+      }
     }
 
     .date-range-label {
@@ -440,7 +444,7 @@ interface CalendarDay {
 
         .day-btn {
           background-color: var(--oefa-primary-root, #144aa7);
-          color: #ffffff;
+          color: var(--oefa-primary-on, #ffffff);
           font-weight: 700;
           border-radius: 50%;
         }
@@ -452,7 +456,7 @@ interface CalendarDay {
 
         .day-btn {
           background-color: var(--oefa-primary-root, #144aa7);
-          color: #ffffff;
+          color: var(--oefa-primary-on, #ffffff);
           font-weight: 700;
           border-radius: 50%;
         }
@@ -529,7 +533,7 @@ interface CalendarDay {
       color: var(--oefa-primary-root, #144aa7);
       cursor: pointer;
       padding: 2px 6px;
-      border-radius: 4px;
+      border-radius: var(--oefa-radius-sm, 4px);
 
       &:hover {
         background: var(--oefa-surface-submenu, #f1f5f9);

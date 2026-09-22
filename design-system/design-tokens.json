@@ -133,7 +133,12 @@
       "surface": "#EEF4FF",
       "surfaceContainer": "#FDFDFD",
       "onSurfaceContainer": "#353534",
-      "surfaceLoginBg": { "value": "#0A1128", "_uso": "Fondo full-screen oscuro de la vista Login. Azul institucional profundo." }
+      "surfaceLoginBg": { "value": "#0A1128", "_uso": "Fondo full-screen oscuro de la vista Login. Azul institucional profundo." },
+      "tonalRamp": {
+        "10": "#0B1120", "20": "#0F172A", "30": "#1E293B", "40": "#334155",
+        "50": "#475569", "60": "#64748B", "70": "#94A3B8", "80": "#CBD5E1",
+        "90": "#E2E8F0", "95": "#F1F5F9", "99": "#F8FAFC"
+      }
     },
 
     "themes": {
@@ -321,7 +326,8 @@
     "sm": { "value": "640px", "token": "--oefa-breakpoint-sm", "target": "Móvil / Celular", "behavior": "Formularios 1 columna, botones 100% ancho, títulos compactos." },
     "md": { "value": "768px", "token": "--oefa-breakpoint-md", "target": "Tablet vertical", "behavior": "Menú lateral colapsable / drawer, scroll horizontal táctil en tablas." },
     "lg": { "value": "1024px", "token": "--oefa-breakpoint-lg", "target": "Tablet horizontal / Laptop", "behavior": "Sidebar fijo (pinned), layout login conmuta a 1 columna centrada sin hero lateral." },
-    "xl": { "value": "1280px", "token": "--oefa-breakpoint-xl", "target": "Desktop", "behavior": "Layout completo sin scroll horizontal forzado." }
+    "xl": { "value": "1280px", "token": "--oefa-breakpoint-xl", "target": "Desktop", "behavior": "Layout completo sin scroll horizontal forzado." },
+    "touchTarget": { "minSize": "44px", "wcagAbsoluteMin": "24px", "standard": "WCAG 2.2 SC 2.5.8" }
   },
 
   "motion": {
@@ -437,7 +443,22 @@
         "fontSize": 12,
         "fontWeight": 600,
         "backgroundActive": "primary-root",
-        "colorActive": "#FFFFFF"
+        "colorActive": "#FFFFFF",
+        "dot": {
+          "_descripcion": "Puntito indicador para alertas, novedades o cambios pendientes en la pestaña.",
+          "size": "8px",
+          "borderRadius": "50%",
+          "danger": "#EF4444",
+          "warning": "#F59E0B",
+          "primary": "primary-root",
+          "success": "#10B981"
+        }
+      },
+      "infoTooltip": {
+        "_descripcion": "Icono de ayuda contextual e interactivo incorporado a pestañas o formularios.",
+        "iconSize": "14px",
+        "color": "text-muted",
+        "colorHover": "primary-root"
       },
       "behavior": {
         "flexShrink": 0,
@@ -704,6 +725,43 @@
         "sm": "640px: Oculta divisor y marca de sistema (.brand-divider, .system-brand) priorizando logo OEFA; oculta boton directo de tema (.theme-toggle-btn) por existir dentro del menu de usuario; prioriza y mantiene visible el lanzador de apps (.apps-btn)."
       }
     },
+    "sideRail": {
+      "_descripcion": "Barra de navegación lateral principal tipo Rail de 80px con alineación centrada y submenú flyout de 260px.",
+      "width": "80px",
+      "surfaceLight": "surface-rail",
+      "surfaceDark": "#0F172A",
+      "borderRight": "1px solid border-color",
+      "zIndex": 40,
+      "quickAction": {
+        "size": "44px",
+        "borderRadius": "radius-full",
+        "background": "primary-root",
+        "color": "#FFFFFF"
+      },
+      "item": {
+        "wrapperHeight": "72px",
+        "width": "72px",
+        "iconSize": "22px",
+        "labelLines": 2,
+        "fontSize": 11,
+        "lineHeight": 1.15,
+        "activeBackground": "primary-container",
+        "activeColor": "primary-root",
+        "hoverElevation": "0 4px 14px rgba(0,0,0,0.14)"
+      },
+      "submenuFlyout": {
+        "width": "260px",
+        "background": "surface-card",
+        "border": "1px solid border-color",
+        "boxShadow": "shadow-flyout",
+        "zIndex": 50
+      },
+      "tooltip": {
+        "delay": "150ms",
+        "background": "surface-tooltip",
+        "color": "tooltip-text"
+      }
+    },
 
     "tableFilters": {
       "_descripcion": "Componente de filtrado de datos para tablas y matrices con soporte responsivo móvil (Bottom Sheet Drawer y Chips).",
@@ -771,11 +829,17 @@
       "verticalLineHeight": "32px",
       "verticalLineMarginLeft": "17px",
       "activeFocusGlow": "0 0 0 4px var(--oefa-primary-container)",
-      "responsiveMobileBreakpoint": "640px (--oefa-breakpoint-sm)"
+      "responsiveMobileBreakpoint": "640px (--oefa-breakpoint-sm)",
+      "speechBubble": {
+        "background": "primary-container",
+        "border": "1.5px solid border-color",
+        "borderRadius": "radius-lg",
+        "arrowSize": "16px"
+      }
     },
 
     "table": {
-      "_descripcion": "Tabla de datos institucional reutilizable con soporte de ordenamiento tipado, loading skeleton y empty state.",
+      "_descripcion": "Tabla de datos institucional reutilizable y matrices tipo Excel con soporte de ordenamiento tipado, loading skeleton y empty state.",
       "header": {
         "background": "surface-subtle",
         "color": "text-secondary",
@@ -792,6 +856,24 @@
         "padding": "12px 16px",
         "fontSize": 14,
         "color": "text-primary"
+      },
+      "density": {
+        "compact": { "padding": "8px 12px", "fontSize": 13 },
+        "default": { "padding": "12px 16px", "fontSize": 14 },
+        "comfortable": { "padding": "16px 20px", "fontSize": 14 }
+      },
+      "excelMatrix": {
+        "headerBackground": "surface-muted",
+        "groupedCellBackground": "surface-subtle",
+        "cellPadding": "10px 12px",
+        "border": "1px solid border-color",
+        "groupDivider": "2px solid border-color",
+        "fontMono": "font-mono"
+      },
+      "gmailTable": {
+        "activeRowBackground": "surface-submenu",
+        "expandedRowBackground": "surface-subtle",
+        "chevronTransition": "transform var(--oefa-duration-short) ease"
       },
       "sortableHeader": {
         "hoverColor": "primary-root",
@@ -861,7 +943,10 @@
       "padding": "6px 10px",
       "borderRadius": "radius-sm",
       "boxShadow": "0 4px 14px rgba(0, 0, 0, 0.25)",
-      "zIndex": 1000
+      "zIndex": 10000,
+      "viewportPadding": 8,
+      "arrowSize": 5,
+      "autoFlip": true
     },
 
     "navigationRail": {
@@ -906,35 +991,35 @@
     },
 
     "alert": {
-      "_descripcion": "Alertas contextuales y banners institucionales con 5 estados semánticos (WCAG 2.2 SC 1.4.3 y SC 4.1.3).",
+      "_descripcion": "Alertas contextuales y banners institucionales con 5 estados semánticos y marco perimetral uniforme de 1px (WCAG 2.2 SC 1.4.3 y SC 4.1.3).",
       "borderRadius": "radius-md",
       "padding": "14px 18px",
-      "accentBorderWidth": "4px",
+      "borderWidth": "1px",
       "gap": "12px",
       "fontSize": "0.875rem",
       "lineHeight": 1.45,
       "variants": {
         "info": {
           "background": "primary-container",
-          "border": "primary-root",
+          "border": "primary-container-hc",
           "color": "primary-on-container",
           "iconColor": "primary-root"
         },
         "success": {
           "background": "success-container",
-          "border": "success-ui-safe",
+          "border": "success-container-hc",
           "color": "success-on-container",
           "iconColor": "success-ui-safe"
         },
         "warning": {
           "background": "tertiary-container",
-          "border": "tertiary-root",
+          "border": "tertiary-container-hc",
           "color": "tertiary-on-container",
           "iconColor": "tertiary-ui-safe"
         },
         "error": {
           "background": "error-container",
-          "border": "error-root",
+          "border": "error-container-hc",
           "color": "error-on-container",
           "iconColor": "error-root"
         },
@@ -960,10 +1045,10 @@
       },
       "variants": {
         "default": { "borderTop": "none" },
-        "info": { "borderTop": "primary-root", "iconBg": "primary-container", "iconColor": "primary-root" },
-        "success": { "borderTop": "success-ui-safe", "iconBg": "success-container", "iconColor": "success-ui-safe" },
-        "warning": { "borderTop": "tertiary-ui-safe", "iconBg": "tertiary-container", "iconColor": "tertiary-on-container" },
-        "danger": { "borderTop": "error-root", "iconBg": "error-container", "iconColor": "error-on-container" }
+        "info": { "borderTop": "none", "iconBg": "primary-container", "iconColor": "primary-root" },
+        "success": { "borderTop": "none", "iconBg": "success-container", "iconColor": "success-ui-safe" },
+        "warning": { "borderTop": "none", "iconBg": "tertiary-container", "iconColor": "tertiary-on-container" },
+        "danger": { "borderTop": "none", "iconBg": "error-container", "iconColor": "error-on-container" }
       }
     },
     "button": {
@@ -997,6 +1082,60 @@
         "dashed": { "border": "1px dashed border-color", "background": "surface-subtle" },
         "bordered": { "border": "1px solid border-color", "background": "surface-card" },
         "card": { "border": "1px solid border-color", "background": "surface-card", "shadow": "shadow-sm" }
+      }
+    },
+    "drawer": {
+      "_descripcion": "Paneles laterales deslizantes y Side Canvas para fichas de detalle, edición rápida y asistentes secundarios.",
+      "zIndex": 1200,
+      "overlayBackground": "surface-overlay",
+      "overlayBackdropFilter": "blur(3px)",
+      "surface": "surface-modal",
+      "border": "border-color",
+      "shadow": "shadow-flyout",
+      "sizes": {
+        "sm": "380px",
+        "md": "480px",
+        "lg": "640px",
+        "xl": "800px",
+        "full": "100vw"
+      },
+      "positions": {
+        "right": { "animation": "drawerSlideLeft", "borderSide": "border-left" },
+        "left": { "animation": "drawerSlideRight", "borderSide": "border-right" },
+        "bottom": { "animation": "drawerSlideUp", "borderSide": "border-top", "borderRadius": "radius-lg radius-lg 0 0" }
+      },
+      "motion": {
+        "duration": "duration-long-1",
+        "ease": "ease-emphasized-decel",
+        "fadeDuration": "duration-short-4"
+      }
+    },
+    "pageHeader": {
+      "_descripcion": "Organismo de cabecera de página que integra h1 principal, migas de pan, badges de estado y barra de acciones.",
+      "marginBottom": "24px",
+      "gap": "12px",
+      "title": {
+        "fontSize": "1.5rem",
+        "fontSizeMobile": "1.25rem",
+        "fontWeight": 700,
+        "letterSpacing": "-0.01em",
+        "color": "text-primary"
+      },
+      "subtitle": {
+        "fontSize": "0.875rem",
+        "color": "text-secondary",
+        "lineHeight": 1.4
+      },
+      "breadcrumbs": {
+        "fontSize": "0.8125rem",
+        "gap": "6px",
+        "activeColor": "text-primary",
+        "linkColor": "primary-root",
+        "separatorColor": "text-disabled"
+      },
+      "actions": {
+        "gap": "10px",
+        "breakpoint": "breakpoint-md"
       }
     }
   }

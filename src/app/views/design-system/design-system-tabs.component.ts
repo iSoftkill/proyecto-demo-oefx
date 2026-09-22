@@ -1,47 +1,52 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OefaTabsComponent, OefaTabItem } from '../../shared/components/tabs/tabs.component';
+import { OefaInfoTooltipComponent } from '../../shared/components/info-tooltip/info-tooltip.component';
 
 @Component({
   selector: 'app-design-system-tabs',
   standalone: true,
-  imports: [CommonModule, OefaTabsComponent],
+  imports: [CommonModule, OefaTabsComponent, OefaInfoTooltipComponent],
   template: `
     <div class="ds-container">
       <div class="ds-header">
         <div>
           <h2>📑 Pestañas y Navegación (Moléculas)</h2>
-          <p class="subtitle">Componente &lt;oefa-tabs&gt; para navegación horizontal por secciones con badges y accesibilidad WAI-ARIA (role="tablist").</p>
+          <p class="subtitle">Componente &lt;oefa-tabs&gt; con soporte de iconos, badges numéricos, puntito rojo de alerta, tooltips contextuales y accesibilidad WAI-ARIA.</p>
         </div>
         <span class="ds-badge">MOLÉCULA</span>
       </div>
 
-      <!-- Sección 1: Demostración Interactiva de Tabs -->
+      <!-- Tarjeta 1: Pestañas con Icono, Badges Numéricos y Puntito Rojo -->
       <div class="card ds-card">
         <div class="card-header">
-          <h3>1. Pestañas Horizontales Reutilizables (&lt;oefa-tabs&gt;)</h3>
-          <span class="text-muted">Utilizadas en el módulo Configuración (Árbol, Proyectos, Usuarios) y en la Ficha de Detalle de Orden.</span>
+          <h3>1. Pestañas con Iconos, Badges y Puntito de Alerta (Variante 'underline')</h3>
+          <span class="text-muted">Integra glifos/iconos vectoriales, contadores numéricos (<code>badge: 3</code>), puntito rojo de atención (<code>badgeDot: true</code>) y tooltips institucionales (<code>infoTooltip: '...'</code>).</span>
         </div>
         <div class="card-body">
           <oefa-tabs
-            [tabs]="navTabs"
-            [(activeTab)]="currentTab">
-            <!-- Contenido dinámico según tab seleccionada -->
+            [tabs]="iconTabs"
+            [(activeTab)]="currentIconTab">
             <div class="tab-content-box">
-              @switch (currentTab()) {
+              @switch (currentIconTab()) {
                 @case ('general') {
                   <div class="tab-pane">
-                    <strong>Contenido de Información General:</strong> Muestra los datos de la cabecera de la orden, proveedor, RUC y montos.
+                    <strong>Información General:</strong> Ficha técnica de la orden de servicio, proveedor, RUC, certificaciones presupuestales y montos SIAF.
                   </div>
                 }
                 @case ('deliverables') {
                   <div class="tab-pane">
-                    <strong>Contenido de Entregables y Pagos:</strong> Muestra la matriz plana de 3 entregables registrados con sus respectivas fechas LPAG.
+                    <strong>Entregables y Pagos (3 Registrados):</strong> Matriz plana de hitos con semáforo de plazos según Ley de Procedimiento Administrativo General (LPAG).
+                  </div>
+                }
+                @case ('alerts') {
+                  <div class="tab-pane">
+                    <strong class="text-danger">Alertas y Observaciones Críticas (Puntito Rojo Activo):</strong> Existen 2 observaciones pendientes de subsanación por parte del contratista.
                   </div>
                 }
                 @case ('history') {
                   <div class="tab-pane">
-                    <strong>Contenido de Historial:</strong> Bitácora temporal de cambios de estado y expediente SIGED.
+                    <strong>Historial de Trazabilidad:</strong> Bitácora inmutable de eventos, derivaciones de expediente SIGED y firmas digitales.
                   </div>
                 }
               }
@@ -50,21 +55,151 @@ import { OefaTabsComponent, OefaTabItem } from '../../shared/components/tabs/tab
         </div>
       </div>
 
-      <!-- Sección 2: Especificación y API -->
+      <!-- Tarjeta 2: Pestañas Sin Icono (Formato Texto Puro) -->
       <div class="card ds-card">
         <div class="card-header">
-          <h3>2. Especificación de Uso</h3>
-          <span class="text-muted">Vinculación bidireccional simple con array de tabs tipado <code>OefaTabItem[]</code>.</span>
+          <h3>2. Pestañas Sin Icono (Tipografía Limpia Minimalista)</h3>
+          <span class="text-muted">Cuando la vista requiere máxima sobriedad o alta densidad sin sobrecarga visual, omitiendo el parámetro <code>icon</code>.</span>
         </div>
         <div class="card-body">
-          <pre class="code-block"><code>&lt;oefa-tabs
+          <oefa-tabs
+            [tabs]="textOnlyTabs"
+            [(activeTab)]="currentTextTab">
+            <div class="tab-content-box">
+              @switch (currentTextTab()) {
+                @case ('resumen') {
+                  <div class="tab-pane">
+                    <strong>Resumen Ejecutivo:</strong> Cuadro comparativo de avances físicos y financieros consolidados de la coordinación.
+                  </div>
+                }
+                @case ('adendas') {
+                  <div class="tab-pane">
+                    <strong>Adendas y Prórrogas (1 Aprobada):</strong> Registro de modificaciones contractuales y suspensiones de plazo.
+                  </div>
+                }
+                @case ('penalidades') {
+                  <div class="tab-pane">
+                    <strong>Penalidades y Deducciones (Puntito de Advertencia):</strong> Cálculo automático de mora por días de retraso en entrega.
+                  </div>
+                }
+              }
+            </div>
+          </oefa-tabs>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3: Variante Cápsula (variant="pill") -->
+      <div class="card ds-card">
+        <div class="card-header">
+          <h3>3. Variante Cápsula (&lt;oefa-tabs variant="pill"&gt;)</h3>
+          <span class="text-muted">Diseño con fondo encapsulado <code>var(--oefa-surface-subtle)</code> y pestaña activa con relieve, ideal para tableros y paneles internos.</span>
+        </div>
+        <div class="card-body">
+          <oefa-tabs
+            variant="pill"
+            [tabs]="pillTabs"
+            [(activeTab)]="currentPillTab">
+            <div class="tab-content-box">
+              @switch (currentPillTab()) {
+                @case ('semana') {
+                  <div class="tab-pane"><strong>Vista Semanal:</strong> Gráfico de entregables programados para la semana actual.</div>
+                }
+                @case ('mes') {
+                  <div class="tab-pane"><strong>Vista Mensual:</strong> Calendario de vencimientos acumulados del presente mes.</div>
+                }
+                @case ('anio') {
+                  <div class="tab-pane"><strong>Vista Anual:</strong> Consolidado presupuestal de la programación multianual.</div>
+                }
+              }
+            </div>
+          </oefa-tabs>
+        </div>
+      </div>
+
+      <!-- Tarjeta 4: Átomo Reutilizable <oefa-info-tooltip> -->
+      <div class="card ds-card">
+        <div class="card-header">
+          <h3>4. Átomo Reutilizable de Información (&lt;oefa-info-tooltip&gt;)</h3>
+          <span class="text-muted">Microcomponente institucional independiente para insertar tooltips de ayuda contextual en cualquier formulario, cabecera o tarjeta.</span>
+        </div>
+        <div class="card-body">
+          <div class="tooltip-demo-grid">
+            <div class="tooltip-sample-item">
+              <span class="sample-label">Posición Arriba (Default):</span>
+              <div class="sample-target">
+                <span>Plazo LPAG</span>
+                <oefa-info-tooltip text="Plazo legal máximo de 30 días hábiles para pronunciamiento." position="top"></oefa-info-tooltip>
+              </div>
+            </div>
+
+            <div class="tooltip-sample-item">
+              <span class="sample-label">Posición Abajo:</span>
+              <div class="sample-target">
+                <span>Retención 10%</span>
+                <oefa-info-tooltip text="Garantía de fiel cumplimiento para contrataciones de servicios." position="bottom"></oefa-info-tooltip>
+              </div>
+            </div>
+
+            <div class="tooltip-sample-item">
+              <span class="sample-label">Posición Derecha:</span>
+              <div class="sample-target">
+                <span>Devengado SIAF</span>
+                <oefa-info-tooltip text="Fase de pago con registro SIAF confirmado." position="right"></oefa-info-tooltip>
+              </div>
+            </div>
+
+            <div class="tooltip-sample-item">
+              <span class="sample-label">Tamaño Mediano (size="md"):</span>
+              <div class="sample-target">
+                <strong>Expediente SIGED</strong>
+                <oefa-info-tooltip text="Código único de trámite documentario institucional del OEFA." position="top" size="md"></oefa-info-tooltip>
+              </div>
+            </div>
+
+            <div class="tooltip-sample-item overflow-test-box">
+              <span class="sample-label">Antirrecorte (overflow: hidden):</span>
+              <div class="sample-target">
+                <span class="badge-test">Caja con Overflow</span>
+                <oefa-info-tooltip text="¡Este tooltip flota sobre el body y jamás se corta por contenedores con scroll o overflow!" position="top"></oefa-info-tooltip>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 5: Especificación de Uso -->
+      <div class="card ds-card">
+        <div class="card-header">
+          <h3>5. Especificación de Uso y API</h3>
+          <span class="text-muted">Consumo directo mediante array de configuración tipado <code>OefaTabItem[]</code> y componente <code>&lt;oefa-info-tooltip&gt;</code>.</span>
+        </div>
+        <div class="card-body">
+          <pre class="code-block">&lt;!-- Pestañas con Icono, Badges y Tooltips --&gt;
+&lt;oefa-tabs
   [tabs]="[
-    &#123; id: 'info', label: 'Información General', icon: '📋' &#125;,
-    &#123; id: 'entregables', label: 'Entregables', icon: '📦', badge: 3 &#125;
+    &#123; id: 'info', label: 'Información', icon: '📋', infoTooltip: 'Datos de la cabecera' &#125;,
+    &#123; id: 'entregables', label: 'Entregables', icon: '📦', badge: 3 &#125;,
+    &#123; id: 'alertas', label: 'Alertas', icon: '🔔', badgeDot: true, badgeDotColor: 'danger' &#125;
   ]"
   [(activeTab)]="selectedTab"&gt;
-  &lt;!-- Tu contenido de vistas aquí --&gt;
-&lt;/oefa-tabs&gt;</code></pre>
+  &lt;!-- Vistas asociadas por &#64;switch(selectedTab) --&gt;
+&lt;/oefa-tabs&gt;
+
+&lt;!-- Pestañas Sin Icono (Formato Texto Puro) --&gt;
+&lt;oefa-tabs
+  [tabs]="[
+    &#123; id: 'resumen', label: 'Resumen General' &#125;,
+    &#123; id: 'adendas', label: 'Adendas', badge: 1 &#125;
+  ]"
+  [(activeTab)]="selectedTab"&gt;
+&lt;/oefa-tabs&gt;
+
+&lt;!-- Uso Independiente de &lt;oefa-info-tooltip&gt; --&gt;
+&lt;oefa-info-tooltip
+  text="Mensaje explicativo con respuesta en 150ms"
+  position="top"
+  size="sm"&gt;
+&lt;/oefa-info-tooltip&gt;</pre>
         </div>
       </div>
     </div>
@@ -73,25 +208,136 @@ import { OefaTabsComponent, OefaTabItem } from '../../shared/components/tabs/tab
     .ds-container { display: flex; flex-direction: column; gap: 24px; }
     .ds-header { display: flex; justify-content: space-between; align-items: flex-start; }
     .subtitle { font-size: 0.875rem; color: var(--oefa-text-secondary); margin-top: 4px; }
-    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
+    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: var(--oefa-radius-full); }
 
-    .ds-card { background: white; border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); }
-    .card-header { padding: 18px 24px; border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; }
-    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-primary-root); }
+    .ds-card { background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); box-shadow: var(--oefa-shadow-sm); }
+    .card-header { padding: 18px 24px; background: var(--oefa-surface-subtle); border-bottom: 1px solid var(--oefa-border-color); border-radius: calc(var(--oefa-radius-lg) - 1px) calc(var(--oefa-radius-lg) - 1px) 0 0; display: flex; flex-direction: column; gap: 2px; }
+    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-text-primary); font-family: var(--oefa-font-display); }
     .card-body { padding: 24px; }
 
-    .tab-content-box { padding: 20px; border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-md); background: var(--oefa-surface-subtle); }
-    .tab-pane { font-size: 0.875rem; color: var(--oefa-text-primary); }
+    .tab-content-box { padding: 20px; border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-md); background: var(--oefa-surface-subtle); margin-top: 16px; }
+    .tab-pane { font-size: 0.875rem; color: var(--oefa-text-primary); line-height: 1.5; }
+    .text-danger { color: var(--oefa-danger-500, #ef4444); }
 
-    .code-block { margin: 0; padding: 14px; background: #0f172a; color: #f8fafc; border-radius: var(--oefa-radius-md); font-family: var(--oefa-font-mono, monospace); font-size: 0.8125rem; overflow-x: auto; }
+    .tooltip-demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .tooltip-sample-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px;
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md);
+      background: var(--oefa-surface-subtle);
+    }
+
+    .sample-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--oefa-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sample-target {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--oefa-text-primary);
+    }
+
+    .overflow-test-box {
+      overflow: hidden;
+      max-height: 80px;
+    }
+
+    .badge-test {
+      background: var(--oefa-primary-container);
+      color: var(--oefa-primary-on-container);
+      padding: 2px 8px;
+      border-radius: var(--oefa-radius-sm);
+      font-size: 0.75rem;
+    }
+
+    .code-block {
+      background: var(--oefa-surface-subtle);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md);
+      padding: 16px;
+      font-size: 0.8125rem;
+      color: var(--oefa-text-primary);
+      margin: 0;
+      overflow-x: auto;
+      font-family: var(--oefa-font-mono);
+      line-height: 1.5;
+    }
   `]
 })
 export class DesignSystemTabsComponent {
-  currentTab = signal<string>('deliverables');
+  currentIconTab = signal<string>('deliverables');
+  currentTextTab = signal<string>('resumen');
+  currentPillTab = signal<string>('mes');
 
-  navTabs: OefaTabItem[] = [
-    { id: 'general', label: 'Información General', icon: '📋' },
-    { id: 'deliverables', label: 'Entregables y Pagos', icon: '📦', badge: 3 },
-    { id: 'history', label: 'Historial de Trazabilidad', icon: '📜' }
+  // 1. Pestañas con icono, badge con número, puntito rojo y tooltip
+  iconTabs: OefaTabItem[] = [
+    {
+      id: 'general',
+      label: 'Información General',
+      icon: '📋',
+      infoTooltip: 'Datos del contrato, proveedor y montos'
+    },
+    {
+      id: 'deliverables',
+      label: 'Entregables y Pagos',
+      icon: '📦',
+      badge: 3
+    },
+    {
+      id: 'alerts',
+      label: 'Alertas',
+      icon: '🔔',
+      badgeDot: true,
+      badgeDotColor: 'danger',
+      infoTooltip: 'Observaciones pendientes de subsanar'
+    },
+    {
+      id: 'history',
+      label: 'Historial',
+      icon: '📜'
+    }
+  ];
+
+  // 2. Pestañas sin icono (texto puro)
+  textOnlyTabs: OefaTabItem[] = [
+    {
+      id: 'resumen',
+      label: 'Resumen Ejecutivo',
+      infoTooltip: 'Cuadro comparativo consolidado'
+    },
+    {
+      id: 'adendas',
+      label: 'Adendas y Prórrogas',
+      badge: 1
+    },
+    {
+      id: 'penalidades',
+      label: 'Penalidades',
+      badgeDot: true,
+      badgeDotColor: 'warning',
+      infoTooltip: 'Cálculo de mora por atraso'
+    }
+  ];
+
+  // 3. Pestañas variante pill
+  pillTabs: OefaTabItem[] = [
+    { id: 'semana', label: 'Esta Semana' },
+    { id: 'mes', label: 'Este Mes', badge: 5 },
+    { id: 'anio', label: 'Todo el Año' }
   ];
 }

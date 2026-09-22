@@ -70,9 +70,15 @@ export interface SegmentedOption<T = any> {
     .switch-badge {
       font-size: 0.6875rem;
       padding: 1px 6px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.25);
+      border-radius: var(--oefa-radius-full, 9999px);
+      background: var(--oefa-surface-subtle);
+      color: var(--oefa-text-secondary);
       font-weight: 700;
+      transition: all var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
+    }
+    .switch-btn.active .switch-badge {
+      background: rgba(255, 255, 255, 0.25);
+      color: var(--oefa-primary-on);
     }
   `]
 })

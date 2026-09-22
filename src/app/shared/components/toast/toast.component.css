@@ -77,7 +77,7 @@
 .toast-success {
   background-color: var(--oefa-success-container);
   color: var(--oefa-success-on-container);
-  border-color: var(--oefa-success-ui-safe);
+  border-color: var(--oefa-success-container-hc);
 }
 
 .toast-warning {
@@ -87,9 +87,9 @@
 }
 
 .toast-error {
-  background-color: #fee2e2;
-  color: #991b1b;
-  border-color: #f87171;
+  background-color: var(--oefa-error-container);
+  color: var(--oefa-error-on-container);
+  border-color: var(--oefa-error-container-hc);
 }
 
 @media (max-width: 640px) {

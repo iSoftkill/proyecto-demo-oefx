@@ -72,11 +72,11 @@ import { OefaAlertComponent } from '../../shared/components/alert/alert.componen
         </div>
       </div>
 
-      <!-- Sección 2: Alertas Descartables y Sin Borde Izquierdo -->
+      <!-- Sección 2: Variantes Interactivas y Proyección de Contenido -->
       <div class="card ds-card">
         <div class="card-header">
           <h3>2. Variantes Interactivas y Proyección de Contenido</h3>
-          <span class="text-muted">Soporta botón de cierre accesible (dismissible) y contenido HTML proyectado.</span>
+          <span class="text-muted">Soporta botón de cierre accesible (dismissible), variante plana sin marco (bordered=false) y contenido HTML proyectado.</span>
         </div>
         <div class="card-body">
           <div class="alerts-stack">
@@ -87,15 +87,32 @@ import { OefaAlertComponent } from '../../shared/components/alert/alert.componen
               [dismissible]="true"
             ></oefa-alert>
 
-            <oefa-alert type="warning" [bordered]="false" title="Alerta sin borde de acento izquierdo (bordered=false):">
-              <p style="margin: 4px 0 0 0;">
-                Permite proyectar contenido personalizado con enlaces: 
-                <a href="javascript:void(0)" style="color: inherit; font-weight: 700; text-decoration: underline;">
-                  Consultar términos y condiciones aquí
+            <oefa-alert type="warning" [bordered]="false" title="Alerta sin marco perimetral (bordered=false):">
+              <p class="projected-text">
+                Permite proyectar contenido enriquecido con enlaces institucionales: 
+                <a href="javascript:void(0)" class="alert-link">
+                  Consultar términos y directrices aquí →
                 </a>.
               </p>
             </oefa-alert>
           </div>
+        </div>
+      </div>
+
+      <!-- Sección 3: Código de Implementación -->
+      <div class="card ds-card">
+        <div class="card-header">
+          <h3>3. Código de Implementación</h3>
+          <span class="text-muted">Componente standalone disponible desde <code>shared/components/alert/</code>.</span>
+        </div>
+        <div class="card-body">
+          <pre class="code-block">&lt;oefa-alert
+  type="info"
+  title="Información Oficial de Trámite:"
+  message="Las solicitudes registradas de 00:00 a 23:59 hrs se computan el mismo día hábil..."
+  [dismissible]="true"
+  [bordered]="true"
+/&gt;</pre>
         </div>
       </div>
     </div>
@@ -104,15 +121,28 @@ import { OefaAlertComponent } from '../../shared/components/alert/alert.componen
     .ds-container { display: flex; flex-direction: column; gap: 24px; }
     .ds-header { display: flex; justify-content: space-between; align-items: flex-start; }
     .subtitle { font-size: 0.875rem; color: var(--oefa-text-secondary); margin-top: 4px; }
-    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
+    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: var(--oefa-radius-full); }
 
-    .ds-card { background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); }
-    .card-header { padding: 18px 24px; border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; }
-    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-primary-root); }
+    .ds-card { background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); box-shadow: var(--oefa-shadow-sm); overflow: hidden; }
+    .card-header { padding: 18px 24px; background: var(--oefa-surface-subtle); border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; }
+    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-text-primary); font-family: var(--oefa-font-display); }
     .card-body { padding: 24px; }
 
     .alerts-stack { display: flex; flex-direction: column; gap: 18px; }
     .state-tag { display: block; font-size: 0.75rem; font-weight: 700; color: var(--oefa-text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .projected-text { margin: 4px 0 0 0; }
+    .alert-link { color: inherit; font-weight: 700; text-decoration: underline; }
+    .code-block {
+      background: var(--oefa-surface-subtle);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md);
+      padding: 16px;
+      font-size: 0.8125rem;
+      color: var(--oefa-text-primary);
+      margin: 0;
+      overflow-x: auto;
+      font-family: var(--oefa-font-mono);
+    }
   `]
 })
 export class DesignSystemAlertsComponent {}

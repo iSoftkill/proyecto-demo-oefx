@@ -86,8 +86,8 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
                 trendLabel="+3.2% anual"
                 periodLabel="Periodo 2024"
                 icon="factory"
-                bgTint="#F0FDF4"
-                accentColor="#16A34A"
+                bgTint="var(--oefa-success-container)"
+                accentColor="var(--oefa-success-ui-safe)"
                 status="conforme"
                 chartType="gauge"
                 [percentage]="94.8"
@@ -191,10 +191,10 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
           <span class="text-muted">Cumplimiento mandatorio para usuarios con sensibilidad vestibular.</span>
         </div>
         <div class="card-body">
-          <p style="font-size: 0.875rem; color: #475569; margin: 0 0 12px 0;">
+          <p class="wcag-desc">
             El archivo <code>styles.scss</code> incluye la consulta de medios <code>&#64;media (prefers-reduced-motion: reduce)</code> que desactiva de manera transparente todas las animaciones y transiciones largas en el navegador si el usuario lo configuró en su sistema operativo.
           </p>
-          <pre style="background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 0.75rem; border: 1px solid #e2e8f0; margin: 0;">&#64;media (prefers-reduced-motion: reduce) &#123;
+          <pre class="code-block">&#64;media (prefers-reduced-motion: reduce) &#123;
   *, ::before, ::after &#123;
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
@@ -218,31 +218,31 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
       justify-content: space-between;
       align-items: flex-start;
       gap: 16px;
-      h2 { margin: 0 0 6px 0; font-family: var(--oefa-font-display); font-size: 1.5rem; color: #0f172a; }
-      .subtitle { margin: 0; color: #64748b; font-size: 0.875rem; }
+      h2 { margin: 0 0 6px 0; font-family: var(--oefa-font-display); font-size: 1.5rem; color: var(--oefa-text-primary); }
+      .subtitle { margin: 0; color: var(--oefa-text-secondary); font-size: 0.875rem; }
     }
     .ds-badge {
       font-size: 0.6875rem;
       font-weight: 700;
       padding: 4px 10px;
-      border-radius: 999px;
+      border-radius: var(--oefa-radius-full);
       background: var(--oefa-primary-container);
       color: var(--oefa-primary-root);
       letter-spacing: 0.04em;
     }
     .ds-card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-lg);
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+      box-shadow: var(--oefa-shadow-sm);
     }
     .card-header {
       padding: 16px 20px;
-      background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
-      h3 { margin: 0 0 4px 0; font-size: 1rem; font-family: var(--oefa-font-display); color: #0f172a; }
-      .text-muted { font-size: 0.8125rem; color: #64748b; }
+      background: var(--oefa-surface-subtle);
+      border-bottom: 1px solid var(--oefa-border-color);
+      h3 { margin: 0 0 4px 0; font-size: 1rem; font-family: var(--oefa-font-display); color: var(--oefa-text-primary); }
+      .text-muted { font-size: 0.8125rem; color: var(--oefa-text-muted); }
     }
     .card-body {
       padding: 20px;
@@ -253,36 +253,36 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
       gap: 20px;
     }
     .motion-card-demo {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-lg);
       padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 12px;
       &.expressive {
-        border-color: #bfdbfe;
-        background: #fbfdff;
+        border-color: var(--oefa-primary-container-hc);
+        background: var(--oefa-surface-card);
       }
     }
     .mcd-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      h5 { margin: 0; font-family: var(--oefa-font-display); font-size: 0.9375rem; font-weight: 700; }
+      h5 { margin: 0; font-family: var(--oefa-font-display); font-size: 0.9375rem; font-weight: 700; color: var(--oefa-text-primary); }
     }
     .mcd-badge {
       font-size: 0.6875rem;
       font-weight: 700;
       padding: 2px 8px;
-      border-radius: 999px;
-      &.generic { background: #f1f5f9; color: #64748b; }
-      &.m3 { background: #dbeafe; color: #1e40af; }
+      border-radius: var(--oefa-radius-full);
+      &.generic { background: var(--oefa-surface-subtle); color: var(--oefa-text-secondary); }
+      &.m3 { background: var(--oefa-primary-container); color: var(--oefa-primary-root); }
     }
-    .mcd-desc { margin: 0; font-size: 0.8125rem; color: #64748b; }
+    .mcd-desc { margin: 0; font-size: 0.8125rem; color: var(--oefa-text-secondary); }
     .mcd-interactive-box {
       height: 80px;
-      border-radius: 12px;
+      border-radius: var(--oefa-radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -290,26 +290,26 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
       font-weight: 700;
       font-size: 0.875rem;
       user-select: none;
-      border: 1px dashed #cbd5e1;
+      border: 1px dashed var(--oefa-border-color);
       &.classic-box {
-        background: #f8fafc;
-        color: #475569;
+        background: var(--oefa-surface-subtle);
+        color: var(--oefa-text-secondary);
         transition: all 0.2s ease;
         &:hover {
-          background: #e2e8f0;
+          background: var(--oefa-surface-muted);
           transform: translateY(-4px) scale(1.02);
-          box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+          box-shadow: var(--oefa-shadow-sm);
         }
       }
       &.m3-box {
-        background: #eef4ff;
-        color: #144aa7;
-        border-color: #93c5fd;
+        background: var(--oefa-primary-container);
+        color: var(--oefa-primary-root);
+        border-color: var(--oefa-primary-container-hc);
         transition: all var(--oefa-duration-medium) var(--oefa-ease-emphasized);
         &:hover {
-          background: #dbeafe;
+          filter: brightness(0.96);
           transform: translateY(-6px) scale(1.03);
-          box-shadow: 0 16px 32px -8px rgba(20, 74, 167, 0.2);
+          box-shadow: 0 16px 32px -8px rgba(20, 74, 167, 0.25);
         }
         &:active {
           transform: translateY(-2px) scale(0.98);
@@ -319,11 +319,16 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
     }
     .mcd-code-pill {
       font-size: 0.6875rem;
-      background: #f8fafc;
+      background: var(--oefa-surface-subtle);
       padding: 6px 10px;
-      border-radius: 6px;
-      border: 1px solid #e2e8f0;
-      &.highlight { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+      border-radius: var(--oefa-radius-sm);
+      border: 1px solid var(--oefa-border-color);
+      color: var(--oefa-text-secondary);
+      &.highlight {
+        background: var(--oefa-primary-container);
+        color: var(--oefa-primary-root);
+        border-color: var(--oefa-primary-container-hc);
+      }
     }
     .motion-interactive-row {
       display: flex;
@@ -341,98 +346,24 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
     .mti-label {
       font-size: 0.75rem;
       font-weight: 700;
-      color: #64748b;
+      color: var(--oefa-text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.03em;
-    }
-    .oefa-btn-expressive {
-      width: 100%;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--oefa-primary-root);
-      color: white;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 0.875rem;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(20, 74, 167, 0.2);
-      transition: all var(--oefa-duration-medium) var(--oefa-ease-emphasized);
-      &:hover {
-        background: #0d3b8c;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(20, 74, 167, 0.3);
-      }
-      &:active {
-        transform: translateY(0) scale(0.98);
-        transition-duration: var(--oefa-duration-short);
-      }
-      &.aqua {
-        background: var(--oefa-secondary-root);
-        color: #064e4a;
-        box-shadow: 0 4px 12px rgba(68, 191, 181, 0.25);
-        &:hover {
-          background: #38a89f;
-          box-shadow: 0 8px 20px rgba(68, 191, 181, 0.35);
-        }
-      }
-    }
-    .bento-card-expressive {
-      height: 100%;
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-      &:hover .bce-icon {
-        transform: rotate(8deg) scale(1.12);
-      }
-    }
-    .bce-icon {
-      font-size: 1.5rem;
-      width: 40px;
-      height: 40px;
-      background: #fef3c7;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform var(--oefa-duration-medium) var(--oefa-ease-emphasized);
-      flex-shrink: 0;
-    }
-    .bce-content {
-      flex: 1;
-      h5 { margin: 0 0 2px 0; font-family: var(--oefa-font-display); font-size: 0.875rem; font-weight: 700; color: #0f172a; }
-      p { margin: 0; font-size: 0.75rem; color: #64748b; line-height: 1.3; }
-    }
-    .bce-chip {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      background: #eff6ff;
-      color: #1d4ed8;
-      padding: 4px 8px;
-      border-radius: 6px;
     }
     .replay-trigger {
       margin-bottom: 16px;
     }
     .replay-btn {
       padding: 8px 14px;
-      border-radius: 8px;
-      background: #f1f5f9;
-      border: 1px solid #cbd5e1;
+      border-radius: var(--oefa-radius-sm);
+      background: var(--oefa-surface-subtle);
+      border: 1px solid var(--oefa-border-color);
+      color: var(--oefa-text-primary);
       font-size: 0.8125rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s ease;
-      &:hover { background: #e2e8f0; }
+      transition: background var(--oefa-duration-short) ease;
+      &:hover { background: var(--oefa-surface-muted); }
     }
     .utilities-grid {
       display: grid;
@@ -440,15 +371,15 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
       gap: 16px;
     }
     .utility-box {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
+      background: var(--oefa-surface-subtle);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md);
       padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 6px;
       code { font-size: 0.8125rem; font-weight: 700; color: var(--oefa-primary-root); }
-      span { font-size: 0.75rem; color: #64748b; }
+      span { font-size: 0.75rem; color: var(--oefa-text-secondary); }
     }
     .tokens-table-wrapper {
       overflow-x: auto;
@@ -460,17 +391,32 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
       th, td {
         padding: 10px 14px;
         text-align: left;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid var(--oefa-border-color);
+        color: var(--oefa-text-primary);
       }
       th {
-        background: #f8fafc;
+        background: var(--oefa-surface-subtle);
         font-weight: 700;
-        color: #334155;
+        color: var(--oefa-text-secondary);
       }
       code {
         color: var(--oefa-primary-root);
         font-size: 0.75rem;
       }
+    }
+    .wcag-desc {
+      font-size: 0.875rem;
+      color: var(--oefa-text-secondary);
+      margin: 0 0 12px 0;
+    }
+    .code-block {
+      background: var(--oefa-surface-subtle);
+      padding: 12px;
+      border-radius: var(--oefa-radius-sm);
+      font-size: 0.75rem;
+      border: 1px solid var(--oefa-border-color);
+      color: var(--oefa-text-primary);
+      margin: 0;
     }
   `]
 })

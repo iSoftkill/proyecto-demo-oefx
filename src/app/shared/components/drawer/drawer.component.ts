@@ -1,14 +1,16 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OefaIconButtonComponent } from '../icon-button/icon-button.component';
 
 export type DrawerPosition = 'right' | 'left' | 'bottom';
 export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
+let drawerUniqueId = 0;
+
 /**
  * Componente reutilizable de panel lateral (Side Canvas Drawer / Modal Drawer).
  * Soporta cierre con ESC, backdrop click, título personalizable, acciones en cabecera
- * y pie de página proyectable.
+ * y pie de página proyectable con tokens institucionales OEFA.
  *
  * @example
  * <oefa-drawer
@@ -35,10 +37,12 @@ export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
     @if (isOpen) {
       <div 
         class="drawer-overlay" 
+        [ngClass]="'overlay-' + position"
         (click)="handleBackdropClick($event)"
         role="dialog"
         [attr.aria-modal]="true"
-        [attr.aria-label]="title">
+        [attr.aria-labelledby]="title ? titleId : null"
+        [attr.aria-label]="!title ? 'Panel lateral' : null">
         
         <div 
           class="drawer-panel"
@@ -52,7 +56,9 @@ export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
                 <span class="drawer-badge-num">{{ badge }}</span>
               }
               <div class="title-with-actions">
-                <h3 class="drawer-title">{{ title }}</h3>
+                @if (title) {
+                  <h3 [id]="titleId" class="drawer-title">{{ title }}</h3>
+                }
                 <ng-content select="[header-actions]" />
               </div>
               @if (subtitle) {
@@ -62,6 +68,7 @@ export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
             <oefa-icon-button 
               variant="close" 
               title="Cerrar panel (Esc)" 
+              ariaLabel="Cerrar panel lateral"
               (clicked)="close()" />
           </div>
 
@@ -80,7 +87,7 @@ export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
   `,
   styleUrls: ['./drawer.component.scss']
 })
-export class OefaDrawerComponent {
+export class OefaDrawerComponent implements OnChanges, OnDestroy {
   @Input() isOpen = false;
   @Input() title = '';
   @Input() subtitle = '';
@@ -92,12 +99,28 @@ export class OefaDrawerComponent {
 
   @Output() closed = new EventEmitter<void>();
 
+  readonly titleId = `oefa-drawer-title-${++drawerUniqueId}`;
+
   get positionClass(): string {
     return `position-${this.position}`;
   }
 
   get sizeClass(): string {
     return `size-${this.size}`;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isOpen']) {
+      if (this.isOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    document.body.style.overflow = '';
   }
 
   @HostListener('document:keydown.escape', ['$event'])

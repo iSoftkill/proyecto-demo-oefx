@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/status-badge.component';
+import { OefaChipComponent } from '../../shared/components/chip/chip.component';
 
 @Component({
   selector: 'app-design-system-typography',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, OefaStatusBadgeComponent, OefaChipComponent],
   template: `
     <div class="ds-container">
       <div class="ds-header">
@@ -138,13 +140,14 @@ import { CommonModule } from '@angular/common';
 
             <div class="scale-item">
               <div class="scale-meta">
-                <span class="scale-tag">Caption / Badges & Chips</span>
+                <span class="scale-tag">Caption / Badges & Chips (Componentes Reutilizables)</span>
                 <span class="scale-spec">Inter Medium · 12px (0.75rem) · Line Height 16px (1rem) · 500</span>
               </div>
               <div class="sample-badge-row">
-                <span class="badge-example">EN PROCESO</span>
-                <span class="badge-example badge-success">ATENDIDO</span>
-                <span class="badge-example badge-alert">OBSERVADO</span>
+                <oefa-status-badge status="EN_PROCESO" size="sm" />
+                <oefa-status-badge status="CONFORME" label="ATENDIDO" size="sm" />
+                <oefa-status-badge status="OBSERVADO" size="sm" />
+                <oefa-chip variant="area" label="DFAI" />
                 <span class="caption-text">Texto de metadato auxiliar de fecha o estado complementario.</span>
               </div>
             </div>
@@ -210,7 +213,7 @@ import { CommonModule } from '@angular/common';
               <div class="contextual-card-sample">
                 <div class="card-sample-header">
                   <span class="sample-eyebrow">SUBDIRECCIÓN DE TECNOLOGÍAS DE LA INFORMACIÓN</span>
-                  <span class="badge-example badge-success">EN EJECUCIÓN</span>
+                  <oefa-status-badge status="EN_PROCESO" label="EN EJECUCIÓN" size="sm" [dot]="true" />
                 </div>
                 <h4 class="sample-h4 card-sample-title">Servicio de Mantenimiento y Soporte de Infraestructura Cloud</h4>
                 <div class="card-sample-meta font-mono">
@@ -320,13 +323,13 @@ import { CommonModule } from '@angular/common';
     }
 
     .guideline-do {
-      background: #F0FDF4;
-      border-color: #BBF7D0;
+      background: var(--oefa-success-container);
+      border-color: var(--oefa-success-ui-safe);
     }
 
     .guideline-dont {
-      background: #FEF2F2;
-      border-color: #FECACA;
+      background: var(--oefa-error-container);
+      border-color: var(--oefa-error-root);
     }
 
     .guideline-header {
@@ -342,11 +345,11 @@ import { CommonModule } from '@angular/common';
     }
 
     .guideline-do .guideline-header h4 {
-      color: #166534;
+      color: var(--oefa-success-ui-safe);
     }
 
     .guideline-dont .guideline-header h4 {
-      color: #991B1B;
+      color: var(--oefa-error-on-container);
     }
 
     .guideline-icon {
@@ -361,13 +364,13 @@ import { CommonModule } from '@angular/common';
     }
 
     .guideline-do .guideline-icon {
-      background: #DCFCE7;
-      color: #166534;
+      background: var(--oefa-success-root);
+      color: var(--oefa-primary-on);
     }
 
     .guideline-dont .guideline-icon {
-      background: #FEE2E2;
-      color: #991B1B;
+      background: var(--oefa-error-root);
+      color: #FFFFFF;
     }
 
     .guideline-list {
@@ -432,10 +435,12 @@ import { CommonModule } from '@angular/common';
       border: 1px solid var(--oefa-border-color);
       border-radius: var(--oefa-radius-lg);
       overflow: hidden;
+      box-shadow: var(--oefa-shadow-sm);
     }
 
     .card-header {
       padding: 18px 24px;
+      background: var(--oefa-surface-subtle);
       border-bottom: 1px solid var(--oefa-border-color);
     }
 
@@ -444,7 +449,7 @@ import { CommonModule } from '@angular/common';
       font-size: 1.125rem;
       font-weight: 700;
       font-family: var(--oefa-font-display);
-      color: var(--oefa-primary-root);
+      color: var(--oefa-text-primary);
     }
 
     .card-body {
@@ -462,7 +467,7 @@ import { CommonModule } from '@angular/common';
       border: 1px solid var(--oefa-border-color);
       border-radius: var(--oefa-radius-md);
       padding: 20px;
-      background: var(--oefa-surface-app);
+      background: var(--oefa-surface-subtle);
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -482,13 +487,14 @@ import { CommonModule } from '@angular/common';
     }
 
     .font-body-badge {
-      background: var(--oefa-secondary-container, #eefffe);
-      color: var(--oefa-secondary-on-container, #005d58);
+      background: var(--oefa-secondary-container);
+      color: var(--oefa-secondary-ui-safe);
     }
 
     .font-mono-badge {
-      background: var(--oefa-border-color-subtle, #f1f5f9);
+      background: var(--oefa-surface-card);
       color: var(--oefa-text-primary);
+      border: 1px solid var(--oefa-border-color);
     }
 
     .font-poppins-title {
@@ -556,7 +562,7 @@ import { CommonModule } from '@angular/common';
     }
 
     .scale-item {
-      border-bottom: 1px solid var(--oefa-border-color-subtle, #f1f5f9);
+      border-bottom: 1px solid var(--oefa-border-color);
       padding-bottom: 18px;
       display: flex;
       flex-direction: column;
@@ -666,28 +672,6 @@ import { CommonModule } from '@angular/common';
       flex-wrap: wrap;
     }
 
-    .badge-example {
-      display: inline-flex;
-      align-items: center;
-      padding: 3px 8px;
-      border-radius: var(--oefa-radius-sm);
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: var(--oefa-primary-container);
-      color: var(--oefa-primary-root);
-      letter-spacing: 0.02em;
-    }
-
-    .badge-example.badge-success {
-      background: #dcfce7;
-      color: #15803d;
-    }
-
-    .badge-example.badge-alert {
-      background: var(--oefa-tertiary-container, #fff0cc);
-      color: var(--oefa-tertiary-on-container, #664800);
-    }
-
     .caption-text {
       font-size: 0.75rem;
       color: var(--oefa-text-muted);
@@ -744,7 +728,7 @@ import { CommonModule } from '@angular/common';
     }
 
     .data-table th {
-      background: var(--oefa-surface-app);
+      background: var(--oefa-surface-subtle);
       padding: 10px 14px;
       font-weight: 600;
       color: var(--oefa-text-secondary);
@@ -754,7 +738,7 @@ import { CommonModule } from '@angular/common';
 
     .data-table td {
       padding: 10px 14px;
-      border-bottom: 1px solid var(--oefa-border-color-subtle, #f1f5f9);
+      border-bottom: 1px solid var(--oefa-border-color);
       color: var(--oefa-text-primary);
     }
 
@@ -796,7 +780,7 @@ import { CommonModule } from '@angular/common';
     }
 
     .bullet {
-      color: var(--oefa-text-disabled, #94a3b8);
+      color: var(--oefa-text-muted);
     }
 
     .card-sample-desc {
@@ -808,7 +792,7 @@ import { CommonModule } from '@angular/common';
       justify-content: space-between;
       align-items: center;
       padding-top: 12px;
-      border-top: 1px solid var(--oefa-border-color-subtle, #f1f5f9);
+      border-top: 1px solid var(--oefa-border-color);
     }
 
     .amount-block {

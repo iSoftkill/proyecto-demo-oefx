@@ -203,7 +203,7 @@ export type StepperOrientation = 'horizontal' | 'vertical';
       padding: 4px;
 
       &:focus-visible {
-        outline: 2px solid var(--oefa-primary-root, #144AA7);
+        outline: 2px solid var(--oefa-focus-ring);
         outline-offset: 2px;
       }
 
@@ -263,7 +263,7 @@ export type StepperOrientation = 'horizontal' | 'vertical';
       .step-circle {
         background-color: var(--oefa-primary-root, #144AA7);
         border-color: var(--oefa-primary-root, #144AA7);
-        color: #ffffff;
+        color: var(--oefa-primary-on, #ffffff);
         box-shadow: 0 0 0 4px var(--oefa-primary-container, #eef4ff);
       }
 
@@ -277,7 +277,7 @@ export type StepperOrientation = 'horizontal' | 'vertical';
       .step-circle {
         background-color: var(--oefa-primary-root, #144AA7);
         border-color: var(--oefa-primary-root, #144AA7);
-        color: #ffffff;
+        color: var(--oefa-primary-on, #ffffff);
       }
 
       .step-title {
@@ -419,10 +419,10 @@ export type StepperOrientation = 'horizontal' | 'vertical';
           position: relative;
           width: 100%;
           background-color: var(--oefa-primary-container, #eef4ff);
-          border: 1.5px solid #c7dbfb;
+          border: 1.5px solid var(--oefa-border-color, #c7dbfb);
           border-radius: var(--oefa-radius-lg, 12px);
           padding: 14px 16px;
-          box-shadow: 0 2px 8px rgba(20, 74, 167, 0.08);
+          box-shadow: var(--oefa-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.08));
           box-sizing: border-box;
           animation: bubbleFadeIn 0.2s ease-out;
         }
@@ -434,8 +434,8 @@ export type StepperOrientation = 'horizontal' | 'vertical';
           width: 16px;
           height: 16px;
           background-color: var(--oefa-primary-container, #eef4ff);
-          border-top: 1.5px solid #c7dbfb;
-          border-left: 1.5px solid #c7dbfb;
+          border-top: 1.5px solid var(--oefa-border-color, #c7dbfb);
+          border-left: 1.5px solid var(--oefa-border-color, #c7dbfb);
           transform: translateX(-50%) rotate(45deg);
           border-top-left-radius: 3px;
           transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);

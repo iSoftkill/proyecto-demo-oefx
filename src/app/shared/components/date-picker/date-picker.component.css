@@ -10,6 +10,10 @@
   gap: 6px;
   position: relative;
   width: 100%;
+
+  &.is-open {
+    z-index: 1050;
+  }
 }
 
 .date-picker-label {
@@ -177,7 +181,7 @@
 
   &.is-selected .day-btn {
     background-color: var(--oefa-primary-root, #144aa7);
-    color: #ffffff;
+    color: var(--oefa-primary-on, #ffffff);
     font-weight: 700;
     border-radius: 50%;
     box-shadow: 0 2px 6px rgba(20, 74, 167, 0.3);

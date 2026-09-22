@@ -736,7 +736,7 @@ export class DesignSystemColorsComponent {
       description: 'Generada a partir del rojo institucional #E51A2F (Tonal 50). Utilizado para entregables vencidos, desestimaciones y errores de validación.',
       steps: [
         { step: '10', hex: '#2E0509', token: '--oefa-error-10', textColor: '#FFFFFF', usageNote: 'Texto ultra oscuro para contraste extremo' },
-        { step: '20', hex: '#5C0A13', token: '#AA1223', textColor: '#FFFFFF', usageNote: 'Texto On-Container (#AA1223) accesible AAA' },
+        { step: '20', hex: '#5C0A13', token: '--oefa-error-20', textColor: '#FFFFFF', usageNote: 'Texto On-Container (#AA1223) accesible AAA' },
         { step: '30', hex: '#89101C', token: '--oefa-error-30', textColor: '#FFFFFF', usageNote: 'Hover en botón de acción destructiva' },
         { step: '40', hex: '#B71526', token: '--oefa-error-40', textColor: '#FFFFFF', usageNote: 'Borde de input inválido' },
         { step: '50', hex: '#E51A2F', token: '--oefa-error-50', textColor: '#FFFFFF', usageNote: 'Rojo institucional de error (Root #E51A2F)', isRoot: true },
@@ -749,21 +749,21 @@ export class DesignSystemColorsComponent {
       ]
     },
     {
-      name: 'Escala de Neutros / Grises (Slate Neutral Scale)',
+      name: 'Escala de Neutros / Grises (OEFA Neutral M3 10–99)',
       role: 'neutral',
-      description: 'Escala monocromática de grises neutros Slate utilizada para la jerarquía de superficies, bordes y niveles de lectura de texto.',
+      description: 'Escala monocromática de grises neutros Slate alineada a Material 3 (10 a 99) para jerarquía de superficies, bordes y tipografía.',
       steps: [
-        { step: '50', hex: '#F8FAFC', token: '--oefa-neutral-50', textColor: '#0F172A', usageNote: 'Fondo sutil de submenú, headers de tablas y filas pares' },
-        { step: '100', hex: '#F1F5F9', token: '--oefa-neutral-100', textColor: '#0F172A', usageNote: 'Superficie de controles deshabilitados' },
-        { step: '200', hex: '#E2E8F0', token: '--oefa-neutral-200', textColor: '#0F172A', usageNote: 'Borde institucional estándar (--oefa-border-color)' },
-        { step: '300', hex: '#CBD5E1', token: '--oefa-neutral-300', textColor: '#0F172A', usageNote: 'Bordes de inputs activos y scrollbars' },
-        { step: '400', hex: '#94A3B8', token: '--oefa-neutral-400', textColor: '#0F172A', usageNote: 'Placeholders y texto atenuado en Dark Mode' },
-        { step: '500', hex: '#64748B', token: '--oefa-neutral-500', textColor: '#FFFFFF', usageNote: 'Iconos inactivos y bordes de tarjetas' },
-        { step: '600', hex: '#475569', token: '--oefa-neutral-600', textColor: '#FFFFFF', usageNote: 'Texto atenuado (--oefa-text-muted) para hints' },
-        { step: '700', hex: '#334155', token: '--oefa-neutral-700', textColor: '#FFFFFF', usageNote: 'Texto secundario (--oefa-text-secondary) y labels' },
-        { step: '800', hex: '#1E293B', token: '--oefa-neutral-800', textColor: '#FFFFFF', usageNote: 'Superficie de modales en Modo Oscuro' },
-        { step: '900', hex: '#0F172A', token: '--oefa-neutral-900', textColor: '#FFFFFF', usageNote: 'Tooltips y textos de alto contraste' },
-        { step: '950', hex: '#0B1120', token: '--oefa-neutral-950', textColor: '#FFFFFF', usageNote: 'Fondo canvas principal en Modo Oscuro' }
+        { step: '10', hex: '#0B1120', token: '--oefa-neutral-10', textColor: '#FFFFFF', usageNote: 'Fondo canvas principal en Modo Oscuro' },
+        { step: '20', hex: '#0F172A', token: '--oefa-neutral-20', textColor: '#FFFFFF', usageNote: 'Tooltips y textos de alto contraste / Rail en dark' },
+        { step: '30', hex: '#1E293B', token: '--oefa-neutral-30', textColor: '#FFFFFF', usageNote: 'Superficie de modales en Modo Oscuro' },
+        { step: '40', hex: '#334155', token: '--oefa-neutral-40', textColor: '#FFFFFF', usageNote: 'Texto secundario (--oefa-text-secondary) y bordes dark' },
+        { step: '50', hex: '#475569', token: '--oefa-neutral-50', textColor: '#FFFFFF', usageNote: 'Texto atenuado (--oefa-text-muted) para hints' },
+        { step: '60', hex: '#64748B', token: '--oefa-neutral-60', textColor: '#FFFFFF', usageNote: 'Iconos inactivos y bordes de tarjetas' },
+        { step: '70', hex: '#94A3B8', token: '--oefa-neutral-70', textColor: '#0F172A', usageNote: 'Placeholders y texto atenuado en Dark Mode' },
+        { step: '80', hex: '#CBD5E1', token: '--oefa-neutral-80', textColor: '#0F172A', usageNote: 'Bordes de inputs activos y scrollbars' },
+        { step: '90', hex: '#E2E8F0', token: '--oefa-neutral-90', textColor: '#0F172A', usageNote: 'Borde institucional estándar (--oefa-border-color)' },
+        { step: '95', hex: '#F1F5F9', token: '--oefa-neutral-95', textColor: '#0F172A', usageNote: 'Superficie de controles deshabilitados' },
+        { step: '99', hex: '#F8FAFC', token: '--oefa-neutral-99', textColor: '#0F172A', usageNote: 'Fondo sutil de submenú, headers de tablas y filas pares' }
       ]
     }
   ];

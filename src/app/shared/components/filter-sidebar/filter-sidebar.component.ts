@@ -302,7 +302,7 @@ export interface FilterStatusOption {
       width: 44px;
       height: 4px;
       border-radius: 999px;
-      background: #cbd5e1;
+      background: var(--oefa-border-color, #cbd5e1);
     }
 
     .fs-header {
@@ -310,7 +310,7 @@ export interface FilterStatusOption {
       justify-content: space-between;
       align-items: flex-start;
       padding: 16px;
-      border-bottom: 1px solid var(--oefa-border-color-subtle, #f1f5f9);
+      border-bottom: 1px solid var(--oefa-border-color, #f1f5f9);
       background: var(--oefa-surface-subtle, #f8fafc);
     }
 
@@ -358,14 +358,14 @@ export interface FilterStatusOption {
       height: 28px;
       border-radius: 50%;
       border: none;
-      background: #e2e8f0;
-      color: #475569;
+      background: var(--oefa-surface-muted, #e2e8f0);
+      color: var(--oefa-text-secondary, #475569);
       font-size: 0.8125rem;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: background var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
-      &:hover { background: #cbd5e1; }
+      &:hover { background: var(--oefa-border-color, #cbd5e1); }
     }
 
     .fs-scrollable-body {
@@ -377,12 +377,12 @@ export interface FilterStatusOption {
       width: 100%;
       box-sizing: border-box;
       &::-webkit-scrollbar { width: 5px; }
-      &::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+      &::-webkit-scrollbar-thumb { background: var(--oefa-border-color, #cbd5e1); border-radius: 4px; }
     }
 
     .fs-group {
       padding: 14px 16px;
-      border-bottom: 1px solid var(--oefa-border-color-subtle, #f1f5f9);
+      border-bottom: 1px solid var(--oefa-border-color, #f1f5f9);
       &:last-child { border-bottom: none; }
     }
 
@@ -425,13 +425,13 @@ export interface FilterStatusOption {
       font-weight: 600;
       border-radius: 8px;
       border: 1px solid var(--oefa-border-color, #e2e8f0);
-      background: #ffffff;
+      background: var(--oefa-surface-card, #ffffff);
       color: var(--oefa-text-secondary, #475569);
       cursor: pointer;
       transition: all var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
 
       &:hover {
-        border-color: var(--oefa-primary-container-hc, #bfdbfe);
+        border-color: var(--oefa-primary-root);
         background: var(--oefa-surface-subtle, #f8fafc);
       }
 
@@ -486,8 +486,8 @@ export interface FilterStatusOption {
     .fs-range-col {
       display: flex;
       align-items: center;
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
+      background: var(--oefa-surface-card, #ffffff);
+      border: 1px solid var(--oefa-border-color, #cbd5e1);
       border-radius: 6px;
       padding: 4px 8px;
       flex: 1;
@@ -501,7 +501,7 @@ export interface FilterStatusOption {
       .fs-unit-prefix {
         font-size: 0.6875rem;
         font-weight: 600;
-        color: #94a3b8;
+        color: var(--oefa-text-muted, #94a3b8);
       }
 
       .fs-num-input {
@@ -510,13 +510,13 @@ export interface FilterStatusOption {
         outline: none;
         font-size: 0.75rem;
         font-weight: 600;
-        color: #1e293b;
+        color: var(--oefa-text-primary, #1e293b);
         background: transparent;
       }
     }
 
     .fs-range-sep {
-      color: #94a3b8;
+      color: var(--oefa-text-muted, #94a3b8);
       font-size: 0.8125rem;
     }
 
@@ -558,7 +558,7 @@ export interface FilterStatusOption {
       svg {
         position: absolute;
         left: 8px;
-        color: #94a3b8;
+        color: var(--oefa-text-muted, #94a3b8);
         pointer-events: none;
       }
 
@@ -566,12 +566,13 @@ export interface FilterStatusOption {
         width: 100%;
         font-size: 0.75rem;
         padding: 5px 8px 5px 26px;
-        border: 1px solid #cbd5e1;
+        border: 1px solid var(--oefa-border-color, #cbd5e1);
         border-radius: 6px;
         outline: none;
         background: var(--oefa-surface-subtle, #f8fafc);
+        color: var(--oefa-text-primary);
         &:focus {
-          background: #ffffff;
+          background: var(--oefa-surface-card, #ffffff);
           border-color: var(--oefa-primary-root, #144aa7);
         }
       }
@@ -660,7 +661,7 @@ export interface FilterStatusOption {
         position: absolute;
         cursor: pointer;
         inset: 0;
-        background-color: #cbd5e1;
+        background-color: var(--oefa-surface-muted, #cbd5e1);
         transition: var(--oefa-duration-short-4, 200ms) var(--oefa-ease-standard, cubic-bezier(0.2, 0, 0, 1));
         border-radius: 999px;
 
@@ -671,7 +672,7 @@ export interface FilterStatusOption {
           width: 14px;
           left: 2px;
           bottom: 2px;
-          background-color: white;
+          background-color: var(--oefa-surface-card, #ffffff);
           transition: var(--oefa-duration-short-4, 200ms) var(--oefa-ease-standard, cubic-bezier(0.2, 0, 0, 1));
           border-radius: 50%;
           box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -682,7 +683,7 @@ export interface FilterStatusOption {
     .fs-sticky-footer {
       padding: 12px 16px;
       background: var(--oefa-surface-subtle, #f8fafc);
-      border-top: 1px solid var(--oefa-border-color-subtle, #f1f5f9);
+      border-top: 1px solid var(--oefa-border-color, #f1f5f9);
       display: flex;
       gap: 8px;
     }

@@ -31,6 +31,7 @@ export { OefaTabsComponent } from './components/tabs/tabs.component';
 export { OefaStepperComponent } from './components/stepper/stepper.component';
 export { OefaSkeletonComponent } from './components/skeleton/skeleton.component';
 export { OefaChipComponent } from './components/chip/chip.component';
+export { OefaTableComponent, TableComponent } from './components/table/table.component';
 
 // Utils & Types
 export { getStatusBadgeClass, getStatusLabel } from './utils/status.utils';
@@ -45,3 +46,4 @@ export type { OefaTabItem } from './components/tabs/tabs.component';
 export type { OefaStepItem, StepperOrientation } from './components/stepper/stepper.component';
 export type { SkeletonVariant } from './components/skeleton/skeleton.component';
 export type { ChipVariant } from './components/chip/chip.component';
+export type { TableColumn, SortDirection, TableDensity } from './components/table/table.component';

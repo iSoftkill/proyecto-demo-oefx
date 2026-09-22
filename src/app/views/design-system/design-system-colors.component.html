@@ -191,7 +191,7 @@
               @for (step of ramp.steps; track step.step) {
                 <div
                   class="ramp-step"
-                  [style.background-color]="step.hex"
+                  [style.background-color]="'var(' + step.token + ')'"
                   [style.color]="step.textColor"
                   (click)="copyToClipboard(step.hex, ramp.role + '-' + step.step)"
                   [title]="step.token + ' (' + step.hex + ') — ' + step.usageNote">
@@ -226,7 +226,7 @@
                         </span>
                       </td>
                       <td class="td-swatch">
-                        <div class="mini-swatch" [style.background-color]="step.hex"></div>
+                        <div class="mini-swatch" [style.background-color]="'var(' + step.token + ')'"></div>
                       </td>
                       <td class="td-hex">
                         <code>{{ step.hex }}</code>

@@ -164,16 +164,36 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
 
 ## 8. Componentes globales
 
-### 8.1 Tabs (Pestañas de navegación)
-- Las pestañas **nunca deben desbordarse visualmente** — cuando el espacio sea insuficiente activan scroll horizontal automático.
-- El scrollbar está **oculto visualmente** pero funcional (scrollbar-width: none).
-- En **desktop**, el arrastre con mouse (click + drag) está habilitado sobre cualquier zona (incluidos los botones de pestaña) mediante la directiva `DragScrollDirective`. Se utiliza un umbral de 6px para diferenciar entre un *clic* (seleccionar pestaña) y un *arrastre* (desplazar la barra).
-- **Flechas de navegación estilo Material UI**: Aparecen dinámicamente al hacer *hover* sobre el contenedor si existe desbordamiento horizontal. Hacer clic en las flechas desplaza la barra suavemente (220px).
-- En **touch/mobile**, el scroll táctil es nativo del navegador.
-- Los botones de pestaña nunca se comprimen (`flex-shrink: 0`) — mantienen su tamaño original.
-- Existen **dos variantes** (ver `design-tokens.json → components.tabs.variants`):
-  - `pill`: fondo card + border-radius — para vistas con contenedor card (ej: Configuraciones)
-  - `underline`: borde inferior — para vistas de detalle con fondo blanco (ej: Detalle de OS/OC)
+### 8.1 Tabs (Pestañas de navegación) (`<oefa-tabs>`)
+- **Clasificación Atomic Design**: **Molécula de Navegación Horizontal**.
+- **Componente Standalone**: Ubicado en `src/app/shared/components/tabs/tabs.component.ts`.
+- **Propósito**: Navegación horizontal seccional estructurada, accesible y de alta densidad para conmutar vistas, bandejas o detalles sin recargar la página.
+- **Entradas (`Inputs`)**:
+  - `tabs: OefaTabItem[]`: Colección de pestañas tipadas que admiten:
+    - `id: string`: Clave unívoca del tab.
+    - `label: string`: Texto descriptivo principal.
+    - `icon?: string`: Ícono opcional (soporta glifos SVG o emojis; habilita pestañas **con icono** o **sin icono**).
+    - `badge?: string | number`: Contador numérico o badge contextual (ej. `3` entregables).
+    - `badgeDot?: boolean`: Indicador sutil de punto ("puntito rojo" o semántico) para notificaciones o novedades no leídas.
+    - `badgeDotColor?: 'danger' | 'warning' | 'primary' | 'success'`: Tono cromático del punto (default: `'danger'` rojo `#EF4444`).
+    - `infoTooltip?: string`: Mensaje contextual que renderiza un icono de información circular `ⓘ` con tooltip institucional inmediato en `:hover` y `:focus-visible`.
+    - `disabled?: boolean`: Deshabilita la interacción con la pestaña.
+  - `activeTab: string`: Identificador de la pestaña activa con soporte de enlace bidireccional `[(activeTab)]`.
+  - `variant: 'underline' | 'pill'`: Variante visual institucional (default: `'underline'`).
+- **Salidas (`Outputs`)**:
+  - `activeTabChange: EventEmitter<string>`: Emite el ID al cambiar de pestaña.
+  - `tabChange: EventEmitter<string>`: Notificación de evento para recarga de datos o filtros.
+- **Variantes Visuales**:
+  - `underline` (por defecto): Borde inferior activo de 3px con `var(--oefa-primary-root)`, tipografía de peso 700 y fondo transparente/blanco. Ideal para fichas de detalle y formularios.
+  - `pill`: Contenedor tipo cápsula con fondo `var(--oefa-surface-subtle)` y pestañas activas elevadas en `var(--oefa-surface-card)` con sombra suave. Ideal para sub-secciones y dashboards.
+- **Comportamiento y Ergonomía**:
+  - Las pestañas **nunca se comprimen** (`flex-shrink: 0`) y activan scroll horizontal automático sin barra visible (`scrollbar-width: none`).
+  - Arrastre con mouse (drag-to-scroll) con umbral de 6px para diferenciar clic de arrastre.
+  - Flechas circulares flotantes estilo Material UI si existe desbordamiento horizontal.
+- **Accesibilidad (WCAG 2.2 - W3C Tabs Pattern)**:
+  - Cabecera con `role="tablist"` y pestañas con `role="tab"`, `[attr.aria-selected]="activeTab === tab.id"`, `[attr.aria-controls]="'panel-' + tab.id"`.
+  - Soporte de navegación por teclado mediante flechas (`ArrowRight`, `ArrowLeft`, `Home`, `End`).
+  - El icono de información `infoTooltip` detiene la propagación del clic para no activar la pestaña involuntariamente al consultar el tooltip.
 
 ### 8.2 Barra de Navegación (Rail 80px), Submenú Flotante y Tooltips Rápidos
 - **Barra de Navegación Principal (Rail 80px)**:
@@ -185,29 +205,57 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
   - Cumplimiento de **WCAG 2.2 SC 1.4.13 (Content on Hover or Focus)**: Sustituye el atributo nativo `title` del navegador (que demora entre 1.5 y 2 segundos) por tooltips institucionales de respuesta rápida (~150ms de delay).
   - **Comportamiento**: No parpadea en desplazamientos rápidos del cursor pero ofrece confirmación de destino casi inmediata al detenerse.
   - **Diseño**: Fondo contrastante `var(--oefa-surface-tooltip)` (`#0F172A` en claro, `#1E293B` en oscuro), texto en `--oefa-tooltip-text` (`#F8FAFC`), tipografía Inter de 12px, flecha indicadora y sombra de elevación. Desaparición instantánea al desenfocar o mover el cursor.
-- **Submenú Flotante de Opciones (Sidebar Flyout)**:
-  - **Ancho Fijo Uniforme**: Ancho estándar de **260px** (estándar Gmail/Material Design 3) para consistencia en todas las vistas.
+- **Submenú de Opciones (Sidebar Flyout y Pinned - 260px)**:
+  - **Ancho Fijo Uniforme**: Ancho estándar de **260px** (estándar Gmail/Material Design 3) para consistencia tanto en modo fijo (`.pinned`) como flotante (`.floating-flyout`).
+  - **Fondo de Superficie**: `var(--oefa-surface-submenu)` (`#F8FAFC` en claro, `#111827` en oscuro).
+  - **Estado Hover (Accesible SC 1.4.11 / SC 1.4.3)**: 
+    - Para garantizar contraste perceptible contra `--oefa-surface-submenu`, el fondo de `:hover` debe ser `var(--oefa-surface-muted)` (`#F1F5F9` en claro / `#1E293B` en oscuro) o `rgba(20, 74, 167, 0.06)`.
+    - El color del texto cambia a `var(--oefa-primary-root)` para acentuar el objetivo interactivo.
+  - **Estado Seleccionado / Activo (`.selected` / `.active`)**:
+    - **Fondo**: `var(--oefa-primary-container)` (`#EEF4FF` en claro / `#103D89` en oscuro).
+    - **Borde Perimetral Limpio**: `1px solid var(--oefa-primary-container-hc)` (`#A4C1F4` en claro / `#23529E` en oscuro) uniforme en todos sus lados, sin `border-left` grueso para mantener una estética limpia y simétrica.
+  - **Títulos Separadores de Grupo (`.group-header`, `.group-title`) — Opción A**:
+    - **Comportamiento Fijo**: Son categorías estructurales permanentes; **no llevan flecha de colapso** para evitar falsas expectativas de interacción.
+    - **Tipografía Micro-Overline**: `font-size: 0.6875rem` (11px), `font-weight: 700`, `text-transform: uppercase`, `letter-spacing: 0.08em`.
+    - **Color y Opacidad**: `var(--oefa-text-secondary)` con opacidad `0.85`.
+    - **Línea Divisoria Superior**: Todo grupo posterior al primero (`.tree-group:not(:first-child)`) lleva `border-top: 1px solid var(--oefa-border-color-subtle, #F1F5F9)` con `padding-top: 12px` y `margin-top: 4px` para una separación limpia y elegante.
   - **Truncamiento de Texto**: Cuando el nombre de la opción excede el ancho disponible del panel, se trunca automáticamente usando puntos suspensivos (`text-overflow: ellipsis; white-space: nowrap; overflow: hidden;`).
   - **Accesibilidad y Atributos**: Para cumplir con el estándar WCAG 2.2 AA, todo elemento con texto truncado incluye `data-oefa-tooltip="[Texto Completo]"` y `aria-label="[Texto Completo]"`.
 - **Drawer de Navegación Móvil (`<app-mobile-nav-drawer>`)**:
   - En móviles (<768px), la cabecera integra directamente la acción principal rápida mediante `<oefa-button variant="primary" size="md">` (*Nueva Orden*) junto con `<oefa-icon-button variant="close">` para cierre accesible, y `<oefa-button variant="ghost" size="sm">` para retroceso en navegación Drill-Down por niveles.
 
 
-### 8.3 Menú Desplegable de Usuario (`<oefa-user-menu>`, Header Profile Dropdown)
-- **Componente Standalone**: Ubicado en `src/app/shared/components/user-menu/user-menu.component.ts`.
-- **Despliegue y Anclaje**: Flotante alineado a la derecha, anclado debajo del botón avatar de usuario (`HeaderComponent` o shells independientes).
-- **Ancho y Elevación**: Ancho estándar de `300px`, fondo `var(--oefa-surface-card)`, borde tenue `var(--oefa-border-color)` y elevación con sombra `var(--oefa-shadow-flyout)`.
-- **Cierre Inteligente**: Cierre automático al hacer clic fuera del componente (`@HostListener('document:click')`) o al pulsar la tecla `Escape`.
-- **Estructura Interna — Secciones**:
-  1. **Cabecera Informativa (Obligatoria)**:
-     - Avatar con iniciales o foto con anillo de foco accesible.
-     - Nombre completo del usuario (`user.name`), correo electrónico (`user.email`), rol (`user.role`) y badge de área funcional asignada (`user.area`).
-  2. **Selector de Tema Integrado (Obligatorio)**:
-     - Grupo de botones tipo píldora (`ThemeService`): Claro / Oscuro / Sistema (`light` / `dark` / `system`).
-  3. **Sección de Centro de Ayuda (Obligatoria)**:
-     - Botón directo hacia el portal de manuales y soporte (`helpClicked` output o enlace).
-  4. **Sección Cierre de Sesión (Obligatoria)**:
-     - Botón de acción destructiva/salida (`logout-item`) estilizado con color `var(--oefa-error-root)` que emite evento `logout`.
+### 8.3 Menús Desplegables (`<oefa-dropdown>`, `<oefa-user-menu>`)
+- **Componente General `<oefa-dropdown>`**: Ubicado en `src/app/shared/components/dropdown/dropdown.component.ts`.
+  - Diseñado para menús contextuales, botones de acción agrupada, filtros de selección múltiple y menús kebab en tablas (`align="left" | "right"`).
+  - **Control de Cierre (`[closeOnItemClick]="true | false"`)**: Permite mantener el popover abierto al interactuar con formularios, buscadores o checkboxes múltiples.
+  - **Slots Semánticos**:
+    - `[trigger]`: Elemento disparador (botón primario, secundario, botón de icono kebab o chips).
+    - `[menu]`: Contenedor de opciones con normalización de clases institucionales.
+  - **Variantes de Configuración de Opciones**:
+    1. **Con o Sin Ícono**: Botones `.dropdown-item` con glifos SVG vectoriales (`width="16" height="16" stroke="currentColor"`), heredando automáticamente acentos de foco y hover.
+    2. **Con o Sin Buscador Integrado**: Bloque `.dropdown-search` con input `.dropdown-search-input` para filtrado reactivo de opciones en tiempo real.
+    3. **Con o Sin Checkboxes (`.dropdown-item-checkbox`)**: Selector múltiple accesible con `accent-color: var(--oefa-primary-root)` y área de clic completa (`user-select: none`).
+    4. **Divisores y Destructivos**: Separador `.dropdown-divider` e items `.dropdown-item.text-danger` para acciones críticas (eliminar, desestimar).
+  - **Animación y Ergonomía**: Transición `dropdownPop` con `var(--oefa-duration-short-4)` y curva `var(--oefa-ease-emphasized-decel)`.
+  - **Soporte WCAG 2.2**: Cierre con tecla `Escape`, clic exterior (`click outside`) y foco visible `:focus-visible` con `outline: 2px solid var(--oefa-focus-ring)`.
+  - **Tokens de Color**: Fondo `var(--oefa-surface-card)`, borde `var(--oefa-border-color)`, elevación `var(--oefa-shadow-flyout)`, hover en `var(--oefa-surface-subtle)` y acento en `var(--oefa-primary-root)`. Items destructivos con `var(--oefa-error-ui-safe)` y `var(--oefa-error-container)`.
+
+- **Menú Desplegable de Usuario (`<oefa-user-menu>`, Header Profile Dropdown)**:
+  - **Componente Standalone**: Ubicado en `src/app/shared/components/user-menu/user-menu.component.ts`.
+  - **Despliegue y Anclaje**: Flotante alineado a la derecha, anclado debajo del botón avatar de usuario (`HeaderComponent` o shells independientes).
+  - **Ancho y Elevación**: Ancho estándar de `300px`, fondo `var(--oefa-surface-card)`, borde tenue `var(--oefa-border-color)` y elevación con sombra `var(--oefa-shadow-flyout)`.
+  - **Cierre Inteligente**: Cierre automático al hacer clic fuera del componente (`@HostListener('document:click')`) o al pulsar la tecla `Escape`.
+  - **Estructura Interna — Secciones**:
+    1. **Cabecera Informativa (Obligatoria)**:
+       - Avatar con iniciales o foto con anillo de foco accesible.
+       - Nombre completo del usuario (`user.name`), correo electrónico (`user.email`), rol (`user.role`) y badge de área funcional asignada (`user.area`).
+    2. **Selector de Tema Integrado (Obligatorio)**:
+       - Grupo de botones tipo píldora (`ThemeService`): Claro / Oscuro / Sistema (`light` / `dark` / `system`).
+    3. **Sección de Centro de Ayuda (Obligatoria)**:
+       - Botón directo hacia el portal de manuales y soporte (`helpClicked` output o enlace).
+    4. **Sección Cierre de Sesión (Obligatoria)**:
+       - Botón de acción destructiva/salida (`logout-item`) estilizado con color `var(--oefa-error-root)` que emite evento `logout`.
 
 ### 8.4 Controles de Formulario e Inputs (Light & Dark Mode)
 - **Superficie de Entrada (`--oefa-surface-input`)**: `#FFFFFF` en modo claro, `#0F172A` en modo oscuro (contraste de borde ≥ 3:1 vs `#0B1120` y `#131C2E`).
@@ -237,11 +285,16 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
 - **Estados Deshabilitados**: Superficie atenuada (`--oefa-surface-muted`), borde suave (`--oefa-border-color-subtle`), texto muted (`--oefa-text-muted`) y cursor `not-allowed`.
 
 
-### 8.5 Segmented Switch y Conmutadores de Modo (`.segmented-switch`, `.view-switch-group`)
-- **Contenedor**: Cápsula de fondo atenuado (`--oefa-surface-muted`) con borde perimetral (`--oefa-border-color`) y padding interno de `3px`.
+### 8.5 Segmented Switch y Conmutadores de Modo (`<oefa-segmented-switch>`, `.segmented-switch`, `.view-switch-group`)
+- **Componente Standalone**: `src/app/shared/components/segmented-switch/segmented-switch.component.ts`.
+- **Contenedor**: Cápsula de fondo atenuado (`--oefa-surface-muted`) con borde perimetral (`--oefa-border-color`) y padding interno de `3px`. Soporta `[fullWidth]="true"` para layouts responsivos.
 - **Botones de Opción (`.switch-btn`, `.switch-mode-btn`)**:
   - Inactivo: fondo transparente, texto `--oefa-text-secondary`, hover sutil con `--oefa-surface-subtle`.
   - Activo: fondo de acento de marca (`--oefa-primary-root`), texto en `--oefa-primary-on` (NUNCA blanco fijo `#FFFFFF`, ya que en dark mode `--oefa-primary-root` es `#76A3EF` y requiere texto oscuro `#05142E` para cumplir WCAG AA > 10:1). Sombra suave de elevación (`--oefa-shadow-sm`).
+- **Badges e Íconos Integrados (`.switch-badge`, `.switch-icon`)**:
+  - Ícono SVG opcional con espaciado uniforme a la izquierda del texto de opción.
+  - Badge tipo píldora (`.switch-badge`): en estado inactivo usa `var(--oefa-surface-subtle)` y `var(--oefa-text-secondary)`; en estado activo `rgba(255, 255, 255, 0.25)` y `var(--oefa-primary-on)`.
+- **Accesibilidad WAI-ARIA**: `role="group"`, `aria-label`, y atributos individuales `aria-pressed="true|false"` en cada botón de opción.
 - **Botón de Filtros Avanzados (`.btn-toggle-filters`)**:
   - Estado normal: fondo `--oefa-surface-card`, borde institucional y texto primario.
   - Estado activo: fondo contenedor primario (`--oefa-primary-container`), texto y borde en `--oefa-primary-root`.
@@ -259,7 +312,7 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
   - Gestionado reactivamente mediante `ToastService` inyectable (`success()`, `info()`, `warning()`, `error()`, `remove()`).
   - Animación suave de entrada con deslizamiento (`translateY`), auto-cierre configurable (default 4000ms), botón manual de descarte y botón opcional de acción.
   - Región en vivo para accesibilidad WCAG (`role="status"` o `role="alert"` según el tipo de severidad).
-  - Fondo `var(--oefa-surface-card)`, borde lateral distintivo de 4px según variante semántica y elevación `var(--oefa-shadow-flyout)`.
+  - Fondo semántico `var(--oefa-[variant]-container)`, marco perimetral uniforme `1px solid var(--oefa-[variant]-container-hc)` y elevación `var(--oefa-shadow-flyout)`.
 
 ### 8.7 Pantalla de Login y Escenas con Fondos Fotográficos
 - **Overlay Fotográfico Adaptativo (`--oefa-login-overlay`)**:
@@ -284,18 +337,20 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
   - **Botón Ver / Ocultar Contraseña (SC 3.3.8 & SC 2.5.8)**: `<button type="button">` con `aria-label` dinámico (*"Mostrar contraseña"* / *"Ocultar contraseña"*), `aria-pressed`, foco visible y target size accesible.
   - **Alertas de Error (SC 3.3.1, 4.1.3 & 1.4.1)**: Banner con `role="alert"`, `aria-live="assertive"` y foco programático, combinando icono descriptivo con texto inequívoco. Los inputs asociados reflejan `aria-invalid="true"` y `aria-describedby`.
 
-### 8.8 Paginación de Tablas de Datos (`.pagination-bar`)
+### 8.8 Paginación de Tablas de Datos (`<oefa-pagination>`, `.pagination-bar`)
+- **Componente Standalone Reutilizable**: `src/app/shared/components/pagination/pagination.component.ts`.
 - **Regla de Carga Inicial**:
-  - El tamaño por defecto es de **10 registros por página** en todas las vistas de tablas y matrices.
+  - El tamaño por defecto es de **10 registros por página** en todas las vistas de tablas, catálogos y matrices.
   - La opción mostrada visualmente en el desplegable `<select>` debe coincidir estrictamente con el número de elementos renderizados desde el primer ciclo de renderizado (data-binding bidireccional reactivo `[ngModel]`).
 - **Opciones Estándar de Tamaño**:
   - Valores permitidos: `[10, 25, 50, 100]` elementos por página.
 - **Comportamiento Reactivo y Reseteo**:
   - Al cambiar de tamaño de página o alternar entre módulos/filtros, el índice de página activa siempre debe resetearse a `1` (`currentPage = 1`) para garantizar coherencia en los límites de datos.
 - **Accesibilidad y Ergonomía (WCAG 2.2)**:
-  - Los botones de navegación (`«`, `‹`, `›`, `»`) deben incluir `title` descriptivo (*"Primera página"*, *"Página anterior"*, etc.) y soporte para lectores de pantalla.
+  - Los botones de navegación (`«`, `‹`, `›`, `»`) deben incluir `title` descriptivo (*"Primera página"*, *"Página anterior"*, etc.) y soporte para lectores de pantalla (`aria-label`).
   - Los botones de página numérica (`.btn-page`) y navegación tienen un área de pulsación mínima de `32x32px` (`SC 2.5.8 Target Size`).
-  - La página activa se señala con fondo institucional `--oefa-primary-root` y texto blanco con contraste superior a `4.5:1`.
+  - Enfoque accesible visible (`:focus-visible`) con anillo `outline: 2px solid var(--oefa-focus-ring)`.
+  - La página activa se señala con fondo institucional `var(--oefa-primary-root)` y texto en `var(--oefa-primary-on)` (NUNCA blanco fijo `#FFFFFF` para preservar contraste pleno en modo oscuro). Atributo `aria-current="page"`.
 
 ### 8.9 Cabeceras de Módulos y Acciones Responsivas (`.header-actions-wrapper`, `.btn-kebab`)
 - **Switch de Modo de Vista Adaptativo (`.view-switch-group`)**:
@@ -357,23 +412,38 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
   - Bloqueo de scroll del fondo mientras el drawer permanece abierto.
   - Anuncio adecuado con atributos `role="dialog"` y `aria-modal="true"`.
 
-### 8.12 Tabla de Datos Reutilizable (`<oefa-table>`)
-- **Componente Standalone**: Ubicado en `src/app/shared/components/table/table.component.ts`.
-- **Propósito**: Estandarizar la visualización de datos tabulares, ordenamiento por columnas, skeleton loading y empty states en todos los módulos institucionales.
-- **Entradas (`Inputs`)**:
-  - `data: T[]`: Arreglo de registros a renderizar.
-  - `columns: TableColumn<T>[]`: Definición de columnas (`key`, `label`, `width`, `sortable`, `align`, `render`).
-  - `loading: boolean`: Activa el modo de carga con filas `<oefa-skeleton>` para prevenir CLS.
-  - `skeletonRows: number`: Cantidad de filas de skeleton a mostrar (default: 5).
-  - `emptyTitle`, `emptyMessage`, `emptyIcon`: Textos e icono para el estado vacío delegado a `<oefa-empty-state>`.
-  - `sortColumn: string`, `sortDirection: 'asc' | 'desc' | ''`: Estado de ordenamiento actual.
-  - `rowClickable: boolean`: Habilita estilos interactivos de fila y cursor pointer.
+### 8.12 Tablas de Datos y Matrices Institucionales (`<oefa-table>`, `.data-table`, `.excel-data-table`, `.gmail-table`)
+- **Clasificación Atomic Design**: **Organismo de Visualización de Datos y Análisis**.
+- **Componente Standalone**: Ubicado en `src/app/shared/components/table/table.component.ts` (`<oefa-table>`).
+- **Los 3 Patrones Institucionales de Tablas**:
+  1. **Tabla de Datos Estándar (`.data-table` / `<oefa-table>`)**:
+     - Para bandejas generales de expedientes, órdenes y catálogos administrativos.
+     - Encabezados compactos con tipografía display (`0.75rem`, `font-weight: 700`, `letter-spacing: 0.05em`), hover reactivo con `var(--oefa-surface-subtle)` y paginador integrado (`<oefa-pagination>`).
+  2. **Matriz Plana Tipo Excel (`.excel-data-table`)**:
+     - Diseñada para alta densidad informativa y cruce multidimensional de entregables (OS, año, número de entregable, días LPAG, montos numéricos, SIGED y estados).
+     - Soporta agrupación de celdas (`rowspan` con clase `.grouped-order-cell` y borde derecho delimitador `2px solid var(--oefa-border-color)`), valores numéricos monoespaciados alineados a la derecha (`font-family: var(--oefa-font-mono)`) y padding compacto.
+  3. **Tabla con Filas Desplegables Tipo Gmail (`.gmail-table`)**:
+     - Permite inspección inline de trazabilidad, eventos de notificación y bitácoras sin cambiar de contexto ni abrir modales pesados.
+     - Chevron rotatorio animado (`transform: rotate(90deg)`) y fila expandida con fondo diferenciado (`var(--oefa-surface-subtle)`).
+- **Entradas (`Inputs`) de `<oefa-table>`**:
+  - `columns: TableColumn[]`: Especificación de columnas (`key`, `header`, `sortable`, `align`, `width`, `type`, `formatter`).
+  - `data: any[]`: Colección de registros a renderizar.
+  - `loading: boolean`: Muestra filas de skeleton interactivo (`<oefa-skeleton>`) evitando saltos de diseño (CLS).
+  - `skeletonRows: number`: Cantidad de filas simuladas durante la carga (default: `4`).
+  - `density: 'default' | 'compact' | 'comfortable'`: Control de padding vertical y tamaño tipográfico.
+  - `striped: boolean`: Alterna colores de fondo en filas pares/impares para lectura descansada.
+  - `bordered: boolean`: Activa cuadrícula completa de bordes verticales ideal para matrices tipo Excel.
+  - `stickyHeader: boolean`: Mantiene la cabecera fija al hacer scroll vertical en contenedores con overflow.
+  - `emptyTitle`, `emptyDescription`: Títulos y descripciones personalizados delegados a `<oefa-empty-state>`.
+  - `rowClickable: boolean`: Habilita cursor interactivo y eventos de selección.
 - **Salidas (`Outputs`)**:
-  - `sortChange: EventEmitter<{ column: string, direction: 'asc' | 'desc' }>`: Notifica cambios en ordenamiento.
-  - `rowClick: EventEmitter<T>`: Emite el registro seleccionado.
-- **Accesibilidad y Tokens**:
-  - Encabezados con `aria-sort="ascending" | "descending" | "none"`.
-  - Estilos 100% basados en tokens: `var(--oefa-surface-subtle)` en th, `var(--oefa-border-color)`, `var(--oefa-primary-root)` en hover e indicadores de orden.
+  - `sortChange: EventEmitter<{ key: string, direction: 'asc' | 'desc' }>`: Disparado al hacer clic en columnas ordenables.
+  - `rowClick: EventEmitter<any>`: Emite el objeto de datos de la fila seleccionada.
+- **Accesibilidad (WCAG 2.2)**:
+  - Estructura nativa semántica con `<table role="table">`, `<thead>`, `<tbody>`, `<th>` y `<td>`.
+  - Atributo accesible `aria-sort="ascending" | "descending"` y navegación por teclado en cabeceras ordenables.
+  - Soporte integral de Dark Mode mediante elevación tonal sobre `var(--oefa-surface-card)` y `var(--oefa-surface-subtle)`.
+
 
 ### 8.13 Tarjeta de Selección (`<oefa-selection-card>`)
 - **Componente Standalone**: Ubicado en `src/app/shared/components/selection-card/selection-card.component.ts`.
@@ -421,11 +491,12 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
 ### 8.15 Alertas Institucionales en Bloque (`<oefa-alert>`)
 - **Componente Standalone**: Ubicado en `src/app/shared/components/alert/alert.component.ts`.
 - **Propósito**: Notificar avisos contextuales permanentes o descartables en vistas y formularios con 5 estados semánticos del sistema de diseño.
+- **Directriz de Estilo y Borde**: Se elimina el borde izquierdo grueso (`border-left: 4px`) en favor de un marco perimetral uniforme y limpio de 1px (`border: 1px solid var(--oefa-[variant]-container-hc)`), garantizando una estética moderna, equilibrada y armónica con esquinas redondeadas.
 - **Variantes de Estado (`type`)**:
-  - `info`: Azul institucional (`--oefa-primary-container`, borde `--oefa-primary-root`, texto `--oefa-primary-on-container`).
-  - `success`: Verde éxito (`--oefa-success-container`, borde `--oefa-success-ui-safe`, texto `--oefa-success-on-container`).
-  - `warning`: Ámbar advertencia (`--oefa-tertiary-container`, borde `--oefa-tertiary-root`, texto `--oefa-tertiary-on-container`).
-  - `error`: Rojo error/destructivo (`--oefa-error-container`, borde `--oefa-error-root`, texto `--oefa-error-on-container`).
+  - `info`: Azul institucional (`--oefa-primary-container`, borde `--oefa-primary-container-hc`, texto `--oefa-primary-on-container`).
+  - `success`: Verde éxito (`--oefa-success-container`, borde `--oefa-success-container-hc`, texto `--oefa-success-on-container`).
+  - `warning`: Ámbar advertencia (`--oefa-tertiary-container`, borde `--oefa-tertiary-container-hc`, texto `--oefa-tertiary-on-container`).
+  - `error`: Rojo error/destructivo (`--oefa-error-container`, borde `--oefa-error-container-hc`, texto `--oefa-error-on-container`).
   - `neutral`: Gris institucional (`--oefa-surface-subtle`, borde `--oefa-border-color`, texto `--oefa-text-primary`).
 - **Entradas (`Inputs`)**:
   - `type: 'info' | 'success' | 'warning' | 'error' | 'neutral'`: Tipo de alerta (default: `'info'`).
@@ -433,7 +504,7 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
   - `message?: string`: Mensaje descriptivo (también admite proyección con `<ng-content>`).
   - `dismissible: boolean`: Muestra botón de cierre `✕` accesible (default: `false`).
   - `showIcon: boolean`: Muestra ícono representativo de estado (default: `true`).
-  - `bordered: boolean`: Estilo con borde izquierdo acentuado de 4px (default: `true`).
+  - `bordered: boolean`: Estilo con marco perimetral uniforme de 1px (default: `true`). Si es `false`, se muestra plano sin borde.
 - **Salidas (`Outputs`)**:
   - `dismissed: EventEmitter<void>`: Emite al pulsar el botón de cierre.
 - **Accesibilidad (WCAG 2.2)**:
@@ -527,7 +598,7 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
   - `isOpen: boolean`: Control reactivo de visibilidad.
   - `title: string`: Título institucional accesible (`aria-labelledby`).
   - `subtitle?: string`: Subtítulo o código técnico complementario.
-  - `variant: 'default' | 'info' | 'success' | 'warning' | 'danger'`: Variante semántica con acento de color superior e ícono descriptivo institucional.
+  - `variant: 'default' | 'info' | 'success' | 'warning' | 'danger'`: Variante semántica con ícono contextual representativo (la tarjeta modal mantiene contorno uniforme perimetral sin `border-top`).
   - `size: 'sm' | 'md' | 'lg' | 'xl' | 'full'`: Ancho adaptable (`sm` = 420px confirmaciones, `md` = 560px estándar, `lg` = 760px detalles, `xl` = 980px tablas complejas, `full` = pantalla completa para visores).
   - `confirmText?: string`, `cancelText?: string`: Textos de acciones principales.
   - `confirmVariant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'excel'`: Estilo del botón de confirmación (autocalculado según variante).
@@ -535,6 +606,10 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
   - `showFooter: boolean`: Muestra barra de acciones inferior (default: `true`).
   - `loading: boolean`: Estado de carga en botón de confirmación.
   - `closeOnBackdrop: boolean`: Permite cerrar al pulsar el backdrop (default: `true`).
+- **Regla de Borde Perimetral (Ausencia de `border-top`)**:
+  - Las tarjetas modales **no utilizan franjas o barras superiores coloreadas** (`border-top: none`).
+  - Mantienen un borde perimetral sutil y uniforme `1px solid var(--oefa-border-color)` en todo su contorno.
+  - La carga semántica de la variante (peligro, advertencia, éxito o información) se transmite de manera limpia y accesible mediante el contenedor de icono de 40px (`.modal-variant-icon`) y el botón de acción principal (`confirmVariant`).
 - **Salidas (`Outputs`)**:
   - `confirm: EventEmitter<void>`: Evento de confirmación.
   - `cancel: EventEmitter<void>`: Evento de cancelación.
@@ -590,7 +665,151 @@ Estilo del ícono: **lineal, trazo uniforme** (no relleno), como en tu referenci
   - Foco visible accesible `var(--oefa-focus-ring)` con soporte de teclado `Enter` y `Espacio`.
   - Respeta `prefers-reduced-motion` cancelando la animación de rotación y despliegue.
 
+### 8.22 Estados Vacíos y Sin Resultados (`<oefa-empty-state>`)
+- **Clasificación Atomic Design**: **Molécula de Feedback / Estado de Vista**.
+- **Componente Standalone**: Ubicado en `src/app/shared/components/empty-state/empty-state.component.ts`.
+- **Propósito**: Retroalimentación amigable, orientada a la acción y visualmente equilibrada cuando no hay registros, una búsqueda no arroja coincidencias o una bandeja/tabla se encuentra vacía.
+- **Entradas (`Inputs`)**:
+  - `icon: 'search' | 'inbox' | 'folder' | 'alert'`: Tipo de icono SVG vectorial institucional incorporado (default: `'search'`).
+  - `title: string`: Título principal del estado (ej. "No se encontraron órdenes").
+  - `description: string`: Mensaje explicativo o sugerencia de acción para el usuario.
+  - `actionText?: string`: Etiqueta del botón de acción principal opcional (ej. "Limpiar Filtros").
+  - `compact: boolean`: Modo compacto con icono de 52px y relleno optimizado para incrustarse dentro de tablas (`<td colspan="...">`) o tarjetas pequeñas (default: `false`).
+- **Salidas (`Outputs`)**:
+  - `actionClick: EventEmitter<void>`: Se dispara al pulsar el botón de acción configurado con `actionText`.
+- **Slots / Proyección de Contenido (`ng-content`)**:
+  - `[icon]`: Permite proyectar un icono o ilustración personalizada en reemplazo de los SVGs predeterminados.
+  - Predeterminado (`<ng-content>`): Permite proyectar contenido secundario, guías o enlaces adicionales debajo de la descripción.
+  - `[actions]`: Permite proyectar botones de acción personalizados o agrupaciones de botones complejas.
+- **Tokens y Modo Oscuro**:
+  - Círculo de icono: fondo `var(--oefa-surface-subtle)`, borde `var(--oefa-border-color)`, color de trazo `var(--oefa-primary-root)`.
+  - Tipografía: Título con `var(--oefa-font-display)` y `var(--oefa-text-primary)`; descripción con `var(--oefa-text-secondary)`.
+  - Transición suave de superficies con `var(--oefa-duration-short)` y `var(--oefa-ease-standard)`.
+- **Accesibilidad (WCAG 2.2)**:
+  - Contenedor con `role="region"` y `[attr.aria-label]="title || 'Estado vacío'"`.
+  - Iconos decorativos encapsulados con `aria-hidden="true"`.
+  - Botón de acción con foco visible y contraste accesible acorde al estándar `<oefa-button>`.
+
+### 8.23 Átomo de Información y Tooltip Reutilizable (`<oefa-info-tooltip>`)
+- **Clasificación Atomic Design**: **Átomo de Asistencia / Micro-Feedback**.
+- **Componente Standalone**: Ubicado en `src/app/shared/components/info-tooltip/info-tooltip.component.ts`.
+- **Propósito**: Icono de ayuda circular institucional (`ⓘ`) que proporciona contexto adicional, instrucciones o glosarios rápidos mediante un tooltip accesible de alta respuesta (~150ms) en `:hover` y `:focus-visible`, sin saturar la interfaz. Reutilizable en pestañas, cabeceras de columnas en tablas, etiquetas de formularios y tarjetas de métricas.
+- **Entradas (`Inputs`)**:
+  - `text: string`: Mensaje o texto descriptivo desplegado en el tooltip institucional.
+  - `position: 'top' | 'bottom' | 'left' | 'right'`: Posición preferida de la burbuja respecto al icono (default: `'top'`).
+  - `size: 'sm' | 'md'`: Tamaño del icono (`sm` = 14px ideal para pestañas y formularios compactos, `md` = 16px para encabezados de sección).
+  - `ariaLabel?: string`: Etiqueta accesible para lectores de pantalla (default: `'Más información'`).
+- **Sistema de Posicionamiento Inteligente Antirrecorte (Zero Dependencias Externas)**:
+  - **Inmunidad a Contenedores con Overflow (`document.body` Portal)**: El globo del tooltip se teletransporta directamente al final del `document.body` con `position: fixed` y `z-index: 10000`, evitando ser cortado por contenedores con `overflow: hidden`, `overflow-x: auto` o `overflow: scroll` (como pestañas, tarjetas y tablas).
+  - **Detección Automática de Bordes (Auto-Flip)**: Mediante `getBoundingClientRect()`, detecta si el espacio libre hacia arriba es menor a la altura del tooltip; si es insuficiente, conmuta automáticamente a `'bottom'`. Del mismo modo conmuta entre `'left'` y `'right'` en márgenes estrechos.
+  - **Alineación Horizontal Suave (Viewport Clamping)**: Si el icono está próximo al borde izquierdo o derecho de la pantalla, el tooltip se desplaza horizontalmente para mantenerse siempre dentro del viewport con un margen de seguridad de 8px, reorientando dinámicamente la flecha indicadora para que apunte con precisión al icono disparador.
+- **Comportamiento y Ciclo de Vida**:
+  - Detiene la propagación de eventos (`$event.stopPropagation()`) para prevenir activaciones accidentales del elemento contenedor (como tabs o filas de tabla).
+  - Se cierra automáticamente al pulsar `Escape`, al hacer scroll en la ventana o al perder el foco (`blur`).
+  - Destrucción segura en `ngOnDestroy` garantizando cero fugas de memoria o nodos huérfanos en el DOM.
+- **Accesibilidad (WCAG 2.2 SC 1.4.13)**:
+  - Foco visible con contorno accesible (`outline: 2px solid var(--oefa-focus-ring)`).
+  - Soporta activación por teclado (`tabindex="0"`) y lectura completa mediante lectores de pantalla (`aria-label`).
+
+### 8.24 Asistente de Pasos y Wizard Progresivo (`<oefa-stepper>`)
+- **Clasificación Atomic Design**: **Molécula de Navegación Secuencial / Flujo Guiado**.
+- **Componente Standalone**: Ubicado en `src/app/shared/components/stepper/stepper.component.ts`.
+- **Propósito**: Guía intuitiva para procesos secuenciales de registro, parametrización o confirmación en múltiples etapas.
+- **Entradas (`Inputs`)**:
+  - `steps: OefaStepItem[]`: Lista ordenada de pasos `{ title: string, description?: string, disabled?: boolean }`.
+  - `currentStep: number`: Índice numérico del paso activo (1-based, default: `1`). Soporta enlace bidireccional `[(currentStep)]`.
+  - `clickable: boolean`: Permite navegación directa al hacer clic en los pasos completados o habilitados (default: `false`).
+  - `orientation: 'horizontal' | 'vertical'`: Disposición espacial de los pasos (default: `'horizontal'`).
+- **Salidas (`Outputs`)**:
+  - `currentStepChange: EventEmitter<number>`: Emite el nuevo índice activo.
+  - `stepChange: EventEmitter<number>`: Notificación de cambio de paso para validaciones de formulario.
+- **Adaptabilidad Progresiva Multi-Dispositivo**:
+  - **Desktop (> 992px)**: Disposición horizontal completa con círculos de 36px, títulos y descripciones a la derecha, unidos por líneas de conexión fluidas.
+  - **Tablet (641px – 992px)**: Distribución equitativa de ancho (`flex: 1 1 0`) con círculos centrados arriba y títulos truncados a dos líneas abajo (`-webkit-line-clamp: 2`).
+  - **Móvil (≤ 640px)**: Barra continua con círculos compactos y **burbuja de diálogo activa** (`.mobile-speech-bubble`) que desplaza suavemente una flecha superior (`getArrowPositionPercentage()`) para señalar el paso en curso sin generar desbordamiento horizontal.
+- **Accesibilidad (WCAG 2.2)**:
+  - Estructura semántica con `<ol role="list">` y `<div role="navigation" aria-label="Progreso del asistente">`.
+  - Círculos de estado con `aria-current="step"` y etiquetas completas `aria-label="Paso X: Título (Paso actual / Completado)"`.
+  - Notificaciones en tiempo real para lectores de pantalla con `role="status"` y `aria-live="polite"` en móvil.
+  - Navegación por teclado accesible con `Enter` y `Espacio`, y foco visible `outline: 2px solid var(--oefa-focus-ring)`.
+  - *Nota*: Para especificación visual extendida, ver también la [Sección 11: Stepper y Wizard Progresivo](#11-componente-stepper-y-wizard-progresivo-oefa-stepper).
+
+### 8.25 Panel de Filtros y Drawer Facetado (`<oefa-filter-sidebar>`)
+- **Clasificación Atomic Design**: **Organismo de Búsqueda y Filtrado Facetado**.
+- **Componente Standalone**: Ubicado en `src/app/shared/components/filter-sidebar/filter-sidebar.component.ts`.
+- **Propósito**: Refinamiento granular y estructurado de catálogos y bandejas de expedientes, adaptándose como panel sticky fijo en escritorio o como bottom sheet táctil con tirador en dispositivos móviles.
+- **Entradas (`Inputs`)**:
+  - `title: string`: Título principal (default: `'Refinar Búsqueda'`).
+  - `activeCount: number`: Contador global de criterios aplicados.
+  - `statusOptions?: FilterStatusOption[]`: Colección de chips con indicadores de estado (`value`, `label`).
+  - `selectedStatus: string`: Clave del estado seleccionado (default: `'TODOS'`).
+  - `showDateRange: boolean`: Conmuta bloque de fechas con `<oefa-date-picker>` (default: `true`).
+  - `dateFrom: string`, `dateTo: string`: Fechas ISO de intervalo.
+  - `showAmountRange: boolean`: Conmuta inputs numéricos con slider dual de rango (default: `true`).
+  - `amountMin: number | null`, `amountMax: number | null`, `amountUnit: string`: Parámetros monetarios o sancionatorios.
+  - `filterGroups: FilterGroupItem[]`: Acordeones facetados con checkboxes, conteos y buscador instantáneo.
+  - `showSpecialConditions: boolean`: Conmuta interruptores con switches institucionales.
+  - `flagMedidas: boolean`, `flagAlertas: boolean`: Banderas booleanas de filtrado rápido.
+  - `isOpenMobile: boolean`: Apertura reactiva del bottom sheet en viewports reducidos (≤ 768px).
+- **Salidas (`Outputs`)**:
+  - `statusChange`, `dateFromChange`, `dateToChange`, `amountMinChange`, `amountMaxChange`, `groupToggle`, `optionToggle`, `clear`, `apply`, `closeMobile`.
+- **Adaptabilidad y Ergonomía**:
+  - **Desktop (≥ 769px)**: Sidebar fijo y sticky (`top: 16px`) con scrollbar estilizado (`overflow-y: auto`) y barra inferior de acciones persistente (`.fs-sticky-footer`).
+  - **Móvil (≤ 768px)**: Bottom sheet con tirador (`.fs-sheet-handle`), `max-height: 88vh`, backdrop con desenfoque (`backdrop-filter: blur(3px)`) y animación M3 `var(--oefa-ease-emphasized-decel)`.
+- *Nota*: Para la tabla detallada de propiedades, ver también la [Sección 16: Filter Sidebar](#16-filter-sidebar-oefa-filter-sidebar).
+
+### 8.26 Paneles Laterales y Side Canvas (`<oefa-drawer>`)
+- **Clasificación Atomic Design**: **Organismo de Inspección y Flujos Secundarios**.
+- **Componente Standalone**: Ubicado en `src/app/shared/components/drawer/drawer.component.ts`.
+- **Propósito**: Despliegue de fichas de detalle, formularios de edición rápida, auditoría de expedientes y paneles auxiliares sin salir del contexto de la pantalla ni provocar recargas.
+- **Entradas (`Inputs`)**:
+  - `isOpen: boolean`: Controla la visibilidad del drawer y activa el bloqueo de scroll del fondo (`overflow: hidden`).
+  - `title: string`: Título principal del encabezado.
+  - `subtitle?: string`: Texto complementario o código de expediente.
+  - `badge?: string`: Insignia o tag resumido (ej. `"CONFORME"`, `"PENDIENTE"`, `"N° 01"`).
+  - `position: DrawerPosition`: Orientación de entrada (`'right'` default, `'left'`, `'bottom'`).
+  - `size: DrawerSize`: Ancho del panel (`'sm'` [380px], `'md'` [480px default], `'lg'` [640px], `'xl'` [800px], `'full'` [100vw]).
+  - `closeOnBackdrop: boolean`: Permite cerrar al pulsar fuera del panel (default: `true`).
+  - `closeOnEsc: boolean`: Permite cerrar mediante la tecla `Escape` (default: `true`).
+- **Salidas (`Outputs`)**:
+  - `closed: EventEmitter<void>`: Evento emitido al pulsar cerrar, backdrop o `Escape`.
+- **Zonas de Proyección (`Slots`)**:
+  - `[header-actions]`: Acciones secundarias en cabecera junto al título.
+  - `[default]` (`<ng-content />`): Contenedor de cuerpo con scroll vertical protegido (`overflow-y: auto`).
+  - `[footer]`: Barra fija de acciones inferiores con fondo sutil y alineación flexible.
+- **Accesibilidad (WCAG 2.2)**:
+  - Diálogo modal con `role="dialog"`, `aria-modal="true"` y rotulado accesible (`aria-label` / `aria-labelledby`).
+  - Botón de cierre estandarizado `<oefa-icon-button variant="close">` con `title="Cerrar panel (Esc)"`.
+  - Captura y restablecimiento de foco tras el cierre y bloqueo reactivo de scroll en `document.body`.
+  - Animación elástica decelerada `var(--oefa-ease-emphasized-decel)` con anulación en `@media (prefers-reduced-motion: reduce)`.
+
+### 8.27 Encabezado de Página Institucional (`<oefa-page-header>`)
+- **Clasificación Atomic Design**: **Organismo de Estructura y Navegación de Vista**.
+- **Componente Standalone**: Ubicado en `src/app/shared/components/page-header/page-header.component.ts`.
+- **Propósito**: Proporcionar el ancla semántica primaria (`<h1>`) de cada pantalla del sistema, integrando migas de pan (`breadcrumbs`), subtítulo contextual, badges de estado del negocio y barras de acciones primarias/secundarias.
+- **Entradas (`Inputs`)**:
+  - `title: string`: Título principal obligatorio de la pantalla (renderizado en un `<h1>`).
+  - `subtitle?: string`: Descripción o metadato descriptivo (ej. "RUC", "Proveedor", "Fecha de corte").
+  - `badgeText?: string`: Etiqueta textual visible dentro del badge de estado.
+  - `badgeStatus?: string`: Estado del badge que mapea a tokens (`'info'`, `'exito'`, `'FINALIZADO'`, `'OBSERVADO'`, etc.).
+  - `breadcrumbs?: BreadcrumbItem[]`: Colección de migas de pan `{ label: string; url?: string }`.
+  - `showBack?: boolean`: Muestra un botón accesible de retroceso a la izquierda del título.
+  - `backUrl?: string`: Ruta de redirección directa al pulsar retroceso.
+- **Salidas (`Outputs`)**:
+  - `back: EventEmitter<void>`: Disparado al pulsar el botón de retroceso.
+- **Zonas de Proyección (`Slots`)**:
+  - `[actions]`: Contenedor para conmutadores de vista (`<oefa-segmented-switch>`), botones principales (`<oefa-button>`) o kebab menu.
+  - `[extra]`: Zona inferior opcional para resúmenes estadísticos rápidos o filtros complementarios.
+- **Accesibilidad (WCAG 2.2)**:
+  - Estructura semántica única con landmark `<header role="banner">` y `<h1>` principal con tipografía display institucional.
+  - Navegación breadcrumb dentro de `<nav aria-label="Ruta de navegación">` con lista ordenada `<ol>`, enlaces con `:focus-visible` y `aria-current="page"` en el último elemento.
+  - Botón de retroceso accesible con `aria-label="Regresar a la página anterior"` y contraste mínimo 4.5:1.
+
 ---
+
+
+
+
 
 ## 10. Modo Oscuro Institucional (Dark Mode) & Estándar WCAG 2.2
 
@@ -829,7 +1048,147 @@ Organismo para refinamiento de listas densas y catálogos de expedientes:
 
 ---
 
-## 17. Siguiente paso
+## 17. Side Canvas Drawer (`<oefa-drawer>`)
+
+### 17.1 Propósito y Ergonomía de Pantalla
+Componente contenedor deslizante sobrevolapado (Side Sheet / Canvas) diseñado para mantener al usuario enfocado en la vista principal mientras inspecciona o edita información complementaria:
+- **Inspección de Detalle:** Despliegue de datos extendidos de una orden de servicio, trazabilidad SIGED o historial de observaciones sin abandonar la matriz de datos.
+- **Formularios de Edición Rápida:** Edición in-situ con validaciones y acciones en el footer fijo (`[footer]`).
+- **Navegación Táctil Móvil:** En dispositivos móviles o con `position="bottom"`, se transforma en un bottom sheet ergonómico adaptado a una sola mano.
+
+### 17.2 API del Componente
+| Propiedad | Tipo | Default | Descripción |
+|---|---|---|---|
+| `[isOpen]` | `boolean` | `false` | Abre/cierra el drawer y gestiona el bloqueo de scroll (`document.body`). |
+| `[title]` | `string` | `''` | Título del encabezado. |
+| `[subtitle]` | `string` | `''` | Subtítulo explicativo o metadato bajo el título. |
+| `[badge]` | `string` | `''` | Insignia compacta numérica o de estado en la cabecera. |
+| `[position]` | `'right' \| 'left' \| 'bottom'` | `'right'` | Lado de acoplamiento del panel. |
+| `[size]` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Ancho máximo: `sm` (380px), `md` (480px), `lg` (640px), `xl` (800px), `full` (100vw). |
+| `[closeOnBackdrop]` | `boolean` | `true` | Cierra al hacer clic en el overlay difuminado. |
+| `[closeOnEsc]` | `boolean` | `true` | Cierra al presionar la tecla `Escape`. |
+| `(closed)` | `EventEmitter<void>` | — | Notifica al contenedor cuando el drawer se cierra. |
+
+---
+
+## 18. Encabezado de Página Institucional (`<oefa-page-header>`)
+
+### 18.1 Propósito y Composición Visual
+Organismo que encabeza cada módulo del sistema, unificando la identidad del módulo, el contexto jerárquico de navegación (breadcrumbs) y los puntos de interacción principales:
+- **Jerarquía Semántica:** Único contenedor en el DOM que debe alojar el elemento `<h1>` principal de la vista activa.
+- **Ruta de Navegación (Breadcrumbs):** Indica al usuario su ubicación relativa dentro del árbol del aplicativo, con enlaces navegables y separadores accesibles.
+- **Badges de Contexto Inmediato:** Permite adjuntar insignias de estado operacional (`Vigente`, `Conforme`, `Observado`, etc.) alineadas directamente al título.
+- **Zona de Acciones Contextuales (`[actions]`):** Espacio reservado para herramientas de visualización (cards/tabla/bento), botones de exportación Excel y botones primarios de acción.
+- **Soporte Responsivo:** En resoluciones móviles (≤ 768px), el título ajusta su tamaño tipográfico de `1.5rem` a `1.25rem`, y la barra de acciones pasa a ocupar el ancho completo preservando orden visual.
+
+### 18.2 API del Componente
+| Propiedad | Tipo | Default | Descripción |
+|---|---|---|---|
+| `[title]` | `string` | `''` | Título principal de la página (`<h1>`). |
+| `[subtitle]` | `string` | `''` | Subtítulo descriptivo o metadatos informativos. |
+| `[badgeText]` | `string` | `''` | Texto del badge institucional adjunto al título. |
+| `[badgeStatus]` | `string` | `'info'` | Variante o estado semántico del badge (`'info'`, `'exito'`, etc.). |
+| `[breadcrumbs]` | `BreadcrumbItem[]` | `[]` | Lista de nodos de migas de pan `{ label, url? }`. |
+| `[showBack]` | `boolean` | `false` | Activa el botón de retorno rápido a la izquierda del título. |
+| `[backUrl]` | `string` | `''` | Ruta opcional a navegar automáticamente al pulsar retroceso. |
+| `(back)` | `EventEmitter<void>` | — | Evento emitido al hacer clic en el botón de retroceso. |
+
+---
+
+## 19. Tablas y Matrices de Datos (`<oefa-table>`, `.excel-data-table`, `.gmail-table`)
+
+### 19.1 Arquitectura y Criterios de Selección
+OEFA cuenta con tres patrones estandarizados según la densidad y naturaleza del flujo de trabajo:
+1. **Bandeja de Catálogo (`<oefa-table>` / `.data-table`):** Para listas densas con paginación (`<oefa-pagination>`), ordenamiento por columnas, estados de carga y búsqueda rápida.
+2. **Matriz Plana de Supervisión (`.excel-data-table`):** Para seguimiento presupuestal y de plazos LPAG con celdas agrupadas (`rowspan`), bordes de celda tipo cuadrícula, números monoespaciados alineados a la derecha y chips semánticos.
+3. **Detalle Desplegable In-situ (`.gmail-table`):** Para auditoría de eventos de notificación y bitácoras asociadas a cada entregable sin cambiar de pantalla.
+
+### 19.2 API del Componente Reutilizable (`<oefa-table>`)
+| Propiedad | Tipo | Default | Descripción |
+|---|---|---|---|
+| `[columns]` | `TableColumn[]` | `[]` | Definición de columnas (`key`, `header`, `sortable`, `align`, `width`, `type`, `formatter`). |
+| `[data]` | `any[]` | `[]` | Conjunto de registros a desplegar en filas. |
+| `[loading]` | `boolean` | `false` | Conmuta filas de esqueletos (`<oefa-skeleton>`) para feedback de carga. |
+| `[skeletonRows]` | `number` | `4` | Cantidad de filas simuladas en modo loading. |
+| `[density]` | `'default' \| 'compact' \| 'comfortable'` | `'default'` | Control de altura y padding de celdas. |
+| `[striped]` | `boolean` | `false` | Alterna fondo sutil en filas pares. |
+| `[bordered]` | `boolean` | `false` | Dibuja cuadrícula completa con bordes verticales de columna. |
+| `[stickyHeader]` | `boolean` | `false` | Fija la cabecera durante el scroll vertical. |
+| `[emptyTitle]` | `string` | `'Sin registros'` | Título cuando `data` es vacío. |
+| `[emptyDescription]` | `string` | `'...'` | Descripción complementaria del estado vacío. |
+| `[rowClickable]` | `boolean` | `false` | Habilita hover interactivo y evento de selección. |
+| `(sortChange)` | `EventEmitter<{ key, direction }>` | — | Notifica el ordenamiento activo. |
+| `(rowClick)` | `EventEmitter<any>` | — | Emite la fila seleccionada. |
+
+---
+
+## 20. Cabecera Institucional y Barra de Navegación Lateral (Top Header & Side Rail)
+
+### 20.1 Arquitectura del Shell Institucional
+El shell ergonómico del OEFA organiza la pantalla en cuatro capas operativas coordinadas:
+1. **Top Header (`.oefa-header` / `<app-header>`):** Barra superior horizontal fija de `64px` de altura (`--oefa-header-height`) que aloja la identidad institucional, conmutador de menú, marca del sistema (`SEOSC`), conmutador de tema, notificaciones, selector de aplicativos (`<oefa-app-launcher>`) y menú de usuario (`<oefa-user-menu>`).
+2. **Side Rail (`.sidebar-rail` / `<app-sidebar-rail>`):** Barra lateral primaria de **80px** de ancho con alineación vertical centrada de módulos, botón de acción rápida circular (`+`), e iconos institucionales M3.
+3. **Submenú Flyout (`.submenu-panel` / `<app-submenu-panel>`):** Panel desplegable de **260px** de ancho para navegación en profundidad (hasta 3 niveles) con soporte de anclaje permanente (*Pinned*) o flotante por hover (*Floating*).
+4. **Área de Trabajo (`<main class="workspace">`):** Espacio fluido adaptativo con scroll vertical independiente (`height: calc(100vh - 64px)`).
+
+### 20.2 Modos de Visualización del Sidebar
+| Modo | Ancho Total | Comportamiento | Casos de Uso Recomendados |
+|---|---|---|---|
+| **Pinned (Fijo)** | 80px + 260px = 340px | El submenú permanece siempre anclado al lienzo de trabajo. | Usuarios intensivos en monitores de escritorio (`> 1024px`). |
+| **Floating (Flotante)** | 80px (Flyout flota con sombra) | El submenú se abre al pasar el cursor o hacer clic sobre el ítem del rail y se oculta automáticamente. | Pantallas intermedias (1024px a 1366px) para maximizar espacio horizontal. |
+| **Hidden / Mobile** | 0px (Overlay lateral) | Rail y submenú se repliegan por completo, dando paso al drawer móvil con navegación Drill-Down. | Tablets y dispositivos móviles (`≤ 768px`). |
+
+### 20.3 Patrón Waffle M3 en el Rail (80px)
+- **Expansión sin Desplazamiento:** Cada ítem del rail está alojado en un contenedor de flujo vertical fijo de `72px` (`.rail-item-wrapper`).
+- **Elevación en Hover/Foco:** Al posar el cursor o recibir foco (`:hover` / `:focus-visible`), el botón se proyecta en una capa flotante (`position: absolute; z-index: 40; box-shadow: 0 4px 14px rgba(0,0,0,0.14)`), liberando el texto a dos o tres líneas completas hacia abajo sin desplazar ni empujar a los ítems inferiores.
+- **Geometría del Foco Accesible (WCAG 2.2 SC 2.4.7 / 2.4.13):** Contorno rectangular redondeado uniforme de `2px solid var(--oefa-focus-ring)` con `offset: 2px` y `border-radius: var(--oefa-radius-md)` contenido dentro del ancho del rail.
+
+### 20.4 Adaptación Responsiva del Header por Breakpoints
+- **Desktop (`> 1024px`):** Despliegue completo (Logo + Divisor + Acrónimo + Subtítulo + Notificaciones + Tema + Apps + Usuario con nombre).
+- **Tablet Horizontal / Laptop (`≤ 1024px`, `--oefa-breakpoint-lg`):** Se oculta el subtítulo descriptivo (`.plusd-sub`), preservando el acrónimo `SEOSC` y el logotipo OEFA.
+- **Tablet Vertical (`≤ 768px`, `--oefa-breakpoint-md`):** Se oculta el nombre del usuario (`.user-name`) dejando visible el avatar circular de `36px`; se compacta el padding horizontal de `20px` a `12px` y el logo a `30px`.
+- **Móvil (`≤ 640px`, `--oefa-breakpoint-sm`):** Se ocultan el divisor y la marca del sistema, priorizando el logotipo institucional; el selector de apps (`.apps-btn`) se mantiene accesible como acceso directo al ecosistema OEFA.
+
+---
+
+## 21. Layout, Responsividad y Sistema de Rejilla (Grid & Responsive Breakpoints)
+
+### 21.1 Matriz Oficial de Breakpoints OEFA
+| Token CSS | Valor | Dispositivo / Contexto | Comportamiento del Layout |
+|---|---|---|---|
+| `--oefa-breakpoint-sm` | `640px` | Móvil / Celular | Formularios a 1 columna vertical; botones al 100% de ancho; títulos a `1.25rem`; marca del sistema oculta preservando logo OEFA; selector de apps accesible. |
+| `--oefa-breakpoint-md` | `768px` | Tablet Vertical | Side rail (80px) colapsa a Drawer móvil con patrón Drill-Down; nombre de usuario se oculta dejando avatar; tablas con scroll horizontal protegido. |
+| `--oefa-breakpoint-lg` | `1024px` | Tablet Horizontal / Laptop | Subtítulo descriptivo del header se oculta preservando acrónimo SEOSC; submenú pasa a modo Pinned o Floating; filtros facetados en bottom sheet táctil. |
+| `--oefa-breakpoint-xl` | `1280px` | Desktop / Monitores amplios | Despliegue completo sin scroll horizontal forzado; matrices densas de entregables y dashboards Bento en ancho total. |
+
+### 21.2 Transformaciones Responsivas por Componente
+1. **Top Header (`.oefa-header`):**
+   - Altura inalterable de `64px` en todos los viewports.
+   - En `≤ 768px`, el padding se compacta a `12px` y el logo a `30px`.
+   - En `≤ 640px`, se prioriza el logo OEFA y el botón lanzador de aplicaciones (`.apps-btn`).
+2. **Navegación Lateral (Rail 80px + Submenú 260px):**
+   - En desktop (`> 768px`): Rail visible de 80px con submenú pinned o floating.
+   - En móvil (`≤ 768px`): Repliegue total; apertura mediante botón de menú superior como `<app-mobile-nav-drawer>` con patrón Drill-Down.
+3. **Tablas y Matrices (`.data-table`, `.excel-data-table`, `<oefa-table>`):**
+   - Encapsuladas siempre en un contenedor con `overflow-x: auto; -webkit-overflow-scrolling: touch;`.
+   - Prohibido romper el ancho de pantalla; la tabla preserva su densidad interna y habilita scroll táctil suave con cabecera sticky opcional.
+4. **Modales y Drawers (`<oefa-modal>`, `<oefa-drawer>`):**
+   - En desktop: Modales de `420px` a `760px` centrados; drawers laterales acoplados a derecha o izquierda.
+   - En móvil (`≤ 640px`): Modales ocupan el `calc(100vw - 32px)` y los drawers laterales pasan automáticamente a modo Bottom Sheet con esquinas redondeadas superiores (`var(--oefa-radius-lg)`).
+5. **Asistente de Pasos (`<oefa-stepper>`):**
+   - En desktop: Orientación horizontal con líneas conectoras fluidas y etiquetas bajo el círculo.
+   - En móvil (`≤ 768px`): Reorganización a modo vertical o visualización compacta paso actual/total (`Paso X de Y`).
+6. **Formularios y Botones (`.btn`, `<oefa-button>`):**
+   - En desktop: Grupos alineados en fila con `gap: 8px` o `12px`.
+   - En móvil (`≤ 640px`): Botones de acción principal ocupan el `100%` del ancho del contenedor en apilamiento vertical (`flex-direction: column-reverse` para ubicar el botón principal en la zona táctil superior).
+
+### 21.3 Ergonomía Táctil y Accesibilidad (WCAG 2.2 SC 2.5.8)
+- Todos los elementos interactivos táctiles en móviles y tablets garantizan un área de toque mínima de **44x44px** (o mínimo absoluto de 24x24px con separación perimetral protegida).
+- Los enlaces y botones en móvil cuentan con `:active` state inmediato con reducción sutil de escala (`0.98`) y anillo de foco visible `:focus-visible` de `2px solid var(--oefa-focus-ring)`.
+
+---
+
+## 22. Siguiente paso
 Con esto cerrado como fundación general, cada proyecto (empezando por Control de Pagos de Entregables) escribe su propio documento corto que solo mapea estos tokens a sus casos de uso específicos — ver `design-project-control-pagos.md`.
 
 

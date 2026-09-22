@@ -168,11 +168,11 @@ import { OefaIconButtonComponent } from '../../shared/components/icon-button/ico
     .ds-container { display: flex; flex-direction: column; gap: 24px; }
     .ds-header { display: flex; justify-content: space-between; align-items: flex-start; }
     .subtitle { font-size: 0.875rem; color: var(--oefa-text-secondary); margin-top: 4px; }
-    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
+    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: var(--oefa-radius-full); }
 
-    .ds-card { background: white; border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); }
-    .card-header { padding: 18px 24px; border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; }
-    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-primary-root); }
+    .ds-card { background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); box-shadow: var(--oefa-shadow-sm); overflow: hidden; }
+    .card-header { padding: 18px 24px; background: var(--oefa-surface-subtle); border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; }
+    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-text-primary); font-family: var(--oefa-font-display); }
     .card-body { padding: 24px; }
 
     .button-spec-table { display: flex; flex-direction: column; gap: 16px; }

@@ -140,9 +140,6 @@ import { OefaSkeletonComponent } from '../../shared/components/skeleton/skeleton
         </div>
       </div>
 
-      <!-- Tarjeta 4: Modo Pantalla Completa (Overlay) -->
-      <div class="card ds-card">
-        <div class="card-header">
       <!-- Tarjeta 4: Modo Overlay Pantalla Completa -->
       <div class="card ds-card">
         <div class="card-header">
@@ -165,11 +162,11 @@ import { OefaSkeletonComponent } from '../../shared/components/skeleton/skeleton
     .ds-container { display: flex; flex-direction: column; gap: 24px; }
     .ds-header { display: flex; justify-content: space-between; align-items: flex-start; }
     .subtitle { font-size: 0.875rem; color: var(--oefa-text-secondary); margin-top: 4px; }
-    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
+    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: var(--oefa-radius-full); }
 
-    .ds-card { background: var(--oefa-surface-card, #ffffff); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); }
-    .card-header { padding: 18px 24px; border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; }
-    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-primary-root); }
+    .ds-card { background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); box-shadow: var(--oefa-shadow-sm); overflow: hidden; }
+    .card-header { padding: 18px 24px; background: var(--oefa-surface-subtle); border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; }
+    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-text-primary); font-family: var(--oefa-font-display); }
     .card-body { padding: 24px; }
 
     /* Rule Grid */
@@ -178,12 +175,12 @@ import { OefaSkeletonComponent } from '../../shared/components/skeleton/skeleton
     .rule-column { padding: 20px; border-radius: var(--oefa-radius-md); border: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 12px; }
     .skeleton-rule { background-color: var(--oefa-surface-subtle); }
     .spinner-rule { background-color: var(--oefa-primary-container); }
-    .rule-badge { align-self: flex-start; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
-    .skeleton-rule .rule-badge { background: var(--oefa-border-color); color: var(--oefa-text-primary); }
+    .rule-badge { align-self: flex-start; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: var(--oefa-radius-sm); }
+    .skeleton-rule .rule-badge { background: var(--oefa-surface-card); color: var(--oefa-text-primary); border: 1px solid var(--oefa-border-color); }
     .spinner-rule .rule-badge { background: var(--oefa-primary-root); color: var(--oefa-primary-on); }
     .rule-column h4 { margin: 0; font-size: 0.95rem; font-weight: 700; color: var(--oefa-text-primary); }
     .rule-column ul { margin: 0; padding-left: 18px; font-size: 0.85rem; color: var(--oefa-text-secondary); display: flex; flex-direction: column; gap: 6px; }
-    .rule-code code { font-size: 0.8rem; background: rgba(0,0,0,0.06); padding: 4px 8px; border-radius: 4px; display: block; font-family: monospace; }
+    .rule-code code { font-size: 0.8rem; background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); color: var(--oefa-text-primary); padding: 6px 10px; border-radius: var(--oefa-radius-sm); display: block; font-family: var(--oefa-font-mono); }
 
     /* Skeleton Showcase */
     .skeleton-showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }

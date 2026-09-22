@@ -120,7 +120,7 @@ export type SelectionCardBadgeVariant = 'primary' | 'success' | 'tertiary' | 'ne
           border-color: var(--oefa-primary-root, #144aa7);
           &.type-checkbox {
             background-color: var(--oefa-primary-root, #144aa7);
-            color: #ffffff;
+            color: var(--oefa-primary-on, #ffffff);
           }
         }
 
@@ -160,7 +160,7 @@ export type SelectionCardBadgeVariant = 'primary' | 'success' | 'tertiary' | 'ne
       }
 
       &.type-checkbox {
-        border-radius: 4px;
+        border-radius: var(--oefa-radius-sm, 4px);
       }
     }
 

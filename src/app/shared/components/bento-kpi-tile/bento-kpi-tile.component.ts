@@ -157,7 +157,7 @@ export interface BentoChipConfig {
                   </defs>
                   <path d="M 2,24 Q 14,28 26,16 T 50,10 T 62,4 L 62,30 L 2,30 Z" fill="url(#bkcSparkGrad)"></path>
                   <path d="M 2,24 Q 14,28 26,16 T 50,10 T 62,4" fill="none" [attr.stroke]="accentColor" stroke-width="2.2" stroke-linecap="round"></path>
-                  <circle cx="62" cy="4" r="2.5" [attr.fill]="accentColor" stroke="#FFFFFF" stroke-width="1.5"></circle>
+                  <circle cx="62" cy="4" r="2.5" [attr.fill]="accentColor" stroke="var(--oefa-surface-card)" stroke-width="1.5"></circle>
                 </svg>
               </div>
             }
@@ -181,26 +181,26 @@ export interface BentoChipConfig {
   `,
   styles: [`
     .bento-kpi-card {
-      border-radius: 20px;
+      border-radius: var(--oefa-radius-xl, 20px);
       padding: 20px;
-      border: none;
+      border: 1px solid var(--oefa-border-color);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 16px;
-      box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
+      box-shadow: var(--oefa-shadow-sm);
       transition: transform var(--oefa-duration-medium) var(--oefa-ease-emphasized),
                   box-shadow var(--oefa-duration-medium) var(--oefa-ease-emphasized);
       cursor: pointer;
       outline: none;
 
       &:focus-visible {
-        box-shadow: 0 0 0 3px var(--oefa-focus-glow), 0 10px 30px -10px rgba(15, 23, 42, 0.04);
+        box-shadow: 0 0 0 3px var(--oefa-focus-glow), var(--oefa-shadow-sm);
       }
 
       &:hover {
         transform: translateY(-4px);
-        box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.1);
+        box-shadow: var(--oefa-shadow-md);
 
         .bkc-icon-box {
           transform: rotate(8deg) scale(1.12);
@@ -242,12 +242,13 @@ export interface BentoChipConfig {
     .bkc-icon-box {
       width: 40px;
       height: 40px;
-      background: white;
-      border-radius: 12px;
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md, 12px);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      box-shadow: var(--oefa-shadow-sm);
       flex-shrink: 0;
       transition: transform var(--oefa-duration-medium) var(--oefa-ease-emphasized);
     }
@@ -257,7 +258,7 @@ export interface BentoChipConfig {
       text-transform: uppercase;
       letter-spacing: 0.04em;
       font-weight: 700;
-      color: #64748b;
+      color: var(--oefa-text-muted);
     }
 
     .bkc-title {
@@ -265,17 +266,18 @@ export interface BentoChipConfig {
       font-family: var(--oefa-font-display, 'Poppins', sans-serif);
       font-size: 1rem;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--oefa-text-primary);
       line-height: 1.35;
     }
 
     .bkc-trend-pill {
       font-size: 0.6875rem;
       font-weight: 700;
-      background: rgba(255, 255, 255, 0.85);
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
       padding: 2px 8px;
-      border-radius: 999px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      border-radius: var(--oefa-radius-full);
+      box-shadow: var(--oefa-shadow-sm);
     }
 
     .bkc-body {
@@ -290,14 +292,14 @@ export interface BentoChipConfig {
       font-family: var(--oefa-font-display, 'Poppins', sans-serif);
       font-size: 2rem;
       font-weight: 800;
-      color: #0f172a;
+      color: var(--oefa-text-primary);
       line-height: 1;
     }
 
     .bkc-metric-desc {
       margin: 6px 0 0 0;
       font-size: 0.75rem;
-      color: #475569;
+      color: var(--oefa-text-secondary);
       font-weight: 500;
       display: flex;
       align-items: center;
@@ -341,21 +343,22 @@ export interface BentoChipConfig {
     .donut-pct {
       font-size: 0.6875rem;
       font-weight: 800;
-      color: #0f172a;
+      color: var(--oefa-text-primary);
       line-height: 1;
     }
 
     .donut-lbl {
       font-size: 0.5rem;
-      color: #64748b;
+      color: var(--oefa-text-muted);
       text-transform: uppercase;
     }
 
     .micro-bars-box {
       width: 58px;
       height: 48px;
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 10px;
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md, 10px);
       padding: 4px 6px;
       display: flex;
       align-items: flex-end;
@@ -371,8 +374,9 @@ export interface BentoChipConfig {
     .micro-spark-box {
       width: 64px;
       height: 38px;
-      background: rgba(255, 255, 255, 0.75);
-      border-radius: 10px;
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md, 10px);
       padding: 3px;
     }
 
@@ -384,7 +388,7 @@ export interface BentoChipConfig {
 
     .bkc-footer {
       padding-top: 10px;
-      border-top: 1px solid rgba(0,0,0,0.05);
+      border-top: 1px solid var(--oefa-border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -392,7 +396,7 @@ export interface BentoChipConfig {
     }
 
     .bkc-period {
-      color: #64748b;
+      color: var(--oefa-text-muted);
       font-weight: 500;
     }
 

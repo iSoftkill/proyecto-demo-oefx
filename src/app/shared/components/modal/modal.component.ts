@@ -157,22 +157,6 @@ export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
       max-height: calc(100vh - 32px);
     }
 
-    .variant-danger {
-      border-top: 4px solid var(--oefa-error-root, #E51A2F);
-    }
-
-    .variant-info {
-      border-top: 4px solid var(--oefa-primary-root, #144AA7);
-    }
-
-    .variant-success {
-      border-top: 4px solid var(--oefa-success-ui-safe, #578221);
-    }
-
-    .variant-warning {
-      border-top: 4px solid var(--oefa-tertiary-ui-safe, #996D00);
-    }
-
     .modal-header {
       padding: 20px 24px 16px;
       display: flex;

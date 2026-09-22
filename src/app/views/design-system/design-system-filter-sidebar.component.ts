@@ -14,7 +14,6 @@ import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/s
   imports: [
     CommonModule,
     OefaFilterSidebarComponent,
-    OefaButtonComponent,
     OefaStatusBadgeComponent
   ],
   template: `
@@ -149,9 +148,6 @@ import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/s
   `,
   styles: [`
     .ds-container {
-      padding: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -161,8 +157,8 @@ import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/s
       justify-content: space-between;
       align-items: flex-start;
       gap: 16px;
-      h2 { margin: 0 0 6px 0; font-family: var(--oefa-font-display); font-size: 1.5rem; color: #0f172a; }
-      .subtitle { margin: 0; color: #64748b; font-size: 0.875rem; }
+      h2 { margin: 0 0 6px 0; font-family: var(--oefa-font-display); font-size: 1.5rem; color: var(--oefa-text-primary); }
+      .subtitle { margin: 0; color: var(--oefa-text-secondary); font-size: 0.875rem; }
     }
     .ds-header-controls {
       display: flex;
@@ -171,38 +167,39 @@ import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/s
     }
     .mode-toggle-btn {
       padding: 6px 14px;
-      border-radius: 8px;
-      background: white;
-      border: 1px solid #cbd5e1;
+      border-radius: var(--oefa-radius-sm, 6px);
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
       font-size: 0.75rem;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--oefa-text-primary);
       cursor: pointer;
       transition: background 0.15s;
-      &:hover { background: #f1f5f9; }
+      &:hover { background: var(--oefa-surface-subtle); }
     }
     .ds-badge {
-      font-size: 0.6875rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
+      padding: 4px 12px;
+      border-radius: var(--oefa-radius-full);
       background: var(--oefa-primary-container);
       color: var(--oefa-primary-root);
       letter-spacing: 0.04em;
     }
     .ds-card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-lg);
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+      box-shadow: var(--oefa-shadow-sm);
     }
     .card-header {
       padding: 16px 20px;
-      background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
-      h3 { margin: 0 0 4px 0; font-size: 1rem; font-family: var(--oefa-font-display); color: #0f172a; }
-      .text-muted { font-size: 0.8125rem; color: #64748b; }
+      background: var(--oefa-surface-subtle);
+      border-bottom: 1px solid var(--oefa-border-color);
+      border-radius: calc(var(--oefa-radius-lg) - 1px) calc(var(--oefa-radius-lg) - 1px) 0 0;
+      h3 { margin: 0 0 4px 0; font-size: 1rem; font-family: var(--oefa-font-display); color: var(--oefa-text-primary); }
+      .text-muted { font-size: 0.8125rem; color: var(--oefa-text-secondary); }
     }
     .card-body {
       padding: 20px;
@@ -228,9 +225,9 @@ import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/s
       justify-content: center;
       gap: 8px;
       padding: 10px 16px;
-      background: white;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md);
       font-weight: 700;
       font-size: 0.875rem;
       color: var(--oefa-primary-root);
@@ -240,10 +237,10 @@ import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/s
       grid-template-columns: 1fr;
       max-width: 440px;
       margin: 0 auto;
-      border: 2px dashed #94a3b8;
-      border-radius: 20px;
+      border: 2px dashed var(--oefa-border-color);
+      border-radius: var(--oefa-radius-lg);
       padding: 16px;
-      background: #f8fafc;
+      background: var(--oefa-surface-subtle);
       .mobile-open-bar { display: block; }
       .sidebar-wrapper { display: none; }
     }
@@ -257,11 +254,11 @@ import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/s
       align-items: center;
       justify-content: space-between;
       padding-bottom: 12px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--oefa-border-color);
     }
     .results-count {
       font-size: 0.875rem;
-      color: #334155;
+      color: var(--oefa-text-secondary);
     }
     .results-badge {
       font-size: 0.75rem;
@@ -269,7 +266,7 @@ import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/s
       color: var(--oefa-primary-root);
       background: var(--oefa-primary-container);
       padding: 3px 8px;
-      border-radius: 6px;
+      border-radius: var(--oefa-radius-sm);
     }
     .cards-list {
       display: flex;
@@ -277,15 +274,15 @@ import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/s
       gap: 14px;
     }
     .sample-result-card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md);
       padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 8px;
-      h4 { margin: 0; font-family: var(--oefa-font-display); font-size: 0.9375rem; font-weight: 700; color: #0f172a; }
-      p { margin: 0; font-size: 0.8125rem; color: #64748b; line-height: 1.4; }
+      h4 { margin: 0; font-family: var(--oefa-font-display); font-size: 0.9375rem; font-weight: 700; color: var(--oefa-text-primary); }
+      p { margin: 0; font-size: 0.8125rem; color: var(--oefa-text-secondary); line-height: 1.4; }
     }
     .src-meta {
       display: flex;
@@ -295,27 +292,28 @@ import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/s
     .src-code {
       font-size: 0.6875rem;
       font-weight: 700;
-      color: #64748b;
-      font-family: monospace;
+      color: var(--oefa-text-muted);
+      font-family: var(--oefa-font-mono, monospace);
     }
     .src-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-top: 10px;
-      border-top: 1px solid #f1f5f9;
+      border-top: 1px solid var(--oefa-border-color);
       font-size: 0.75rem;
-      color: #475569;
+      color: var(--oefa-text-secondary);
     }
     .code-block {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
+      background: var(--oefa-surface-subtle);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md);
       padding: 16px;
       font-size: 0.8125rem;
-      color: #1e293b;
+      color: var(--oefa-text-primary);
       margin: 0;
       overflow-x: auto;
+      font-family: var(--oefa-font-mono, monospace);
     }
   `]
 })

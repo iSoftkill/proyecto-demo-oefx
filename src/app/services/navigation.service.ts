@@ -85,42 +85,42 @@ export class NavigationService {
           items: [
             {
               id: 'ds_colores',
-              label: '🎨 Colores y Tokens',
+              label: 'Colores y Tokens',
               route: '/design-system/colores'
             },
             {
               id: 'ds_tipografia',
-              label: '🔤 Tipografía',
+              label: 'Tipografía',
               route: '/design-system/tipografia'
             },
             {
               id: 'ds_motion',
-              label: '⚡ Motion M3 Expressive',
+              label: 'Motion M3 Expressive',
               route: '/design-system/motion'
             },
             {
               id: 'ds_iconos',
-              label: '✨ Iconos y Reglas',
+              label: 'Iconos y Reglas',
               route: '/design-system/iconos'
             },
             {
               id: 'ds_botones',
-              label: '🔘 Botones (<oefa-button>)',
+              label: 'Botones (<oefa-button>)',
               route: '/design-system/botones'
             },
             {
               id: 'ds_badges',
-              label: '🏷️ Badges y Chips (<oefa-status-badge>)',
+              label: 'Badges y Chips (<oefa-status-badge>)',
               route: '/design-system/badges'
             },
             {
               id: 'ds_feedback',
-              label: '⏳ Carga: Skeleton vs Spinner',
+              label: 'Carga: Skeleton vs Spinner',
               route: '/design-system/feedback'
             },
             {
               id: 'ds_inputs',
-              label: '📝 Inputs y Controles Básicos',
+              label: 'Inputs y Controles Básicos',
               route: '/design-system/inputs'
             }
           ]
@@ -130,67 +130,67 @@ export class NavigationService {
           items: [
             {
               id: 'ds_bento_kpi',
-              label: '📊 Bento KPI Tiles (<oefa-bento-kpi-tile>)',
+              label: 'Bento KPI Tiles (<oefa-bento-kpi-tile>)',
               route: '/design-system/bento-kpi'
             },
             {
               id: 'ds_catalog_cards',
-              label: '🗂️ Catalog Cards (<oefa-catalog-card>)',
+              label: 'Catalog Cards (<oefa-catalog-card>)',
               route: '/design-system/catalog-cards'
             },
             {
               id: 'ds_alertas',
-              label: '📢 Alertas en Bloque (<oefa-alert>)',
+              label: 'Alertas en Bloque (<oefa-alert>)',
               route: '/design-system/alertas'
             },
             {
               id: 'ds_toasts',
-              label: '🔔 Notificaciones Toast (<oefa-toast>)',
+              label: 'Notificaciones Toast (<oefa-toast>)',
               route: '/design-system/toasts'
             },
             {
               id: 'ds_selection_cards',
-              label: '🃏 Tarjetas de Selección (<oefa-selection-card>)',
+              label: 'Tarjetas de Selección (<oefa-selection-card>)',
               route: '/design-system/selection-cards'
             },
             {
               id: 'ds_date_picker',
-              label: '📅 Selector de Fecha (<oefa-date-picker>)',
+              label: 'Selector de Fecha (<oefa-date-picker>)',
               route: '/design-system/date-picker'
             },
             {
               id: 'ds_file_uploader',
-              label: '📂 Cargador de Archivos (<oefa-file-uploader>)',
+              label: 'Cargador de Archivos (<oefa-file-uploader>)',
               route: '/design-system/file-uploader'
             },
             {
               id: 'ds_switch',
-              label: '🔀 Switch (<oefa-segmented-switch>)',
+              label: 'Switch (<oefa-segmented-switch>)',
               route: '/design-system/segmented-switch'
             },
             {
               id: 'ds_paginacion',
-              label: '🔢 Paginador (<oefa-pagination>)',
+              label: 'Paginador (<oefa-pagination>)',
               route: '/design-system/paginacion'
             },
             {
               id: 'ds_dropdowns',
-              label: '📑 Dropdowns (<oefa-dropdown>)',
+              label: 'Dropdowns (<oefa-dropdown>)',
               route: '/design-system/dropdowns'
             },
             {
               id: 'ds_empty_states',
-              label: '📭 Estados Vacíos (<oefa-empty-state>)',
+              label: 'Estados Vacíos (<oefa-empty-state>)',
               route: '/design-system/empty-states'
             },
             {
               id: 'ds_tabs',
-              label: '📑 Pestañas (Tabs)',
+              label: 'Pestañas (Tabs)',
               route: '/design-system/tabs'
             },
             {
               id: 'ds_steps',
-              label: '🪜 Stepper (Wizard)',
+              label: 'Stepper (Wizard)',
               route: '/design-system/steps'
             }
           ]
@@ -200,27 +200,27 @@ export class NavigationService {
           items: [
             {
               id: 'ds_filter_sidebar',
-              label: '🔽 Filter Sidebar (<oefa-filter-sidebar>)',
+              label: 'Filter Sidebar (<oefa-filter-sidebar>)',
               route: '/design-system/filter-sidebar'
             },
             {
               id: 'ds_modales',
-              label: '🪟 Modales (<oefa-modal>)',
+              label: 'Modales (<oefa-modal>)',
               route: '/design-system/modales'
             },
             {
               id: 'ds_drawers',
-              label: '📑 Drawers (<oefa-drawer>)',
+              label: 'Drawers (<oefa-drawer>)',
               route: '/design-system/drawers'
             },
             {
               id: 'ds_page_header',
-              label: '🧭 Encabezado (<oefa-page-header>)',
+              label: 'Encabezado (<oefa-page-header>)',
               route: '/design-system/page-header'
             },
             {
               id: 'ds_tablas',
-              label: '📊 Tablas y Matrices',
+              label: 'Tablas y Matrices',
               route: '/design-system/tablas'
             }
           ]
@@ -230,12 +230,12 @@ export class NavigationService {
           items: [
             {
               id: 'ds_navegacion',
-              label: '🏛️ Cabecera y Sidebar Rail',
+              label: 'Cabecera y Sidebar Rail',
               route: '/design-system/navegacion'
             },
             {
               id: 'ds_responsividad',
-              label: '📱 Responsividad y Breakpoints',
+              label: 'Responsividad y Breakpoints',
               route: '/design-system/responsividad'
             }
           ]

@@ -151,14 +151,14 @@ export interface UploadedFileItem {
     .uploader-label {
       font-size: 0.8125rem;
       font-weight: 600;
-      color: var(--oefa-text-secondary, #475569);
+      color: var(--oefa-text-secondary);
       display: flex;
       align-items: center;
       gap: 4px;
     }
 
     .required-indicator {
-      color: var(--oefa-error-root, #e51a2f);
+      color: var(--oefa-error-ui-safe, var(--oefa-error-root));
     }
 
     .sr-only {
@@ -173,8 +173,53 @@ export interface UploadedFileItem {
       border-width: 0;
     }
 
+    .oefa-file-dropzone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 16px;
+      border: 2px dashed var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md, 8px);
+      background-color: var(--oefa-surface-subtle);
+      text-align: center;
+      cursor: pointer;
+      box-sizing: border-box;
+      transition: border-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+        background-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+        transform var(--oefa-duration-medium, 250ms) var(--oefa-ease-emphasized, ease),
+        box-shadow var(--oefa-duration-medium, 250ms) var(--oefa-ease-emphasized, ease);
+
+      &:hover:not(.disabled) {
+        border-color: var(--oefa-primary-root);
+        background-color: var(--oefa-surface-card);
+        transform: translateY(-2px);
+        box-shadow: var(--oefa-shadow-md);
+      }
+
+      &.drag-active {
+        border-color: var(--oefa-primary-root);
+        background-color: var(--oefa-primary-container);
+      }
+
+      &.has-error {
+        border-color: var(--oefa-error-ui-safe, var(--oefa-error-root));
+        background-color: var(--oefa-error-container);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--oefa-focus-ring);
+        outline-offset: 2px;
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
     .upload-icon {
-      color: var(--oefa-primary-root, #144aa7);
+      color: var(--oefa-primary-root);
       margin-bottom: 8px;
       transition: transform var(--oefa-duration-medium, 300ms) var(--oefa-ease-emphasized, ease);
     }
@@ -193,11 +238,11 @@ export interface UploadedFileItem {
     .main-prompt {
       margin: 0;
       font-size: 0.875rem;
-      color: var(--oefa-text-primary, #0f172a);
+      color: var(--oefa-text-primary);
       font-weight: 500;
 
       .highlight {
-        color: var(--oefa-primary-root, #144aa7);
+        color: var(--oefa-primary-root);
         font-weight: 600;
         text-decoration: underline;
       }
@@ -206,14 +251,14 @@ export interface UploadedFileItem {
     .hint-text {
       margin: 0;
       font-size: 0.75rem;
-      color: var(--oefa-text-muted, #94a3b8);
+      color: var(--oefa-text-muted);
     }
 
     .uploader-error {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: var(--oefa-error-root, #e51a2f);
+      color: var(--oefa-error-ui-safe, var(--oefa-error-root));
       font-size: 0.75rem;
       font-weight: 600;
       margin-top: 2px;
@@ -233,14 +278,14 @@ export interface UploadedFileItem {
       justify-content: space-between;
       gap: 12px;
       padding: 10px 14px;
-      background-color: var(--oefa-surface-card, #ffffff);
-      border: 1px solid var(--oefa-border-color, #e2e8f0);
+      background-color: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
       border-radius: var(--oefa-radius-md, 8px);
       box-sizing: border-box;
-      transition: border-color 0.2s ease;
+      transition: border-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
 
       &:hover {
-        border-color: var(--oefa-border-color-strong, #cbd5e1);
+        border-color: var(--oefa-border-color-strong, var(--oefa-border-color));
       }
     }
 
@@ -252,7 +297,7 @@ export interface UploadedFileItem {
     }
 
     .file-icon {
-      color: var(--oefa-primary-root, #144aa7);
+      color: var(--oefa-primary-root);
       flex-shrink: 0;
     }
 
@@ -265,7 +310,7 @@ export interface UploadedFileItem {
     .file-name {
       font-size: 0.8125rem;
       font-weight: 600;
-      color: var(--oefa-text-primary, #0f172a);
+      color: var(--oefa-text-primary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -274,30 +319,30 @@ export interface UploadedFileItem {
 
     .file-size {
       font-size: 0.6875rem;
-      color: var(--oefa-text-muted, #94a3b8);
+      color: var(--oefa-text-muted);
     }
 
     .file-remove-btn {
       background: transparent;
       border: none;
-      color: var(--oefa-text-muted, #94a3b8);
+      color: var(--oefa-text-muted);
       cursor: pointer;
       padding: 6px;
-      border-radius: 4px;
+      border-radius: var(--oefa-radius-sm, 4px);
       display: flex;
       align-items: center;
       justify-content: center;
       min-width: 32px;
       min-height: 32px;
-      transition: all 0.2s ease;
+      transition: all var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
 
       &:hover {
-        color: var(--oefa-error-root, #e51a2f);
-        background-color: var(--oefa-error-container, #ffeff1);
+        color: var(--oefa-error-ui-safe, var(--oefa-error-root));
+        background-color: var(--oefa-error-container);
       }
 
       &:focus-visible {
-        outline: 2px solid var(--oefa-focus-ring, #144aa7);
+        outline: 2px solid var(--oefa-focus-ring);
       }
     }
   `]

@@ -72,27 +72,76 @@ import { OefaCollapsibleComponent } from '../../shared/components/collapsible/co
         </div>
       </div>
 
-      <!-- Sección 2: Áreas de Texto y Selección -->
+      <!-- Sección 2: Áreas de Texto, Íconos y Selección -->
       <div class="card ds-card">
         <div class="card-header">
-          <h3>2. Áreas de Texto y Selección Básica</h3>
-          <span class="text-muted">Campos multilínea con &lt;oefa-form-field&gt; y controles nativos con acento OEFA.</span>
+          <h3>2. Áreas de Texto, Búsqueda con Ícono y Selección</h3>
+          <span class="text-muted">Campos multilínea, inputs con íconos integrados (.oefa-form-field) y controles nativos con acento OEFA.</span>
         </div>
         <div class="card-body">
-          <oefa-form-field label="Descripción del Servicio / Observaciones de Entregable" help="Permite hasta 500 caracteres con auto-ajuste de altura">
-            <textarea class="form-textarea" rows="3" placeholder="Detalle los términos de referencia u observaciones registradas..."></textarea>
-          </oefa-form-field>
+          <div class="form-grid">
+            <oefa-form-field label="Búsqueda Integrada con Ícono" help="Input con contenedor .oefa-form-field e ícono SVG">
+              <div class="oefa-form-field">
+                <span class="field-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </span>
+                <input type="text" class="field-input" placeholder="Buscar por DNI, RUC o expediente..." />
+              </div>
+            </oefa-form-field>
 
-          <div style="margin-top: 20px;">
-            <label class="form-label" style="display: block; margin-bottom: 8px;">Controles de Selección (Checkbox &amp; Radio):</label>
-            <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
-              <label style="display: flex; gap: 8px; align-items: center; cursor: pointer; font-size: 0.875rem;">
+            <oefa-form-field label="Credencial / Clave Institucional" help="Con botón de visibilidad WCAG 2.2">
+              <div class="oefa-form-field">
+                <span class="field-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </span>
+                <input [type]="showPassword ? 'text' : 'password'" class="field-input font-mono" value="ContraseñaSegura2026!" />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  (click)="showPassword = !showPassword"
+                  [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Ver contraseña'"
+                  [attr.aria-pressed]="showPassword">
+                  @if (showPassword) {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m9.88 9.88 4.24 4.24m-7.07-1.41A10.94 10.94 0 0 1 12 10c1.78 0 3.44.43 4.95 1.2M21.17 8C18.72 5.56 15.53 4 12 4 5.37 4 1 12 1 12a21.49 21.49 0 0 0 5.05 6.05m4.35 1.54C11.14 19.86 11.57 20 12 20c6.63 0 11-8 11-8a21.75 21.75 0 0 0-3.32-4.5"/>
+                      <line x1="1" y1="1" x2="23" y2="23"/>
+                    </svg>
+                  } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  }
+                </button>
+              </div>
+            </oefa-form-field>
+          </div>
+
+          <div class="textarea-wrapper">
+            <oefa-form-field label="Descripción del Servicio / Observaciones de Entregable" help="Permite hasta 500 caracteres con auto-ajuste de altura">
+              <textarea class="form-textarea" rows="3" placeholder="Detalle los términos de referencia u observaciones registradas..."></textarea>
+            </oefa-form-field>
+          </div>
+
+          <div class="selection-controls-section">
+            <label class="form-label controls-title">Controles de Selección (Checkbox &amp; Radio):</label>
+            <div class="control-row">
+              <label class="control-label">
                 <input type="checkbox" checked /> Notificación automática por correo
               </label>
-              <label style="display: flex; gap: 8px; align-items: center; cursor: pointer; font-size: 0.875rem;">
+              <label class="control-label">
+                <input type="checkbox" /> Requerir firma digital del informe
+              </label>
+              <label class="control-label">
                 <input type="radio" name="ds-radio" checked /> Orden de Servicio
               </label>
-              <label style="display: flex; gap: 8px; align-items: center; cursor: pointer; font-size: 0.875rem;">
+              <label class="control-label">
                 <input type="radio" name="ds-radio" /> Orden de Compra
               </label>
             </div>
@@ -106,14 +155,14 @@ import { OefaCollapsibleComponent } from '../../shared/components/collapsible/co
           <h3>3. Divulgación Progresiva (&lt;oefa-collapsible&gt; - Molécula)</h3>
           <span class="text-muted">Despliega datos complementarios, variables de inclusión o filtros secundarios sin saturar la pantalla inicial.</span>
         </div>
-        <div class="card-body" style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="card-body collapsible-body">
           <!-- Ejemplo 1: Variante Dashed con Badge Opcional -->
           <oefa-collapsible
             title="Información de Contacto y Datos Opcionales de Enfoque Diferencial"
             badge="OPCIONAL"
             badgeVariant="neutral"
             variant="dashed">
-            <div class="form-grid" style="margin-top: 4px;">
+            <div class="form-grid subgrid">
               <oefa-form-field label="Teléfono Celular" help="Para alertas SMS">
                 <input type="tel" class="form-input" placeholder="Ej: 987654321" />
               </oefa-form-field>
@@ -129,7 +178,7 @@ import { OefaCollapsibleComponent } from '../../shared/components/collapsible/co
             badge="AVANZADO"
             badgeVariant="info"
             variant="bordered">
-            <div class="form-grid" style="margin-top: 4px;">
+            <div class="form-grid subgrid">
               <oefa-form-field label="Código de Expediente SIGED">
                 <input type="text" class="form-input font-mono" placeholder="EXP-2026-00341" />
               </oefa-form-field>
@@ -150,19 +199,27 @@ import { OefaCollapsibleComponent } from '../../shared/components/collapsible/co
     .ds-container { display: flex; flex-direction: column; gap: 24px; }
     .ds-header { display: flex; justify-content: space-between; align-items: flex-start; }
     .subtitle { font-size: 0.875rem; color: var(--oefa-text-secondary); margin-top: 4px; }
-    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
+    .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: var(--oefa-radius-full); }
 
-    .ds-card { background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); }
-    .card-header { padding: 18px 24px; border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; }
-    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-primary-root); }
+    .ds-card { background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); box-shadow: var(--oefa-shadow-sm); }
+    .card-header { padding: 18px 24px; background: var(--oefa-surface-subtle); border-bottom: 1px solid var(--oefa-border-color); border-radius: calc(var(--oefa-radius-lg) - 1px) calc(var(--oefa-radius-lg) - 1px) 0 0; display: flex; flex-direction: column; gap: 2px; }
+    .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-text-primary); font-family: var(--oefa-font-display); }
     .card-body { padding: 24px; }
 
     .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .subgrid { margin-top: 4px; }
+    .textarea-wrapper { margin-top: 20px; }
+    .selection-controls-section { margin-top: 20px; }
+    .controls-title { display: block; margin-bottom: 8px; }
+    .control-row { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+    .control-label { display: flex; gap: 8px; align-items: center; cursor: pointer; font-size: 0.875rem; color: var(--oefa-text-primary); }
+    .collapsible-body { display: flex; flex-direction: column; gap: 16px; }
   `]
 })
 export class DesignSystemInputsComponent {
   fechaNotificacion = '2026-01-08';
   fechaLimite = '2026-03-15';
+  showPassword = false;
 }
 
 

@@ -1,6 +1,11 @@
-<div class="oefa-table-container">
+<div 
+  class="oefa-table-container"
+  [class.density-compact]="density === 'compact'"
+  [class.density-comfortable]="density === 'comfortable'"
+  [class.table-striped]="striped"
+  [class.table-bordered]="bordered">
   <table class="oefa-table" role="table">
-    <thead>
+    <thead [class.sticky-th]="stickyHeader">
       <tr>
         @for (col of columns; track col.key) {
           <th 
@@ -53,8 +58,17 @@
             (click)="onRowClick(row)"
           >
             @for (col of columns; track col.key) {
-              <td [style.text-align]="col.align || 'left'">
-                {{ row[col.key] !== undefined && row[col.key] !== null ? row[col.key] : '-' }}
+              <td 
+                [style.text-align]="col.align || 'left'"
+                [class.font-mono]="col.type === 'mono' || col.type === 'currency' || col.type === 'date'"
+                [class.font-semibold]="col.type === 'currency'">
+                @if (col.type === 'badge') {
+                  <oefa-status-badge [status]="row[col.key]"></oefa-status-badge>
+                } @else if (col.formatter) {
+                  {{ col.formatter(row[col.key], row) }}
+                } @else {
+                  {{ row[col.key] !== undefined && row[col.key] !== null ? row[col.key] : '-' }}
+                }
               </td>
             }
           </tr>

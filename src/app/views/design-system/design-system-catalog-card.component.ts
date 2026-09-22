@@ -67,7 +67,7 @@ import { OefaCatalogCardComponent, CatalogChipConfig } from '../../shared/compon
               status="OBSERVADO"
               type="Sancionador • PAS"
               color="var(--oefa-tertiary-ui-safe)"
-              bgTint="color-mix(in srgb, var(--oefa-tertiary-container) 45%, white)"
+              bgTint="color-mix(in srgb, var(--oefa-tertiary-container) 45%, var(--oefa-surface-card))"
               activityType="sparkline"
               activityLabel="Actividad 30d"
               updatedAt="Ayer"
@@ -130,9 +130,6 @@ import { OefaCatalogCardComponent, CatalogChipConfig } from '../../shared/compon
   `,
   styles: [`
     .ds-container {
-      padding: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -142,34 +139,34 @@ import { OefaCatalogCardComponent, CatalogChipConfig } from '../../shared/compon
       justify-content: space-between;
       align-items: flex-start;
       gap: 16px;
-      h2 { margin: 0 0 6px 0; font-family: var(--oefa-font-display); font-size: 1.5rem; color: #0f172a; }
-      .subtitle { margin: 0; color: #64748b; font-size: 0.875rem; }
+      h2 { margin: 0 0 6px 0; font-family: var(--oefa-font-display); font-size: 1.5rem; color: var(--oefa-text-primary); }
+      .subtitle { margin: 0; color: var(--oefa-text-secondary); font-size: 0.875rem; }
     }
     .ds-badge {
       font-size: 0.6875rem;
       font-weight: 700;
       padding: 4px 10px;
-      border-radius: 999px;
+      border-radius: var(--oefa-radius-full);
       background: var(--oefa-primary-container);
       color: var(--oefa-primary-root);
       letter-spacing: 0.04em;
     }
     .ds-card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
+      background: var(--oefa-surface-card);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-lg);
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+      box-shadow: var(--oefa-shadow-sm);
     }
     .card-header {
-      padding: 16px 20px;
-      background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
-      h3 { margin: 0 0 4px 0; font-size: 1rem; font-family: var(--oefa-font-display); color: #0f172a; }
-      .text-muted { font-size: 0.8125rem; color: #64748b; }
+      padding: 18px 24px;
+      background: var(--oefa-surface-subtle);
+      border-bottom: 1px solid var(--oefa-border-color);
+      h3 { margin: 0 0 4px 0; font-size: 1.125rem; font-family: var(--oefa-font-display); color: var(--oefa-text-primary); font-weight: 700; }
+      .text-muted { font-size: 0.8125rem; color: var(--oefa-text-muted); }
     }
     .card-body {
-      padding: 20px;
+      padding: 24px;
     }
     .catalog-grid {
       display: grid;
@@ -179,21 +176,25 @@ import { OefaCatalogCardComponent, CatalogChipConfig } from '../../shared/compon
     .feedback-alert {
       margin-top: 16px;
       padding: 12px 16px;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 10px;
-      color: #1e40af;
+      background: var(--oefa-primary-container);
+      border: 1px solid var(--oefa-primary-container-hc);
+      border-radius: var(--oefa-radius-md);
+      color: var(--oefa-primary-root);
       font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .code-block {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
+      background: var(--oefa-surface-subtle);
+      border: 1px solid var(--oefa-border-color);
+      border-radius: var(--oefa-radius-md);
       padding: 16px;
       font-size: 0.8125rem;
-      color: #1e293b;
+      color: var(--oefa-text-primary);
       margin: 0;
       overflow-x: auto;
+      font-family: var(--oefa-font-mono);
     }
   `]
 })

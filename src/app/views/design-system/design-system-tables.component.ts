@@ -4,28 +4,34 @@ import { OefaPaginationComponent } from '../../shared/components/pagination/pagi
 import { OefaEmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { OefaSpinnerComponent } from '../../shared/components/spinner/spinner.component';
 import { OefaStatusBadgeComponent } from '../../shared/components/status-badge/status-badge.component';
-import { TableComponent, TableColumn } from '../../shared/components/table/table.component';
+import { OefaTableComponent, TableColumn, TableDensity } from '../../shared/components/table/table.component';
 import { OefaButtonComponent } from '../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-design-system-tables',
   standalone: true,
-  imports: [CommonModule, OefaPaginationComponent, OefaEmptyStateComponent, OefaSpinnerComponent, OefaStatusBadgeComponent, TableComponent, OefaButtonComponent],
+  imports: [
+    CommonModule, 
+    OefaPaginationComponent, 
+    OefaStatusBadgeComponent, 
+    OefaTableComponent, 
+    OefaButtonComponent
+  ],
   template: `
     <div class="ds-container">
       <div class="ds-header">
         <div>
-          <h2>📊 Tipos de Tablas y Grids de Datos</h2>
-          <p class="subtitle">Demostración en vivo con data de ejemplo de los 3 patrones de tablas institucionales implementados en el sistema.</p>
+          <h2>📊 Tablas y Matrices Institucionales (Organismos)</h2>
+          <p class="subtitle">Demostración en vivo de los 3 patrones de tablas y matrices de datos institucionales de alta densidad según el estándar OEFA.</p>
         </div>
-        <span class="ds-badge">SISTEMA DE DISEÑO OEFA</span>
+        <span class="ds-badge">ORGANISMO</span>
       </div>
 
       <!-- Tabla 1: Data Table Estándar con Paginador Reutilizable -->
       <div class="card ds-card">
         <div class="card-header">
           <h3>1. Tabla de Datos Estándar (.data-table) + Paginador Reutilizable (&lt;oefa-pagination&gt;)</h3>
-          <span class="text-muted">Uso: Bandejas generales por órdenes, listas de usuarios, nodos del árbol y catálogos.</span>
+          <span class="text-muted">Uso: Bandejas generales por órdenes, listas de usuarios, nodos del árbol y catálogos administrativos.</span>
         </div>
         <div class="card-body" style="padding-bottom: 0;">
           <table class="data-table">
@@ -111,7 +117,7 @@ import { OefaButtonComponent } from '../../shared/components/button/button.compo
                   <td class="font-mono text-right font-semibold">S/ 5,850.00</td>
                   <td><span class="project-badge badge-proyecto">[PRY] PRY-2026-001</span></td>
                   <td><span class="siged-chip">2025-E01-013000</span></td>
-                  <td><span class="badge-status conforme">ATENDIDO</span></td>
+                  <td><oefa-status-badge status="FINALIZADO" label="ATENDIDO"></oefa-status-badge></td>
                 </tr>
                 <tr>
                   <td class="text-center font-mono text-muted">2026</td>
@@ -122,7 +128,7 @@ import { OefaButtonComponent } from '../../shared/components/button/button.compo
                   <td class="font-mono text-right font-semibold">S/ 6,630.00</td>
                   <td><span class="project-badge badge-mantenimiento">[MNT] MNT-2026-001</span></td>
                   <td><span class="siged-chip">2025-E01-024767</span></td>
-                  <td><span class="badge-status conforme">ATENDIDO</span></td>
+                  <td><oefa-status-badge status="FINALIZADO" label="ATENDIDO"></oefa-status-badge></td>
                 </tr>
               </tbody>
             </table>
@@ -167,7 +173,7 @@ import { OefaButtonComponent } from '../../shared/components/button/button.compo
                 <td><oefa-status-badge status="FINALIZADO" label="ATENDIDO"></oefa-status-badge></td>
               </tr>
               <tr>
-                <td colspan="8" style="padding: 14px; background: #F1F5F9;">
+                <td colspan="8" style="padding: 14px; background: var(--oefa-surface-subtle);">
                   <div class="history-preview-box">
                     <strong>📌 Historial de Trazabilidad Registrado:</strong>
                     <p class="history-item">08/01/2026 09:00 AM — Orden notificada a locador mediante notificación electrónica zimbra.</p>
@@ -180,49 +186,33 @@ import { OefaButtonComponent } from '../../shared/components/button/button.compo
         </div>
       </div>
 
-      <!-- Sección 4: Estados Vacíos y Carga en Tablas -->
+      <!-- Sección 4: Componente Standalone <oefa-table> -->
       <div class="card ds-card">
         <div class="card-header">
-          <h3>4. Estados de Carga y Bandejas Vacías (&lt;oefa-empty-state&gt; &amp; &lt;oefa-spinner&gt;)</h3>
-          <span class="text-muted">Componentes compartidos para feedback visual de carga de red y resultados no encontrados.</span>
-        </div>
-        <div class="card-body" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
-          <!-- Demo Spinner -->
-          <div style="border: 1px dashed var(--oefa-border-color); border-radius: var(--oefa-radius-md); padding: 16px;">
-            <h4 style="margin: 0 0 12px; font-size: 0.875rem; color: var(--oefa-text-secondary);">Indicadores de Carga:</h4>
-            <div style="display: flex; gap: 24px; align-items: center; justify-content: center;">
-              <oefa-spinner size="sm" message="Guardando..."></oefa-spinner>
-              <oefa-spinner size="md" message="Cargando órdenes..."></oefa-spinner>
-            </div>
-          </div>
-
-          <!-- Demo Empty State -->
-          <div style="border: 1px dashed var(--oefa-border-color); border-radius: var(--oefa-radius-md);">
-            <oefa-empty-state
-              icon="search"
-              title="No se encontraron registros"
-              description="No hay órdenes que coincidan con los criterios de búsqueda aplicados."
-              actionText="Limpiar Filtros"
-              [compact]="true">
-            </oefa-empty-state>
-          </div>
-        </div>
-      <!-- Sección 5: Componente de Tabla Reutilizable <oefa-table> -->
-      <div class="card ds-card">
-        <div class="card-header">
-          <h3>5. Componente de Tabla Standalone Reutilizable (&lt;oefa-table&gt;)</h3>
-          <span class="text-muted">Componente puro con ordenamiento tipado, soporte de skeleton loader integrado y estados vacíos.</span>
+          <h3>4. Componente Standalone Reutilizable (&lt;oefa-table&gt;)</h3>
+          <span class="text-muted">Componente puro con ordenamiento tipado, soporte de skeleton loader integrado, modos de densidad y cuadrícula matriz.</span>
         </div>
         <div class="card-body">
-          <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: center;">
-            <oefa-button variant="secondary" (clicked)="toggleLoadingTable()">
+          <div style="display: flex; gap: 10px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;">
+            <!-- Controles de Modo -->
+            <oefa-button variant="secondary" size="sm" (clicked)="toggleLoadingTable()">
               {{ isTableLoading() ? 'Desactivar Carga' : 'Simular Carga (Skeleton)' }}
             </oefa-button>
-            <oefa-button variant="ghost" (clicked)="toggleEmptyTable()">
+            <oefa-button variant="ghost" size="sm" (clicked)="toggleEmptyTable()">
               {{ tableData().length === 0 ? 'Cargar Datos' : 'Vaciar Tabla' }}
             </oefa-button>
+            <oefa-button variant="ghost" size="sm" (clicked)="toggleStriped()">
+              {{ isStriped() ? 'Quitar Rayado' : 'Activar Rayado' }}
+            </oefa-button>
+            <oefa-button variant="ghost" size="sm" (clicked)="toggleBordered()">
+              {{ isBordered() ? 'Bordes Normales' : 'Modo Cuadrícula Matriz' }}
+            </oefa-button>
+            <oefa-button variant="ghost" size="sm" (clicked)="cycleDensity()">
+              Densidad: <strong>{{ tableDensity() }}</strong>
+            </oefa-button>
+
             @if (selectedTableRow()) {
-              <span class="text-muted font-mono" style="font-size: 0.8125rem;">
+              <span class="text-muted font-mono" style="font-size: 0.8125rem; margin-left: auto;">
                 Fila seleccionada: <strong>{{ selectedTableRow()?.numero }}</strong>
               </span>
             }
@@ -232,11 +222,86 @@ import { OefaButtonComponent } from '../../shared/components/button/button.compo
             [columns]="tableColumns"
             [data]="tableData()"
             [loading]="isTableLoading()"
+            [density]="tableDensity()"
+            [striped]="isStriped()"
+            [bordered]="isBordered()"
             [rowClickable]="true"
             (rowClick)="onTableRowClick($event)"
             emptyTitle="Sin órdenes registradas"
             emptyDescription="Actualmente no existen registros para esta consulta."
           ></oefa-table>
+        </div>
+      </div>
+
+      <!-- Sección 5: Especificación Técnica y Tokens -->
+      <div class="card ds-card">
+        <div class="card-header">
+          <h3>5. Especificación Técnica y Tokens de Tablas</h3>
+          <span class="text-muted">Propiedades, directrices WCAG 2.2 AA y variables de diseño estandarizadas.</span>
+        </div>
+        <div class="card-body">
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.8125rem;">
+                <thead>
+                  <tr style="border-bottom: 2px solid var(--oefa-border-color); text-align: left;">
+                    <th style="padding: 10px;">Propiedad</th>
+                    <th style="padding: 10px;">Tipo / Valores</th>
+                    <th style="padding: 10px;">Default</th>
+                    <th style="padding: 10px;">Descripción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid var(--oefa-border-color);">
+                    <td style="padding: 10px; font-family: var(--oefa-font-mono);">[columns]</td>
+                    <td style="padding: 10px;"><code>TableColumn[]</code></td>
+                    <td style="padding: 10px;"><code>[]</code></td>
+                    <td style="padding: 10px;">Definición de columnas (key, header, sortable, align, width, type, formatter).</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--oefa-border-color);">
+                    <td style="padding: 10px; font-family: var(--oefa-font-mono);">[density]</td>
+                    <td style="padding: 10px;"><code>'default' | 'compact' | 'comfortable'</code></td>
+                    <td style="padding: 10px;"><code>'default'</code></td>
+                    <td style="padding: 10px;">Controla el padding de celdas ('compact' ideal para matrices de supervisión).</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--oefa-border-color);">
+                    <td style="padding: 10px; font-family: var(--oefa-font-mono);">[striped]</td>
+                    <td style="padding: 10px;"><code>boolean</code></td>
+                    <td style="padding: 10px;"><code>false</code></td>
+                    <td style="padding: 10px;">Alterna fondo de fila par para lectura descansada en listas densas.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--oefa-border-color);">
+                    <td style="padding: 10px; font-family: var(--oefa-font-mono);">[bordered]</td>
+                    <td style="padding: 10px;"><code>boolean</code></td>
+                    <td style="padding: 10px;"><code>false</code></td>
+                    <td style="padding: 10px;">Añade delimitadores verticales de celda tipo cuadrícula Excel.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--oefa-border-color);">
+                    <td style="padding: 10px; font-family: var(--oefa-font-mono);">[loading]</td>
+                    <td style="padding: 10px;"><code>boolean</code></td>
+                    <td style="padding: 10px;"><code>false</code></td>
+                    <td style="padding: 10px;">Despliega filas de <code>&lt;oefa-skeleton&gt;</code> para prevenir Cumulative Layout Shift (CLS).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Código de Ejemplo -->
+            <div style="background: var(--oefa-surface-subtle); padding: 14px 18px; border-radius: var(--oefa-radius-md); border: 1px solid var(--oefa-border-color);">
+              <span style="font-size: 0.75rem; font-weight: 700; color: var(--oefa-text-secondary); text-transform: uppercase;">Ejemplo de Implementación HTML</span>
+              <pre style="margin: 8px 0 0; font-family: var(--oefa-font-mono); font-size: 0.8125rem; color: var(--oefa-text-primary); overflow-x: auto;"><code>&lt;oefa-table
+  [columns]="columns"
+  [data]="ordersList()"
+  [loading]="isLoading()"
+  density="compact"
+  [striped]="true"
+  [bordered]="true"
+  [rowClickable]="true"
+  (rowClick)="verDetalle($event)"
+  (sortChange)="ordenar($event)"&gt;
+&lt;/oefa-table&gt;</code></pre>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -247,14 +312,14 @@ import { OefaButtonComponent } from '../../shared/components/button/button.compo
     .subtitle { font-size: 0.875rem; color: var(--oefa-text-secondary); margin-top: 4px; }
     .ds-badge { background-color: var(--oefa-primary-container); color: var(--oefa-primary-root); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 12px; }
 
-    .ds-card { background: white; border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); }
-    .card-header { padding: 18px 24px; border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; }
+    .ds-card { background: var(--oefa-surface-card); border: 1px solid var(--oefa-border-color); border-radius: var(--oefa-radius-lg); }
+    .card-header { padding: 18px 24px; border-bottom: 1px solid var(--oefa-border-color); display: flex; flex-direction: column; gap: 2px; background: var(--oefa-surface-subtle); border-radius: var(--oefa-radius-lg) var(--oefa-radius-lg) 0 0; }
     .card-header h3 { margin: 0; font-size: 1.125rem; font-weight: 700; color: var(--oefa-primary-root); }
     .card-body { padding: 24px; overflow-x: auto; }
 
     .cell-num-flex { display: inline-flex; align-items: center; gap: 4px; }
     .chevron-icon.rotated { transform: rotate(90deg); }
-    .badge-expanded-active { font-size: 0.6875rem; background: var(--oefa-primary-container); color: var(--oefa-primary-on-container); padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
+    .badge-expanded-active { font-size: 0.6875rem; background: var(--oefa-primary-container); color: var(--oefa-primary-root); padding: 1px 6px; border-radius: 4px; margin-left: 6px; font-weight: 600; }
     .history-preview-box { font-size: 0.8125rem; color: var(--oefa-text-primary); display: flex; flex-direction: column; gap: 4px; }
     .history-item { margin: 0; font-size: 0.8125rem; color: var(--oefa-text-secondary); }
   `]
@@ -264,21 +329,25 @@ export class DesignSystemTablesComponent {
   demoPageSize = signal<number>(10);
 
   isTableLoading = signal<boolean>(false);
+  isStriped = signal<boolean>(false);
+  isBordered = signal<boolean>(false);
+  tableDensity = signal<TableDensity>('default');
   selectedTableRow = signal<any | null>(null);
 
   tableColumns: TableColumn[] = [
-    { key: 'numero', header: 'N° Orden', sortable: true, width: '150px' },
+    { key: 'numero', header: 'N° Orden', sortable: true, width: '150px', type: 'mono' },
     { key: 'proveedor', header: 'Proveedor', sortable: true },
     { key: 'area', header: 'Área Responsable', sortable: true },
-    { key: 'fecha', header: 'Fecha Notif.', sortable: true, width: '130px', align: 'center' },
-    { key: 'monto', header: 'Monto Total', sortable: true, width: '140px', align: 'right' }
+    { key: 'fecha', header: 'Fecha Notif.', sortable: true, width: '130px', align: 'center', type: 'date' },
+    { key: 'monto', header: 'Monto Total', sortable: true, width: '140px', align: 'right', type: 'currency' },
+    { key: 'estado', header: 'Estado', sortable: true, width: '120px', align: 'center', type: 'badge' }
   ];
 
   sampleData = [
-    { numero: 'OS-2026-00045', proveedor: 'ROSALES HUINCHO PABLO ALEJANDRO', area: 'OTI', fecha: '12/01/2026', monto: 'S/ 48,000.00' },
-    { numero: 'OS-2026-00049', proveedor: 'SISTEMAS Y SOLUCIONES TI S.A.C.', area: 'DFAI', fecha: '15/01/2026', monto: 'S/ 120,500.00' },
-    { numero: 'OC-2026-00012', proveedor: 'COMPUTECH PERU E.I.R.L.', area: 'OAJ', fecha: '18/01/2026', monto: 'S/ 24,300.00' },
-    { numero: 'OS-2026-00065', proveedor: 'CONSULTORES AMBIENTALES ASOCIADOS', area: 'DSEM', fecha: '22/01/2026', monto: 'S/ 65,000.00' }
+    { numero: 'OS-2026-00045', proveedor: 'ROSALES HUINCHO PABLO ALEJANDRO', area: 'OTI', fecha: '12/01/2026', monto: 'S/ 48,000.00', estado: 'FINALIZADO' },
+    { numero: 'OS-2026-00049', proveedor: 'SISTEMAS Y SOLUCIONES TI S.A.C.', area: 'DFAI', fecha: '15/01/2026', monto: 'S/ 120,500.00', estado: 'FINALIZADO' },
+    { numero: 'OC-2026-00012', proveedor: 'COMPUTECH PERU E.I.R.L.', area: 'OAJ', fecha: '18/01/2026', monto: 'S/ 24,300.00', estado: 'OBSERVADO' },
+    { numero: 'OS-2026-00065', proveedor: 'CONSULTORES AMBIENTALES ASOCIADOS', area: 'DSEM', fecha: '22/01/2026', monto: 'S/ 65,000.00', estado: 'FINALIZADO' }
   ];
 
   tableData = signal<any[]>(this.sampleData);
@@ -292,6 +361,25 @@ export class DesignSystemTablesComponent {
       this.tableData.set(this.sampleData);
     } else {
       this.tableData.set([]);
+    }
+  }
+
+  toggleStriped() {
+    this.isStriped.update(v => !v);
+  }
+
+  toggleBordered() {
+    this.isBordered.update(v => !v);
+  }
+
+  cycleDensity() {
+    const current = this.tableDensity();
+    if (current === 'default') {
+      this.tableDensity.set('compact');
+    } else if (current === 'compact') {
+      this.tableDensity.set('comfortable');
+    } else {
+      this.tableDensity.set('default');
     }
   }
 

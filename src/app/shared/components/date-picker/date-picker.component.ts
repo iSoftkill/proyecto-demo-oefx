@@ -28,7 +28,7 @@ interface CalendarDay {
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="oefa-date-picker-wrapper" [class.has-error]="!!error" [class.is-disabled]="disabled">
+    <div class="oefa-date-picker-wrapper" [class.is-open]="isOpen()" [class.has-error]="!!error" [class.is-disabled]="disabled">
       @if (label) {
         <label [for]="inputId" class="date-picker-label">
           {{ label }}

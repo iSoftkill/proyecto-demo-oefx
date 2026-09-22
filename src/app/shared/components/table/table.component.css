@@ -16,16 +16,21 @@
 
 .oefa-table th {
   padding: 12px 16px;
-  background-color: var(--oefa-surface-submenu);
+  background-color: var(--oefa-surface-subtle);
   color: var(--oefa-text-secondary);
-  font-weight: 600;
-  border-bottom: 1px solid var(--oefa-border-color);
+  font-family: var(--oefa-font-display, inherit);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 2px solid var(--oefa-border-color);
   user-select: none;
+  white-space: nowrap;
 }
 
 .oefa-table th.sortable {
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color var(--oefa-duration-short, 150ms) ease, color var(--oefa-duration-short, 150ms) ease;
 }
 
 .oefa-table th.sortable:hover {
@@ -51,22 +56,78 @@
 }
 
 .oefa-table td {
-  padding: 14px 16px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--oefa-border-color);
   color: var(--oefa-text-primary);
   vertical-align: middle;
 }
 
 .oefa-table tbody tr {
-  transition: background-color 0.15s ease;
+  transition: background-color var(--oefa-duration-short, 150ms) ease;
 }
 
 .oefa-table tbody tr:hover {
-  background-color: var(--oefa-surface-submenu);
+  background-color: var(--oefa-surface-subtle);
 }
 
 .oefa-table tbody tr.clickable {
   cursor: pointer;
+}
+
+.oefa-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Modificadores de Densidad */
+.density-compact .oefa-table th {
+  padding: 8px 12px;
+  font-size: 0.6875rem;
+}
+
+.density-compact .oefa-table td {
+  padding: 8px 12px;
+  font-size: 0.8125rem;
+}
+
+.density-comfortable .oefa-table th {
+  padding: 16px 20px;
+}
+
+.density-comfortable .oefa-table td {
+  padding: 16px 20px;
+}
+
+/* Striped */
+.table-striped .oefa-table tbody tr:nth-child(even) td {
+  background-color: var(--oefa-surface-subtle);
+}
+
+/* Bordered (Matriz Grid) */
+.table-bordered .oefa-table th,
+.table-bordered .oefa-table td {
+  border-right: 1px solid var(--oefa-border-color);
+}
+
+.table-bordered .oefa-table th:last-child,
+.table-bordered .oefa-table td:last-child {
+  border-right: none;
+}
+
+/* Sticky Header */
+.sticky-th th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--oefa-surface-subtle);
+}
+
+/* Tipografía Mono / Moneda */
+.font-mono {
+  font-family: var(--oefa-font-mono, monospace);
+}
+
+.font-semibold {
+  font-weight: 600;
 }
 
 .skeleton-tr td {
