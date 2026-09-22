@@ -61,7 +61,7 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "proxyConfig": "proxy.conf.js",
+            ,
             "allowedHosts": [
               "undefendable-hyo-subprefectorial.ngrok-free.dev"
             ]
