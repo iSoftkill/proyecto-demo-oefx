@@ -35,9 +35,10 @@ export class NavigationService {
   // Sidebar states: 'hidden' | 'floating' | 'pinned'
   sidebarMode = signal<SidebarMode>('pinned');
   isMobileScreen = signal<boolean>(false);
-  activeItemId = signal<string>('dashboard');
+  activeItemId = signal<string>('catalogo');
   hoveredItemId = signal<string | null>(null);
   selectedTreeItemId = signal<string>('');
+  clickedFlyoutItemId = signal<string | null>(null);
 
   // Quick action '+' modal trigger
   isQuickActionOpen = signal<boolean>(false);
@@ -45,34 +46,33 @@ export class NavigationService {
   // Navigation Items: Módulos OEFA + Sistema de Diseño + Ejemplo Jerárquico Demo
   navItems: NavItem[] = [
     {
-      id: 'dashboard',
-      label: 'Dashboard',
+      id: 'inicio',
+      label: 'Inicio',
+      icon: 'home',
+      route: '/inicio'
+    },
+    {
+      id: 'catalogo',
+      label: 'Catálogo',
       icon: 'grid',
-      route: '/dashboard'
+      route: '/catalogo'
     },
     {
-      id: 'ordenes_servicio',
-      label: 'Órdenes de Servicio',
-      icon: 'file-text',
-      route: '/ordenes-servicio'
-    },
-    {
-      id: 'ordenes_compra',
-      label: 'Órdenes de Compra',
-      icon: 'shopping-cart',
-      route: '/ordenes-compra'
-    },
-    {
-      id: 'saip_solicitud',
-      label: 'Solicitud SAIP',
-      icon: 'inbox',
-      route: '/saip/solicitud'
-    },
-    {
-      id: 'configuracion',
-      label: 'Configuración',
+      id: 'configuraciones',
+      label: 'Configuraciones',
       icon: 'settings',
-      route: '/configuracion'
+      children: [
+        {
+          groupName: 'Configuraciones',
+          items: [
+            {
+            id: 'tableros',
+            label: 'Tableros',
+            route: '/configuraciones/tableros'
+          }
+        ]
+        }
+      ]
     },
     {
       id: 'sistema_diseno',
@@ -403,6 +403,7 @@ export class NavigationService {
   }
 
   private syncActiveItemWithUrl(url: string) {
+    this.clickedFlyoutItemId.set(null);
     const cleanUrl = url.split('?')[0].split('#')[0];
 
     // Caso 1: Sub-flujos de órdenes (nueva orden, detalle)

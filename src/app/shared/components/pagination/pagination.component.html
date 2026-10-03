@@ -1,0 +1,79 @@
+@if (totalItems > 0) {
+  <div class="pagination-bar">
+    <!-- Información de registros y selector de página -->
+    <div class="pagination-info">
+      <span class="pagination-text">
+        Mostrando {{ startRecord }} - {{ endRecord }} de {{ totalItems }} {{ itemLabel }}
+      </span>
+
+      @if (showPageSizeSelector && pageSizeOptions.length > 0) {
+        <div class="page-size-selector">
+          <label [for]="selectId">Mostrar:</label>
+          <select
+            [id]="selectId"
+            [ngModel]="pageSize"
+            (ngModelChange)="handlePageSizeChange($event)"
+            class="page-size-select">
+            @for (opt of pageSizeOptions; track opt) {
+              <option [value]="opt" [selected]="opt === pageSize">{{ opt }}</option>
+            }
+          </select>
+        </div>
+      }
+    </div>
+
+    <!-- Controles de navegación de páginas -->
+    <div class="pagination-controls">
+      <button
+        type="button"
+        class="btn-page-nav"
+        (click)="goToPage(1)"
+        [disabled]="currentPage === 1"
+        title="Primera página"
+        aria-label="Primera página">
+        «
+      </button>
+      
+      <button
+        type="button"
+        class="btn-page-nav"
+        (click)="goToPage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+        title="Página anterior"
+        aria-label="Página anterior">
+        ‹
+      </button>
+
+      @for (p of visiblePages; track p) {
+        <button
+          type="button"
+          class="btn-page"
+          [class.active]="p === currentPage"
+          (click)="goToPage(p)"
+          [attr.aria-current]="p === currentPage ? 'page' : null">
+          {{ p }}
+        </button>
+      }
+
+      <button
+        type="button"
+        class="btn-page-nav"
+        (click)="goToPage(currentPage + 1)"
+        [disabled]="currentPage === totalPages"
+        title="Página siguiente"
+        aria-label="Página siguiente">
+        ›
+      </button>
+
+      <button
+        type="button"
+        class="btn-page-nav"
+        (click)="goToPage(totalPages)"
+        [disabled]="currentPage === totalPages"
+        title="Última página"
+        aria-label="Última página">
+        »
+      </button>
+    </div>
+  </div>
+}

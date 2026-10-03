@@ -1,0 +1,9 @@
+@for (item of items; track $index) {
+  <div
+    class="oefa-skeleton"
+    [ngClass]="'skeleton-' + variant"
+    [style.width]="width"
+    [style.height]="height"
+    aria-hidden="true"
+  ></div>
+}

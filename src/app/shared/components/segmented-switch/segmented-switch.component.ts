@@ -1,11 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OefaInfoTooltipComponent } from '../info-tooltip/info-tooltip.component';
 
 export interface SegmentedOption<T = any> {
   value: T;
   label: string;
   icon?: string;
   badge?: string | number;
+  dotBadge?: boolean;
+  dotColor?: string;
+  tooltip?: string;
+  tooltipPosition?: 'top' | 'bottom' | 'left' | 'right';
   disabled?: boolean;
 }
 
@@ -16,71 +21,17 @@ export interface SegmentedOption<T = any> {
  * @example
  * <oefa-segmented-switch
  *   [options]="[
- *     { value: 'orders', label: 'Vista por Órdenes' },
- *     { value: 'deliverables', label: 'Matriz Excel' }
+ *     { value: 'orders', label: 'Vista por Órdenes', badge: 12 },
+ *     { value: 'deliverables', label: 'Matriz Excel', dotBadge: true, tooltip: 'Ver detalle matricial' }
  *   ]"
  *   [(selected)]="currentView" />
  */
 @Component({
   selector: 'oefa-segmented-switch',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div 
-      class="segmented-switch" 
-      [class.full-width]="fullWidth"
-      role="group" 
-      [attr.aria-label]="ariaLabel">
-      
-      @for (opt of options; track opt.value) {
-        <button
-          type="button"
-          class="switch-btn"
-          [class.active]="opt.value === selected"
-          [disabled]="opt.disabled"
-          (click)="selectOption(opt)"
-          [attr.aria-pressed]="opt.value === selected">
-          
-          @if (opt.icon) {
-            <span class="switch-icon" [innerHTML]="opt.icon"></span>
-          }
-
-          <span class="switch-mode-text">{{ opt.label }}</span>
-
-          @if (opt.badge !== undefined) {
-            <span class="switch-badge">{{ opt.badge }}</span>
-          }
-        </button>
-      }
-    </div>
-  `,
-  styles: [`
-    :host {
-      display: inline-block;
-    }
-    :host(.block) {
-      display: block;
-      width: 100%;
-    }
-    .switch-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .switch-badge {
-      font-size: 0.6875rem;
-      padding: 1px 6px;
-      border-radius: var(--oefa-radius-full, 9999px);
-      background: var(--oefa-surface-subtle);
-      color: var(--oefa-text-secondary);
-      font-weight: 700;
-      transition: all var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
-    }
-    .switch-btn.active .switch-badge {
-      background: rgba(255, 255, 255, 0.25);
-      color: var(--oefa-primary-on);
-    }
-  `]
+  imports: [CommonModule, OefaInfoTooltipComponent],
+  templateUrl: './segmented-switch.component.html',
+  styleUrls: ['./segmented-switch.component.scss']
 })
 export class OefaSegmentedSwitchComponent<T = any> {
   @Input() options: SegmentedOption<T>[] = [];

@@ -67,7 +67,7 @@ import { OefaSegmentedSwitchComponent, SegmentedOption } from '../../shared/comp
               ]">
               <div actions style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                 <oefa-button variant="secondary" size="sm">Historial SIGED</oefa-button>
-                <oefa-button variant="primary" size="sm">⚡ Registrar Evento</oefa-button>
+                <oefa-button variant="primary" size="sm">Registrar Evento</oefa-button>
               </div>
             </oefa-page-header>
             @if (backNotice()) {

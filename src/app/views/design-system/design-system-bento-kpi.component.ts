@@ -110,7 +110,11 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
           <span class="text-muted">Componente standalone disponible desde <code>shared/components/bento-kpi-tile/</code>.</span>
         </div>
         <div class="card-body">
-          <pre class="code-block">&lt;oefa-bento-kpi-tile
+          <pre class="code-block">&lt;!-- 1. Importar OefaBentoKpiTileComponent (y opcionalmente OefaIconComponent) --&gt;
+import &#123; OefaBentoKpiTileComponent &#125; from '&#64;shared';
+
+&lt;!-- Opción A: Icono nativo por nombre ('factory', 'droplets', 'scale', 'leaf', 'gauge', etc.) --&gt;
+&lt;oefa-bento-kpi-tile
   sector="Sector Supervisión"
   title="Fiscalización Directa"
   value="1,248"
@@ -125,7 +129,15 @@ import { OefaBentoKpiTileComponent } from '../../shared/components/bento-kpi-til
   chartType="donut"
   [percentage]="75"
   (tileClick)="abrirDetalle()"
-/&gt;</pre>
+/&gt;
+
+&lt;!-- Opción B: Proyección de icono personalizado vía slot [icon] --&gt;
+&lt;oefa-bento-kpi-tile
+  title="Monitoreo Especial"
+  value="320"
+  metricLabel="Puntos críticos"&gt;
+  &lt;oefa-icon icon name="shield-check" [size]="22" /&gt;
+&lt;/oefa-bento-kpi-tile&gt;</pre>
         </div>
       </div>
     </div>

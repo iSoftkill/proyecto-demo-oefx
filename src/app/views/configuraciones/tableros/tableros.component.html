@@ -1,0 +1,130 @@
+<oefa-page-layout
+  title="Tableros"
+  subtitle="Administración de los registros que consume el portal público."
+  [fit]="true">
+
+  <div actions>
+    <oefa-button variant="primary" icon="plus" (clicked)="onNuevoTablero()">
+      Nuevo tablero
+    </oefa-button>
+  </div>
+
+  <!-- Barra superior de búsqueda y filtros (Fija arriba) -->
+  <div class="oefa-flex-row oefa-justify-between oefa-items-center oefa-gap-md oefa-mb-md" style="flex-shrink: 0;">
+    <div class="oefa-flex-1" style="max-width: 640px;">
+      <input 
+        type="text" 
+        class="form-input" 
+        placeholder="Buscar tablero..." 
+        [value]="searchTerm()"
+        (input)="onSearchInput($event)" />
+    </div>
+    <div>
+      <select class="form-select form-select-sm" style="min-width: 140px;" [value]="selectedFiltro()" (change)="onFilterChange($event)">
+        <option value="todos">Todos</option>
+        <option value="activos">Activos</option>
+        <option value="inactivos">Inactivos</option>
+        <option value="destacados">Destacados</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Tabla Institucional OEFA con scroll interno y sticky header -->
+  <div class="oefa-table-wrapper oefa-table-scroll">
+    <table class="data-table" role="table">
+      <thead class="sticky-th">
+        <tr>
+          <th style="width: 110px;">ID</th>
+          <th>Título</th>
+          <th>Proceso</th>
+          <th>Sección</th>
+          <th>Tipo de tablero</th>
+          <th style="width: 90px;">Tipo</th>
+          <th style="width: 190px;">Última modificación</th>
+          <th style="width: 90px; text-align: center;">Activo</th>
+          <th style="width: 90px; text-align: center;">Destacado</th>
+          <th style="width: 80px; text-align: center;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of filteredTableros(); track $index) {
+          <tr>
+            <td class="font-mono font-semibold">{{ item.id }}</td>
+            <td class="font-medium color-primary">{{ item.titulo }}</td>
+            <td>{{ item.proceso }}</td>
+            <td>{{ item.seccion }}</td>
+            <td>{{ item.tipoTablero }}</td>
+            <td><span class="font-mono">{{ item.tipo }}</span></td>
+            <td class="font-mono" style="font-size: 0.8125rem;">{{ item.ultimaModificacion }}</td>
+            <td style="text-align: center;">
+              <oefa-status-badge [status]="item.activo ? 'success' : 'neutral'">
+                {{ item.activo ? 'Activo' : 'Inactivo' }}
+              </oefa-status-badge>
+            </td>
+            <td style="text-align: center;">
+              @if (item.destacado) {
+                <oefa-status-badge status="success">Sí</oefa-status-badge>
+              } @else {
+                <span class="text-muted font-mono">-</span>
+              }
+            </td>
+            <td style="text-align: center;">
+              <oefa-dropdown 
+                [isOpen]="activeDropdownId() === item.id" 
+                [fixedPosition]="true"
+                (isOpenChange)="onDropdownChange(item.id, $event)">
+                <div trigger>
+                  <oefa-icon-button 
+                    variant="kebab" 
+                    size="sm" 
+                    title="Más opciones" 
+                    (clicked)="toggleDropdown(item.id)" />
+                </div>
+                <div menu class="oefa-dropdown-items">
+                  <button type="button" class="dropdown-item" (click)="onVer(item)">
+                    <oefa-icon name="globe" size="sm" color="var(--oefa-primary-root)" />
+                    <span>Ver enlace público</span>
+                  </button>
+                  <button type="button" class="dropdown-item" (click)="onEditar(item)">
+                    <oefa-icon name="edit" size="sm" color="var(--oefa-text-secondary)" />
+                    <span>Editar</span>
+                  </button>
+                  <button type="button" class="dropdown-item" (click)="onToggleEstado(item)">
+                    <oefa-icon name="pause-circle" size="sm" color="var(--oefa-text-secondary)" />
+                    <span>{{ item.activo ? 'Pausar' : 'Activar' }}</span>
+                  </button>
+                  <div class="dropdown-divider"></div>
+                  <button type="button" class="dropdown-item text-danger" (click)="onEliminar(item)">
+                    <oefa-icon name="trash" size="sm" color="var(--oefa-error-ui-safe)" />
+                    <span>Eliminar</span>
+                  </button>
+                </div>
+              </oefa-dropdown>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="10" style="text-align: center; padding: 32px;">
+              <oefa-empty-state 
+                title="Sin tableros encontrados" 
+                description="No hay registros que coincidan con el criterio de búsqueda.">
+              </oefa-empty-state>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginador Reutilizable OEFA (Fijo al pie) -->
+  <div style="flex-shrink: 0; margin-top: 12px;">
+    <oefa-pagination
+      [currentPage]="currentPage()"
+      [pageSize]="pageSize()"
+      [totalItems]="filteredTableros().length"
+      [pageSizeOptions]="[10, 25, 50]"
+      itemLabel="tableros registrados"
+      (pageChange)="currentPage.set($event)"
+      (pageSizeChange)="pageSize.set($event)" />
+  </div>
+</oefa-page-layout>

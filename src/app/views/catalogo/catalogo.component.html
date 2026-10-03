@@ -1,0 +1,173 @@
+<oefa-page-layout
+  title="Catálogo de Tableros"
+  subtitle="Exploración y monitoreo de los tableros analíticos e indicadores de la gestión institucional."
+  badgeText="OPERATIVO"
+  badgeStatus="info"
+  [breadcrumbs]="breadcrumbs"
+  [fit]="true">
+
+  <!-- Acciones superiores en la cabecera institucional -->
+  <div actions class="tableros-header-actions">
+    <div class="search-field-container">
+      <oefa-icon name="search" [size]="16" class="search-icon" />
+      <input
+        type="search"
+        class="form-input form-input-sm"
+        placeholder="Buscar tablero, tema o palabra clave..."
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+        aria-label="Buscar tablero institucional"
+      />
+      @if (searchQuery()) {
+        <button
+          type="button"
+          class="btn-clear-search"
+          (click)="searchQuery.set('')"
+          aria-label="Limpiar búsqueda"
+        >
+          <oefa-icon name="close" [size]="14" />
+        </button>
+      }
+    </div>
+
+    <a routerLink="/configuraciones/tableros">
+      <oefa-button variant="secondary" size="md" icon="sliders">
+        Gestionar tableros
+      </oefa-button>
+    </a>
+  </div>
+
+  <!-- Estructura principal interna con filtros laterales y catálogo -->
+  <div class="tableros-layout">
+
+    <!-- Botón móvil para abrir filtros -->
+    <div class="tableros-mobile-filter-bar">
+      <button type="button" class="tableros-mobile-filter-btn" (click)="isMobileFilterOpen.set(true)">
+        <oefa-icon name="filter" [size]="16" />
+        <span>Filtros y Criterios ({{ activeFilterCount() }})</span>
+      </button>
+    </div>
+
+    <!-- Columna Izquierda: Sidebar de Filtros Facetados OEFA -->
+    <aside class="tableros-sidebar-column">
+      <oefa-filter-sidebar
+        title="Refinar Tableros"
+        [activeCount]="activeFilterCount()"
+        [statusOptions]="processOptions"
+        statusTitle="Tipo de Proceso"
+        [selectedStatus]="selectedProcessFilter()"
+        [showDateRange]="false"
+        [showAmountRange]="false"
+        [filterGroups]="filterGroups()"
+        [showFacetSearch]="false"
+        searchPlaceholder="Buscar categoría..."
+        [showSpecialConditions]="true"
+        specialConditionsTitle="Condiciones Especiales"
+        flagMedidasLabel="Solo destacados (★)"
+        flagAlertasLabel="Solo metas Planefa"
+        [flagMedidas]="onlyFeatured()"
+        [flagAlertas]="onlyPlanefa()"
+        [isOpenMobile]="isMobileFilterOpen()"
+        (statusChange)="filterByProcess($event)"
+        (groupToggle)="toggleFilterGroup($event)"
+        (optionToggle)="toggleFilterOption($event)"
+        (flagMedidasChange)="onlyFeatured.set($event)"
+        (flagAlertasChange)="onlyPlanefa.set($event)"
+        (clear)="clearAllFilters()"
+        (apply)="isMobileFilterOpen.set(false)"
+        (closeMobile)="isMobileFilterOpen.set(false)"
+      />
+    </aside>
+
+    <!-- Columna Derecha: Toolbar de proceso y Grilla de Tableros -->
+    <section class="tableros-content-column">
+
+      <!-- Barra de herramientas con filtros rápidos por proceso -->
+      <div class="filters-toolbar">
+        <div class="filter-group">
+          <span class="filter-title">Proceso:</span>
+          <div class="filter-pills" role="radiogroup" aria-label="Filtrar por proceso">
+            <button
+              type="button"
+              class="pill-filter"
+              [class.active]="selectedProcessFilter() === 'todos'"
+              (click)="filterByProcess('todos')"
+            >
+              Todos ({{ tableros.length }})
+            </button>
+            <button
+              type="button"
+              class="pill-filter"
+              [class.active]="selectedProcessFilter() === 'Estratégico'"
+              (click)="filterByProcess('Estratégico')"
+            >
+              Estratégicos
+            </button>
+            <button
+              type="button"
+              class="pill-filter"
+              [class.active]="selectedProcessFilter() === 'Misional'"
+              (click)="filterByProcess('Misional')"
+            >
+              Misionales
+            </button>
+            <button
+              type="button"
+              class="pill-filter"
+              [class.active]="selectedProcessFilter() === 'Apoyo'"
+              (click)="filterByProcess('Apoyo')"
+            >
+              De Apoyo
+            </button>
+          </div>
+        </div>
+
+        <div class="toolbar-meta">
+          <span class="results-counter">
+            Mostrando <strong>{{ filteredTableros.length }}</strong> de {{ tableros.length }} tableros
+          </span>
+          @if (activeFilterCount() > 0 || searchQuery()) {
+            <button type="button" class="btn-reset-filters" (click)="clearAllFilters()">
+              Limpiar filtros ({{ activeFilterCount() }})
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Grilla de Catálogo o Estado Vacío -->
+      @if (filteredTableros.length === 0) {
+        <div class="empty-state-container">
+          <oefa-empty-state
+            title="No se encontraron tableros"
+            description="No hay tableros institucionales que coincidan con los criterios o búsqueda ingresada."
+            icon="search"
+          >
+            <oefa-button variant="secondary" size="md" (clicked)="clearAllFilters()">
+              Restablecer filtros
+            </oefa-button>
+          </oefa-empty-state>
+        </div>
+      } @else {
+        <div class="cards-grid">
+          @for (item of filteredTableros; track item.id) {
+            <oefa-catalog-card
+              [title]="item.title"
+              [description]="item.description"
+              [icon]="item.icon"
+              [type]="item.process"
+              [chips]="getChipsForItem(item)"
+              [tags]="item.tags"
+              [status]="item.featured ? 'warning' : undefined"
+              [statusLabel]="item.featured ? 'Destacado' : undefined"
+              actionText="Abrir tablero"
+              (cardClick)="onAbrirTablero(item)"
+              (actionClick)="onAbrirTablero(item)"
+            />
+          }
+        </div>
+      }
+
+    </section>
+  </div>
+
+</oefa-page-layout>

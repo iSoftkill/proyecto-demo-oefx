@@ -11,81 +11,8 @@ import { CommonModule } from '@angular/common';
   selector: 'oefa-info-tooltip',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <span
-      #trigger
-      class="oefa-info-tooltip"
-      [class.size-sm]="size === 'sm'"
-      [class.size-md]="size === 'md'"
-      tabindex="0"
-      role="button"
-      [attr.aria-label]="ariaLabel ? ariaLabel + ': ' + text : text"
-      (mouseenter)="showTooltip()"
-      (mouseleave)="hideTooltip()"
-      (focus)="showTooltip()"
-      (blur)="hideTooltip()"
-      (click)="$event.stopPropagation()"
-      (keydown.enter)="$event.stopPropagation()"
-      (keydown.space)="$event.stopPropagation()"
-      (keydown.escape)="hideTooltip()"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="info-svg"
-        aria-hidden="true"
-      >
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="12" y1="16" x2="12" y2="12"></line>
-        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-      </svg>
-    </span>
-  `,
-  styles: [`
-    :host {
-      display: inline-flex;
-      align-items: center;
-      vertical-align: middle;
-      line-height: 1;
-    }
-
-    .oefa-info-tooltip {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: help;
-      color: var(--oefa-text-muted, #94a3b8);
-      border-radius: 50%;
-      outline: none;
-      transition: color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
-      box-sizing: border-box;
-
-      &:hover,
-      &:focus-visible {
-        color: var(--oefa-primary-root);
-      }
-
-      &:focus-visible {
-        outline: 2px solid var(--oefa-focus-ring);
-        outline-offset: 2px;
-      }
-    }
-
-    .size-sm .info-svg {
-      width: 14px;
-      height: 14px;
-    }
-
-    .size-md .info-svg {
-      width: 16px;
-      height: 16px;
-    }
-  `]
+  templateUrl: './info-tooltip.component.html',
+  styleUrls: ['./info-tooltip.component.scss']
 })
 export class OefaInfoTooltipComponent implements OnDestroy {
   @Input() text: string = '';

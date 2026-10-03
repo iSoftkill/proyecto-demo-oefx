@@ -7,22 +7,8 @@ export type SkeletonVariant = 'text' | 'rect' | 'circle';
   selector: 'oefa-skeleton',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    @for (item of items; track $index) {
-      <div
-        class="oefa-skeleton"
-        [ngClass]="'skeleton-' + variant"
-        [style.width]="width"
-        [style.height]="height"
-        aria-hidden="true"
-      ></div>
-    }
-  `,
-  styles: [`
-    :host {
-      display: block;
-    }
-  `]
+  templateUrl: './skeleton.component.html',
+  styleUrls: ['./skeleton.component.scss']
 })
 export class OefaSkeletonComponent {
   @Input() variant: SkeletonVariant = 'text';

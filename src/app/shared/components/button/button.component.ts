@@ -1,50 +1,27 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OefaIconComponent, OefaIconSize } from '../icon/icon.component';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'excel' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 export type ButtonType = 'button' | 'submit' | 'reset';
+export type ButtonIconPosition = 'left' | 'right';
 
 /**
  * Componente reutilizable de botón con variantes del design system OEFA.
  *
  * @example
- * <oefa-button variant="primary" (clicked)="save()">Guardar</oefa-button>
+ * <oefa-button variant="primary" icon="plus" (clicked)="crear()">Nuevo Registro</oefa-button>
  *
  * @example
- * <oefa-button variant="secondary" [disabled]="isLoading">Cancelar</oefa-button>
- *
- * @example
- * <oefa-button variant="primary" [loading]="isSaving">
- *   <svg ...></svg>
- *   Exportar Excel
- * </oefa-button>
+ * <oefa-button variant="secondary" icon="download" iconPosition="right" (clicked)="exportar()">Descargar</oefa-button>
  */
 @Component({
   selector: 'oefa-button',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <button
-      [type]="type"
-      class="btn"
-      [ngClass]="[variantClass, sizeClass]"
-      [disabled]="disabled || loading"
-      [title]="title"
-      (click)="handleClick($event)">
-      @if (loading) {
-        <span class="spinner-small"></span>
-      }
-      <ng-content />
-    </button>
-  `,
-  styles: [`
-    :host {
-      display: inline-flex;
-    }
-    /* Los estilos de .btn, .btn-primary, etc. están en styles.scss */
-    button { width: 100%; }
-  `]
+  imports: [CommonModule, OefaIconComponent],
+  templateUrl: './button.component.html',
+  styleUrls: ['./button.component.scss']
 })
 export class OefaButtonComponent {
   @Input() variant: ButtonVariant = 'primary';
@@ -53,6 +30,8 @@ export class OefaButtonComponent {
   @Input() disabled = false;
   @Input() loading = false;
   @Input() title = '';
+  @Input() icon?: string;
+  @Input() iconPosition: ButtonIconPosition = 'left';
   @Output() clicked = new EventEmitter<void>();
   @Output() btnClick = this.clicked;
 
@@ -74,6 +53,18 @@ export class OefaButtonComponent {
       lg: 'btn-lg',
     };
     return map[this.size];
+  }
+
+  get iconSize(): OefaIconSize {
+    switch (this.size) {
+      case 'sm':
+        return 'xs';
+      case 'lg':
+        return 'md';
+      case 'md':
+      default:
+        return 'sm';
+    }
   }
 
   handleClick(event: MouseEvent): void {

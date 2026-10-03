@@ -57,6 +57,8 @@ export function getStatusBadgeClass(status: string): StatusBadgeClass {
     case 'WARNING':
     case 'OBSERVADO':
     case 'ALERTA':
+    case 'DESTACADO':
+    case 'FEATURED':
     case 'ATENDIDO_OBSERVADO':
     case 'NOTIFICADO':
       return 'danger';
@@ -104,6 +106,9 @@ export function getStatusLabel(status: string): string {
     DESESTIMADO: 'Desestimado',
     PREVISION: 'Previsión',
     PENDIENTE: 'Pendiente',
+    DESTACADO: 'Destacado',
+    FEATURED: 'Destacado',
+    WARNING: 'Advertencia'
   };
   return labels[status] ?? status;
 }

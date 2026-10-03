@@ -1,0 +1,10 @@
+<span
+  class="oefa-dot-badge"
+  [ngClass]="[
+    'oefa-dot-' + color,
+    'oefa-dot-' + size,
+    ping ? 'oefa-dot-ping' : ''
+  ]"
+  [attr.aria-label]="ariaLabel"
+  role="status"
+></span>

@@ -21,21 +21,8 @@ import { getStatusBadgeClass, type StatusBadgeClass } from '../../utils/status.u
   selector: 'oefa-status-badge',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <span class="badge-status" [ngClass]="[resolvedClass, 'badge-' + size]">
-      @if (dot) {
-        <span class="badge-dot" aria-hidden="true"></span>
-      }
-      {{ resolvedLabel }}
-    </span>
-  `,
-  styles: [`
-    /* Los estilos base de .badge-status y sus variantes están en styles.scss
-       Este archivo no redefine nada, para mantener el design token como única fuente de verdad. */
-    :host {
-      display: inline-flex;
-    }
-  `]
+  templateUrl: './status-badge.component.html',
+  styleUrls: ['./status-badge.component.scss']
 })
 export class OefaStatusBadgeComponent {
   /** Valor del estado (EN_PROCESO, FINALIZADO, OBSERVADO, etc.) */
@@ -66,4 +53,3 @@ export class OefaStatusBadgeComponent {
     return this.label ?? this.status;
   }
 }
-

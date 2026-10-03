@@ -33,58 +33,7 @@ let drawerUniqueId = 0;
   selector: 'oefa-drawer',
   standalone: true,
   imports: [CommonModule, OefaIconButtonComponent],
-  template: `
-    @if (isOpen) {
-      <div 
-        class="drawer-overlay" 
-        [ngClass]="'overlay-' + position"
-        (click)="handleBackdropClick($event)"
-        role="dialog"
-        [attr.aria-modal]="true"
-        [attr.aria-labelledby]="title ? titleId : null"
-        [attr.aria-label]="!title ? 'Panel lateral' : null">
-        
-        <div 
-          class="drawer-panel"
-          [ngClass]="[positionClass, sizeClass]"
-          (click)="$event.stopPropagation()">
-          
-          <!-- Header -->
-          <div class="drawer-header">
-            <div class="drawer-title-group">
-              @if (badge) {
-                <span class="drawer-badge-num">{{ badge }}</span>
-              }
-              <div class="title-with-actions">
-                @if (title) {
-                  <h3 [id]="titleId" class="drawer-title">{{ title }}</h3>
-                }
-                <ng-content select="[header-actions]" />
-              </div>
-              @if (subtitle) {
-                <p class="drawer-subtitle">{{ subtitle }}</p>
-              }
-            </div>
-            <oefa-icon-button 
-              variant="close" 
-              title="Cerrar panel (Esc)" 
-              ariaLabel="Cerrar panel lateral"
-              (clicked)="close()" />
-          </div>
-
-          <!-- Body -->
-          <div class="drawer-body">
-            <ng-content />
-          </div>
-
-          <!-- Footer (opcional) -->
-          <div class="drawer-footer">
-            <ng-content select="[footer]" />
-          </div>
-        </div>
-      </div>
-    }
-  `,
+  templateUrl: './drawer.component.html',
   styleUrls: ['./drawer.component.scss']
 })
 export class OefaDrawerComponent implements OnChanges, OnDestroy {

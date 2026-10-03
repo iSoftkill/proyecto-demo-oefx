@@ -74,8 +74,15 @@
 
 .system-brand {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   min-width: 0;
+}
+
+.system-brand-logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  transition: height 0.2s ease;
 }
 
 .plusd-title {
@@ -428,6 +435,10 @@
 
   .oefa-header-logo-img {
     height: var(--oefa-header-logo-height-mobile, 30px);
+  }
+
+  .system-brand-logo-img {
+    height: 26px;
   }
 
   .user-name,

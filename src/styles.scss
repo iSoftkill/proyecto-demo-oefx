@@ -8,6 +8,17 @@ $oefa-bp-lg: 1024px;
 $oefa-bp-xl: 1280px;
 $oefa-header-height: 64px;
 
+/* Sass Spacing Variables */
+$oefa-spacing-3xs: 2px;
+$oefa-spacing-2xs: 4px;
+$oefa-spacing-xs: 8px;
+$oefa-spacing-sm: 12px;
+$oefa-spacing-md: 16px;
+$oefa-spacing-lg: 20px;
+$oefa-spacing-xl: 24px;
+$oefa-spacing-2xl: 32px;
+$oefa-spacing-3xl: 48px;
+
 :root {
   /* Header & Navigation Shell Component Tokens */
   --oefa-header-height: 64px;
@@ -18,8 +29,14 @@ $oefa-header-height: 64px;
   --oefa-rail-width: 80px;
   --oefa-submenu-width: 260px;
 
+  /* Filter Sidebar Tokens */
+  --oefa-filter-sidebar-width: 280px;
+  --oefa-filter-sidebar-top: 0;
+  --oefa-filter-sidebar-max-height: calc(100vh - var(--oefa-header-height, 64px) - 186px);
+
   /* Color Tokens OEFA (Primary, Secondary, Tertiary, Success, Error, Neutral) */
   --oefa-primary-root: #144AA7;
+  --oefa-primary-hover: #103D89;
   --oefa-primary-on: #FFFFFF;
   --oefa-primary-container: #EEF4FF;
   --oefa-primary-on-container: #002463;
@@ -140,7 +157,7 @@ $oefa-header-height: 64px;
   --oefa-surface-card: #FFFFFF;
   --oefa-surface-header: #FFFFFF;
   --oefa-surface-rail: #FFFFFF;
-  --oefa-surface-submenu: #F8FAFC;
+  --oefa-surface-submenu: #ffffff;
   --oefa-surface-workspace: #FFFFFF;
   --oefa-surface-modal: #FFFFFF;
   --oefa-surface-subtle: #F8FAFC;
@@ -168,14 +185,37 @@ $oefa-header-height: 64px;
   --oefa-breakpoint-md: 768px;
   --oefa-breakpoint-lg: 1024px;
   --oefa-breakpoint-xl: 1280px;
+  --oefa-portal-max-width: 1920px;
   --oefa-touch-target: 44px;
+
+  /* Spacing Scale (4px/8px Grid) */
+  --oefa-spacing-3xs: 2px;
+  --oefa-spacing-2xs: 4px;
+  --oefa-spacing-xs: 8px;
+  --oefa-spacing-sm: 12px;
+  --oefa-spacing-md: 16px;
+  --oefa-spacing-lg: 20px;
+  --oefa-spacing-xl: 24px;
+  --oefa-spacing-2xl: 32px;
+  --oefa-spacing-3xl: 48px;
 
   /* Text colors - WCAG 2.2 AA/AAA Compliant (Min contrast ratio 4.5:1) */
   --oefa-text-primary: #1D1D1B;
   --oefa-text-secondary: #334155;
   --oefa-text-muted: #475569;
+  --oefa-text-disabled: #94A3B8;
   --oefa-text-on-dark: #DEDEDE;
   --oefa-login-overlay: rgba(0, 0, 0, 0.55);
+  --oefa-portal-hero-bg: linear-gradient(135deg, #EEF4FF 0%, #E2EDFC 50%, #F0FDF4 100%);
+  --oefa-portal-hero-overlay: linear-gradient(135deg, rgba(238, 244, 255, 0.92) 0%, rgba(226, 237, 252, 0.88) 50%, rgba(240, 253, 244, 0.90) 100%);
+  --oefa-portal-hero-eyebrow: var(--oefa-primary-root, #144AA7);
+  --oefa-portal-hero-title: var(--oefa-text-primary, #1D1D1B);
+  --oefa-portal-hero-subtitle: var(--oefa-text-secondary, #334155);
+  --oefa-portal-hero-highlight: linear-gradient(90deg, #144AA7 0%, #007A70 100%);
+  --oefa-portal-hero-pill-bg: rgba(255, 255, 255, 0.85);
+  --oefa-portal-hero-pill-border: var(--oefa-border-color, #E2E8F0);
+  --oefa-portal-hero-pill-text: var(--oefa-text-primary, #1D1D1B);
+  --oefa-portal-hero-pill-icon: var(--oefa-primary-root, #144AA7);
 
   /* Typography */
   --oefa-font-display: 'Poppins', sans-serif;
@@ -222,15 +262,17 @@ $oefa-header-height: 64px;
    OEFA DESIGN TOKENS — DARK THEME (WCAG 2.2 AA/AAA COMPLIANT)
    ========================================================================== */
 [data-theme="dark"],
-body.dark-theme {
+body.dark-theme,
+.dark-theme {
   color-scheme: dark;
 
   /* Tonal Inversions for Dark Backgrounds */
   --oefa-primary-root: #76A3EF;
+  --oefa-primary-hover: #A4C1F4;
   --oefa-primary-on: #05142E;
   --oefa-primary-container: #103D89;
   --oefa-primary-on-container: #D1E0FA;
-  --oefa-primary-container-hc: #23529E;
+  --oefa-primary-container-hc: #4984E9;
 
   --oefa-secondary-root: #67CBC3;
   --oefa-secondary-ui-safe: #8DD8D2;
@@ -241,7 +283,7 @@ body.dark-theme {
   --oefa-tertiary-ui-safe: #FFE199;
   --oefa-tertiary-container: #4D3600;
   --oefa-tertiary-on-container: #FFE199;
-  --oefa-tertiary-container-hc: #664800;
+  --oefa-tertiary-container-hc: #CC9100;
 
   --oefa-success-root: #A0D65C;
   --oefa-success-ui-safe: #B8E085;
@@ -270,6 +312,16 @@ body.dark-theme {
   --oefa-surface-backdrop: rgba(11, 17, 32, 0.85);
   --oefa-border-color: #334155;
   --oefa-border-color-subtle: #1E293B;
+  --oefa-portal-hero-bg: #070E1A;
+  --oefa-portal-hero-overlay: linear-gradient(135deg, rgba(7, 14, 26, 0.96) 0%, rgba(11, 24, 46, 0.92) 50%, rgba(4, 9, 18, 0.98) 100%);
+  --oefa-portal-hero-eyebrow: var(--oefa-secondary-70, #8DD8D2);
+  --oefa-portal-hero-title: #FFFFFF;
+  --oefa-portal-hero-subtitle: var(--oefa-neutral-80, #CBD5E1);
+  --oefa-portal-hero-highlight: linear-gradient(90deg, #67CBC3 0%, #A0D65C 100%);
+  --oefa-portal-hero-pill-bg: rgba(255, 255, 255, 0.08);
+  --oefa-portal-hero-pill-border: rgba(255, 255, 255, 0.16);
+  --oefa-portal-hero-pill-text: #FFFFFF;
+  --oefa-portal-hero-pill-icon: var(--oefa-secondary-60, #67CBC3);
 
   /* Focus Indicator (WCAG 2.2 SC 2.4.13) */
   --oefa-focus-ring: #76A3EF;
@@ -285,6 +337,7 @@ body.dark-theme {
   --oefa-text-primary: #F8FAFC;
   --oefa-text-secondary: #CBD5E1;
   --oefa-text-muted: #94A3B8;
+  --oefa-text-disabled: #64748B;
   --oefa-text-on-dark: #F8FAFC;
   --oefa-login-overlay: linear-gradient(135deg, rgba(11, 17, 32, 0.88) 0%, rgba(5, 20, 46, 0.78) 100%);
 
@@ -299,10 +352,11 @@ body.dark-theme {
     color-scheme: dark;
 
     --oefa-primary-root: #76A3EF;
+    --oefa-primary-hover: #A4C1F4;
     --oefa-primary-on: #05142E;
     --oefa-primary-container: #103D89;
     --oefa-primary-on-container: #D1E0FA;
-    --oefa-primary-container-hc: #23529E;
+    --oefa-primary-container-hc: #4984E9;
 
     --oefa-secondary-root: #67CBC3;
     --oefa-secondary-ui-safe: #8DD8D2;
@@ -313,7 +367,7 @@ body.dark-theme {
     --oefa-tertiary-ui-safe: #FFE199;
     --oefa-tertiary-container: #4D3600;
     --oefa-tertiary-on-container: #FFE199;
-    --oefa-tertiary-container-hc: #664800;
+    --oefa-tertiary-container-hc: #CC9100;
 
     --oefa-success-root: #A0D65C;
     --oefa-success-ui-safe: #B8E085;
@@ -350,6 +404,7 @@ body.dark-theme {
     --oefa-text-primary: #F8FAFC;
     --oefa-text-secondary: #CBD5E1;
     --oefa-text-muted: #94A3B8;
+    --oefa-text-disabled: #64748B;
     --oefa-text-on-dark: #F8FAFC;
     --oefa-login-overlay: linear-gradient(135deg, rgba(11, 17, 32, 0.88) 0%, rgba(5, 20, 46, 0.78) 100%);
 
@@ -500,6 +555,89 @@ h4 {
     border-radius: 50%;
     background-color: currentColor;
     flex-shrink: 0;
+  }
+}
+
+/* Átomo Global de Punto Indicador / Alerta (<oefa-dot-badge>) */
+.oefa-dot-badge {
+  display: inline-block;
+  border-radius: 50%;
+  flex-shrink: 0;
+  vertical-align: middle;
+  line-height: 1;
+  box-shadow: 0 0 0 2px var(--oefa-surface-card, #ffffff);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+
+  /* Variantes de Color */
+  &.oefa-dot-danger {
+    background-color: var(--oefa-danger-500, #ef4444);
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+  }
+  &.oefa-dot-warning {
+    background-color: var(--oefa-warning-500, #f59e0b);
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+  }
+  &.oefa-dot-primary {
+    background-color: var(--oefa-primary-root, #144aa7);
+    box-shadow: 0 0 6px rgba(20, 74, 167, 0.4);
+  }
+  &.oefa-dot-success {
+    background-color: var(--oefa-success-500, #10b981);
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+  }
+  &.oefa-dot-info {
+    background-color: var(--oefa-info-500, #0ea5e9);
+    box-shadow: 0 0 6px rgba(14, 165, 233, 0.4);
+  }
+  &.oefa-dot-neutral {
+    background-color: var(--oefa-text-muted, #94a3b8);
+    box-shadow: 0 0 6px rgba(148, 163, 184, 0.3);
+  }
+
+  /* Variantes de Tamaño */
+  &.oefa-dot-sm {
+    width: 6px;
+    height: 6px;
+  }
+  &.oefa-dot-md {
+    width: 8px;
+    height: 8px;
+  }
+  &.oefa-dot-lg {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Animación Ping / Pulso para alertas en tiempo real */
+  &.oefa-dot-ping {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      opacity: 0.75;
+      animation: oefa-dot-pulse 1.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+  }
+}
+
+@keyframes oefa-dot-pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
   }
 }
 
@@ -1280,12 +1418,48 @@ h4 {
   width: 100%;
   overflow-x: auto;
 
+  &.oefa-table-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    border: 1px solid var(--oefa-border-color);
+    border-radius: var(--oefa-radius-md);
+  }
+}
+
+/* Regla global para vistas dentro del espacio de trabajo OEFA */
+.workspace-card {
+  > router-outlet {
+    display: none !important;
+  }
+
+  > *:not(router-outlet) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.oefa-table-wrapper {
+
   table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     font-size: 0.875rem;
     font-family: var(--oefa-font-body);
+  }
+
+  thead.sticky-th th,
+  thead th.sticky-th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--oefa-surface-subtle);
+    box-shadow: 0 1px 0 var(--oefa-border-color);
   }
 
   thead th {
@@ -1598,10 +1772,21 @@ h4 {
 
 /**
  * .oefa-alert-banner — Banner inline de error/validación
+ * ─────────────────────────────────────────────────────
  * WCAG 2.2: SC 3.3.1 Error Identification | SC 4.1.3 Status Messages
  * Atributos OBLIGATORIOS en el HTML: role="alert", aria-live="assertive", tabindex="-1"
- * REGLA: Usar SIEMPRE para errores de formulario/autenticación. NUNCA reemplazar por Toast.
- * El Toast es para notificaciones temporales. El alert-banner es para errores que el usuario DEBE leer.
+ *
+ * POR QUÉ ESTÁ EN styles.scss (no en un component.scss):
+ *   Este patrón es imperativo — se renderiza fuera del árbol de Angular Components
+ *   (ej: errores de autenticación en el shell, validaciones de API previas al bootstrap).
+ *   No es un Angular Component encapsulado; es una clase CSS global de uso directo en HTML.
+ *
+ * CUÁNDO USAR ESTE PATRÓN vs el componente Angular:
+ *   → .oefa-alert-banner  : HTML puro, fuera de cualquier Angular Component.
+ *   → <oefa-alert type="error"> : SIEMPRE dentro de componentes Angular (formularios, vistas).
+ *
+ * PENDIENTE: Si en el futuro este patrón se consume desde Angular,
+ *   migrar a shared/components/alert-banner/ y retirar de aquí.
  */
 .oefa-alert-banner {
   display: flex;
@@ -2061,6 +2246,143 @@ select.table-input,
 }
 
 /* ==========================================================================
+   OEFA PORTAL LAYOUT CONTAINER (Dashboards, Mapas GIS, Portales Analíticos)
+   ========================================================================== */
+.portal-container {
+  width: 100%;
+  max-width: var(--oefa-portal-max-width, 1920px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Hero institucional para portales (Modo Claro predeterminado + Modo Oscuro) */
+.portal-hero {
+  position: relative;
+  min-height: 460px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--oefa-portal-hero-bg, linear-gradient(135deg, #EEF4FF 0%, #E2EDFC 50%, #F0FDF4 100%));
+  color: var(--oefa-portal-hero-title, var(--oefa-text-primary, #1D1D1B));
+  transition: background 0.3s ease, color 0.3s ease;
+
+  .hero-backdrop-img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.18;
+    transform: scale(1.02);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--oefa-portal-hero-overlay, linear-gradient(135deg, rgba(238, 244, 255, 0.92) 0%, rgba(226, 237, 252, 0.88) 50%, rgba(240, 253, 244, 0.90) 100%));
+    pointer-events: none;
+    transition: background 0.3s ease;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: var(--oefa-portal-max-width, 1920px);
+    margin: 0 auto;
+    padding: 60px 24px;
+    width: 100%;
+
+    .hero-text-col {
+      max-width: 50%;
+
+      @media (max-width: $oefa-bp-lg) {
+        max-width: 70%;
+      }
+
+      @media (max-width: $oefa-bp-md) {
+        max-width: 100%;
+      }
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--oefa-portal-hero-eyebrow, var(--oefa-primary-root, #144AA7));
+      margin-bottom: 16px;
+      transition: color 0.3s ease;
+    }
+
+    .hero-title {
+      font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 0 0 18px 0;
+      color: var(--oefa-portal-hero-title, var(--oefa-text-primary, #1D1D1B));
+      transition: color 0.3s ease;
+
+      .highlight-green,
+      .highlight-accent {
+        color: var(--oefa-primary-root, #144AA7);
+        background: var(--oefa-portal-hero-highlight, linear-gradient(90deg, #144AA7 0%, #007A70 100%));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+
+    .hero-subtitle {
+      font-family: var(--oefa-font-body, 'Inter', sans-serif);
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--oefa-portal-hero-subtitle, var(--oefa-text-secondary, #334155));
+      max-width: 720px;
+      margin: 0 0 32px 0;
+      transition: color 0.3s ease;
+    }
+
+    .hero-stat-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      .stat-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--oefa-portal-hero-pill-bg, rgba(255, 255, 255, 0.85));
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid var(--oefa-portal-hero-pill-border, var(--oefa-border-color, #E2E8F0));
+        padding: 8px 18px;
+        border-radius: var(--oefa-radius-full, 9999px);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--oefa-portal-hero-pill-text, var(--oefa-text-primary, #1D1D1B));
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+        transition: background var(--oefa-duration-short-2, 100ms) var(--oefa-ease-standard),
+                    color 0.3s ease, border-color 0.3s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.98);
+          border-color: var(--oefa-primary-root, #144AA7);
+        }
+
+        .pill-icon {
+          color: var(--oefa-portal-hero-pill-icon, var(--oefa-primary-root, #144AA7));
+          transition: color 0.3s ease;
+        }
+      }
+    }
+  }
+}
+
+/* ==========================================================================
    OEFA DESIGN TOKENS — RESPONSIVE MEDIA QUERIES & BREAKPOINTS
    ========================================================================== */
 
@@ -2267,12 +2589,15 @@ select.table-input,
   &.tab-dot-danger {
     background-color: var(--oefa-danger-500, #EF4444);
   }
+
   &.tab-dot-warning {
     background-color: var(--oefa-warning-500, #F59E0B);
   }
+
   &.tab-dot-primary {
     background-color: var(--oefa-primary-root, #144AA7);
   }
+
   &.tab-dot-success {
     background-color: var(--oefa-success-500, #10B981);
   }
@@ -3064,146 +3389,6 @@ select.table-input,
 }
 
 /* ==========================================================================
-   OEFA ALERT COMPONENT (BANNER & INLINE ALERTS)
-   ========================================================================== */
-.oefa-alert {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 18px;
-  border-radius: var(--oefa-radius-md, 8px);
-  font-size: 0.875rem;
-  line-height: 1.45;
-  box-sizing: border-box;
-  transition: opacity var(--oefa-duration-short-4, 200ms) var(--oefa-ease-standard, ease),
-    transform var(--oefa-duration-short-4, 200ms) var(--oefa-ease-standard, ease);
-  position: relative;
-  border: 1px solid transparent;
-
-  &.bordered {
-    border: 1px solid var(--oefa-border-color);
-  }
-
-  /* 1. Variante INFO */
-  &.alert-info {
-    background-color: var(--oefa-primary-container);
-    color: var(--oefa-primary-on-container);
-
-    &.bordered {
-      border-color: var(--oefa-primary-container-hc);
-    }
-
-    .alert-icon {
-      color: var(--oefa-primary-root);
-    }
-  }
-
-  /* 2. Variante SUCCESS */
-  &.alert-success {
-    background-color: var(--oefa-success-container);
-    color: var(--oefa-success-on-container);
-
-    &.bordered {
-      border-color: var(--oefa-success-container-hc);
-    }
-
-    .alert-icon {
-      color: var(--oefa-success-ui-safe);
-    }
-  }
-
-  /* 3. Variante WARNING */
-  &.alert-warning {
-    background-color: var(--oefa-tertiary-container);
-    color: var(--oefa-tertiary-on-container);
-
-    &.bordered {
-      border-color: var(--oefa-tertiary-container-hc);
-    }
-
-    .alert-icon {
-      color: var(--oefa-tertiary-ui-safe);
-    }
-  }
-
-  /* 4. Variante ERROR */
-  &.alert-error {
-    background-color: var(--oefa-error-container);
-    color: var(--oefa-error-on-container);
-
-    &.bordered {
-      border-color: var(--oefa-error-container-hc);
-    }
-
-    .alert-icon {
-      color: var(--oefa-error-root);
-    }
-  }
-
-  /* 5. Variante NEUTRAL */
-  &.alert-neutral {
-    background-color: var(--oefa-surface-subtle);
-    color: var(--oefa-text-primary);
-
-    &.bordered {
-      border-color: var(--oefa-border-color);
-    }
-
-    .alert-icon {
-      color: var(--oefa-text-secondary);
-    }
-  }
-
-  .alert-icon {
-    flex-shrink: 0;
-    margin-top: 1px;
-    display: flex;
-    align-items: center;
-  }
-
-  .alert-body {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .alert-title {
-    display: block;
-    font-weight: 700;
-    font-family: var(--oefa-font-display, inherit);
-    margin-bottom: 2px;
-  }
-
-  .alert-message {
-    margin: 0;
-  }
-
-  .alert-close-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: currentColor;
-    opacity: 0.6;
-    padding: 2px;
-    margin-left: 8px;
-    margin-top: 1px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    transition: opacity var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
-
-    &:hover {
-      opacity: 1;
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--oefa-focus-ring);
-      outline-offset: 1px;
-    }
-  }
-}
-
-/* ==========================================================================
    OEFA Progress Bar Component (.oefa-progress-bar)
    ========================================================================== */
 .oefa-progress-bar {
@@ -3342,5 +3527,505 @@ select.table-input,
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   OEFA LAYOUT, GRID & CARD SYSTEM (WCAG 2.1 / 2.2 AA COMPLIANT)
+   Elimina la necesidad de CSS local en módulos y vistas.
+   ========================================================================== */
+
+/* 1. Contenedores de Página */
+.oefa-page,
+.oefa-page-container {
+  width: 100%;
+  max-width: var(--oefa-portal-max-width, 1920px);
+  margin-inline: auto;
+  padding: var(--oefa-spacing-xl, 24px);
+  box-sizing: border-box;
+
+  @media (max-width: $oefa-bp-sm) {
+    padding: var(--oefa-spacing-md, 16px);
+  }
+}
+
+.oefa-page-compact {
+  width: 100%;
+  max-width: 1024px;
+  margin-inline: auto;
+  padding: var(--oefa-spacing-xl, 24px);
+  box-sizing: border-box;
+
+  @media (max-width: $oefa-bp-sm) {
+    padding: var(--oefa-spacing-md, 16px);
+  }
+}
+
+.oefa-page-fluid {
+  width: 100%;
+  max-width: none;
+  padding: var(--oefa-spacing-xl, 24px);
+  box-sizing: border-box;
+
+  @media (max-width: $oefa-bp-sm) {
+    padding: var(--oefa-spacing-md, 16px);
+  }
+}
+
+/* 2. Rejillas Directas (CSS Grid Nativo — WCAG 1.4.10 Reflow) */
+.oefa-grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--oefa-spacing-md, 16px);
+}
+
+.oefa-grid-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--oefa-spacing-md, 16px);
+}
+
+.oefa-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--oefa-spacing-md, 16px);
+
+  @media (max-width: $oefa-bp-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.oefa-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--oefa-spacing-md, 16px);
+
+  @media (max-width: $oefa-bp-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $oefa-bp-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.oefa-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--oefa-spacing-md, 16px);
+
+  @media (max-width: $oefa-bp-xl) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: $oefa-bp-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $oefa-bp-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 2.1 Rejilla Estructurada para Formularios (.oefa-form-grid) */
+.oefa-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--oefa-spacing-md, 16px);
+  box-sizing: border-box;
+
+  &.oefa-form-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: $oefa-bp-lg) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: $oefa-bp-sm) {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.oefa-form-col-span-full {
+  grid-column: 1 / -1;
+}
+
+/* 3. Sistema de 12 Columnas Familiar (.oefa-row / .oefa-col-*) */
+.oefa-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-inline: calc(var(--oefa-spacing-md, 16px) * -0.5);
+  row-gap: var(--oefa-spacing-md, 16px);
+  box-sizing: border-box;
+}
+
+[class*="oefa-col-"] {
+  padding-inline: calc(var(--oefa-spacing-md, 16px) * 0.5);
+  box-sizing: border-box;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.oefa-col-1  { flex: 0 0 8.333333%;  max-width: 8.333333%; }
+.oefa-col-2  { flex: 0 0 16.666667%; max-width: 16.666667%; }
+.oefa-col-3  { flex: 0 0 25%;        max-width: 25%; }
+.oefa-col-4  { flex: 0 0 33.333333%; max-width: 33.333333%; }
+.oefa-col-5  { flex: 0 0 41.666667%; max-width: 41.666667%; }
+.oefa-col-6  { flex: 0 0 50%;        max-width: 50%; }
+.oefa-col-7  { flex: 0 0 58.333333%; max-width: 58.333333%; }
+.oefa-col-8  { flex: 0 0 66.666667%; max-width: 66.666667%; }
+.oefa-col-9  { flex: 0 0 75%;        max-width: 75%; }
+.oefa-col-10 { flex: 0 0 83.333333%; max-width: 83.333333%; }
+.oefa-col-11 { flex: 0 0 91.666667%; max-width: 91.666667%; }
+.oefa-col-12 { flex: 0 0 100%;       max-width: 100%; }
+
+@media (min-width: $oefa-bp-sm) {
+  .oefa-col-sm-1  { flex: 0 0 8.333333%;  max-width: 8.333333%; }
+  .oefa-col-sm-2  { flex: 0 0 16.666667%; max-width: 16.666667%; }
+  .oefa-col-sm-3  { flex: 0 0 25%;        max-width: 25%; }
+  .oefa-col-sm-4  { flex: 0 0 33.333333%; max-width: 33.333333%; }
+  .oefa-col-sm-6  { flex: 0 0 50%;        max-width: 50%; }
+  .oefa-col-sm-8  { flex: 0 0 66.666667%; max-width: 66.666667%; }
+  .oefa-col-sm-12 { flex: 0 0 100%;       max-width: 100%; }
+}
+
+@media (min-width: $oefa-bp-md) {
+  .oefa-col-md-1  { flex: 0 0 8.333333%;  max-width: 8.333333%; }
+  .oefa-col-md-2  { flex: 0 0 16.666667%; max-width: 16.666667%; }
+  .oefa-col-md-3  { flex: 0 0 25%;        max-width: 25%; }
+  .oefa-col-md-4  { flex: 0 0 33.333333%; max-width: 33.333333%; }
+  .oefa-col-md-6  { flex: 0 0 50%;        max-width: 50%; }
+  .oefa-col-md-8  { flex: 0 0 66.666667%; max-width: 66.666667%; }
+  .oefa-col-md-9  { flex: 0 0 75%;        max-width: 75%; }
+  .oefa-col-md-12 { flex: 0 0 100%;       max-width: 100%; }
+}
+
+@media (min-width: $oefa-bp-lg) {
+  .oefa-col-lg-1  { flex: 0 0 8.333333%;  max-width: 8.333333%; }
+  .oefa-col-lg-2  { flex: 0 0 16.666667%; max-width: 16.666667%; }
+  .oefa-col-lg-3  { flex: 0 0 25%;        max-width: 25%; }
+  .oefa-col-lg-4  { flex: 0 0 33.333333%; max-width: 33.333333%; }
+  .oefa-col-lg-6  { flex: 0 0 50%;        max-width: 50%; }
+  .oefa-col-lg-8  { flex: 0 0 66.666667%; max-width: 66.666667%; }
+  .oefa-col-lg-9  { flex: 0 0 75%;        max-width: 75%; }
+  .oefa-col-lg-12 { flex: 0 0 100%;       max-width: 100%; }
+}
+
+@media (min-width: $oefa-bp-xl) {
+  .oefa-col-xl-1  { flex: 0 0 8.333333%;  max-width: 8.333333%; }
+  .oefa-col-xl-2  { flex: 0 0 16.666667%; max-width: 16.666667%; }
+  .oefa-col-xl-3  { flex: 0 0 25%;        max-width: 25%; }
+  .oefa-col-xl-4  { flex: 0 0 33.333333%; max-width: 33.333333%; }
+  .oefa-col-xl-6  { flex: 0 0 50%;        max-width: 50%; }
+  .oefa-col-xl-8  { flex: 0 0 66.666667%; max-width: 66.666667%; }
+  .oefa-col-xl-12 { flex: 0 0 100%;       max-width: 100%; }
+}
+
+/* 4. Tarjeta Institucional (.oefa-card) */
+.oefa-card {
+  background-color: var(--oefa-surface-card, #ffffff);
+  border: 1px solid var(--oefa-border-color, #e2e8f0);
+  border-radius: var(--oefa-radius-lg, 16px);
+  padding: var(--oefa-spacing-lg, 20px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--oefa-shadow-sm, 0 1px 3px rgba(15, 23, 42, 0.06));
+  box-sizing: border-box;
+  transition: box-shadow var(--oefa-duration-medium, 300ms) var(--oefa-ease-standard),
+              border-color var(--oefa-duration-medium, 300ms) var(--oefa-ease-standard);
+
+  .oefa-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--oefa-spacing-sm, 12px);
+    margin-bottom: var(--oefa-spacing-md, 16px);
+    padding-bottom: var(--oefa-spacing-sm, 12px);
+    border-bottom: 1px solid var(--oefa-border-color-subtle, #f1f5f9);
+
+    h2, h3, h4 {
+      margin: 0;
+      color: var(--oefa-text-primary, #1d1d1b);
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    .oefa-card-subtitle {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--oefa-text-secondary, #334155);
+    }
+  }
+
+  .oefa-card-body {
+    flex: 1 1 auto;
+    color: var(--oefa-text-primary, #1d1d1b);
+
+    p {
+      margin: 0;
+      color: var(--oefa-text-secondary, #334155);
+    }
+  }
+
+  .oefa-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--oefa-spacing-sm, 12px);
+    margin-top: var(--oefa-spacing-md, 16px);
+    padding-top: var(--oefa-spacing-sm, 12px);
+    border-top: 1px solid var(--oefa-border-color-subtle, #f1f5f9);
+  }
+
+  &.oefa-card-interactive {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: var(--oefa-shadow-md, 0 4px 16px rgba(15, 23, 42, 0.08));
+      border-color: var(--oefa-primary-container-hc, #a4c1f4);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--oefa-focus-ring, #144aa7);
+      outline-offset: 2px;
+    }
+  }
+}
+
+/* 5. Utilidades Rápidas de Flex, Stack y Espaciado */
+.oefa-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--oefa-spacing-md, 16px);
+}
+
+.oefa-stack-sm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--oefa-spacing-sm, 12px);
+}
+
+.oefa-stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--oefa-spacing-xl, 24px);
+}
+
+.oefa-flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--oefa-spacing-md, 16px);
+  flex-wrap: wrap;
+}
+
+.oefa-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--oefa-spacing-md, 16px);
+}
+
+.oefa-gap-xs { gap: var(--oefa-spacing-xs, 8px) !important; }
+.oefa-gap-sm { gap: var(--oefa-spacing-sm, 12px) !important; }
+.oefa-gap-md { gap: var(--oefa-spacing-md, 16px) !important; }
+.oefa-gap-lg { gap: var(--oefa-spacing-xl, 24px) !important; }
+
+.oefa-mt-xs { margin-top: var(--oefa-spacing-xs, 8px) !important; }
+.oefa-mt-sm { margin-top: var(--oefa-spacing-sm, 12px) !important; }
+.oefa-mt-md { margin-top: var(--oefa-spacing-md, 16px) !important; }
+.oefa-mt-lg { margin-top: var(--oefa-spacing-xl, 24px) !important; }
+
+.oefa-mb-xs { margin-bottom: var(--oefa-spacing-xs, 8px) !important; }
+.oefa-mb-sm { margin-bottom: var(--oefa-spacing-sm, 12px) !important; }
+.oefa-mb-md { margin-bottom: var(--oefa-spacing-md, 16px) !important; }
+.oefa-mb-lg { margin-bottom: var(--oefa-spacing-xl, 24px) !important; }
+
+/* 6. Utilidades Flexbox y Alineación Avanzada */
+.oefa-justify-start   { justify-content: flex-start !important; }
+.oefa-justify-center  { justify-content: center !important; }
+.oefa-justify-end     { justify-content: flex-end !important; }
+.oefa-justify-between { justify-content: space-between !important; }
+
+.oefa-align-start     { align-items: flex-start !important; }
+.oefa-align-center    { align-items: center !important; }
+.oefa-align-end       { align-items: flex-end !important; }
+
+.oefa-flex-wrap       { flex-wrap: wrap !important; }
+.oefa-flex-nowrap     { flex-wrap: nowrap !important; }
+.oefa-flex-1          { flex: 1 1 0% !important; }
+
+/* 7. Visibilidad y Ocultamiento Responsivo */
+.oefa-hide-sm {
+  @media (max-width: ($oefa-bp-sm - 1px)) {
+    display: none !important;
+  }
+}
+
+.oefa-hide-md {
+  @media (max-width: ($oefa-bp-md - 1px)) {
+    display: none !important;
+  }
+}
+
+.oefa-only-sm {
+  @media (min-width: $oefa-bp-sm) {
+    display: none !important;
+  }
+}
+
+.oefa-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* 8. Tipografía y Helpers de Texto */
+.oefa-text-truncate {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.oefa-text-left   { text-align: left !important; }
+.oefa-text-center { text-align: center !important; }
+.oefa-text-right  { text-align: right !important; }
+
+.oefa-text-muted   { color: var(--oefa-text-muted, #475569) !important; }
+.oefa-text-danger  { color: var(--oefa-error-root, #e51a2f) !important; }
+.oefa-text-success { color: var(--oefa-success-ui-safe, #578221) !important; }
+
+/* 9. Divisores y Separadores Visuales */
+.oefa-divider {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--oefa-border-color, #e2e8f0);
+  border: none;
+  margin: var(--oefa-spacing-md, 16px) 0;
+}
+
+.oefa-divider-vertical {
+  display: inline-block;
+  align-self: stretch;
+  width: 1px;
+  min-height: 1rem;
+  background-color: var(--oefa-border-color, #e2e8f0);
+  border: none;
+  margin: 0 var(--oefa-spacing-sm, 12px);
+}
+
+.oefa-divider-text {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: var(--oefa-spacing-md, 16px) 0;
+  color: var(--oefa-text-muted, #475569);
+  font-size: 0.8125rem;
+  font-weight: 500;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--oefa-border-color, #e2e8f0);
+  }
+
+  &:not(:empty)::before {
+    margin-right: var(--oefa-spacing-sm, 12px);
+  }
+
+  &:not(:empty)::after {
+    margin-left: var(--oefa-spacing-sm, 12px);
+  }
+}
+
+/* 10. Barra de Acciones Inferior Fija (.oefa-sticky-bar) */
+.oefa-sticky-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--oefa-spacing-sm, 12px);
+  padding: var(--oefa-spacing-md, 16px) var(--oefa-spacing-xl, 24px);
+  background: var(--oefa-surface-card, #ffffff);
+  border-top: 1px solid var(--oefa-border-color, #e2e8f0);
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.06);
+  margin-top: var(--oefa-spacing-xl, 24px);
+  min-height: var(--oefa-touch-target, 44px);
+  box-sizing: border-box;
+
+  @media (max-width: $oefa-bp-sm) {
+    padding: var(--oefa-spacing-sm, 12px);
+    flex-direction: column-reverse;
+    align-items: stretch;
+
+    button,
+    .oefa-btn {
+      width: 100%;
+      min-height: var(--oefa-touch-target, 44px);
+    }
+  }
+}
+
+
+
+/* ==========================================================================
+   OEFA PRINT STYLES (LIMPIEZA DE SHELL PARA EXPORTACIÓN A PDF)
+   ========================================================================== */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+  }
+
+  app-header,
+  app-sidebar-rail,
+  app-submenu-panel,
+  app-mobile-nav-drawer,
+  .mobile-sidebar-backdrop,
+  .no-print {
+    display: none !important;
+  }
+
+  body, html {
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+  }
+
+  .oefa-app-layout,
+  .app-body,
+  .workspace-main,
+  .workspace-card {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    display: block !important;
+    position: static !important;
   }
 }

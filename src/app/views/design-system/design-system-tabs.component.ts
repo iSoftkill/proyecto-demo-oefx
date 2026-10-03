@@ -1,12 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OefaTabsComponent, OefaTabItem } from '../../shared/components/tabs/tabs.component';
-import { OefaInfoTooltipComponent } from '../../shared/components/info-tooltip/info-tooltip.component';
 
 @Component({
   selector: 'app-design-system-tabs',
   standalone: true,
-  imports: [CommonModule, OefaTabsComponent, OefaInfoTooltipComponent],
+  imports: [CommonModule, OefaTabsComponent],
   template: `
     <div class="ds-container">
       <div class="ds-header">
@@ -116,62 +115,11 @@ import { OefaInfoTooltipComponent } from '../../shared/components/info-tooltip/i
         </div>
       </div>
 
-      <!-- Tarjeta 4: Átomo Reutilizable <oefa-info-tooltip> -->
+      <!-- Tarjeta 4: Especificación de Uso y API -->
       <div class="card ds-card">
         <div class="card-header">
-          <h3>4. Átomo Reutilizable de Información (&lt;oefa-info-tooltip&gt;)</h3>
-          <span class="text-muted">Microcomponente institucional independiente para insertar tooltips de ayuda contextual en cualquier formulario, cabecera o tarjeta.</span>
-        </div>
-        <div class="card-body">
-          <div class="tooltip-demo-grid">
-            <div class="tooltip-sample-item">
-              <span class="sample-label">Posición Arriba (Default):</span>
-              <div class="sample-target">
-                <span>Plazo LPAG</span>
-                <oefa-info-tooltip text="Plazo legal máximo de 30 días hábiles para pronunciamiento." position="top"></oefa-info-tooltip>
-              </div>
-            </div>
-
-            <div class="tooltip-sample-item">
-              <span class="sample-label">Posición Abajo:</span>
-              <div class="sample-target">
-                <span>Retención 10%</span>
-                <oefa-info-tooltip text="Garantía de fiel cumplimiento para contrataciones de servicios." position="bottom"></oefa-info-tooltip>
-              </div>
-            </div>
-
-            <div class="tooltip-sample-item">
-              <span class="sample-label">Posición Derecha:</span>
-              <div class="sample-target">
-                <span>Devengado SIAF</span>
-                <oefa-info-tooltip text="Fase de pago con registro SIAF confirmado." position="right"></oefa-info-tooltip>
-              </div>
-            </div>
-
-            <div class="tooltip-sample-item">
-              <span class="sample-label">Tamaño Mediano (size="md"):</span>
-              <div class="sample-target">
-                <strong>Expediente SIGED</strong>
-                <oefa-info-tooltip text="Código único de trámite documentario institucional del OEFA." position="top" size="md"></oefa-info-tooltip>
-              </div>
-            </div>
-
-            <div class="tooltip-sample-item overflow-test-box">
-              <span class="sample-label">Antirrecorte (overflow: hidden):</span>
-              <div class="sample-target">
-                <span class="badge-test">Caja con Overflow</span>
-                <oefa-info-tooltip text="¡Este tooltip flota sobre el body y jamás se corta por contenedores con scroll o overflow!" position="top"></oefa-info-tooltip>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tarjeta 5: Especificación de Uso -->
-      <div class="card ds-card">
-        <div class="card-header">
-          <h3>5. Especificación de Uso y API</h3>
-          <span class="text-muted">Consumo directo mediante array de configuración tipado <code>OefaTabItem[]</code> y componente <code>&lt;oefa-info-tooltip&gt;</code>.</span>
+          <h3>4. Especificación de Uso y API</h3>
+          <span class="text-muted">Consumo directo mediante array de configuración tipado <code>OefaTabItem[]</code> con soporte integrado de iconos, badges y tooltips.</span>
         </div>
         <div class="card-body">
           <pre class="code-block">&lt;!-- Pestañas con Icono, Badges y Tooltips --&gt;
@@ -192,14 +140,7 @@ import { OefaInfoTooltipComponent } from '../../shared/components/info-tooltip/i
     &#123; id: 'adendas', label: 'Adendas', badge: 1 &#125;
   ]"
   [(activeTab)]="selectedTab"&gt;
-&lt;/oefa-tabs&gt;
-
-&lt;!-- Uso Independiente de &lt;oefa-info-tooltip&gt; --&gt;
-&lt;oefa-info-tooltip
-  text="Mensaje explicativo con respuesta en 150ms"
-  position="top"
-  size="sm"&gt;
-&lt;/oefa-info-tooltip&gt;</pre>
+&lt;/oefa-tabs&gt;</pre>
         </div>
       </div>
     </div>

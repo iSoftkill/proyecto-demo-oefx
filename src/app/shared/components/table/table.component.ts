@@ -28,7 +28,7 @@ export type TableDensity = 'default' | 'compact' | 'comfortable';
   standalone: true,
   imports: [CommonModule, OefaSkeletonComponent, OefaEmptyStateComponent, OefaStatusBadgeComponent],
   templateUrl: './table.component.html',
-  styleUrl: './table.component.css'
+  styleUrl: './table.component.scss'
 })
 export class OefaTableComponent {
   @Input({ required: true }) columns: TableColumn[] = [];

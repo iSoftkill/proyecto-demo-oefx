@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.oefa-accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+
+  &.gap-sm {
+    gap: var(--oefa-spacing-sm, 12px);
+  }
+
+  &.gap-md {
+    gap: var(--oefa-spacing-md, 16px);
+  }
+
+  &.gap-lg {
+    gap: var(--oefa-spacing-xl, 24px);
+  }
+
+  &.gap-none {
+    gap: 0;
+
+    ::ng-deep oefa-collapsible:not(:last-child) .oefa-collapsible {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom: none;
+    }
+
+    ::ng-deep oefa-collapsible:not(:first-child) .oefa-collapsible {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+<button
+  type="button"
+  [ngClass]="[variantClass, sizeClass]"
+  [disabled]="disabled"
+  [title]="title"
+  [attr.aria-label]="ariaLabel || title || null"
+  (click)="handleClick($event)">
+  <ng-content>
+    <!-- Contenido por defecto para variant=close y kebab -->
+    @if (variant === 'close') { <oefa-icon name="close" [size]="iconSize"/> }
+    @if (variant === 'kebab') { <oefa-icon name="kebab" [size]="iconSize"/> }
+  </ng-content>
+</button>

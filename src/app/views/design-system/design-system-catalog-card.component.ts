@@ -30,7 +30,7 @@ import { OefaCatalogCardComponent, CatalogChipConfig } from '../../shared/compon
               description="Monitoreo de obligaciones ambientales y fiscalización de unidades mineras en mediana y gran minería."
               [chips]="[{ variant: 'project', label: 'PRY-2024' }]"
               [tags]="['Minería', 'Operativo']"
-              status="EN_PROCESO"
+
               type="Misional • Minería"
               color="var(--oefa-primary-root)"
               bgTint="var(--oefa-primary-container)"
@@ -90,6 +90,45 @@ import { OefaCatalogCardComponent, CatalogChipConfig } from '../../shared/compon
               updatedAt="Hace 1h"
               (cardClick)="onSelectCard('Planeamiento Operativo POI')"
               (actionClick)="onActionCard('Planeamiento Operativo POI')"
+            />
+          </div>
+
+          <!-- Muestra Comparativa de Alineación -->
+          <h4 style="margin: 28px 0 12px 0; font-size: 0.95rem; font-family: var(--oefa-font-display); color: var(--oefa-text-primary);">
+            Muestra Comparativa (Con Estado vs Sin Estado):
+          </h4>
+          <div class="catalog-grid">
+            <oefa-catalog-card
+              icon="pickaxe"
+              title="Supervisión en Minería"
+              description="Monitoreo de obligaciones ambientales y fiscalización de unidades mineras en mediana y gran minería."
+              [chips]="[{ variant: 'project', label: 'PRY-2024' }]"
+              [tags]="['Minería', 'Operativo']"
+              status="EN_PROCESO"
+              type="Misional • Minería"
+              color="var(--oefa-primary-root)"
+              bgTint="var(--oefa-primary-container)"
+              activityType="sparkline"
+              activityLabel="Uso semanal"
+              updatedAt="Hace 10 min"
+              (cardClick)="onSelectCard('Supervisión en Minería')"
+              (actionClick)="onActionCard('Supervisión en Minería')"
+            />
+
+            <oefa-catalog-card
+              icon="waves"
+              title="Calidad de Cuerpos de Agua"
+              description="Evaluación de parámetros físico-químicos en cuencas hidrográficas con sensores telemétricos."
+              [chips]="[{ variant: 'area', label: 'DEAM' }]"
+              [tags]="['IoT', 'Cuencas']"
+              type="Monitoreo • Ambiental"
+              color="var(--oefa-secondary-ui-safe)"
+              bgTint="var(--oefa-secondary-container)"
+              activityType="bar"
+              activityLabel="Transmisión 98%"
+              updatedAt="Hace 25 min"
+              (cardClick)="onSelectCard('Calidad de Cuerpos de Agua')"
+              (actionClick)="onActionCard('Calidad de Cuerpos de Agua')"
             />
           </div>
 
@@ -170,7 +209,7 @@ import { OefaCatalogCardComponent, CatalogChipConfig } from '../../shared/compon
     }
     .catalog-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
     }
     .feedback-alert {

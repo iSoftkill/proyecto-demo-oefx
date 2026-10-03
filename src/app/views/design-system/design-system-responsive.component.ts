@@ -1,11 +1,12 @@
 import { Component, HostListener, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OefaAlertComponent } from '../../shared/components/alert/alert.component';
+import { OefaCardComponent } from '../../shared/components/card/card.component';
 
 @Component({
   selector: 'app-design-system-responsive',
   standalone: true,
-  imports: [CommonModule, OefaAlertComponent],
+  imports: [CommonModule, OefaAlertComponent, OefaCardComponent],
   template: `
     <div class="ds-container">
       <div class="ds-header">
@@ -81,11 +82,60 @@ import { OefaAlertComponent } from '../../shared/components/alert/alert.componen
         </div>
       </div>
 
-      <!-- Sección 2: Reglas de Adaptación por Componente -->
+      <!-- Sección 2: Sistema de Layout y Rejillas Globales (Zero CSS Local) -->
       <div class="card ds-card">
         <div class="card-header">
           <div>
-            <h3>2. Reglas de Adaptación Responsiva de Componentes Clave</h3>
+            <h3>2. Sistema Global de Layouts y Grillas (.oefa-page / .oefa-grid-*)</h3>
+            <span class="text-muted">Estructuras listas para usar en HTML sin escribir CSS local. 100% compatibles con WCAG 2.1 / 2.2 AA (Reflow).</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p style="margin-top: 0; color: var(--oefa-text-secondary); font-size: 0.875rem;">
+            Ejemplo en vivo: Rejilla adaptativa <code>.oefa-grid-auto</code> y tarjetas institucionales <code>&lt;oefa-card&gt;</code>:
+          </p>
+
+          <div class="oefa-grid-auto" style="margin-bottom: 24px;">
+            <oefa-card title="Módulo Fiscalización" subtitle="OEFA Digital">
+              <p>Tarjeta integrada con slots y directrices institucionales.</p>
+              <div card-footer>
+                <span style="font-size: 0.75rem; color: var(--oefa-text-muted);">Actualizado hoy</span>
+              </div>
+            </oefa-card>
+
+            <oefa-card title="Monitoreo Ambiental" subtitle="GIS & Sensores">
+              <p>Se adapta a la columna y colapsa de forma fluida a móviles.</p>
+              <div card-footer>
+                <span style="font-size: 0.75rem; color: var(--oefa-success-ui-safe); font-weight: 600;">En línea</span>
+              </div>
+            </oefa-card>
+
+            <oefa-card title="Mesa de Partes" subtitle="Trámites SIGED" [interactive]="true">
+              <p>Tarjeta interactiva con foco accesible por teclado (WCAG 2.4.13).</p>
+              <div card-footer>
+                <span style="font-size: 0.75rem; color: var(--oefa-primary-root); font-weight: 600;">Click/Enter</span>
+              </div>
+            </oefa-card>
+          </div>
+
+          <div class="code-preview" style="background: var(--oefa-surface-subtle); padding: 16px; border-radius: var(--oefa-radius-md); border: 1px solid var(--oefa-border-color); font-family: monospace; font-size: 0.8125rem; overflow-x: auto;">
+            <span style="color: var(--oefa-primary-root); font-weight: 600;">&lt;!-- Uso en cualquier vista sin tocar .css --&gt;</span><br>
+            &lt;div class="oefa-page"&gt;<br>
+            &nbsp;&nbsp;&lt;oefa-page-header title="Mi Módulo" /&gt;<br>
+            &nbsp;&nbsp;&lt;div class="oefa-grid-auto"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;oefa-card title="Tarjeta 1"&gt;...&lt;/oefa-card&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;oefa-card title="Tarjeta 2"&gt;...&lt;/oefa-card&gt;<br>
+            &nbsp;&nbsp;&lt;/div&gt;<br>
+            &lt;/div&gt;
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 3: Reglas de Adaptación por Componente -->
+      <div class="card ds-card">
+        <div class="card-header">
+          <div>
+            <h3>3. Reglas de Adaptación Responsiva de Componentes Clave</h3>
             <span class="text-muted">Directrices obligatorias de transformación para garantizar continuidad de experiencia.</span>
           </div>
         </div>

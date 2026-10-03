@@ -18,53 +18,8 @@ export type ProgressBarSize = 'sm' | 'md' | 'lg';
   selector: 'oefa-progress-bar',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div
-      class="oefa-progress-bar"
-      [ngClass]="['variant-' + variant, 'size-' + size]"
-      role="progressbar"
-      [attr.aria-valuenow]="clampedValue"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      [attr.aria-label]="ariaLabelText">
-      @if (label || subtext || showValueText) {
-        <div class="progress-bar-header">
-          @if (label) {
-            <span class="progress-bar-label">{{ label }}</span>
-          }
-          <div class="progress-bar-right-info">
-            @if (showValueText) {
-              <span class="progress-bar-value-text">{{ clampedValue }}%</span>
-            }
-            @if (subtext) {
-              <span class="progress-bar-subtext">{{ subtext }}</span>
-            }
-          </div>
-        </div>
-      }
-
-      <div class="progress-bar-track">
-        <div class="progress-bar-fill" [style.width.%]="clampedValue"></div>
-      </div>
-    </div>
-  `,
-  styles: [`
-    :host {
-      display: block;
-      width: 100%;
-    }
-    .progress-bar-right-info {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-left: auto;
-    }
-    .progress-bar-value-text {
-      font-weight: 700;
-      color: var(--oefa-text-primary, #0f172a);
-      font-size: 0.8125rem;
-    }
-  `]
+  templateUrl: './progress-bar.component.html',
+  styleUrls: ['./progress-bar.component.scss']
 })
 export class OefaProgressBarComponent {
   @Input() value: number = 0;

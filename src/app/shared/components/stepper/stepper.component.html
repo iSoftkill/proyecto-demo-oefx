@@ -1,0 +1,79 @@
+<div
+  class="step-wizard"
+  [class.stepper-vertical]="orientation === 'vertical'"
+  [class.stepper-horizontal]="orientation === 'horizontal'"
+  role="navigation"
+  aria-label="Progreso del asistente"
+>
+  <!-- Contenedor principal de pasos -->
+  <ol class="steps-track" role="list">
+    @for (step of steps; track $index; let i = $index; let last = $last) {
+      <li class="step-wrapper" [class.last-step]="last">
+        <!-- Botón o Fila del Paso con soporte de accesibilidad por teclado -->
+        <div
+          class="step-item"
+          [class.active]="currentStep === i + 1"
+          [class.completed]="currentStep > i + 1"
+          [class.clickable]="clickable && !step.disabled"
+          [attr.tabindex]="clickable && !step.disabled ? 0 : null"
+          [attr.role]="clickable ? 'button' : null"
+          [attr.aria-disabled]="step.disabled ? true : null"
+          [attr.aria-label]="'Paso ' + (i + 1) + ': ' + step.title + (currentStep === i + 1 ? ' (Paso actual)' : currentStep > i + 1 ? ' (Completado)' : '')"
+          (click)="onStepClick(i + 1, step.disabled)"
+          (keydown.enter)="onStepClick(i + 1, step.disabled)"
+          (keydown.space)="$event.preventDefault(); onStepClick(i + 1, step.disabled)"
+        >
+          <div class="step-circle" [attr.aria-current]="currentStep === i + 1 ? 'step' : null">
+            @if (currentStep > i + 1) {
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span class="sr-only">Completado</span>
+            } @else {
+              <span aria-hidden="true">{{ i + 1 }}</span>
+            }
+          </div>
+          <div class="step-info" aria-hidden="true">
+            <span class="step-title">{{ step.title }}</span>
+            @if (step.description) {
+              <span class="step-desc">{{ step.description }}</span>
+            }
+          </div>
+        </div>
+
+        <!-- Línea conectora entre pasos -->
+        @if (!last) {
+          <div
+            class="step-line"
+            [class.completed]="currentStep > i + 1"
+            aria-hidden="true"
+          ></div>
+        }
+      </li>
+    }
+  </ol>
+
+  <!-- En Móvil (<=640px) y Horizontal: Cuadro de diálogo/burbuja con flecha dinámica -->
+  @if (orientation === 'horizontal' && steps.length > 0 && currentStep >= 1 && currentStep <= steps.length) {
+    <div
+      class="mobile-speech-bubble"
+      role="status"
+      aria-live="polite"
+    >
+      <!-- Flecha indicadora dinámica alineada con el paso activo -->
+      <div
+        class="bubble-arrow"
+        [style.left]="getArrowPositionPercentage()"
+        aria-hidden="true"
+      ></div>
+
+      <div class="bubble-content">
+        <span class="bubble-badge">PASO {{ currentStep }} DE {{ steps.length }}</span>
+        <h4 class="bubble-title">{{ steps[currentStep - 1].title }}</h4>
+        @if (steps[currentStep - 1].description) {
+          <p class="bubble-desc">{{ steps[currentStep - 1].description }}</p>
+        }
+      </div>
+    </div>
+  }
+</div>

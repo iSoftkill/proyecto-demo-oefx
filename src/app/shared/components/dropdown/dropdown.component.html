@@ -1,0 +1,15 @@
+<div class="dropdown-container">
+  <div class="dropdown-trigger" (click)="toggle()">
+    <ng-content select="[trigger]" />
+  </div>
+
+  @if (isOpen) {
+    <div 
+      class="dropdown-menu"
+      [ngClass]="'align-' + align"
+      [ngStyle]="fixedPosition ? menuStyles() : null"
+      (click)="handleMenuClick($event)">
+      <ng-content select="[menu]" />
+    </div>
+  }
+</div>

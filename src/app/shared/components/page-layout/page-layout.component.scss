@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.oefa-page-layout-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  box-sizing: border-box;
+
+  &.oefa-page-fit {
+    overflow: hidden;
+    padding: 0 !important;
+  }
+}
+
+.oefa-page-layout-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+
+  &.fit {
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,232 @@
+<!-- Backdrop para Mobile Bottom Sheet -->
+@if (isOpenMobile) {
+  <div class="fs-backdrop" (click)="onCloseMobile()" aria-hidden="true"></div>
+}
+
+<aside
+  class="filter-sidebar"
+  [class.mobile-open]="isOpenMobile"
+  role="region"
+  [attr.aria-label]="title"
+>
+  <!-- Barra de arrastre exclusiva de Mobile Bottom Sheet -->
+  <div class="fs-sheet-handle-bar" (click)="onCloseMobile()" aria-hidden="true">
+    <span class="fs-sheet-handle"></span>
+  </div>
+
+  <!-- Header del Sidebar -->
+  <div class="fs-header">
+    <div class="fs-title-col">
+      <span class="fs-title">{{ title }}</span>
+      <span class="fs-subtitle">{{ activeCount }} criterios activos</span>
+    </div>
+    <div class="fs-header-actions">
+      <button type="button" class="fs-clear-btn" (click)="onClear()">Limpiar todo</button>
+      <button
+        type="button"
+        class="fs-close-sheet-btn"
+        (click)="onCloseMobile()"
+        aria-label="Cerrar filtros"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <!-- Cuerpo Scrolleable con Secciones de Filtro -->
+  <div class="fs-scrollable-body">
+    <!-- 1. Filtro Rápido por Estado -->
+    @if (statusOptions && statusOptions.length > 0) {
+      <div class="fs-group">
+        <div class="fs-section-title-wrap">
+          <span class="fs-group-label">{{ statusTitle }}</span>
+        </div>
+        <div class="fs-chips-group" role="group" aria-label="Filtrar por estado">
+          @for (st of statusOptions; track st.value) {
+            <button
+              type="button"
+              class="fs-filter-chip"
+              [class.active]="selectedStatus === st.value"
+              (click)="onStatusSelect(st.value)"
+              [attr.aria-pressed]="selectedStatus === st.value"
+            >
+              @if (st.value !== 'TODOS') {
+                <span class="fs-chip-dot" [class]="'dot-' + st.value"></span>
+              }
+              {{ st.label }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- 2. Rango de Fechas -->
+    @if (showDateRange) {
+      <div class="fs-group">
+        <div class="fs-section-title-wrap">
+          <span class="fs-group-label">Periodo / Rango de Fechas</span>
+        </div>
+        <div class="fs-date-range-stack">
+          <oefa-date-picker
+            label="Desde"
+            placeholder="DD/MM/AAAA"
+            [ngModel]="dateFrom"
+            (ngModelChange)="dateFromChange.emit($event)"
+          />
+          <oefa-date-picker
+            label="Hasta"
+            placeholder="DD/MM/AAAA"
+            [ngModel]="dateTo"
+            (ngModelChange)="dateToChange.emit($event)"
+          />
+        </div>
+      </div>
+    }
+
+    <!-- 3. Rango Numérico (Monto / UIT) -->
+    @if (showAmountRange) {
+      <div class="fs-group">
+        <div class="fs-section-title-wrap">
+          <span class="fs-group-label">Monto de Sanción / Multa</span>
+          <span class="fs-range-tag">{{ amountUnit }}</span>
+        </div>
+        <div class="fs-range-inputs">
+          <div class="fs-range-col">
+            <span class="fs-unit-prefix">Min</span>
+            <input
+              type="number"
+              class="fs-num-input"
+              placeholder="0"
+              [ngModel]="amountMin"
+              (ngModelChange)="amountMinChange.emit($event)"
+            />
+          </div>
+          <span class="fs-range-sep">—</span>
+          <div class="fs-range-col">
+            <span class="fs-unit-prefix">Max</span>
+            <input
+              type="number"
+              class="fs-num-input"
+              placeholder="5000"
+              [ngModel]="amountMax"
+              (ngModelChange)="amountMaxChange.emit($event)"
+            />
+          </div>
+        </div>
+        <div class="fs-slider-wrap">
+          <input
+            type="range"
+            class="fs-dual-slider"
+            min="0"
+            max="1000"
+            [ngModel]="amountMax || 1000"
+            (ngModelChange)="amountMaxChange.emit($event)"
+          />
+        </div>
+      </div>
+    }
+
+    <!-- 4. Grupos Facetados Desplegables -->
+    @for (group of filterGroups; track group.label; let gi = $index) {
+      <div class="fs-group">
+        <button
+          type="button"
+          class="fs-group-header"
+          (click)="onToggleGroup(gi)"
+          [attr.aria-expanded]="group.open"
+        >
+          <span class="fs-group-label">{{ group.label }}</span>
+          <svg
+            class="fs-chevron"
+            [class.open]="group.open"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        @if (group.open) {
+          @if (gi === 0 && showFacetSearch) {
+            <div class="fs-search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input
+                type="text"
+                class="fs-search-input"
+                [placeholder]="searchPlaceholder"
+                [ngModel]="searchQuery"
+                (ngModelChange)="onSearchChange($event)"
+              />
+            </div>
+          }
+
+          <div class="fs-group-options">
+            @for (opt of getFilteredOptions(group, gi); track opt.label; let oi = $index) {
+              <label class="fs-option">
+                <input
+                  type="checkbox"
+                  [checked]="opt.checked"
+                  (change)="onOptionToggle(gi, oi, $event)"
+                  class="fs-checkbox"
+                />
+                <span class="fs-option-label">{{ opt.label }}</span>
+                <span class="fs-option-count">{{ opt.count }}</span>
+              </label>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- 5. Toggles Booleanos / Condiciones Especiales -->
+    @if (showSpecialConditions) {
+      <div class="fs-group">
+        <div class="fs-section-title-wrap">
+          <span class="fs-group-label">{{ specialConditionsTitle }}</span>
+        </div>
+        <div class="fs-toggles-list">
+          <label class="fs-toggle-row">
+            <span class="fs-toggle-text">{{ flagMedidasLabel }}</span>
+            <div class="oefa-switch-wrap">
+              <input
+                type="checkbox"
+                class="oefa-switch-input"
+                [ngModel]="flagMedidas"
+                (ngModelChange)="flagMedidasChange.emit($event)"
+              />
+              <span class="oefa-switch-slider"></span>
+            </div>
+          </label>
+          <label class="fs-toggle-row">
+            <span class="fs-toggle-text">{{ flagAlertasLabel }}</span>
+            <div class="oefa-switch-wrap">
+              <input
+                type="checkbox"
+                class="oefa-switch-input"
+                [ngModel]="flagAlertas"
+                (ngModelChange)="flagAlertasChange.emit($event)"
+              />
+              <span class="oefa-switch-slider"></span>
+            </div>
+          </label>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Footer Sticky de Acciones -->
+  <div class="fs-sticky-footer">
+    <oefa-button variant="primary" size="sm" style="flex: 1;" (clicked)="onApply()">
+      Aplicar ({{ activeCount }})
+    </oefa-button>
+    <oefa-button variant="secondary" size="sm" (clicked)="onClear()">
+      Limpiar
+    </oefa-button>
+  </div>
+</aside>

@@ -52,19 +52,52 @@ import { OefaSegmentedSwitchComponent, SegmentedOption } from '../../shared/comp
         </div>
       </div>
 
-      <!-- Tarjeta 3: Código de Integración -->
+      <!-- Tarjeta 3: Conmutador con Notificaciones, Badges y Tooltips -->
       <div class="card ds-card">
         <div class="card-header">
-          <h3>3. Especificación de Uso</h3>
-          <span class="text-muted">Importación y vinculación bidireccional vía signal o ngModel.</span>
+          <h3>3. Indicadores de Alerta, Badges e Información Contextual (Tooltip)</h3>
+          <span class="text-muted">Integra 'dotBadge: true', 'badge' numérico y 'tooltip' reutilizando &lt;oefa-info-tooltip&gt; con popover al hover.</span>
         </div>
         <div class="card-body">
-          <pre class="code-block"><code>&lt;oefa-segmented-switch
+          <div class="demo-switch-row">
+            <oefa-segmented-switch
+              [options]="badgeOptions"
+              [(selected)]="selectedNotificationTab" />
+          </div>
+          <div class="result-box">
+            <span>Pestaña activa: <strong>{{ selectedNotificationTab() }}</strong> (Pasa el cursor por el ícono (ℹ) para ver el mensaje contextual)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 4: Código y Especificación de Uso -->
+      <div class="card ds-card">
+        <div class="card-header">
+          <h3>4. Especificación Técnica de Uso</h3>
+          <span class="text-muted">Parámetros de configuración del componente &lt;oefa-segmented-switch&gt; y la interfaz SegmentedOption.</span>
+        </div>
+        <div class="card-body">
+          <pre class="code-block"><code>// Interfaz TypeScript:
+export interface SegmentedOption&lt;T = any&gt; &#123;
+  value: T;                                      // Identificador único
+  label: string;                                 // Texto de la opción
+  icon?: string;                                 // Ícono SVG inline opcional
+  badge?: string | number;                       // Contador numérico o etiqueta (ej. 12, 'Nuevo')
+  dotBadge?: boolean;                            // Punto indicador de atención/novedad (Rojo institucional)
+  dotColor?: string;                             // Color opcional para el dot (defecto: var(--oefa-danger))
+  tooltip?: string;                              // Texto descriptivo para el ícono de información (ℹ)
+  tooltipPosition?: 'top'|'bottom'|'left'|'right'; // Posición del tooltip emergente (defecto: 'top')
+  disabled?: boolean;                            // Deshabilitar opción
+&#125;
+
+// Uso en Plantilla HTML:
+&lt;oefa-segmented-switch
   [options]="[
-    &#123; value: 'orders', label: 'Vista Órdenes' &#125;,
-    &#123; value: 'matrix', label: 'Matriz Excel' &#125;
+    &#123; value: 'todos', label: 'Todos' &#125;,
+    &#123; value: 'pendientes', label: 'Pendientes', dotBadge: true, tooltip: '3 órdenes requieren su firma digital' &#125;,
+    &#123; value: 'observados', label: 'Observaciones', badge: 3, tooltip: 'Órdenes con subsanación técnica' &#125;
   ]"
-  [(selected)]="currentView" /&gt;</code></pre>
+  [(selected)]="currentTab" /&gt;</code></pre>
         </div>
       </div>
     </div>
@@ -101,24 +134,43 @@ import { OefaSegmentedSwitchComponent, SegmentedOption } from '../../shared/comp
 export class DesignSystemSegmentedSwitchComponent {
   selectedView = signal<string>('orders');
   selectedType = signal<string>('mensual');
+  selectedNotificationTab = signal<string>('pendientes');
 
   viewOptions: SegmentedOption[] = [
     {
       value: 'orders',
       label: 'Vista por Órdenes',
       icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>',
-      badge: 24
+      badge: 24,
+      tooltip: 'Listado consolidado de expedientes de órdenes de servicio'
     },
     {
       value: 'matrix',
       label: 'Matriz de Entregables',
-      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>'
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>',
+      tooltip: 'Vista en cuadrícula tipo hoja de cálculo para entregables'
     }
   ];
 
   typeOptions: SegmentedOption[] = [
     { value: 'mensual', label: 'Mensual' },
-    { value: 'hito', label: 'Por Hitos', badge: 'Nuevo' },
+    { value: 'hito', label: 'Por Hitos', badge: 'Nuevo', tooltip: 'Pago asociado a la conformidad de hitos definidos' },
     { value: 'unico', label: 'Pago Único' }
+  ];
+
+  badgeOptions: SegmentedOption[] = [
+    { value: 'todos', label: 'Todos los Trámites' },
+    { 
+      value: 'pendientes', 
+      label: 'Requiere Acción', 
+      dotBadge: true,
+      tooltip: 'Existen 3 órdenes que requieren su firma o validación inmediata' 
+    },
+    { 
+      value: 'observados', 
+      label: 'Observaciones', 
+      badge: 3,
+      tooltip: 'Entregables observados con plazo de subsanación vigente' 
+    }
   ];
 }

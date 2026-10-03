@@ -157,7 +157,9 @@
           "input": "#FFFFFF",
           "border": "#E2E8F0",
           "borderSubtle": "#F1F5F9",
-          "loginOverlay": "rgba(0, 0, 0, 0.55)"
+          "loginOverlay": "rgba(0, 0, 0, 0.55)",
+          "portalHeroBg": "linear-gradient(135deg, #EEF4FF 0%, #E2EDFC 50%, #F0FDF4 100%)",
+          "portalHeroOverlay": "linear-gradient(135deg, rgba(238, 244, 255, 0.92) 0%, rgba(226, 237, 252, 0.88) 50%, rgba(240, 253, 244, 0.90) 100%)"
         },
         "text": {
           "primary": "#1D1D1B",
@@ -218,7 +220,9 @@
           "input": "#0F172A",
           "border": "#334155",
           "borderSubtle": "#1E293B",
-          "loginOverlay": "linear-gradient(135deg, rgba(11, 17, 32, 0.88) 0%, rgba(5, 20, 46, 0.78) 100%)"
+          "loginOverlay": "linear-gradient(135deg, rgba(11, 17, 32, 0.88) 0%, rgba(5, 20, 46, 0.78) 100%)",
+          "portalHeroBg": "#070E1A",
+          "portalHeroOverlay": "linear-gradient(135deg, rgba(7, 14, 26, 0.96) 0%, rgba(11, 24, 46, 0.92) 50%, rgba(4, 9, 18, 0.98) 100%)"
         },
         "text": {
           "primary": "#F8FAFC",
@@ -327,6 +331,7 @@
     "md": { "value": "768px", "token": "--oefa-breakpoint-md", "target": "Tablet vertical", "behavior": "Menú lateral colapsable / drawer, scroll horizontal táctil en tablas." },
     "lg": { "value": "1024px", "token": "--oefa-breakpoint-lg", "target": "Tablet horizontal / Laptop", "behavior": "Sidebar fijo (pinned), layout login conmuta a 1 columna centrada sin hero lateral." },
     "xl": { "value": "1280px", "token": "--oefa-breakpoint-xl", "target": "Desktop", "behavior": "Layout completo sin scroll horizontal forzado." },
+    "portalMaxWidth": { "value": "1920px", "token": "--oefa-portal-max-width", "target": "Portales Analíticos / GIS / Tableros", "behavior": "Tope panorámico centrado para mapas y dashboards sin distorsión." },
     "touchTarget": { "minSize": "44px", "wcagAbsoluteMin": "24px", "standard": "WCAG 2.2 SC 2.5.8" }
   },
 
@@ -365,6 +370,28 @@
     }
   },
 
+  "spacing": {
+    "_descripcion": "Escala oficial de espaciados institucionales OEFA basada en múltiplos de 4px/8px para ritmo vertical y touch targets accesibles.",
+    "3xs": { "value": "2px", "token": "--oefa-spacing-3xs", "sass": "$oefa-spacing-3xs", "uso": "Micro-bordes, separadores mínimos." },
+    "2xs": { "value": "4px", "token": "--oefa-spacing-2xs", "sass": "$oefa-spacing-2xs", "uso": "Gaps entre iconos y textos compactos, paddings de chips." },
+    "xs": { "value": "8px", "token": "--oefa-spacing-xs", "sass": "$oefa-spacing-xs", "uso": "Espaciado compacto entre elementos de formulario, badges." },
+    "sm": { "value": "12px", "token": "--oefa-spacing-sm", "sass": "$oefa-spacing-sm", "uso": "Padding interno de inputs, selects y botones estándar." },
+    "md": { "value": "16px", "token": "--oefa-spacing-md", "sass": "$oefa-spacing-md", "uso": "Gap estándar de grillas y espaciado de tarjetas en móvil." },
+    "lg": { "value": "20px", "token": "--oefa-spacing-lg", "sass": "$oefa-spacing-lg", "uso": "Padding interno estándar de tarjetas y paneles agrupadores." },
+    "xl": { "value": "24px", "token": "--oefa-spacing-xl", "sass": "$oefa-spacing-xl", "uso": "Padding de página institucional y gap principal de layout." },
+    "2xl": { "value": "32px", "token": "--oefa-spacing-2xl", "sass": "$oefa-spacing-2xl", "uso": "Separación de secciones mayores y cabeceras." },
+    "3xl": { "value": "48px", "token": "--oefa-spacing-3xl", "sass": "$oefa-spacing-3xl", "uso": "Separación de módulos y banners panorámicos." }
+  },
+
+  "radii": {
+    "_descripcion": "Escala oficial de border-radius institucional para componentes, contenedores y micro-elementos OEFA.",
+    "sm": { "value": "6px", "token": "--oefa-radius-sm", "uso": "Badges, tooltips, checkboxes, tags de código y micro-inputs." },
+    "md": { "value": "10px", "token": "--oefa-radius-md", "uso": "Botones estándar, campos de formulario, selects, conmutadores segmentados (Estándar Operativo)." },
+    "lg": { "value": "16px", "token": "--oefa-radius-lg", "uso": "Modales, cabeceras de drawer, contenedores principales y tarjetas agrupadoras." },
+    "xl": { "value": "24px", "token": "--oefa-radius-xl", "uso": "Bento KPI Tiles, tarjetas héroe y paneles panorámicos." },
+    "full": { "value": "9999px", "token": "--oefa-radius-full", "uso": "Pills de estado, chips de filtro, avatares y botones circulares." }
+  },
+
   "components": {
     "_nota": "Tokens de componentes reutilizables. Fuente de verdad para todos los proyectos OEFA basados en este starter.",
 
@@ -392,9 +419,13 @@
     "filterSidebar": {
       "_descripcion": "Panel lateral de filtrado avanzado facetado para escritorio y bottom sheet deslizable accesible para dispositivos móviles.",
       "desktopWidth": "280px",
+      "desktopTop": "0",
+      "desktopMaxHeight": "calc(100vh - var(--oefa-header-height, 64px) - 186px)",
       "borderRadiusDesktop": "16px",
       "borderRadiusMobile": "20px 20px 0 0",
       "maxHeightMobile": "88vh",
+      "scrollbarWidth": "6px",
+      "overscrollBehavior": "contain",
       "transition": "transform var(--oefa-duration-medium) var(--oefa-ease-emphasized)"
     },
 

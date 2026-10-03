@@ -1,4 +1,4 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject, computed, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavigationService } from '../../services/navigation.service';
@@ -20,16 +20,18 @@ export class SubmenuPanelComponent {
   });
 
   showFloatingOverlay = computed(() => {
+    const clickedId = this.navService.clickedFlyoutItemId();
     const hoveredId = this.navService.hoveredItemId();
     const isPinned = this.navService.sidebarMode() === 'pinned';
+    const targetId = clickedId || hoveredId;
 
-    if (hoveredId) {
-      const hoveredNav = this.navService.navItems.find(i => i.id === hoveredId);
-      if (hoveredNav && hoveredNav.children && hoveredNav.children.length > 0) {
-        if (isPinned && hoveredId === this.navService.activeItemId()) {
+    if (targetId) {
+      const targetNav = this.navService.navItems.find(i => i.id === targetId);
+      if (targetNav && targetNav.children && targetNav.children.length > 0) {
+        if (isPinned && targetId === this.navService.activeItemId()) {
           return null;
         }
-        return hoveredNav;
+        return targetNav;
       }
     }
 
@@ -42,6 +44,16 @@ export class SubmenuPanelComponent {
 
     return null;
   });
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (this.navService.clickedFlyoutItemId()) {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.submenu-panel') && !target.closest('.sidebar-rail')) {
+        this.navService.clickedFlyoutItemId.set(null);
+      }
+    }
+  }
 
   onItemRowClick(item: any, event: MouseEvent) {
     if (item.children && item.children.length > 0) {
@@ -57,6 +69,7 @@ export class SubmenuPanelComponent {
   }
 
   selectItem(item: any) {
+    this.navService.clickedFlyoutItemId.set(null);
     this.navService.selectTreeItem(item.id);
     if (item.route) {
       this.router.navigateByUrl(item.route);
@@ -69,9 +82,9 @@ export class SubmenuPanelComponent {
 
   onPanelMouseLeave() {
     this.navService.setHoveredItem(null, 150);
-    if (this.navService.sidebarMode() === 'floating') {
+    if (this.navService.sidebarMode() === 'floating' && !this.navService.clickedFlyoutItemId()) {
       setTimeout(() => {
-        if (!this.navService.hoveredItemId()) {
+        if (!this.navService.hoveredItemId() && !this.navService.clickedFlyoutItemId()) {
           this.navService.sidebarMode.set('hidden');
         }
       }, 150);

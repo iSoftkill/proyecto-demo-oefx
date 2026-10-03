@@ -1,0 +1,55 @@
+<div class="oefa-tabs-wrapper">
+  <div
+    class="tabs-header"
+    [class.variant-underline]="variant === 'underline'"
+    [class.variant-pill]="variant === 'pill'"
+    role="tablist"
+  >
+    @for (tab of tabs; track tab.id; let idx = $index) {
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [id]="'tab-' + tab.id"
+        [class.active]="activeTab === tab.id"
+        [attr.aria-selected]="activeTab === tab.id"
+        [attr.aria-controls]="'panel-' + tab.id"
+        [attr.tabindex]="activeTab === tab.id ? 0 : -1"
+        [disabled]="tab.disabled"
+        (click)="selectTab(tab.id)"
+        (keydown)="handleKeydown($event, idx)"
+      >
+        @if (tab.icon) {
+          <span class="tab-icon" aria-hidden="true">{{ tab.icon }}</span>
+        }
+        <span class="tab-label">{{ tab.label }}</span>
+
+        @if (tab.badgeDot) {
+          <oefa-dot-badge
+            [color]="tab.badgeDotColor || 'danger'"
+            size="md"
+            ariaLabel="Alerta en pestaña"
+          ></oefa-dot-badge>
+        }
+
+        @if (tab.badge !== undefined && tab.badge !== null) {
+          <span class="tab-badge">{{ tab.badge }}</span>
+        }
+
+        @if (tab.infoTooltip) {
+          <oefa-info-tooltip
+            [text]="tab.infoTooltip"
+            position="top"
+            size="sm"
+            ariaLabel="Ayuda de la pestaña"
+          ></oefa-info-tooltip>
+        }
+      </button>
+    }
+    <ng-content select="[custom-tabs]"></ng-content>
+  </div>
+
+  <div class="tabs-content" role="tabpanel" [id]="'panel-' + activeTab" [attr.aria-labelledby]="'tab-' + activeTab">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -18,9 +18,11 @@
 .workspace-main {
   flex: 1;
   height: 100%;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .workspace-card {
@@ -28,9 +30,25 @@
   border-radius: var(--oefa-radius-xl);
   border: 1px solid var(--oefa-border-color);
   box-shadow: var(--oefa-shadow-sm);
-  padding: 24px 28px 36px 28px;
-  min-height: 100%;
+  padding: 24px 28px;
+  height: 100%;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.workspace-card > router-outlet {
+  display: none !important;
+}
+
+.workspace-card > *:not(router-outlet) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Mobile Floating Backdrop Container */

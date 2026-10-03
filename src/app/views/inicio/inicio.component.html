@@ -1,0 +1,102 @@
+  <!-- 1. CABECERA INSTITUCIONAL ESTÁNDAR (SISTEMA CERRADO) -->
+  <oefa-page-layout
+    title="Plataforma de Inteligencia de Negocios"
+    subtitle="Información integrada para una gestión ambiental eficiente, transparente y basada en evidencia."
+    badgeText="OPERATIVO"
+    badgeStatus="success">
+    <div actions class="oefa-flex-row oefa-gap-sm">
+      <a routerLink="/catalogo">
+        <oefa-button variant="primary" size="md" icon="search">
+          Explorar Tableros
+        </oefa-button>
+        <oefa-button variant="primary" size="md">
+          Etiqueta del Botón
+        </oefa-button>
+        <oefa-button variant="primary" size="md">
+          Etiqueta del Botón
+        </oefa-button>
+
+      </a>
+    </div>
+  
+
+  <!-- 2. PROCESOS INSTITUCIONALES (Rejilla global .oefa-grid-3) -->
+   <div class="oefa-stack-lg"> 
+  <section aria-label="Categorías de procesos institucionales">
+    <div class="oefa-grid-3">
+      <oefa-process-card
+        title="Procesos&#10;Estratégicos"
+        description="Tableros e indicadores de la gestión estratégica institucional."
+        variant="estrategico"
+        theme="light"
+        bgImage="/images/card_fondo_01.webp"
+        actionText="Explorar"
+        (cardClick)="onExploreProcess('Estratégico')" />
+
+      <oefa-process-card
+        title="Procesos&#10;Misionales"
+        description="Supervisión, fiscalización y evaluación ambiental a nivel nacional."
+        variant="misional"
+        theme="light"
+        bgImage="/images/card_fondo_01.webp"
+        actionText="Explorar"
+        (cardClick)="onExploreProcess('Misional')" />
+
+      <oefa-process-card
+        title="Procesos&#10;de Apoyo"
+        description="Soporte administrativo, recursos, sistemas y gestión interna."
+        variant="apoyo"
+        theme="light"
+        bgImage="/images/card_fondo_01.webp"
+        actionText="Explorar"
+        (cardClick)="onExploreProcess('Apoyo')" />
+    </div>
+  </section>
+
+  <!-- 3. SECCIÓN DIVIDIDA: CIFRAS Y DESTACADOS (Rejilla global .oefa-grid-2 + Componentes <oefa-card>) -->
+  <section aria-label="OEFA en cifras y tableros destacados">
+    <div class="oefa-grid-2">
+
+      <!-- Tarjeta 1: OEFA en Cifras -->
+      <oefa-card title="OEFA en cifras">
+        <div class="oefa-grid-4 stats-grid">
+          @for (cifra of cifras; track cifra.label) {
+            <div class="stat-col">
+              <div class="stat-icon" aria-hidden="true">
+                <oefa-icon [name]="cifra.icon" [size]="24" />
+              </div>
+              <span class="stat-number">{{ cifra.number }}</span>
+              <span class="stat-label" [innerHTML]="cifra.label"></span>
+            </div>
+          }
+        </div>
+      </oefa-card>
+
+      <!-- Tarjeta 2: Destacados -->
+      <oefa-card title="Destacados">
+        <div card-actions>
+          <a routerLink="/catalogo" class="oefa-card-link">Ver todas →</a>
+        </div>
+
+        <div class="oefa-stack-sm">
+          @for (item of destacados; track item.title) {
+            <div
+              class="destacado-item"
+              (click)="onSelectDestacado(item)"
+              tabindex="0"
+              (keydown.enter)="onSelectDestacado(item)">
+              <span class="item-date">{{ item.date }}</span>
+              <div class="item-info">
+                <span class="item-category">{{ item.category }}</span>
+                <strong class="item-title">{{ item.title }}</strong>
+              </div>
+              <span class="item-arrow" aria-hidden="true">→</span>
+            </div>
+          }
+        </div>
+      </oefa-card>
+
+    </div>
+  </section>
+   </div>
+</oefa-page-layout>

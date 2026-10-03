@@ -1,0 +1,15 @@
+<div 
+  class="oefa-spinner-container" 
+  [class.fullscreen]="fullscreen" 
+  role="status" 
+  [attr.aria-label]="message || 'Cargando contenido'"
+>
+  <div 
+    class="spinner-circle" 
+    [ngClass]="'spinner-' + size"
+  ></div>
+  @if (message) {
+    <span class="spinner-message">{{ message }}</span>
+  }
+  <span class="sr-only">Cargando...</span>
+</div>

@@ -1,0 +1,270 @@
+// -----------------------------------------------------------------------------
+// DASHBOARD DE TABLEROS - SISTEMA INTERNO OEFA
+// Tokens y Estándares según OEFA Design System (var(--oefa-*))
+// -----------------------------------------------------------------------------
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+// Acciones en la cabecera institucional (slot [actions])
+.tableros-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--oefa-spacing-sm, 12px);
+  flex-wrap: wrap;
+
+  .search-field-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 280px;
+    max-width: 400px;
+    flex: 1;
+
+    .search-icon {
+      position: absolute;
+      left: var(--oefa-spacing-sm, 12px);
+      color: var(--oefa-text-secondary);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    input.form-input {
+      padding-left: calc(var(--oefa-spacing-sm, 12px) + 24px);
+      padding-right: calc(var(--oefa-spacing-sm, 12px) + 24px);
+      height: 38px;
+      font-size: 0.875rem;
+      border-radius: var(--oefa-radius-md, 8px);
+      border: 1px solid var(--oefa-border-color);
+      background-color: var(--oefa-surface-input, var(--oefa-surface-card));
+      color: var(--oefa-text-primary);
+      transition: border-color var(--oefa-duration-short, 0.15s) ease,
+                  box-shadow var(--oefa-duration-short, 0.15s) ease;
+
+      &:focus {
+        border-color: var(--oefa-primary-root);
+        box-shadow: 0 0 0 3px var(--oefa-focus-glow, rgba(20, 74, 167, 0.15));
+      }
+    }
+
+    .btn-clear-search {
+      position: absolute;
+      right: var(--oefa-spacing-xs, 8px);
+      background: transparent;
+      border: none;
+      color: var(--oefa-text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--oefa-spacing-3xs, 2px);
+      border-radius: var(--oefa-radius-sm, 4px);
+      transition: color var(--oefa-duration-short, 0.15s) ease;
+
+      &:hover {
+        color: var(--oefa-text-primary);
+      }
+    }
+  }
+}
+
+// Layout principal Split Fijo (Sidebar + Contenido independiente)
+.tableros-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--oefa-spacing-xl, 24px);
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  margin-top: var(--oefa-spacing-xs, 8px);
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    gap: var(--oefa-spacing-md, 16px);
+    overflow: auto;
+  }
+}
+
+// Barra móvil para filtros
+.tableros-mobile-filter-bar {
+  display: none;
+  margin-bottom: var(--oefa-spacing-md, 16px);
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+
+  .tableros-mobile-filter-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--oefa-spacing-xs, 8px);
+    padding: var(--oefa-spacing-sm, 12px) var(--oefa-spacing-md, 16px);
+    background: var(--oefa-surface-card);
+    border: 1px solid var(--oefa-border-color);
+    border-radius: var(--oefa-radius-md, 8px);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--oefa-primary-root);
+    cursor: pointer;
+    box-shadow: var(--oefa-shadow-sm);
+    transition: background-color var(--oefa-duration-short, 0.15s) ease;
+
+    &:hover {
+      background: var(--oefa-primary-container);
+    }
+  }
+}
+
+// Columna izquierda: Sidebar
+.tableros-sidebar-column {
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+// Columna derecha: Contenido con scroll independiente
+.tableros-content-column {
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-right: var(--oefa-spacing-xs, 8px);
+  scrollbar-width: thin;
+  scrollbar-color: var(--oefa-border-color, #cbd5e1) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--oefa-border-color, #cbd5e1);
+    border-radius: 999px;
+
+    &:hover {
+      background: var(--oefa-text-muted, #94a3b8);
+    }
+  }
+}
+
+// Toolbar interna de filtros de proceso
+.filters-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--oefa-spacing-md, 16px);
+  margin-bottom: var(--oefa-spacing-lg, 20px);
+  padding-bottom: var(--oefa-spacing-sm, 12px);
+  border-bottom: 1px solid var(--oefa-border-color);
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--oefa-spacing-sm, 12px);
+
+    .filter-title {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--oefa-text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--oefa-spacing-2xs, 6px);
+
+      .pill-filter {
+        background-color: var(--oefa-surface-card);
+        border: 1px solid var(--oefa-border-color);
+        color: var(--oefa-text-secondary);
+        padding: 4px 12px;
+        border-radius: var(--oefa-radius-full, 9999px);
+        font-size: 0.8125rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--oefa-duration-short, 0.15s) ease;
+
+        &:hover {
+          border-color: var(--oefa-primary-root);
+          color: var(--oefa-primary-root);
+        }
+
+        &.active {
+          background-color: var(--oefa-primary-root);
+          border-color: var(--oefa-primary-root);
+          color: var(--oefa-primary-on, var(--oefa-text-on-dark, #ffffff));
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .toolbar-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--oefa-spacing-md, 16px);
+    font-size: 0.8125rem;
+
+    .results-counter {
+      color: var(--oefa-text-secondary);
+
+      strong {
+        color: var(--oefa-text-primary);
+      }
+    }
+
+    .btn-reset-filters {
+      background: transparent;
+      border: 1px dashed var(--oefa-error-root);
+      color: var(--oefa-error-root);
+      padding: 4px 10px;
+      border-radius: var(--oefa-radius-sm, 6px);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--oefa-duration-short, 0.15s) ease;
+
+      &:hover {
+        background-color: var(--oefa-error-container);
+      }
+    }
+  }
+}
+
+// Grilla interna de tarjetas de tableros
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--oefa-spacing-lg, 20px);
+  margin-bottom: var(--oefa-spacing-2xl, 32px);
+}
+
+// Contenedor de Estado Vacío
+.empty-state-container {
+  background: var(--oefa-surface-card);
+  border: 1px dashed var(--oefa-border-color);
+  border-radius: var(--oefa-radius-md, 8px);
+  padding: var(--oefa-spacing-2xl, 32px) var(--oefa-spacing-md, 16px);
+  margin-bottom: var(--oefa-spacing-xl, 24px);
+}

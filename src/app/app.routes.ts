@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { CatalogoComponent } from './views/catalogo/catalogo.component';
 import { LoginComponent } from './views/login/login.component';
 import { DesignSystemColorsComponent } from './views/design-system/design-system-colors.component';
 import { DesignSystemTypographyComponent } from './views/design-system/design-system-typography.component';
@@ -30,10 +30,16 @@ import { DesignSystemBentoKpiComponent } from './views/design-system/design-syst
 import { DesignSystemCatalogCardComponent } from './views/design-system/design-system-catalog-card.component';
 import { DesignSystemFilterSidebarComponent } from './views/design-system/design-system-filter-sidebar.component';
 
+// PROYECTO ------------------------------------
+
+import { InicioComponent } from './views/inicio/inicio.component';
+import { TablerosComponent } from './views/configuraciones/tableros/tableros.component';
+
 export const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'catalogo', component: CatalogoComponent },
+  { path: 'dashboard', redirectTo: 'catalogo', pathMatch: 'full' },
   
   // Módulo Sistema de Diseño OEFA
   { path: 'design-system', redirectTo: 'design-system/colores', pathMatch: 'full' },
@@ -71,5 +77,19 @@ export const routes: Routes = [
   { path: 'design-system/catalog-cards', component: DesignSystemCatalogCardComponent },
   { path: 'design-system/filter-sidebar', component: DesignSystemFilterSidebarComponent },
 
-  { path: '**', redirectTo: 'dashboard' }
+  // PROYECTO ------------------------------------
+
+  { path: 'inicio', component: InicioComponent },
+  {
+    path: 'configuraciones',
+    children: [
+      {path: '', redirectTo: 'tableros', pathMatch: 'full'},
+      {path: 'tableros', component: TablerosComponent}
+    ]
+  },
+
+  // Wildcard SIEMPRE al final
+  
+  { path: '**', redirectTo: 'inicio' },
+
 ];

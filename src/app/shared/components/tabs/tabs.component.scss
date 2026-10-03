@@ -1,0 +1,154 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.oefa-tabs-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tabs-header {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Variante Underline (Default) */
+.tabs-header.variant-underline {
+  border-bottom: 2px solid var(--oefa-border-color, #e2e8f0);
+  padding-bottom: 0;
+
+  .tab-btn {
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+
+    &:hover:not(:disabled) {
+      color: var(--oefa-primary-root);
+      background-color: var(--oefa-surface-subtle, #f8fafc);
+    }
+
+    &.active {
+      color: var(--oefa-primary-root);
+      border-bottom-color: var(--oefa-primary-root);
+      background-color: transparent;
+    }
+  }
+}
+
+/* Variante Pill / Cápsula */
+.tabs-header.variant-pill {
+  background-color: var(--oefa-surface-subtle, #f8fafc);
+  padding: 4px;
+  border-radius: var(--oefa-radius-md, 8px);
+  border: 1px solid var(--oefa-border-color, #e2e8f0);
+  gap: 4px;
+
+  .tab-btn {
+    border-radius: var(--oefa-radius-sm, 4px);
+    border: none;
+    padding: 8px 14px;
+    margin-bottom: 0;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(0, 0, 0, 0.04);
+      color: var(--oefa-primary-root);
+    }
+
+    &.active {
+      background-color: var(--oefa-surface-card, #ffffff);
+      color: var(--oefa-primary-root);
+      box-shadow: var(--oefa-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
+    }
+  }
+}
+
+.tab-btn {
+  padding: 10px 16px;
+  font-family: var(--oefa-font-display, inherit);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--oefa-text-secondary, #475569);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  transition: color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              border-color var(--oefa-duration-short-4, 200ms) var(--oefa-ease-standard, ease),
+              background-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
+  white-space: nowrap;
+  outline: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-focus-ring);
+    outline-offset: -2px;
+    z-index: 1;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-btn {
+    transition: none !important;
+  }
+}
+
+.tab-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.tab-badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 100px;
+  background-color: var(--oefa-primary-container, #e6f3f0);
+  color: var(--oefa-primary-on-container, #004034);
+  line-height: 1.2;
+}
+
+.tab-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px var(--oefa-surface-card, #ffffff);
+
+  &.tab-dot-danger {
+    background-color: var(--oefa-danger-500, #ef4444);
+  }
+  &.tab-dot-warning {
+    background-color: var(--oefa-warning-500, #f59e0b);
+  }
+  &.tab-dot-primary {
+    background-color: var(--oefa-primary-root, #144aa7);
+  }
+  &.tab-dot-success {
+    background-color: var(--oefa-success-500, #10b981);
+  }
+}
+
+.tabs-content {
+  margin-top: 16px;
+  width: 100%;
+}

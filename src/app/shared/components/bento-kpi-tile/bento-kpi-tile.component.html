@@ -1,0 +1,151 @@
+<div
+  class="bento-kpi-card"
+  [style.background]="bgTint || 'var(--oefa-surface-card)'"
+  (click)="onTileClick()"
+  role="article"
+  [attr.aria-label]="title + ': ' + value + ' ' + metricLabel"
+  tabindex="0"
+  (keydown.enter)="onTileClick()"
+  (keydown.space)="onTileClick()"
+>
+  <!-- Fila 1: Top bar con icono y status badge / trend -->
+  <div class="bkc-top">
+    <div class="bkc-icon-box" [style.color]="iconColor || accentColor">
+      @if (icon) {
+        <oefa-icon [name]="icon" [size]="22" [color]="iconColor || accentColor"/>
+      } @else {
+        <ng-content select="[icon]" />
+      }
+    </div>
+
+    <div class="bkc-status-wrap">
+      @if (status) {
+        <oefa-status-badge [status]="status" size="sm" [dot]="true" />
+      } @else if (trendLabel) {
+        <span class="bkc-trend-pill" [style.color]="accentColor">
+          {{ trendLabel }}
+        </span>
+      }
+    </div>
+  </div>
+
+  <!-- Fila 2: Título y metadatos -->
+  <div class="bkc-headline">
+    <div class="bkc-top-meta">
+      @if (sector) {
+        <span class="bkc-sector">{{ sector }}</span>
+      }
+      @if (chip) {
+        <oefa-chip [variant]="chip.variant" [label]="chip.label" />
+      }
+    </div>
+    <h4 class="bkc-title">{{ title }}</h4>
+  </div>
+
+  <!-- Fila 3: Valor y micro-gráfico -->
+  <div class="bkc-body">
+    <div>
+      <div class="bkc-metric-num">{{ value }}</div>
+      @if (metricLabel) {
+        <p class="bkc-metric-desc">
+          <span class="bkc-dot" [style.background]="accentColor"></span>
+          {{ metricLabel }}
+        </p>
+      }
+    </div>
+
+    <!-- Micro-gráficos SVG contextuales -->
+    @if (chartType && chartType !== 'none') {
+      <div class="bkc-chart-wrap" aria-hidden="true">
+        <!-- Donut -->
+        @if (chartType === 'donut') {
+          <div class="donut-chart-box">
+            <svg class="donut-svg" viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="18.5" stroke="rgba(20, 74, 167, 0.12)" stroke-width="4.5" fill="none"></circle>
+              <circle
+                cx="24"
+                cy="24"
+                r="18.5"
+                [attr.stroke]="accentColor"
+                stroke-width="4.5"
+                fill="none"
+                stroke-dasharray="116.2"
+                [attr.stroke-dashoffset]="116.2 - (116.2 * (percentage || 0) / 100)"
+                stroke-linecap="round"
+              ></circle>
+            </svg>
+            <div class="donut-center">
+              <span class="donut-pct">{{ percentage }}%</span>
+              <span class="donut-lbl">meta</span>
+            </div>
+          </div>
+        }
+
+        <!-- Gauge -->
+        @if (chartType === 'gauge') {
+          <div class="donut-chart-box">
+            <svg class="donut-svg" viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="18.5" stroke="rgba(68, 191, 181, 0.2)" stroke-width="4.5" fill="none"></circle>
+              <circle
+                cx="24"
+                cy="24"
+                r="18.5"
+                [attr.stroke]="accentColor"
+                stroke-width="4.5"
+                fill="none"
+                stroke-dasharray="116.2"
+                [attr.stroke-dashoffset]="116.2 - (116.2 * (percentage || 0) / 100)"
+                stroke-linecap="round"
+              ></circle>
+            </svg>
+            <div class="donut-center">
+              <span class="donut-pct">{{ percentage }}%</span>
+              <span class="donut-lbl">avance</span>
+            </div>
+          </div>
+        }
+
+        <!-- Micro-bars -->
+        @if (chartType === 'bars') {
+          <div class="micro-bars-box">
+            <div class="mbar" [style.background]="accentColor + '55'" style="height: 45%"></div>
+            <div class="mbar" [style.background]="accentColor + '77'" style="height: 65%"></div>
+            <div class="mbar" [style.background]="accentColor + '99'" style="height: 40%"></div>
+            <div class="mbar" [style.background]="accentColor" style="height: 85%"></div>
+            <div class="mbar" [style.background]="accentColor" style="height: 70%"></div>
+          </div>
+        }
+
+        <!-- Sparkline -->
+        @if (chartType === 'sparkline') {
+          <div class="micro-spark-box">
+            <svg class="spark-svg" viewBox="0 0 64 32">
+              <defs>
+                <linearGradient id="bkcSparkGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" [attr.stop-color]="accentColor" stop-opacity="0.35"></stop>
+                  <stop offset="100%" [attr.stop-color]="accentColor" stop-opacity="0.0"></stop>
+                </linearGradient>
+              </defs>
+              <path d="M 2,24 Q 14,28 26,16 T 50,10 T 62,4 L 62,30 L 2,30 Z" fill="url(#bkcSparkGrad)"></path>
+              <path d="M 2,24 Q 14,28 26,16 T 50,10 T 62,4" fill="none" [attr.stroke]="accentColor" stroke-width="2.2" stroke-linecap="round"></path>
+              <circle cx="62" cy="4" r="2.5" [attr.fill]="accentColor" stroke="var(--oefa-surface-card)" stroke-width="1.5"></circle>
+            </svg>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Fila 4: Footer con periodo y enlace de acción -->
+  <div class="bkc-footer">
+    <span class="bkc-period">{{ periodLabel || 'Actualizado recientemente' }}</span>
+    <a
+      href="javascript:void(0)"
+      class="bkc-link"
+      [style.color]="accentColor"
+      (click)="onLinkClick($event)"
+    >
+      {{ linkText }}
+    </a>
+  </div>
+</div>

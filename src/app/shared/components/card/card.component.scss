@@ -1,0 +1,88 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.oefa-card-container {
+  background-color: var(--oefa-surface-card, #ffffff);
+  border: 1px solid var(--oefa-border-color, #e2e8f0);
+  border-radius: var(--oefa-radius-lg, 16px);
+  padding: var(--oefa-spacing-lg, 20px);
+  box-shadow: var(--oefa-shadow-sm, 0 1px 3px rgba(15, 23, 42, 0.06));
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  transition: box-shadow var(--oefa-duration-medium, 300ms) var(--oefa-ease-standard),
+              border-color var(--oefa-duration-medium, 300ms) var(--oefa-ease-standard);
+
+  &.interactive {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: var(--oefa-shadow-md, 0 4px 16px rgba(15, 23, 42, 0.08));
+      border-color: var(--oefa-primary-container-hc, #a4c1f4);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--oefa-focus-ring, #144aa7);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--oefa-spacing-sm, 12px);
+  margin-bottom: var(--oefa-spacing-md, 16px);
+  padding-bottom: var(--oefa-spacing-sm, 12px);
+  border-bottom: 1px solid var(--oefa-border-color-subtle, #f1f5f9);
+
+  .header-titles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--oefa-spacing-2xs, 4px);
+  }
+
+  .card-title {
+    margin: 0;
+    color: var(--oefa-text-primary, #1d1d1b);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.35;
+    font-family: var(--oefa-font-display, inherit);
+  }
+
+  .card-subtitle {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--oefa-text-secondary, #334155);
+    line-height: 1.4;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--oefa-spacing-xs, 8px);
+  }
+}
+
+.card-body {
+  flex: 1 1 auto;
+  color: var(--oefa-text-primary, #1d1d1b);
+}
+
+.card-footer {
+  &:empty {
+    display: none;
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--oefa-spacing-sm, 12px);
+  margin-top: var(--oefa-spacing-md, 16px);
+  padding-top: var(--oefa-spacing-sm, 12px);
+  border-top: 1px solid var(--oefa-border-color-subtle, #f1f5f9);
+}

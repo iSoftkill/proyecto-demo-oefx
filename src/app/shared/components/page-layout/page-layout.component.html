@@ -1,0 +1,24 @@
+<div [ngClass]="containerClass" [class.oefa-page-fit]="fit" class="oefa-page-layout-root">
+  @if (title || breadcrumbs?.length) {
+    <oefa-page-header
+      [title]="title"
+      [subtitle]="subtitle"
+      [badgeText]="badgeText"
+      [badgeStatus]="badgeStatus"
+      [breadcrumbs]="breadcrumbs"
+      [showBack]="showBack"
+      [backUrl]="backUrl"
+      (back)="onBack()">
+      <div actions>
+        <ng-content select="[actions]"></ng-content>
+      </div>
+      <div extra>
+        <ng-content select="[extra]"></ng-content>
+      </div>
+    </oefa-page-header>
+  }
+
+  <main class="oefa-page-layout-body" [class.fit]="fit">
+    <ng-content></ng-content>
+  </main>
+</div>

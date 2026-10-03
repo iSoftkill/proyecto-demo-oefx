@@ -1,0 +1,202 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.oefa-process-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--oefa-radius-xl, 20px);
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 4px 16px rgba(10, 24, 50, 0.08);
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1),
+              box-shadow 0.25s cubic-bezier(0.2, 0, 0, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(10, 24, 50, 0.16);
+
+    .action-arrow {
+      transform: translateX(6px);
+    }
+
+    .card-bg-image {
+      transform: scale(1.04);
+    }
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--oefa-primary-root, #144AA7);
+    outline-offset: 2px;
+  }
+
+  /* Variante tema inverso / claro (soft tones) */
+  &.theme-light {
+    background-color: #FFFFFF;
+    border: 1px solid var(--oefa-border-color, #E2E8F0);
+    box-shadow: 0 4px 16px rgba(10, 24, 50, 0.06);
+
+    &:hover {
+      box-shadow: 0 12px 28px rgba(10, 24, 50, 0.12);
+    }
+
+    .card-foreground {
+      color: #1D1D1B;
+    }
+
+    .card-title {
+      color: #0F172A;
+      text-shadow: none;
+    }
+
+    .card-description {
+      color: #475569;
+      text-shadow: none;
+      font-weight: 500;
+    }
+
+    .card-icon-circle {
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+    }
+
+    &.variant-estrategico {
+      border-color: rgba(20, 74, 167, 0.22);
+      .card-action {
+        color: #144AA7;
+        text-shadow: none;
+      }
+    }
+
+    &.variant-misional {
+      border-color: rgba(22, 163, 74, 0.25);
+      .card-action {
+        color: #15803D;
+        text-shadow: none;
+      }
+    }
+
+    &.variant-apoyo {
+      border-color: rgba(234, 88, 12, 0.25);
+      .card-action {
+        color: #C2410C;
+        text-shadow: none;
+      }
+    }
+  }
+}
+
+/* 1. Imagen de fondo */
+.card-bg-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center right;
+  z-index: 1;
+  transform: scale(1.01);
+  transition: transform 0.4s ease;
+  pointer-events: none;
+}
+
+/* 2. Degradado institucional */
+.card-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+/* 3. Contenido en primer plano */
+.card-foreground {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: #FFFFFF;
+  pointer-events: none;
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.card-icon-circle {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+
+  .concentric-icon {
+    display: block;
+  }
+}
+
+.card-title {
+  font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #FFFFFF;
+  margin: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  white-space: pre-line;
+}
+
+.card-description {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.94);
+  margin: 0 0 20px 0;
+  max-width: 68%;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.card-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  color: #FFFFFF;
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+
+  .action-arrow {
+    transition: transform 0.2s ease;
+  }
+}
+
+@media (max-width: 768px) {
+  .oefa-process-card {
+    padding: 22px;
+    min-height: 210px;
+  }
+
+  .card-title {
+    font-size: 1.35rem;
+  }
+
+  .card-description {
+    max-width: 85%;
+    font-size: 0.875rem;
+  }
+}

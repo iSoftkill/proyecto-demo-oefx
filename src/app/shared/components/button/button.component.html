@@ -1,0 +1,17 @@
+<button
+  [type]="type"
+  class="btn"
+  [ngClass]="[variantClass, sizeClass]"
+  [disabled]="disabled || loading"
+  [title]="title"
+  (click)="handleClick($event)">
+  @if (loading) {
+    <span class="spinner-small"></span>
+  } @else if (icon && iconPosition === 'left') {
+    <oefa-icon [name]="icon" [size]="iconSize" />
+  }
+  <ng-content />
+  @if (!loading && icon && iconPosition === 'right') {
+    <oefa-icon [name]="icon" [size]="iconSize" />
+  }
+</button>

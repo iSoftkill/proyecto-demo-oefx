@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.progress-bar-right-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.progress-bar-value-text {
+  font-weight: 700;
+  color: var(--oefa-text-primary, #0f172a);
+  font-size: 0.8125rem;
+}

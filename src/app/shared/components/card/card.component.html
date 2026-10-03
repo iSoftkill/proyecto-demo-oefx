@@ -1,0 +1,33 @@
+<article 
+  class="oefa-card-container" 
+  [class.interactive]="interactive"
+  [attr.role]="interactive ? 'button' : undefined"
+  [attr.tabindex]="interactive ? 0 : undefined"
+  [attr.aria-label]="ariaLabel || title || undefined"
+  (click)="onClick()"
+  (keydown)="onKeyDown($event)">
+  
+  @if (title || subtitle) {
+    <header class="card-header">
+      <div class="header-titles">
+        @if (title) {
+          <h3 class="card-title">{{ title }}</h3>
+        }
+        @if (subtitle) {
+          <p class="card-subtitle">{{ subtitle }}</p>
+        }
+      </div>
+      <div class="header-actions">
+        <ng-content select="[card-actions]" />
+      </div>
+    </header>
+  }
+
+  <div class="card-body">
+    <ng-content />
+  </div>
+
+  <footer class="card-footer">
+    <ng-content select="[card-footer]" />
+  </footer>
+</article>

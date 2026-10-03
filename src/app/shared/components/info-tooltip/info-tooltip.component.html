@@ -1,0 +1,32 @@
+<span
+  class="oefa-info-tooltip"
+  [class.size-sm]="size === 'sm'"
+  [class.size-md]="size === 'md'"
+  tabindex="0"
+  role="button"
+  [attr.aria-label]="ariaLabel ? ariaLabel + ': ' + text : text"
+  (mouseenter)="showTooltip()"
+  (mouseleave)="hideTooltip()"
+  (focus)="showTooltip()"
+  (blur)="hideTooltip()"
+  (click)="$event.stopPropagation()"
+  (keydown.enter)="$event.stopPropagation()"
+  (keydown.space)="$event.stopPropagation()"
+  (keydown.escape)="hideTooltip()"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="info-svg"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="12" y1="16" x2="12" y2="12"></line>
+    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+  </svg>
+</span>

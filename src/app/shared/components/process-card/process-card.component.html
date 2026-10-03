@@ -1,0 +1,43 @@
+<article
+  class="oefa-process-card"
+  [class]="'variant-' + variant"
+  [class.theme-light]="theme === 'light'"
+  [attr.aria-label]="title + ': ' + description"
+  tabindex="0"
+  (click)="onClick()"
+  (keydown.enter)="onClick()"
+  (keydown.space)="onClick()"
+>
+  @if (bgImage) {
+    <div class="card-bg-image" [style.background-image]="'url(' + bgImage + ')'"></div>
+  }
+
+  <div class="card-gradient-overlay" [style.background]="customGradient || defaultGradient"></div>
+
+  <div class="card-foreground">
+    <div class="card-header-row">
+      <div class="card-icon-circle" [style.background-color]="iconBg || defaultIconBg">
+        @if (icon) {
+          <oefa-icon [name]="icon" [size]="28" color="#FFFFFF" />
+        } @else {
+          <svg class="concentric-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5">
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="12" r="5" stroke-width="2.2" />
+            <circle cx="12" cy="12" r="1.5" fill="#FFFFFF" />
+          </svg>
+        }
+      </div>
+      <h3 class="card-title">{{ title }}</h3>
+    </div>
+
+    <p class="card-description">{{ description }}</p>
+
+    <div class="card-action">
+      <span class="action-label">{{ actionText }}</span>
+      <svg class="action-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12" />
+        <polyline points="12 5 19 12 12 19" />
+      </svg>
+    </div>
+  </div>
+</article>

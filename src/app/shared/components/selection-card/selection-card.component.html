@@ -1,0 +1,59 @@
+<div
+  class="selection-card-inner"
+  [class.selected]="selected"
+  [class.disabled]="disabled"
+  [attr.role]="type === 'checkbox' ? 'checkbox' : 'radio'"
+  [attr.aria-checked]="selected"
+  [attr.aria-disabled]="disabled"
+  [attr.aria-label]="ariaLabel || title"
+  [attr.tabindex]="disabled ? -1 : 0"
+  (click)="toggleSelection()"
+  (keydown)="onKeyDown($event)"
+>
+  <!-- Indicador visual (Radio / Checkbox) -->
+  <div class="indicator-box" [class.type-radio]="type === 'radio'" [class.type-checkbox]="type === 'checkbox'">
+    @if (type === 'radio') {
+      <div class="radio-dot" [class.visible]="selected"></div>
+    } @else {
+      @if (selected) {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="check-icon"
+        >
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      }
+    }
+  </div>
+
+  <!-- Icono opcional proyectado -->
+  <div class="card-icon-slot">
+    <ng-content select="[card-icon]"></ng-content>
+  </div>
+
+  <!-- Textos y contenido principal -->
+  <div class="card-content">
+    <div class="card-header-row">
+      <span class="card-title">{{ title }}</span>
+      @if (priceBadge) {
+        <span class="card-badge" [ngClass]="'badge-' + badgeVariant">
+          {{ priceBadge }}
+        </span>
+      }
+    </div>
+
+    @if (description) {
+      <p class="card-desc">{{ description }}</p>
+    }
+
+    <ng-content></ng-content>
+  </div>
+</div>

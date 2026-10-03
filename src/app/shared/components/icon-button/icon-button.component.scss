@@ -7,6 +7,7 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: var(--oefa-radius-md, 8px);
+  padding: 0;
   cursor: pointer;
   transition: background-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
               border-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
@@ -25,62 +26,66 @@ button {
   }
 }
 
-/* 1. Variante Default (Botón de acción con ícono cuadrado) */
-.btn-icon {
+/* Escala de Tamaños */
+.btn-size-sm {
+  width: 32px;
+  height: 32px;
+}
+
+.btn-size-md {
   width: 36px;
   height: 36px;
-  padding: 0;
-  background-color: var(--oefa-surface-card, #FFFFFF);
-  border: 1px solid var(--oefa-border-color, #E2E8F0);
-  color: var(--oefa-text-secondary, #64748B);
+}
+
+.btn-size-lg {
+  width: 40px;
+  height: 40px;
+}
+
+/* 1. Variante Default (Botón de acción con ícono cuadrado) */
+.btn-icon {
+  background-color: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  color: var(--oefa-text-secondary);
 
   &:hover:not(:disabled) {
-    color: var(--oefa-primary-root, #144AA7);
-    background-color: var(--oefa-surface-subtle, #F8FAFC);
-    border-color: var(--oefa-primary-container-hc, #A4C1F4);
+    color: var(--oefa-primary-root);
+    background-color: var(--oefa-surface-subtle);
+    border-color: var(--oefa-primary-container-hc);
   }
 
   &:active:not(:disabled) {
-    background-color: var(--oefa-primary-container, #EEF4FF);
+    background-color: var(--oefa-primary-container);
   }
 }
 
 /* 2. Variante Close (Botón cerrar modal/drawer) */
 .btn-drawer-close {
-  width: 32px;
-  height: 32px;
-  padding: 0;
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: var(--oefa-radius-sm, 6px);
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--oefa-text-secondary, #64748B);
+  color: var(--oefa-text-secondary);
 
   &:hover:not(:disabled) {
-    background-color: var(--oefa-surface-muted, #F1F5F9);
-    color: var(--oefa-text-primary, #1E293B);
+    background-color: var(--oefa-surface-muted);
+    color: var(--oefa-text-primary);
   }
 
   &:active:not(:disabled) {
-    background-color: var(--oefa-border-color, #E2E8F0);
+    background-color: var(--oefa-border-color);
   }
 }
 
 /* 3. Variante Kebab (Menú contextual ⋮) */
 .btn-kebab {
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  background-color: var(--oefa-surface-card, #FFFFFF);
-  border: 1px solid var(--oefa-border-color, #E2E8F0);
-  color: var(--oefa-text-secondary, #64748B);
-  font-size: 1.15rem;
+  background-color: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  color: var(--oefa-text-secondary);
 
   &:hover:not(:disabled) {
-    color: var(--oefa-text-primary, #1E293B);
-    background-color: var(--oefa-surface-subtle, #F8FAFC);
-    border-color: var(--oefa-primary-container-hc, #A4C1F4);
+    color: var(--oefa-text-primary);
+    background-color: var(--oefa-surface-subtle);
+    border-color: var(--oefa-primary-container-hc);
   }
 }
 
@@ -88,11 +93,11 @@ button {
 .btn-icon.btn-ghost {
   background-color: transparent;
   border-color: transparent;
-  color: var(--oefa-text-secondary, #64748B);
+  color: var(--oefa-text-secondary);
 
   &:hover:not(:disabled) {
-    background-color: var(--oefa-surface-muted, #F1F5F9);
-    color: var(--oefa-text-primary, #1E293B);
+    background-color: var(--oefa-surface-muted);
+    color: var(--oefa-text-primary);
   }
 }
 

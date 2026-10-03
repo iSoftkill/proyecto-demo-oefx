@@ -15,7 +15,7 @@ export interface UserMenuProfile {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './user-menu.component.html',
-  styleUrl: './user-menu.component.css'
+  styleUrl: './user-menu.component.scss'
 })
 export class UserMenuComponent {
   themeService = inject(ThemeService);

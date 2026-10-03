@@ -1,0 +1,236 @@
+:host {
+  display: block;
+}
+
+.bento-kpi-card {
+  border-radius: var(--oefa-radius-xl, 24px);
+  padding: 20px;
+  border: 1px solid var(--oefa-border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: var(--oefa-shadow-sm);
+  transition: transform var(--oefa-duration-medium) var(--oefa-ease-emphasized),
+              box-shadow var(--oefa-duration-medium) var(--oefa-ease-emphasized);
+  cursor: pointer;
+  outline: none;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px var(--oefa-focus-glow), var(--oefa-shadow-sm);
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--oefa-shadow-md);
+
+    .bkc-icon-box {
+      transform: rotate(8deg) scale(1.12);
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px) scale(0.995);
+    transition-duration: var(--oefa-duration-short);
+  }
+}
+
+.bkc-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bkc-status-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.bkc-headline {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bkc-top-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.bkc-icon-box {
+  width: 40px;
+  height: 40px;
+  background: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-md, 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--oefa-shadow-sm);
+  flex-shrink: 0;
+  transition: transform var(--oefa-duration-medium) var(--oefa-ease-emphasized);
+}
+
+.bkc-sector {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  color: var(--oefa-text-muted);
+}
+
+.bkc-title {
+  margin: 0;
+  font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--oefa-text-primary);
+  line-height: 1.35;
+}
+
+.bkc-trend-pill {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  background: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  padding: 2px 8px;
+  border-radius: var(--oefa-radius-full);
+  box-shadow: var(--oefa-shadow-sm);
+}
+
+.bkc-body {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.bkc-metric-num {
+  font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--oefa-text-primary);
+  line-height: 1;
+}
+
+.bkc-metric-desc {
+  margin: 6px 0 0 0;
+  font-size: 0.75rem;
+  color: var(--oefa-text-secondary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bkc-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.bkc-chart-wrap {
+  flex-shrink: 0;
+}
+
+.donut-chart-box {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-pct {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  color: var(--oefa-text-primary);
+  line-height: 1;
+}
+
+.donut-lbl {
+  font-size: 0.5rem;
+  color: var(--oefa-text-muted);
+  text-transform: uppercase;
+}
+
+.micro-bars-box {
+  width: 58px;
+  height: 48px;
+  background: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-md, 10px);
+  padding: 4px 6px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 3px;
+}
+
+.mbar {
+  flex: 1;
+  border-radius: 3px;
+}
+
+.micro-spark-box {
+  width: 64px;
+  height: 38px;
+  background: var(--oefa-surface-card);
+  border: 1px solid var(--oefa-border-color);
+  border-radius: var(--oefa-radius-md, 10px);
+  padding: 3px;
+}
+
+.spark-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.bkc-footer {
+  padding-top: 10px;
+  border-top: 1px solid var(--oefa-border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.6875rem;
+}
+
+.bkc-period {
+  color: var(--oefa-text-muted);
+  font-weight: 500;
+}
+
+.bkc-link {
+  font-weight: 700;
+  text-decoration: none;
+  &:hover { text-decoration: underline; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-kpi-card {
+    transition: none !important;
+    transform: none !important;
+  }
+}

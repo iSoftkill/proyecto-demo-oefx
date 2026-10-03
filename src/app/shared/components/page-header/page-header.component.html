@@ -1,0 +1,57 @@
+<header class="oefa-page-header">
+  @if (breadcrumbs && breadcrumbs.length > 0) {
+    <nav class="breadcrumb-nav" aria-label="Ruta de navegación">
+      <ol class="breadcrumb-list">
+        @for (item of breadcrumbs; track item.label; let last = $last) {
+          <li class="breadcrumb-item" [class.active]="last" [attr.aria-current]="last ? 'page' : null">
+            @if (!last) {
+              @if (item.url) {
+                <a [routerLink]="item.url" class="breadcrumb-link">{{ item.label }}</a>
+              } @else {
+                <span class="breadcrumb-static">{{ item.label }}</span>
+              }
+              <span class="breadcrumb-separator" aria-hidden="true">/</span>
+            } @else {
+              <span class="breadcrumb-current">{{ item.label }}</span>
+            }
+          </li>
+        }
+      </ol>
+    </nav>
+  }
+
+  <div class="header-main-row">
+    <div class="title-section">
+      <div class="title-with-badge">
+        @if (showBack) {
+          <button
+            type="button"
+            class="btn-page-back"
+            title="Regresar a la página anterior"
+            aria-label="Regresar a la página anterior"
+            (click)="onBackClick()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+        }
+        <h1 class="page-title">{{ title }}</h1>
+        @if (badgeText) {
+          <oefa-status-badge [status]="badgeStatus || 'info'" [label]="badgeText" />
+        }
+      </div>
+      @if (subtitle) {
+        <p class="page-subtitle">{{ subtitle }}</p>
+      }
+    </div>
+
+    <div class="header-actions">
+      <ng-content select="[actions]"></ng-content>
+    </div>
+  </div>
+
+  <div class="header-extra">
+    <ng-content select="[extra]"></ng-content>
+  </div>
+</header>

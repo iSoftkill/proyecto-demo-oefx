@@ -1,0 +1,48 @@
+<div
+  class="oefa-collapsible"
+  [ngClass]="'variant-' + variant"
+  [class.is-open]="isOpen"
+  [class.disabled]="disabled">
+
+  <button
+    type="button"
+    class="collapsible-trigger"
+    [attr.aria-expanded]="isOpen"
+    [attr.aria-controls]="contentId"
+    [attr.id]="triggerId"
+    [attr.aria-label]="ariaLabel || title"
+    [disabled]="disabled"
+    (click)="toggle()">
+
+    <div class="trigger-left">
+      <span class="chevron-icon" [class.rotated]="isOpen" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </span>
+
+      <div class="trigger-text-group">
+        <span class="collapsible-title">{{ title }}</span>
+        @if (subtitle) {
+          <span class="collapsible-subtitle">{{ subtitle }}</span>
+        }
+      </div>
+    </div>
+
+    @if (badge) {
+      <span class="collapsible-badge" [ngClass]="'badge-' + badgeVariant">
+        {{ badge }}
+      </span>
+    }
+  </button>
+
+  @if (isOpen) {
+    <div
+      class="collapsible-content oefa-motion-fade-in"
+      [id]="contentId"
+      role="region"
+      [attr.aria-labelledby]="triggerId">
+      <ng-content></ng-content>
+    </div>
+  }
+</div>
