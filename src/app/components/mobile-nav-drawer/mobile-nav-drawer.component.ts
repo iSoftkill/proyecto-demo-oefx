@@ -36,7 +36,7 @@ export interface MobileNavLevel {
             </svg>
             <span>Volver</span>
           </oefa-button>
-        } @else {
+        } @else if (navService.showQuickAction()) {
           <oefa-button 
             variant="primary" 
             size="md" 
@@ -50,6 +50,8 @@ export interface MobileNavLevel {
             </svg>
             <span>Nueva Orden</span>
           </oefa-button>
+        } @else {
+          <span class="drawer-header-title">Menú</span>
         }
 
         <!-- Botón cerrar Drawer con componente institucional -->
@@ -218,6 +220,13 @@ export interface MobileNavLevel {
       background: var(--oefa-surface-subtle, #f8fafc);
       min-height: 56px;
       box-sizing: border-box;
+    }
+
+    .drawer-header-title {
+      font-size: var(--oefa-font-size-md, 1rem);
+      font-weight: var(--oefa-font-weight-semibold, 600);
+      color: var(--oefa-text-primary, #1d1d1b);
+      margin: 0;
     }
 
     .btn-quick-order {

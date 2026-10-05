@@ -1,0 +1,172 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.oefa-stat {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  transition: transform var(--oefa-duration-short, 150ms) var(--oefa-ease-standard);
+
+  /* Divisor vertical opcional */
+  &.has-divider {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 6px;
+      bottom: 6px;
+      width: 1px;
+      background-color: var(--oefa-border-color-subtle, #f1f5f9);
+    }
+  }
+
+  /* -------------------------------------------------------------
+     1. Disposición INLINE (Por defecto en SM y MD)
+     ------------------------------------------------------------- */
+  &.layout-inline {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--oefa-spacing-sm, 12px);
+
+    .stat-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+  }
+
+  /* -------------------------------------------------------------
+     2. Disposición STACKED (Por defecto en LG)
+     ------------------------------------------------------------- */
+  &.layout-stacked {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .stat-icon-wrapper {
+      margin-bottom: var(--oefa-spacing-sm, 12px);
+    }
+
+    .stat-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  /* Icono base */
+  .stat-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform var(--oefa-duration-short, 150ms) var(--oefa-ease-standard);
+  }
+
+  &:hover .stat-icon-wrapper {
+    transform: translateY(-2px);
+  }
+
+  /* Tipografías base */
+  .stat-number {
+    font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+    font-weight: var(--oefa-font-weight-bold, 700);
+    color: var(--oefa-primary-on-container, #002463);
+    line-height: 1.15;
+  }
+
+  .stat-label {
+    font-family: var(--oefa-font-body, 'Inter', sans-serif);
+    color: var(--oefa-text-secondary, #334155);
+    white-space: pre-line;
+  }
+
+  /* -------------------------------------------------------------
+     3. Variantes de Tamaño (SM, MD, LG)
+     ------------------------------------------------------------- */
+
+  /* SM: Micro-métrica inline */
+  &.size-sm {
+    padding: var(--oefa-spacing-3xs, 2px) var(--oefa-spacing-xs, 8px);
+    gap: var(--oefa-spacing-xs, 8px);
+
+    .stat-icon-wrapper {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border-radius: var(--oefa-radius-sm, 4px);
+      background-color: var(--oefa-primary-container, #eef4ff);
+      color: var(--oefa-primary-root, #144aa7);
+    }
+
+    .stat-number {
+      font-size: var(--oefa-font-size-body, 1rem);
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: var(--oefa-font-size-2xs, 0.6875rem);
+      font-weight: var(--oefa-font-weight-medium, 500);
+      line-height: 1.2;
+    }
+  }
+
+  /* MD: Estándar inline (Recomendado para Dashboards y Tarjetas) */
+  &.size-md {
+    padding: var(--oefa-spacing-2xs, 4px) var(--oefa-spacing-sm, 12px);
+    gap: var(--oefa-spacing-sm, 12px);
+
+    .stat-icon-wrapper {
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      border-radius: var(--oefa-radius-md, 8px);
+      background-color: var(--oefa-primary-container, #eef4ff);
+      color: var(--oefa-primary-root, #144aa7);
+    }
+
+    .stat-number {
+      font-size: var(--oefa-font-size-h4, 1.25rem);
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: var(--oefa-font-size-xs, 0.75rem);
+      font-weight: var(--oefa-font-weight-medium, 500);
+      line-height: 1.25;
+    }
+  }
+
+  /* LG: Gran Impacto Stacked (Portales y Hero banners) */
+  &.size-lg {
+    padding: var(--oefa-spacing-xs, 8px) var(--oefa-spacing-md, 16px);
+
+    .stat-icon-wrapper {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border-radius: var(--oefa-radius-full, 9999px);
+      background-color: var(--oefa-primary-container, #eef4ff);
+      color: var(--oefa-primary-root, #144aa7);
+      box-shadow: var(--oefa-shadow-sm, 0 1px 3px rgba(15, 23, 42, 0.06));
+    }
+
+    .stat-number {
+      font-size: var(--oefa-font-size-h2, 1.875rem);
+      margin-bottom: var(--oefa-spacing-2xs, 4px);
+    }
+
+    .stat-label {
+      font-size: var(--oefa-font-size-xs, 0.75rem);
+      font-weight: var(--oefa-font-weight-semibold, 600);
+      line-height: 1.35;
+      text-align: center;
+    }
+  }
+}

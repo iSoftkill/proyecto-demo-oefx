@@ -1,0 +1,23 @@
+<div 
+  class="oefa-stat" 
+  [class]="'size-' + size + ' layout-' + resolvedLayout()"
+  [class.has-divider]="showDivider"
+  role="group"
+  [attr.aria-label]="label + ': ' + number"
+>
+  @if (icon) {
+    <div 
+      class="stat-icon-wrapper" 
+      [style.background-color]="iconBg || null" 
+      [style.color]="iconColor || null"
+      aria-hidden="true"
+    >
+      <oefa-icon [name]="icon" [size]="iconSize()" />
+    </div>
+  }
+
+  <div class="stat-content">
+    <span class="stat-number" [style.color]="valueColor || null">{{ number }}</span>
+    <span class="stat-label">{{ label }}</span>
+  </div>
+</div>

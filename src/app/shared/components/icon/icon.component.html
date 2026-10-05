@@ -101,6 +101,19 @@
           <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
         </svg>
       }
+      @case ('arrow-right') {
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" [attr.stroke-width]="strokeWidth" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      }
+      @case ('concentric') {
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" [attr.stroke-width]="strokeWidth">
+          <circle cx="12" cy="12" r="9" />
+          <circle cx="12" cy="12" r="5" stroke-width="2.2" />
+          <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+        </svg>
+      }
       @case ('filter') {
         <svg viewBox="0 0 24 24" [attr.stroke-width]="strokeWidth" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
@@ -265,6 +278,46 @@
       @case ('trash') {
         <svg viewBox="0 0 24 24" [attr.stroke-width]="strokeWidth" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>
+        </svg>
+      }
+      @case ('star') {
+        <svg viewBox="0 0 24 24" [attr.stroke-width]="strokeWidth" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      }
+      @case ('powerbi') {
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="12" width="4" height="9" rx="1" fill="#D3A000"/>
+          <rect x="10" y="7" width="4" height="14" rx="1" fill="#E6AD10"/>
+          <rect x="17" y="3" width="4" height="18" rx="1" fill="#F2C811"/>
+        </svg>
+      }
+      @case ('tableau') {
+        <svg viewBox="0 0 24 24">
+          <rect x="10.5" y="7" width="3" height="10" rx="0.5" fill="#E8762D"/>
+          <rect x="7" y="10.5" width="10" height="3" rx="0.5" fill="#E8762D"/>
+          <rect x="11" y="2" width="2" height="4" rx="0.5" fill="#4B698B"/>
+          <rect x="10" y="3" width="4" height="2" rx="0.5" fill="#4B698B"/>
+          <rect x="11" y="18" width="2" height="4" rx="0.5" fill="#5F889D"/>
+          <rect x="10" y="19" width="4" height="2" rx="0.5" fill="#5F889D"/>
+          <rect x="18" y="11" width="4" height="2" rx="0.5" fill="#417387"/>
+          <rect x="19" y="10" width="2" height="4" rx="0.5" fill="#417387"/>
+          <rect x="2" y="11" width="4" height="2" rx="0.5" fill="#69859A"/>
+          <rect x="3" y="10" width="2" height="4" rx="0.5" fill="#69859A"/>
+        </svg>
+      }
+      @case ('looker') {
+        <svg viewBox="0 0 24 24">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="#4285F4" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <rect x="7" y="11" width="3.5" height="6" rx="1" fill="#4285F4"/>
+          <rect x="12" y="7" width="3.5" height="10" rx="1" fill="#34A853"/>
+          <rect x="17" y="4" width="3.5" height="13" rx="1" fill="#EA4335"/>
+        </svg>
+      }
+      @case ('qlik') {
+        <svg viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="7" stroke="#009845" stroke-width="2.5" fill="none"/>
+          <path d="m16 16 5 5" stroke="#009845" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
       }
       @default {

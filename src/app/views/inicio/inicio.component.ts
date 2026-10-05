@@ -7,6 +7,7 @@ import {
   OefaIconComponent,
   OefaProcessCardComponent,
   OefaCardComponent,
+  OefaStatComponent,
 } from '../../shared';
 
 export interface CifraItem {
@@ -36,6 +37,7 @@ export interface DestacadoItem {
     OefaIconComponent,
     OefaProcessCardComponent,
     OefaCardComponent,
+    OefaStatComponent,
     OefaPageLayoutComponent
   ],
   templateUrl: './inicio.component.html',
@@ -71,16 +73,18 @@ export class InicioComponent {
       category: 'SUPERVISIÓN',
       title: 'Fiscalización Directa en Minería y Energía',
       url: '/catalogo'
+    },
+    {
+      date: '15-SET',
+      category: 'SUPERVISIÓN',
+      title: 'Fiscalización Directa en Minería y Energía',
+      url: '/catalogo'
     }
   ];
 
   onExploreProcess(processName: string): void {
-    this.router.navigate(['/catalogo']);
-  }
-
-  onSelectDestacado(item: DestacadoItem): void {
-    if (item.url) {
-      this.router.navigateByUrl(item.url);
-    }
+    this.router.navigate(['/catalogo'], {
+      queryParams: { proceso: processName }
+    });
   }
 }

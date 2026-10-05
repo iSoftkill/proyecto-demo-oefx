@@ -48,17 +48,19 @@
   .card-title {
     margin: 0;
     color: var(--oefa-text-primary, #1d1d1b);
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: 1.35;
+    font-size: var(--oefa-font-size-h4, 1.25rem);
+    font-weight: var(--oefa-font-weight-semibold, 600);
+    line-height: var(--oefa-line-height-h4, 1.35);
     font-family: var(--oefa-font-display, inherit);
   }
 
   .card-subtitle {
     margin: 0;
-    font-size: 0.875rem;
+    font-size: var(--oefa-font-size-sm, 0.875rem);
+    font-weight: var(--oefa-font-weight-regular, 400);
     color: var(--oefa-text-secondary, #334155);
-    line-height: 1.4;
+    line-height: var(--oefa-line-height-sm, 1.4);
+    font-family: var(--oefa-font-body, inherit);
   }
 
   .header-actions {
@@ -71,6 +73,9 @@
 .card-body {
   flex: 1 1 auto;
   color: var(--oefa-text-primary, #1d1d1b);
+  font-family: var(--oefa-font-body, inherit);
+  font-size: var(--oefa-font-size-body, 1rem);
+  line-height: var(--oefa-line-height-body, 1.5);
 }
 
 .card-footer {

@@ -1,0 +1,14 @@
+<div 
+  class="oefa-description-item"
+  [class.full-width]="fullWidth"
+  [style.grid-column]="colSpan ? 'span ' + colSpan : null">
+  @if (label) {
+    <span class="oefa-description-item-label">{{ label }}</span>
+  }
+  <div class="oefa-description-item-value">
+    @if (value !== undefined && value !== null && value !== '') {
+      {{ value }}
+    }
+    <ng-content />
+  </div>
+</div>

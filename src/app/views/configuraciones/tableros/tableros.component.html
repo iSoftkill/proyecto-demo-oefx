@@ -1,32 +1,38 @@
-<oefa-page-layout
-  title="Tableros"
-  subtitle="Administración de los registros que consume el portal público."
+<oefa-page-layout title="Tableros" subtitle="Administración de los registros que consume el portal público."
   [fit]="true">
 
-  <div actions>
+  <!-- Acciones superiores en la cabecera institucional (Buscador + Botón Nuevo) -->
+  <div actions class="oefa-flex-row oefa-items-center oefa-gap-sm" style="flex-wrap: wrap;">
+    <div class="search-field-container">
+      <oefa-icon name="search" [size]="16" class="search-icon" />
+      <input type="search" class="form-input form-input-sm" placeholder="Buscar tablero..."
+        [value]="searchTerm()" (input)="onSearchInput($event)" aria-label="Buscar tablero" />
+      @if (searchTerm()) {
+      <button type="button" class="btn-clear-search" (click)="clearSearch()" aria-label="Limpiar búsqueda">
+        <oefa-icon name="close" [size]="14" />
+      </button>
+      }
+    </div>
+
     <oefa-button variant="primary" icon="plus" (clicked)="onNuevoTablero()">
       Nuevo tablero
     </oefa-button>
   </div>
 
-  <!-- Barra superior de búsqueda y filtros (Fija arriba) -->
-  <div class="oefa-flex-row oefa-justify-between oefa-items-center oefa-gap-md oefa-mb-md" style="flex-shrink: 0;">
-    <div class="oefa-flex-1" style="max-width: 640px;">
-      <input 
-        type="text" 
-        class="form-input" 
-        placeholder="Buscar tablero..." 
-        [value]="searchTerm()"
-        (input)="onSearchInput($event)" />
-    </div>
-    <div>
-      <select class="form-select form-select-sm" style="min-width: 140px;" [value]="selectedFiltro()" (change)="onFilterChange($event)">
-        <option value="todos">Todos</option>
-        <option value="activos">Activos</option>
-        <option value="inactivos">Inactivos</option>
-        <option value="destacados">Destacados</option>
-      </select>
-    </div>
+  <!-- Carrusel de Chips de Filtro Rápido Institucional -->
+  <div class="filter-chips-carousel oefa-mb-sm" style="flex-shrink: 0;">
+    <oefa-chip [active]="selectedFiltro() === 'todos'" (clicked)="setFilter('todos')">
+      Todos
+    </oefa-chip>
+    <oefa-chip icon="star" [active]="selectedFiltro() === 'destacados'" (clicked)="setFilter('destacados')">
+      Destacados
+    </oefa-chip>
+    <oefa-chip [active]="selectedFiltro() === 'activos'" (clicked)="setFilter('activos')">
+      Activos
+    </oefa-chip>
+    <oefa-chip [active]="selectedFiltro() === 'inactivos'" (clicked)="setFilter('inactivos')">
+      Inactivos
+    </oefa-chip>
   </div>
 
   <!-- Tabla Institucional OEFA con scroll interno y sticky header -->
@@ -39,7 +45,7 @@
           <th>Proceso</th>
           <th>Sección</th>
           <th>Tipo de tablero</th>
-          <th style="width: 90px;">Tipo</th>
+          <th style="width: 140px;">Herramienta BI</th>
           <th style="width: 190px;">Última modificación</th>
           <th style="width: 90px; text-align: center;">Activo</th>
           <th style="width: 90px; text-align: center;">Destacado</th>
@@ -47,70 +53,80 @@
         </tr>
       </thead>
       <tbody>
-        @for (item of filteredTableros(); track $index) {
-          <tr>
-            <td class="font-mono font-semibold">{{ item.id }}</td>
-            <td class="font-medium color-primary">{{ item.titulo }}</td>
-            <td>{{ item.proceso }}</td>
-            <td>{{ item.seccion }}</td>
-            <td>{{ item.tipoTablero }}</td>
-            <td><span class="font-mono">{{ item.tipo }}</span></td>
-            <td class="font-mono" style="font-size: 0.8125rem;">{{ item.ultimaModificacion }}</td>
-            <td style="text-align: center;">
-              <oefa-status-badge [status]="item.activo ? 'success' : 'neutral'">
-                {{ item.activo ? 'Activo' : 'Inactivo' }}
-              </oefa-status-badge>
-            </td>
-            <td style="text-align: center;">
-              @if (item.destacado) {
-                <oefa-status-badge status="success">Sí</oefa-status-badge>
-              } @else {
-                <span class="text-muted font-mono">-</span>
+        @for (item of paginadorTableros(); track item.id) {
+        <tr>
+          <td class="font-mono font-semibold">{{ item.id }}</td>
+          <td class="font-medium color-primary">{{ item.titulo }}</td>
+          <td>{{ item.proceso }}</td>
+          <td>{{ item.seccion }}</td>
+          <td>{{ item.tipoTablero }}</td>
+          <td>
+            @switch (item.tipo) {
+              @case ('powerbi') {
+                <oefa-chip icon="powerbi" label="Power BI" size="sm" />
               }
-            </td>
-            <td style="text-align: center;">
-              <oefa-dropdown 
-                [isOpen]="activeDropdownId() === item.id" 
-                [fixedPosition]="true"
-                (isOpenChange)="onDropdownChange(item.id, $event)">
-                <div trigger>
-                  <oefa-icon-button 
-                    variant="kebab" 
-                    size="sm" 
-                    title="Más opciones" 
-                    (clicked)="toggleDropdown(item.id)" />
-                </div>
-                <div menu class="oefa-dropdown-items">
-                  <button type="button" class="dropdown-item" (click)="onVer(item)">
-                    <oefa-icon name="globe" size="sm" color="var(--oefa-primary-root)" />
-                    <span>Ver enlace público</span>
-                  </button>
-                  <button type="button" class="dropdown-item" (click)="onEditar(item)">
-                    <oefa-icon name="edit" size="sm" color="var(--oefa-text-secondary)" />
-                    <span>Editar</span>
-                  </button>
-                  <button type="button" class="dropdown-item" (click)="onToggleEstado(item)">
-                    <oefa-icon name="pause-circle" size="sm" color="var(--oefa-text-secondary)" />
-                    <span>{{ item.activo ? 'Pausar' : 'Activar' }}</span>
-                  </button>
-                  <div class="dropdown-divider"></div>
-                  <button type="button" class="dropdown-item text-danger" (click)="onEliminar(item)">
-                    <oefa-icon name="trash" size="sm" color="var(--oefa-error-ui-safe)" />
-                    <span>Eliminar</span>
-                  </button>
-                </div>
-              </oefa-dropdown>
-            </td>
-          </tr>
+              @case ('tableau') {
+                <oefa-chip icon="tableau" label="Tableau" size="sm" />
+              }
+              @case ('looker') {
+                <oefa-chip icon="looker" label="Looker Studio" size="sm" />
+              }
+              @case ('qlik') {
+                <oefa-chip icon="qlik" label="Qlik Sense" size="sm" />
+              }
+              @default {
+                <oefa-chip icon="chart" [label]="item.tipo || 'Otro'" size="sm" />
+              }
+            }
+          </td>
+          <td class="font-mono" style="font-size: 0.8125rem;">{{ item.ultimaModificacion }}</td>
+          <td style="text-align: center;">
+            <oefa-status-badge [status]="item.activo ? 'success' : 'neutral'"
+              [label]="item.activo ? 'Activo' : 'Inactivo'" />
+          </td>
+          <td style="text-align: center;">
+            @if (item.destacado) {
+            <oefa-status-badge status="warning" label="Destacado" />
+            } @else {
+            <span class="text-muted font-mono">-</span>
+            }
+          </td>
+          <td style="text-align: center;">
+            <oefa-dropdown [isOpen]="activeDropdownId() === item.id" [fixedPosition]="true"
+              (isOpenChange)="onDropdownChange(item.id, $event)">
+              <div trigger>
+                <oefa-icon-button variant="kebab" size="sm" title="Más opciones" (clicked)="toggleDropdown(item.id)" />
+              </div>
+              <div menu class="oefa-dropdown-items">
+                <button type="button" class="dropdown-item" (click)="onVer(item)">
+                  <oefa-icon name="globe" size="sm" color="var(--oefa-primary-root)" />
+                  <span>Ver enlace público</span>
+                </button>
+                <button type="button" class="dropdown-item" (click)="onEditar(item)">
+                  <oefa-icon name="edit" size="sm" color="var(--oefa-text-secondary)" />
+                  <span>Editar</span>
+                </button>
+                <button type="button" class="dropdown-item" (click)="onToggleEstado(item)">
+                  <oefa-icon name="pause-circle" size="sm" color="var(--oefa-text-secondary)" />
+                  <span>{{ item.activo ? 'Pausar' : 'Activar' }}</span>
+                </button>
+                <div class="dropdown-divider"></div>
+                <button type="button" class="dropdown-item text-danger" (click)="onEliminar(item)">
+                  <oefa-icon name="trash" size="sm" color="var(--oefa-error-ui-safe)" />
+                  <span>Eliminar</span>
+                </button>
+              </div>
+            </oefa-dropdown>
+          </td>
+        </tr>
         } @empty {
-          <tr>
-            <td colspan="10" style="text-align: center; padding: 32px;">
-              <oefa-empty-state 
-                title="Sin tableros encontrados" 
-                description="No hay registros que coincidan con el criterio de búsqueda.">
-              </oefa-empty-state>
-            </td>
-          </tr>
+        <tr>
+          <td colspan="10" style="text-align: center; padding: 32px;">
+            <oefa-empty-state title="Sin tableros encontrados"
+              description="No hay registros que coincidan con el criterio de búsqueda.">
+            </oefa-empty-state>
+          </td>
+        </tr>
         }
       </tbody>
     </table>
@@ -118,13 +134,280 @@
 
   <!-- Paginador Reutilizable OEFA (Fijo al pie) -->
   <div style="flex-shrink: 0; margin-top: 12px;">
-    <oefa-pagination
-      [currentPage]="currentPage()"
-      [pageSize]="pageSize()"
-      [totalItems]="filteredTableros().length"
-      [pageSizeOptions]="[10, 25, 50]"
-      itemLabel="tableros registrados"
-      (pageChange)="currentPage.set($event)"
+    <oefa-pagination [currentPage]="currentPage()" [pageSize]="pageSize()" [totalItems]="filteredTableros().length"
+      [pageSizeOptions]="[10, 25, 50]" itemLabel="tableros registrados" (pageChange)="currentPage.set($event)"
       (pageSizeChange)="pageSize.set($event)" />
   </div>
+
+  <!-- Modal Nuevo Tablero con Stepper de 3 Pasos -->
+  <oefa-modal [isOpen]="isModalNuevoOpen()" title="Nuevo Tablero"
+    subtitle="Registra un nuevo tablero completando los 3 pasos secuenciales." size="lg" [showFooter]="true"
+    [showCloseButton]="true" (close)="cerrarModalNuevo()">
+
+    <!-- Stepper Institucional de 3 Pasos -->
+    <div class="modal-stepper-section">
+      <oefa-stepper [steps]="pasosNuevoTablero" [currentStep]="pasoActual()" [clickable]="true" orientation="horizontal"
+        (stepChange)="onStepChange($event)" (currentStepChange)="onStepChange($event)">
+      </oefa-stepper>
+    </div>
+
+    <!-- Contenedor del contenido por paso -->
+    <div class="modal-step-body">
+      @switch (pasoActual()) {
+      <!-- PASO 1: DATOS GENERALES -->
+      @case (1) {
+      <div class="step-pane">
+        <div class="form-section">
+          <!-- Título: input text -->
+          <div class="form-group oefa-mb-sm">
+            <label class="form-label" for="tablero-titulo">
+              Título <span class="text-danger">*</span>
+            </label>
+            <input id="tablero-titulo" type="text" class="form-input"
+              placeholder="Ej: DEAM Seguimiento metas Planefa 2026" [value]="nuevoTitulo()"
+              (input)="nuevoTitulo.set($any($event.target).value)" />
+          </div>
+
+          <!-- Descripción: input text area -->
+          <div class="form-group oefa-mb-sm">
+            <label class="form-label" for="tablero-descripcion">
+              Descripción
+            </label>
+            <textarea id="tablero-descripcion" class="form-textarea" rows="3"
+              placeholder="Descripción resumida para el catálogo público..." [value]="nuevaDescripcion()"
+              (input)="nuevaDescripcion.set($any($event.target).value)"></textarea>
+          </div>
+
+          <!-- Url del Dashboard: input text -->
+          <div class="form-group oefa-mb-sm">
+            <label class="form-label" for="tablero-url">
+              URL del Dashboard <span class="text-danger">*</span>
+            </label>
+            <input id="tablero-url" type="url" class="form-input"
+              placeholder="https://lookerstudio.google.com/embed/reporting/... o https://app.powerbi.com/reportEmbed?..."
+              [value]="nuevaUrlDashboard()" (input)="nuevaUrlDashboard.set($any($event.target).value)" />
+          </div>
+
+          <!-- Icono: select con buscador -->
+          <div class="form-group oefa-mb-sm">
+            <label class="form-label">Icono</label>
+            <oefa-dropdown [isOpen]="isIconDropdownOpen()" [fixedPosition]="true" [closeOnItemClick]="false"
+              align="left" (isOpenChange)="isIconDropdownOpen.set($event)">
+
+              <div trigger class="icon-dropdown-trigger" role="combobox" aria-haspopup="listbox"
+                [attr.aria-expanded]="isIconDropdownOpen()">
+                <div class="selected-icon-preview">
+                  <oefa-icon [name]="nuevoIcono()" size="sm" color="var(--oefa-primary-root)" />
+                  <span class="selected-icon-name">{{ getIconoLabel(nuevoIcono()) }}</span>
+                </div>
+                <span class="dropdown-chevron-icon" aria-hidden="true">▾</span>
+              </div>
+
+              <div menu class="icon-dropdown-menu" role="listbox">
+                <!-- Buscador Integrado -->
+                <div class="dropdown-search">
+                  <input type="text" class="dropdown-search-input" placeholder="Buscar icono..."
+                    [value]="filtroIcono()" (input)="onFiltroIconoInput($event)" (click)="$event.stopPropagation()" />
+                </div>
+
+                <div class="dropdown-divider"></div>
+
+                <!-- Lista de Iconos Filtrados -->
+                <div class="icon-dropdown-list">
+                  @for (ico of iconosFiltrados(); track ico.id) {
+                  <button type="button" class="dropdown-item icon-item-btn"
+                    [class.active-item]="nuevoIcono() === ico.id" role="option"
+                    [attr.aria-selected]="nuevoIcono() === ico.id" (click)="seleccionarIcono(ico.id)">
+                    <div class="icon-item-left">
+                      <oefa-icon [name]="ico.id" size="sm" />
+                      <span>{{ ico.label }}</span>
+                    </div>
+                    @if (nuevoIcono() === ico.id) {
+                    <oefa-icon name="check" size="xs" color="var(--oefa-primary-root)" />
+                    }
+                  </button>
+                  }
+                  @if (iconosFiltrados().length === 0) {
+                  <div class="dropdown-empty-state">
+                    No se encontraron iconos
+                  </div>
+                  }
+                </div>
+              </div>
+            </oefa-dropdown>
+          </div>
+
+          <!-- Destacar?: un checkbox -->
+          <div class="form-group oefa-mt-xs">
+            <label class="form-checkbox-label">
+              <input type="checkbox" [checked]="nuevoDestacado()"
+                (change)="nuevoDestacado.set($any($event.target).checked)" />
+              <span class="checkbox-text">¿Destacar en portada pública?</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      }
+
+      <!-- PASO 2: CLASIFICACIÓN -->
+      @case (2) {
+      <div class="step-pane">
+        <div class="form-section">
+          <div class="oefa-form-grid-2">
+            <!-- Proceso: select -->
+            <div class="form-group">
+              <label class="form-label" for="tablero-proceso">Proceso</label>
+              <select id="tablero-proceso" class="form-select" [value]="nuevoProceso()"
+                (change)="nuevoProceso.set($any($event.target).value)">
+                @for (proc of procesosOpciones; track proc) {
+                <option [value]="proc">{{ proc }}</option>
+                }
+              </select>
+            </div>
+
+            <!-- Sección: select -->
+            <div class="form-group">
+              <label class="form-label" for="tablero-seccion">Sección</label>
+              <select id="tablero-seccion" class="form-select" [value]="nuevaSeccion()"
+                (change)="nuevaSeccion.set($any($event.target).value)">
+                @for (sec of seccionesOpciones; track sec) {
+                <option [value]="sec">{{ sec }}</option>
+                }
+              </select>
+            </div>
+
+            <!-- Tipo de tablero: select -->
+            <div class="form-group">
+              <label class="form-label" for="tablero-tipo-tab">Tipo de tablero</label>
+              <select id="tablero-tipo-tab" class="form-select" [value]="nuevoTipoTablero()"
+                (change)="nuevoTipoTablero.set($any($event.target).value)">
+                @for (tipo of tiposTableroOpciones; track tipo) {
+                <option [value]="tipo">{{ tipo }}</option>
+                }
+              </select>
+            </div>
+
+            <!-- Categoría: select -->
+            <div class="form-group">
+              <label class="form-label" for="tablero-categoria">Categoría</label>
+              <select id="tablero-categoria" class="form-select" [value]="nuevaCategoria()"
+                (change)="nuevaCategoria.set($any($event.target).value)">
+                @for (cat of categoriasOpciones; track cat) {
+                <option [value]="cat">{{ cat }}</option>
+                }
+              </select>
+            </div>
+
+            <!-- Tema: select de 1 a 1 -->
+            <div class="form-group">
+              <label class="form-label" for="tablero-tema">Tema</label>
+              <select id="tablero-tema" class="form-select" [value]="nuevoTema()"
+                (change)="nuevoTema.set($any($event.target).value)">
+                @for (t of temasCatalogo; track t) {
+                <option [value]="t">{{ t }}</option>
+                }
+              </select>
+            </div>
+
+            <!-- Herramienta BI: select -->
+            <div class="form-group">
+              <label class="form-label" for="tablero-herramienta">Herramienta BI</label>
+              <select id="tablero-herramienta" class="form-select" [value]="nuevaHerramientaBI()"
+                (change)="nuevaHerramientaBI.set($any($event.target).value)">
+                @for (h of herramientasBIOpciones; track h.id) {
+                <option [value]="h.id">{{ h.label }}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+
+      <!-- PASO 3: FICHA TÉCNICA -->
+      @case (3) {
+      <div class="step-pane">
+        <div class="form-section">
+          <div class="oefa-form-grid-2">
+            <!-- Responsable: input text -->
+            <div class="form-group">
+              <label class="form-label" for="tablero-responsable">Responsable</label>
+              <input id="tablero-responsable" type="text" class="form-input"
+                placeholder="Ej: Dirección de Supervisión Ambiental" [value]="nuevoResponsable()"
+                (input)="nuevoResponsable.set($any($event.target).value)" />
+            </div>
+
+            <!-- Fuente de datos: input text -->
+            <div class="form-group">
+              <label class="form-label" for="tablero-fuente">Fuente de datos</label>
+              <input id="tablero-fuente" type="text" class="form-input"
+                placeholder="Ej: SIGED, Sistema SEOSC, Monitoreo SFA" [value]="nuevaFuenteDatos()"
+                (input)="nuevaFuenteDatos.set($any($event.target).value)" />
+            </div>
+
+            <!-- Periodicidad: input text -->
+            <div class="form-group oefa-col-span-2">
+              <label class="form-label" for="tablero-periodicidad">Periodicidad</label>
+              <input id="tablero-periodicidad" type="text" class="form-input"
+                placeholder="Ej: Mensual, Semestral, Actualización diaria..." [value]="nuevaPeriodicidad()"
+                (input)="nuevaPeriodicidad.set($any($event.target).value)" />
+            </div>
+          </div>
+
+          <!-- Descripción: input text area -->
+          <div class="form-group oefa-mt-sm">
+            <label class="form-label" for="tablero-ficha-desc">Descripción</label>
+            <textarea id="tablero-ficha-desc" class="form-textarea" rows="3"
+              placeholder="Descripción técnica, alcance metodológico y objetivos del tablero..."
+              [value]="nuevaFichaDescripcion()" (input)="nuevaFichaDescripcion.set($any($event.target).value)"></textarea>
+          </div>
+
+          <!-- Observaciones: input text area -->
+          <div class="form-group oefa-mt-sm">
+            <label class="form-label" for="tablero-observaciones">Observaciones</label>
+            <textarea id="tablero-observaciones" class="form-textarea" rows="2"
+              placeholder="Observaciones o notas complementarias..." [value]="nuevaObservaciones()"
+              (input)="nuevaObservaciones.set($any($event.target).value)"></textarea>
+          </div>
+
+          <!-- Documento de ficha técnica (URL) con nota explicativa -->
+          <div class="form-group oefa-mt-sm">
+            <label class="form-label" for="tablero-doc-url">Documento de ficha técnica (URL)</label>
+            <input id="tablero-doc-url" type="url" class="form-input"
+              placeholder="https://drive.google.com/... o https://repositorio.oefa.gob.pe/..."
+              [value]="nuevoDocumentoUrl()" (input)="nuevoDocumentoUrl.set($any($event.target).value)" />
+            <p class="form-field-hint">
+              Enlace HTTPS al documento de ficha técnica (PDF, Google Drive u otro repositorio autorizado).
+            </p>
+          </div>
+        </div>
+      </div>
+      }
+      }
+    </div>
+
+    <!-- Navegación del Wizard en el Footer -->
+    <div footer class="modal-footer-nav">
+      <oefa-button variant="secondary" (btnClick)="cerrarModalNuevo()">
+        Cancelar
+      </oefa-button>
+
+      <div class="modal-footer-steps">
+        @if (pasoActual() > 1) {
+        <oefa-button variant="secondary" (btnClick)="anteriorPaso()">
+          Anterior
+        </oefa-button>
+        }
+        @if (pasoActual() < pasosNuevoTablero.length) {
+        <oefa-button variant="primary" (btnClick)="siguientePaso()">
+          Siguiente
+        </oefa-button>
+        } @else {
+        <oefa-button variant="primary" icon="check" (btnClick)="guardarTablero()">
+          Guardar Tablero
+        </oefa-button>
+        }
+      </div>
+    </div>
+  </oefa-modal>
 </oefa-page-layout>

@@ -16,6 +16,7 @@ Si vienes de trabajar con **PrimeNG**, **Bootstrap** o estilos manuales, utiliza
 | `<p-card>` o tarjetas armadas en CSS local | `<oefa-card>` o `<div class="oefa-card">` | Componente / Clase Global | ❌ **Zero CSS** |
 | `<p-button label="Guardar">` | `<oefa-button variant="primary">Guardar</oefa-button>` | Componente Compartido | ❌ **Zero CSS** |
 | `<p-tag value="Activo">` | `<oefa-status-badge status="success">Activo</oefa-status-badge>` | Componente Compartido | ❌ **Zero CSS** |
+| KPIs o métricas con `style="font-size:..."` | `<oefa-stat value="..." label="..." size="md">` | Componente Compartido | ❌ **Zero CSS** |
 
 ---
 
@@ -134,6 +135,135 @@ export class MiModuloComponent {}
 | `[card-actions]` | Slot | — | Botones o iconos a la derecha de la cabecera. |
 | `[card-footer]` | Slot | — | Barra de botones o metadatos al pie. |
 | **Accesibilidad** | — | — | Focus ring 2px visible (WCAG 2.4.13), contraste AA/AAA. |
+
+---
+
+### Ficha 4: Pantalla Fija Dividida vs Scroll Natural (`<oefa-page-layout [fit]>`)
+
+#### Paso 1: El Problema / Fricción Habitual
+El desarrollador activa `[fit]="true"` creyendo que "ajustará" la pantalla, pero el contenido se corta y se vuelve inalcanzable porque el layout bloquea el scroll (`overflow: hidden; padding: 0;`). Para solucionarlo, intenta calcular alturas a mano en CSS (`height: calc(100vh - 180px);`), lo cual es un **antipatrón frágil** que se descalibra con zoom, banners o diferentes monitores.
+
+#### Paso 2: La Solución Institucional OEFA
+1. **Regla de decisión:**
+   - **`[fit]="false"` (por defecto):** Para páginas de contenido estándar, dashboards e inicio. La ventana tiene scroll vertical natural y márgenes correctos.
+   - **`[fit]="true"`:** **Únicamente** para layouts divididos fijos (Master-Detail, Catálogos con Sidebar, Visores GIS o Bandejas Split) donde la página no debe hacer scroll y los sub-paneles gestionan su propio scroll independiente.
+2. **Cero cálculos manuales:** Usar la técnica **Flexbox 0-height** con las clases globales `.oefa-split-layout` y `.oefa-scrollable`.
+
+#### Paso 3: Snippets Copiables "Zero CSS"
+
+**A) Pantalla dividida fija con Sidebar y Catálogo/Tabla scrolleable:**
+```html
+<!-- En tu template: Cero calc() y cero CSS local -->
+<oefa-page-layout 
+  title="Catálogo de Tableros Analíticos" 
+  subtitle="Filtre y explore los indicadores institucionales"
+  [fit]="true">
+
+  <!-- Contenedor dividido 100% de la altura disponible -->
+  <div class="oefa-split-layout oefa-gap-md">
+    <!-- Panel 1: Sidebar de filtros fijo a la izquierda -->
+    <oefa-filter-sidebar [isOpen]="true" />
+
+    <!-- Panel 2: Área de resultados con canal de scroll independiente -->
+    <div class="oefa-scrollable oefa-p-md">
+      <div class="oefa-grid-auto">
+        <!-- Tarjetas o tablas que scrollean limpiamente sin cortar la pantalla -->
+      </div>
+    </div>
+  </div>
+</oefa-page-layout>
+```
+
+**B) Página estándar con scroll vertical natural (Inicio, Formularios largos, Dashboards):**
+```html
+<!-- No usar [fit] o dejarlo en false: scroll natural garantizado -->
+<oefa-page-layout 
+  title="Plataforma de Inteligencia de Negocios" 
+  subtitle="Gestión ambiental eficiente y transparente"
+  [fit]="false">
+
+  <div class="oefa-stack-lg">
+    <!-- Las secciones fluyen y scrollean naturalmente con los paddings institucionales -->
+  </div>
+</oefa-page-layout>
+```
+
+#### Paso 4: Ficha Técnica y Reglas de Oro
+
+| Propiedad `[fit]` | Comportamiento | Cuándo Usar | Clases Auxiliares Obligatorias |
+|---|---|---|---|
+| `[fit]="false"` *(default)* | Scroll vertical de ventana (`overflow-y: auto`), padding estándar (`24px`). | Inicio, Dashboards, Reportes, Formularios secuenciales. | `.oefa-stack-lg`, `.oefa-grid-*` |
+| `[fit]="true"` | Ventana fija (`overflow: hidden; padding: 0`). | Split Master-Detail, GIS/Mapas, Catálogo + Sidebar. | `.oefa-split-layout` + `.oefa-scrollable` |
+
+> ⚠️ **Regla de Oro:** **Prohibido usar `calc(100vh - Xpx)`**. Si usas `[fit]="true"`, envuelve tus listas/tablas dentro de `.oefa-scrollable` para que el navegador dimensione el scroll de forma nativa y automática.
+
+---
+
+### Ficha 5: Métricas y Cifras Institucionales (`<oefa-stat>`)
+
+#### Paso 1: El Problema / Fricción Habitual
+El desarrollador maqueta números grandes con `<h2>` y `style="font-size: 2.25rem"`, lo que compite y le quita protagonismo al título principal (`H1` de 24px/1.5rem). Además, inventa contenedores circulares para iconos y márgenes manuales en cada vista.
+
+#### Paso 2: La Solución Institucional OEFA
+Usar el componente tripartito `<oefa-stat>` configurando el input `[size]` según la jerarquía de la pantalla:
+- **`size="md"` (20px / 1.25rem):** Tamaño predeterminado y recomendado para dashboards, tarjetas de resumen y analítica.
+- **`size="sm"` (16px / 1rem):** Para tablas de datos, drawlers y barras laterales compactas.
+- **`size="lg"` (30px / 1.875rem):** Reservado para Hero Banners o páginas de bienvenida institucionales.
+
+#### Paso 3: Snippet Copiable "Zero CSS"
+```typescript
+// 1. En tu *.component.ts:
+import { OefaStatComponent } from '../../shared';
+
+@Component({
+  standalone: true,
+  imports: [CommonModule, OefaStatComponent],
+  // ...
+})
+export class MiModuloComponent {}
+```
+
+```html
+<!-- 2. En tu *.component.html: Cero CSS local -->
+<div class="oefa-grid-auto">
+  <oefa-stat 
+    value="18,520" 
+    label="Supervisiones realizadas" 
+    icon="shield" 
+    color="primary" 
+    size="md" 
+    badge="+12%" 
+    badgeStatus="success" />
+
+  <oefa-stat 
+    value="99.4%" 
+    label="Cumplimiento ambiental" 
+    icon="check-circle" 
+    color="success" 
+    size="md" />
+
+  <oefa-stat 
+    value="45" 
+    label="Casos en alerta" 
+    icon="alert" 
+    color="warning" 
+    size="md" 
+    badge="Urgente" 
+    badgeStatus="danger" />
+</div>
+```
+
+#### Paso 4: Ficha Técnica (API)
+| Input | Tipo | Default | Descripción |
+|---|---|---|---|
+| `[value]` | `string \| number` | `''` | Cifra numérica o texto del indicador (ej: `1,250`, `98.5%`). |
+| `[label]` | `string` | `''` | Texto descriptivo de la métrica. |
+| `[icon]` | `string` | `''` | Icono institucional del catálogo `<oefa-icon>`. |
+| `[size]` | `'sm' \| 'md' \| 'lg'` | `'md'` | `sm` (16px), `md` (20px estándar dashboard), `lg` (30px hero). |
+| `[color]` | `'primary' \| 'secondary' \| 'success' \| 'warning' \| 'error' \| 'neutral'` | `'primary'` | Rol de color semántico del icono y acentos. |
+| `[badge]` | `string` | `''` | Texto de badge contextual (ej: `+5%`, `Meta`). |
+| `[badgeStatus]` | `'info' \| 'success' \| 'danger' \| 'error' \| 'neutral' \| 'accent'` | `'neutral'` | Color institucional del badge. |
+| `[layout]` | `'horizontal' \| 'vertical' \| 'auto'` | `'auto'` | Orientación del bloque de icono y textos. |
 
 ---
 

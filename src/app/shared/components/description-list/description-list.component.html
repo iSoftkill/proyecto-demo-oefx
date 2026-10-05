@@ -1,0 +1,20 @@
+<div 
+  class="oefa-description-list"
+  [ngClass]="[
+    'columns-' + columns,
+    'density-' + density,
+    'layout-' + layout,
+    bordered ? 'is-bordered' : ''
+  ]">
+  @if (title) {
+    <div class="oefa-description-list-header">
+      <h4 class="oefa-description-list-title">{{ title }}</h4>
+      @if (subtitle) {
+        <p class="oefa-description-list-subtitle">{{ subtitle }}</p>
+      }
+    </div>
+  }
+  <div class="oefa-description-list-grid">
+    <ng-content />
+  </div>
+</div>

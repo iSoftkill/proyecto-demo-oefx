@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { OefaIconComponent, OefaIconSize } from '../icon/icon.component';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'excel' | 'danger';
@@ -14,7 +15,7 @@ export type ButtonIconPosition = 'left' | 'right';
  * <oefa-button variant="primary" icon="plus" (clicked)="crear()">Nuevo Registro</oefa-button>
  *
  * @example
- * <oefa-button variant="secondary" icon="download" iconPosition="right" (clicked)="exportar()">Descargar</oefa-button>
+ * <oefa-button variant="primary" icon="search" routerLink="/catalogo">Explorar</oefa-button>
  */
 @Component({
   selector: 'oefa-button',
@@ -24,6 +25,8 @@ export type ButtonIconPosition = 'left' | 'right';
   styleUrls: ['./button.component.scss']
 })
 export class OefaButtonComponent {
+  private router = inject(Router, { optional: true });
+
   @Input() variant: ButtonVariant = 'primary';
   @Input() size: ButtonSize = 'md';
   @Input() type: ButtonType = 'button';
@@ -32,6 +35,8 @@ export class OefaButtonComponent {
   @Input() title = '';
   @Input() icon?: string;
   @Input() iconPosition: ButtonIconPosition = 'left';
+  @Input() routerLink?: string | any[];
+  @Input() queryParams?: Record<string, any>;
   @Output() clicked = new EventEmitter<void>();
   @Output() btnClick = this.clicked;
 
@@ -69,6 +74,12 @@ export class OefaButtonComponent {
 
   handleClick(event: MouseEvent): void {
     if (!this.disabled && !this.loading) {
+      if (this.routerLink && this.router) {
+        this.router.navigate(
+          Array.isArray(this.routerLink) ? this.routerLink : [this.routerLink],
+          { queryParams: this.queryParams }
+        );
+      }
       this.clicked.emit();
     }
   }

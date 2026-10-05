@@ -1,0 +1,70 @@
+<oefa-page-layout [title]="tableroTitulo()" subtitle="Visualización y análisis del reporte institucional."
+    [breadcrumbs]="breadcrumbs()" badgeStatus="info" [fit]="true">
+    <!-- Acciones superiores -->
+    <div actions class="oefa-flex-row oefa-gap-sm">
+        <oefa-button variant="secondary" size="sm" icon="file-text" (clicked)="isFichaOpen.set(true)">
+            Ver Ficha Técnica
+        </oefa-button>
+    </div>
+    <!-- Contenedor del visor de tablero -->
+    <div class="visor-container">
+        <!-- Frame del Dashboard -->
+        <div class="visor-frame-wrapper">
+            @if (isLoading()) {
+                <div class="visor-loading-overlay">
+                    <oefa-spinner size="lg" message="Cargando reporte institucional..." />
+                </div>
+            }
+            <iframe [src]="safeUrlDashboard()" class="dashboard-iframe" title="Reporte institucional" frameborder="0"
+                allowfullscreen (load)="onIframeLoad()">
+            </iframe>
+        </div>
+    </div>
+</oefa-page-layout>
+
+<!-- Sidebar Canvas (Drawer) de Ficha Técnica -->
+<oefa-drawer [isOpen]="isFichaOpen()" title="Ficha Técnica" subtitle="Metadatos y especificaciones del reporte"
+    size="md" (closed)="isFichaOpen.set(false)">
+
+    <!-- Sección 1: Objetivo General -->
+    <oefa-description-list title="Objetivo">
+        <oefa-description-item [value]="FichaTecnica().objetivo" [fullWidth]="true" />
+    </oefa-description-list>
+
+    <!-- Sección 2: Clasificación Institucional -->
+    <oefa-description-list title="Clasificación Institucional" [columns]="2">
+        <oefa-description-item label="Proceso" [value]="FichaTecnica().proceso" />
+        <oefa-description-item label="Sección" [value]="FichaTecnica().seccion" />
+        <oefa-description-item label="Tipo" [value]="FichaTecnica().tipoTablero" />
+        <oefa-description-item label="Categoría" [value]="FichaTecnica().categoria" />
+    </oefa-description-list>
+
+    <!-- Sección 3: Especificaciones Técnicas -->
+    <oefa-description-list title="Especificaciones Técnicas" [columns]="2">
+        <oefa-description-item label="Herramienta" [value]="FichaTecnica().herramientaBI" />
+        <oefa-description-item label="Periodicidad" [value]="FichaTecnica().periodicidad" />
+        <oefa-description-item label="Fuente de Datos" [value]="FichaTecnica().fuenteDatos" [fullWidth]="true" />
+        <oefa-description-item label="Área Responsable" [value]="FichaTecnica().responsable" [fullWidth]="true" />
+        @if (FichaTecnica().observaciones) {
+            <oefa-description-item label="Observaciones" [value]="FichaTecnica().observaciones" [fullWidth]="true" />
+        }
+    </oefa-description-list>
+
+    <!-- Sección 4: Temas Clave con Chips -->
+    <oefa-description-list title="Temas Clave" [bordered]="false">
+        <oefa-description-item [fullWidth]="true">
+            <div class="oefa-flex-row oefa-gap-xs oefa-flex-wrap">
+                @for (tema of FichaTecnica().temas; track tema) {
+                    <oefa-chip variant="project" size="sm">{{ tema }}</oefa-chip>
+                }
+            </div>
+        </oefa-description-item>
+    </oefa-description-list>
+
+    <!-- Pie del Drawer -->
+    <div footer class="oefa-flex-row oefa-justify-end oefa-gap-sm">
+        <oefa-button variant="secondary" size="sm" (clicked)="isFichaOpen.set(false)">
+            Cerrar
+        </oefa-button>
+    </div>
+</oefa-drawer>

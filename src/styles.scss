@@ -223,6 +223,29 @@ $oefa-spacing-3xl: 48px;
   --oefa-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --oefa-letter-spacing-uppercase: 0.04em;
 
+  /* Typography Scale Tokens (WCAG 1.4.4) */
+  --oefa-font-size-h1: 2.25rem;    /* 36px */
+  --oefa-font-size-h2: 1.875rem;   /* 30px */
+  --oefa-font-size-h3: 1.5rem;     /* 24px */
+  --oefa-font-size-h4: 1.25rem;    /* 20px - Card Titles */
+  --oefa-font-size-body: 1rem;     /* 16px */
+  --oefa-font-size-sm: 0.875rem;   /* 14px */
+  --oefa-font-size-xs: 0.75rem;    /* 12px */
+  --oefa-font-size-2xs: 0.6875rem; /* 11px */
+
+  --oefa-line-height-h1: 2.5rem;
+  --oefa-line-height-h2: 2.25rem;
+  --oefa-line-height-h3: 2rem;
+  --oefa-line-height-h4: 1.75rem;
+  --oefa-line-height-body: 1.5rem;
+  --oefa-line-height-sm: 1.25rem;
+  --oefa-line-height-xs: 1rem;
+
+  --oefa-font-weight-regular: 400;
+  --oefa-font-weight-medium: 500;
+  --oefa-font-weight-semibold: 600;
+  --oefa-font-weight-bold: 700;
+
   /* Radii & Shadows */
   --oefa-radius-sm: 6px;
   --oefa-radius-md: 10px;
@@ -2027,6 +2050,30 @@ input[type="checkbox"],
 input[type="radio"] {
   accent-color: var(--oefa-primary-root);
   cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-primary-root);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.form-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--oefa-spacing-xs);
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.875rem;
+  color: var(--oefa-text-primary);
+  font-weight: 500;
+  padding: 4px 6px;
+  border-radius: var(--oefa-radius-sm);
+  transition: background-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
+
+  &:hover {
+    background-color: var(--oefa-surface-subtle);
+  }
 }
 
 input[type="date"],
@@ -2057,6 +2104,106 @@ body.dark-theme input[type="datetime-local"]::-webkit-calendar-picker-indicator 
 .form-help {
   font-size: 0.75rem;
   color: var(--oefa-text-muted);
+}
+
+/* Campo de búsqueda con icono y botón limpiar para encabezados (Header Search con buffer anti-recorte) */
+.search-field-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 240px;
+  max-width: 420px;
+  flex: 1;
+  padding: 2px;
+  margin: -2px;
+
+  .search-icon {
+    position: absolute;
+    left: calc(var(--oefa-spacing-sm, 12px) + 2px);
+    color: var(--oefa-text-secondary);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  input.form-input {
+    padding-left: calc(var(--oefa-spacing-sm, 12px) + 26px);
+    padding-right: calc(var(--oefa-spacing-sm, 12px) + 26px);
+    height: 38px;
+    font-size: 0.875rem;
+    border-radius: var(--oefa-radius-md, 8px);
+    border: 1px solid var(--oefa-border-color);
+    background-color: var(--oefa-surface-input, var(--oefa-surface-card));
+    color: var(--oefa-text-primary);
+    transition: border-color var(--oefa-duration-short, 0.15s) ease,
+                box-shadow var(--oefa-duration-short, 0.15s) ease;
+
+    &:focus, &:focus-visible {
+      outline: 2px solid var(--oefa-primary-root);
+      outline-offset: 1px;
+      border-color: var(--oefa-primary-root);
+      box-shadow: 0 0 0 3px var(--oefa-focus-glow, rgba(20, 74, 167, 0.2));
+    }
+  }
+
+  .btn-clear-search {
+    position: absolute;
+    right: calc(var(--oefa-spacing-xs, 8px) + 2px);
+    background: transparent;
+    border: none;
+    color: var(--oefa-text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--oefa-spacing-3xs, 2px);
+    border-radius: var(--oefa-radius-sm, 4px);
+    transition: color var(--oefa-duration-short, 0.15s) ease,
+                background-color var(--oefa-duration-short, 0.15s) ease;
+
+    &:hover {
+      color: var(--oefa-text-primary);
+      background-color: var(--oefa-surface-subtle);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--oefa-primary-root);
+      outline-offset: 2px;
+      color: var(--oefa-primary-root);
+    }
+  }
+}
+
+/* ── Utilidades para Modales con Pasos / Steppers (Anti-Layout Shift & Ley de Fitts) ── */
+.modal-step-body {
+  padding: 0 4px var(--oefa-spacing-sm, 12px);
+  min-height: 430px;
+  display: flex;
+  flex-direction: column;
+  transition: min-height var(--oefa-duration-short-4, 250ms) var(--oefa-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+
+  @media (max-width: 640px) {
+    min-height: auto;
+  }
+}
+
+.step-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  animation: modalStepFadeIn var(--oefa-duration-short-4, 200ms) var(--oefa-ease-standard, cubic-bezier(0.2, 0, 0, 1)) forwards;
+}
+
+@keyframes modalStepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Controles de edición en tablas (Data Table Inputs & Selects) */
@@ -3722,6 +3869,28 @@ select.table-input,
   .oefa-col-xl-12 { flex: 0 0 100%;       max-width: 100%; }
 }
 
+/* 3.1 Layouts Divididos de Pantalla Fija ([fit]="true") y Scroll Automático */
+.oefa-split-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: $oefa-bp-md) {
+    flex-direction: column;
+  }
+}
+
+.oefa-scrollable {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+}
+
 /* 4. Tarjeta Institucional (.oefa-card) */
 .oefa-card {
   background-color: var(--oefa-surface-card, #ffffff);
@@ -3747,14 +3916,19 @@ select.table-input,
     h2, h3, h4 {
       margin: 0;
       color: var(--oefa-text-primary, #1d1d1b);
-      font-size: 1.125rem;
-      font-weight: 600;
+      font-size: var(--oefa-font-size-h4, 1.25rem);
+      font-weight: var(--oefa-font-weight-semibold, 600);
+      line-height: var(--oefa-line-height-h4, 1.35);
+      font-family: var(--oefa-font-display, inherit);
     }
 
     .oefa-card-subtitle {
       margin: 0;
-      font-size: 0.875rem;
+      font-size: var(--oefa-font-size-sm, 0.875rem);
+      font-weight: var(--oefa-font-weight-regular, 400);
       color: var(--oefa-text-secondary, #334155);
+      line-height: var(--oefa-line-height-sm, 1.4);
+      font-family: var(--oefa-font-body, inherit);
     }
   }
 

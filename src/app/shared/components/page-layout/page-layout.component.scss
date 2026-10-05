@@ -14,10 +14,10 @@
   min-height: 0;
   height: 100%;
   box-sizing: border-box;
+  padding: 0 !important;
 
   &.oefa-page-fit {
     overflow: hidden;
-    padding: 0 !important;
   }
 }
 
@@ -29,8 +29,15 @@
   width: 100%;
   box-sizing: border-box;
   overflow-y: auto;
+  /* overflow-y:auto fuerza overflow-x:auto, recortando box-shadows laterales.
+     El padding lateral crea el buffer necesario para que no se recorten */
+  padding-top: 2px;
+  padding-bottom: 16px;
+  padding-left: 4px;
+  padding-right: 4px;
 
   &.fit {
     overflow: hidden;
+    padding: 0;
   }
 }

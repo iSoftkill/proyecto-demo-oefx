@@ -1,32 +1,93 @@
 @switch (variant) {
   @case ('project') {
-    <span class="project-badge badge-proyecto">
-      [PRY] {{ label }}
+    <span class="project-badge badge-proyecto" [title]="title || label">
+      @if (icon) { <oefa-icon [name]="icon" size="xs" /> }
+      <ng-content select="[icon], [logo]"></ng-content>
+      [PRY] @if (label) { {{ label }} } @else { <ng-content></ng-content> }
+      @if (removable) {
+        <button type="button" class="chip-remove-btn" (click)="onRemove($event)" aria-label="Remover" [disabled]="disabled">
+          <oefa-icon name="close" size="xs" />
+        </button>
+      }
     </span>
   }
   @case ('maintenance') {
-    <span class="project-badge badge-mantenimiento">
-      [MNT] {{ label }}
+    <span class="project-badge badge-mantenimiento" [title]="title || label">
+      @if (icon) { <oefa-icon [name]="icon" size="xs" /> }
+      <ng-content select="[icon], [logo]"></ng-content>
+      [MNT] @if (label) { {{ label }} } @else { <ng-content></ng-content> }
+      @if (removable) {
+        <button type="button" class="chip-remove-btn" (click)="onRemove($event)" aria-label="Remover" [disabled]="disabled">
+          <oefa-icon name="close" size="xs" />
+        </button>
+      }
     </span>
   }
   @case ('siged') {
-    <span class="siged-chip">
-      {{ label }}
+    <span class="siged-chip" [title]="title || label">
+      @if (icon) { <oefa-icon [name]="icon" size="xs" /> }
+      <ng-content select="[icon], [logo]"></ng-content>
+      @if (label) { {{ label }} } @else { <ng-content></ng-content> }
+      @if (removable) {
+        <button type="button" class="chip-remove-btn" (click)="onRemove($event)" aria-label="Remover" [disabled]="disabled">
+          <oefa-icon name="close" size="xs" />
+        </button>
+      }
     </span>
   }
   @case ('area') {
     <span class="area-chip" [title]="title || label">
-      {{ label }}
+      @if (icon) { <oefa-icon [name]="icon" size="xs" /> }
+      <ng-content select="[icon], [logo]"></ng-content>
+      @if (label) { {{ label }} } @else { <ng-content></ng-content> }
+      @if (removable) {
+        <button type="button" class="chip-remove-btn" (click)="onRemove($event)" aria-label="Remover" [disabled]="disabled">
+          <oefa-icon name="close" size="xs" />
+        </button>
+      }
     </span>
   }
   @case ('deliverable') {
-    <span class="del-num-badge">
-      {{ label }}
+    <span class="del-num-badge" [title]="title || label">
+      @if (icon) { <oefa-icon [name]="icon" size="xs" /> }
+      <ng-content select="[icon], [logo]"></ng-content>
+      @if (label) { {{ label }} } @else { <ng-content></ng-content> }
+      @if (removable) {
+        <button type="button" class="chip-remove-btn" (click)="onRemove($event)" aria-label="Remover" [disabled]="disabled">
+          <oefa-icon name="close" size="xs" />
+        </button>
+      }
     </span>
   }
   @default {
-    <span class="filter-chip" [class.active]="active">
-      {{ label }}
+    <span
+      class="filter-chip"
+      [class.chip-sm]="size === 'sm'"
+      [class.active]="active"
+      [class.clickable]="isInteractive"
+      [class.disabled]="disabled"
+      [attr.role]="isInteractive ? 'button' : null"
+      [attr.tabindex]="isInteractive && !disabled ? 0 : null"
+      [attr.aria-pressed]="isInteractive ? active : null"
+      [attr.aria-disabled]="disabled ? true : null"
+      [title]="title || label"
+      (click)="onClick($event)"
+      (keydown)="onKeyDown($event)"
+    >
+      @if (icon) {
+        <oefa-icon [name]="icon" size="xs" class="chip-icon" />
+      }
+      <ng-content select="[icon], [logo]"></ng-content>
+
+      <span class="chip-label">
+        @if (label) { {{ label }} } @else { <ng-content></ng-content> }
+      </span>
+
+      @if (removable) {
+        <button type="button" class="chip-remove-btn" (click)="onRemove($event)" aria-label="Remover" [disabled]="disabled">
+          <oefa-icon name="close" size="xs" />
+        </button>
+      }
     </span>
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavigationService, NavItem } from '../../services/navigation.service';
@@ -13,6 +13,12 @@ import { NavigationService, NavItem } from '../../services/navigation.service';
 export class SidebarRailComponent {
   navService = inject(NavigationService);
   router = inject(Router);
+
+  @Input() showQuickAction: boolean | null = null;
+
+  get shouldShowQuickAction(): boolean {
+    return this.showQuickAction !== null ? this.showQuickAction : this.navService.showQuickAction();
+  }
 
   onItemClick(item: NavItem) {
     if (item.route) {

@@ -2,8 +2,14 @@
   <div class="pagination-bar">
     <!-- Información de registros y selector de página -->
     <div class="pagination-info">
-      <span class="pagination-text">
+      <!-- Texto versión escritorio -->
+      <span class="pagination-text pagination-text-desktop">
         Mostrando {{ startRecord }} - {{ endRecord }} de {{ totalItems }} {{ itemLabel }}
+      </span>
+
+      <!-- Texto versión móvil compacta -->
+      <span class="pagination-text pagination-text-mobile">
+        {{ startRecord }}-{{ endRecord }} de {{ totalItems }}
       </span>
 
       @if (showPageSizeSelector && pageSizeOptions.length > 0) {
@@ -24,9 +30,10 @@
 
     <!-- Controles de navegación de páginas -->
     <div class="pagination-controls">
+      <!-- Botones extremos (desktop) -->
       <button
         type="button"
-        class="btn-page-nav"
+        class="btn-page-nav btn-page-nav-extreme"
         (click)="goToPage(1)"
         [disabled]="currentPage === 1"
         title="Primera página"
@@ -34,6 +41,7 @@
         «
       </button>
       
+      <!-- Página anterior -->
       <button
         type="button"
         class="btn-page-nav"
@@ -44,17 +52,26 @@
         ‹
       </button>
 
-      @for (p of visiblePages; track p) {
-        <button
-          type="button"
-          class="btn-page"
-          [class.active]="p === currentPage"
-          (click)="goToPage(p)"
-          [attr.aria-current]="p === currentPage ? 'page' : null">
-          {{ p }}
-        </button>
-      }
+      <!-- Desktop: Botones numéricos individuales -->
+      <div class="pagination-page-numbers">
+        @for (p of visiblePages; track p) {
+          <button
+            type="button"
+            class="btn-page"
+            [class.active]="p === currentPage"
+            (click)="goToPage(p)"
+            [attr.aria-current]="p === currentPage ? 'page' : null">
+            {{ p }}
+          </button>
+        }
+      </div>
 
+      <!-- Mobile: Indicador compacto "1 / 2" -->
+      <span class="pagination-mobile-counter" aria-live="polite">
+        {{ currentPage }} / {{ totalPages }}
+      </span>
+
+      <!-- Página siguiente -->
       <button
         type="button"
         class="btn-page-nav"
@@ -65,9 +82,10 @@
         ›
       </button>
 
+      <!-- Última página (desktop) -->
       <button
         type="button"
-        class="btn-page-nav"
+        class="btn-page-nav btn-page-nav-extreme"
         (click)="goToPage(totalPages)"
         [disabled]="currentPage === totalPages"
         title="Última página"

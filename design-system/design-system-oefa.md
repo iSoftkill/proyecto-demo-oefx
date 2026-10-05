@@ -750,6 +750,22 @@ Componentes primitivos con **menos de 20 líneas de template y sin lógica de ne
   - Atributos `role="dialog"` y `aria-modal="true"`.
   - Cierre inmediato mediante tecla `Escape` (cuando `showCloseButton` está activo).
   - Trampeo de clics y fondo blur de 2px con `var(--oefa-surface-overlay)`.
+- **Regla de Buffer y Scroll Seguro para Foco Accesible (`scroll-padding` y Gutter)**:
+  - Todo contenedor de cuerpo modal scrolleable (`.modal-body`) **debe definir `scroll-padding-bottom: var(--oefa-spacing-xl, 24px);`** y `scroll-padding-top: var(--oefa-spacing-md, 16px);`.
+  - Debe proveer un gutter horizontal mínimo de 4px (`--oefa-spacing-2xs`) y colchón inferior de 20-24px (`--oefa-spacing-xl`) para evitar que el anillo exterior de foco (`:focus-visible`, `outline`, `box-shadow`) de los controles finales (ej. checkboxes, toggles o botones) sea cortado por el límite de `overflow: auto`.
+  - Los controles interactivos como checkboxes (`.form-checkbox-label`) deben contar con padding interno de 4px a 6px para asegurar área táctil y respiro perimetral de foco.
+- **Regla de Contenedor de Scroll Único (Anti Doble Scroll)**:
+  - `.modal-body` es el **único** responsable del desplazamiento vertical en `<oefa-modal>`.
+  - Los contenidos hijos, wizards o steppers proyectados **no deben declarar `overflow-y: auto` ni `max-height` restringido**, garantizando una sola barra de scroll perimetral limpia.
+- **Adaptación Responsiva en Pantallas Móviles (`≤ 640px`)**:
+  - Backdrop con padding compacto (`8px`), tarjeta modal ajustada a `calc(100dvh - 16px)` y paddings internos de 14px a 16px.
+  - La barra de navegación de footer (`[footer]`) distribuye los botones equitativamente (`flex: 1`) en una fila uniforme, impidiendo que botones como "Anterior" y "Siguiente" se apilen o envuelvan de forma asimétrica.
+- **Regla de Estabilidad y Amortiguación de Altura (Híbrido Anti-Layout Shift + Transición Suave)**:
+  - En diálogos modales que incorporan asistentes de múltiples pasos (`<oefa-stepper>`), el contenedor de pasos `.modal-step-body` define una altura mínima predecible (`min-height: 430px` en escritorio).
+  - Esto previene que el modal sufra saltos o redimensionamientos abruptos entre pasos con diferente densidad de campos, garantizando que el pie de página (`.modal-footer`) y sus botones de navegación ("Anterior" / "Siguiente") permanezcan en una coordenada vertical fija y predecible bajo el cursor del usuario (Ley de Fitts).
+  - La transición visual entre pasos se ejecuta mediante un desvanecimiento suave (*cross-fade*) de 200ms con aceleración estándar (`opacity: 0 -> 1` con micro-desplazamiento `translateY(4px -> 0)` en `.step-pane`).
+  - **Amortiguador Dinámico de Seguridad (Red de Protección Material Motion)**: Tanto la tarjeta `.oefa-modal-card` como `.modal-step-body` incorporan `transition: max-height 250ms, height 250ms, min-height 250ms var(--oefa-ease-standard)`. Mientras el contenido se mantenga dentro del `min-height`, el modal permanece 100% estático; si algún paso o contenido dinámico excede la cota base (o en pantallas móviles), el contenedor se redimensiona suavemente sin saltos secos ni cortes bruscos. Respeta `prefers-reduced-motion: reduce`.
+  - En pantallas móviles (`≤ 640px`), `min-height` se relaja automáticamente a `auto` para priorizar la ergonomía en pantallas táctiles compactas.
 
 ### 8.20 Botones Institucionales (`<oefa-button>`, `.btn`)
 - **Clasificación Atomic Design**: **Átomo de Acción e Interacción**.
@@ -922,6 +938,11 @@ Componentes primitivos con **menos de 20 líneas de template y sin lógica de ne
 - **Adaptabilidad y Ergonomía**:
   - **Desktop (≥ 769px)**: Sidebar fijo y sticky (`top: 16px`) con scrollbar estilizado (`overflow-y: auto`) y barra inferior de acciones persistente (`.fs-sticky-footer`).
   - **Móvil (≤ 768px)**: Bottom sheet con tirador (`.fs-sheet-handle`), `max-height: 88vh`, backdrop con desenfoque (`backdrop-filter: blur(3px)`) y animación M3 `var(--oefa-ease-emphasized-decel)`.
+- **Accesibilidad y Regla Anti-Recorte por Teclado (`scroll-padding` y Buffers de Foco)**:
+  - `.fs-scrollable-body` implementa obligatoriamente `scroll-padding-top: var(--oefa-spacing-md, 16px)` y `scroll-padding-bottom: var(--oefa-spacing-xl, 24px)` con gutter lateral de 4px (`padding: 0 4px`), garantizando que al navegar con `Tab` los anillos de foco (`:focus-visible`) de checkboxes, chips y switches no sean recortados en los bordes de scroll.
+  - `.fs-group-options` cuenta con `scroll-padding: 8px` y padding interno de `4px 6px` para resguardo del foco accesible de cada `.fs-checkbox`.
+  - Los switches `.oefa-switch-input` y cabeceras desplegables `.fs-group-header` definen anillos de enfoque explícitos con `outline: 2px solid var(--oefa-primary-root)` y `outline-offset: 2px`.
+  - En la vista contenedora del catálogo (`.tableros-content-column`), se implementa `scroll-padding-top: 16px`, `scroll-padding-bottom: 32px` y un buffer perimetral de 4px para que las tarjetas de catálogo (`.bento-catalog-card`) y filtros de proceso (`.pill-filter`) mantengan intacto su foco visible sin recortes perimetrales.
 - *Nota*: Para la tabla detallada de propiedades, ver también la [Sección 16: Filter Sidebar](#16-filter-sidebar-oefa-filter-sidebar).
 
 ### 8.26 Paneles Laterales y Side Canvas (`<oefa-drawer>`)
@@ -970,6 +991,10 @@ Componentes primitivos con **menos de 20 líneas de template y sin lógica de ne
   - Estructura semántica única con landmark `<header role="banner">` y `<h1>` principal con tipografía display institucional.
   - Navegación breadcrumb dentro de `<nav aria-label="Ruta de navegación">` con lista ordenada `<ol>`, enlaces con `:focus-visible` y `aria-current="page"` en el último elemento.
   - Botón de retroceso accesible con `aria-label="Regresar a la página anterior"` y contraste mínimo 4.5:1.
+- **Regla de Buffer y Anti-Recorte en Foco por Teclado (`Tab`)**:
+  - Tanto `.breadcrumb-nav` como sus enlaces `.breadcrumb-link` incorporan un buffer perimetral de resguardo (`padding: 2px 6px; margin: -2px -2px`) y un anillo visible con `outline-offset: 1px; box-shadow: 0 0 0 3px var(--oefa-focus-glow)`, previniendo cortes en el borde superior del viewport o contenedor.
+  - La fila principal `.header-main-row` y el contenedor de acciones proyectadas `.header-actions` integran `padding: 4px; margin: -4px` para albergar con holgura los halos de foco de botones principales (`<oefa-button>`), inputs de búsqueda (`.search-field-container`) y conmutadores sin sufrir truncamiento visual perimetral.
+  - **Prohibición de botones anidados en enlaces**: Queda terminantemente desaconsejado envolver `<oefa-button>` dentro de un enlace `<a>`, ya que genera paradas dobles en la navegación con `Tab` y colisiones de anillos de foco; las redirecciones deben dispararse mediante el evento `(clicked)` inyectando `Router` o utilizando clases de botón directas.
 
 ### 8.28 Tarjeta de Resumen KPI (`<oefa-kpi-card>`)
 - **Clasificación Atomic Design**: **Molécula de Visualización de Métricas**.
@@ -1261,9 +1286,10 @@ Tarjeta de catálogo institucional para exploración de sistemas, módulos y tab
 Tarjeta de alto impacto visual para portales y páginas principales (landing) que presentan procesos institucionales (Estratégicos, Misionales, Apoyo):
 - **Capa fotográfica de fondo (`bgImage`):** Soporta fotografía contextualizada con sujeto enfocado hacia la derecha. Si no se pasa imagen, despliega un degradado institucional limpio y estilizado.
 - **Degradado protector direccional:** Degradado horizontal de 0% a 100% que preserva máxima solidez a la izquierda (garantizando ratio WCAG AAA > 12:1 en textos blancos) y transparencia hacia la derecha para apreciar la imagen.
-- **Badge circular de icono:** Círculo vibrante de 58px con icono concéntrico o icono semántico.
-- **Título en 2 líneas:** Tipografía Poppins ExtraBold (`1.5rem`) de gran legibilidad.
-- **CTA claro:** Texto y flecha interactiva con animación fluida `translateX(6px)` en hover.
+- **Badge circular de icono:** Círculo vibrante de 58px que delega en `<oefa-icon>` (`name="concentric"` o icono temático).
+- **Título en 2 líneas:** Tipografía Poppins Bold tokenizada (`var(--oefa-font-size-h4, 1.25rem)`), preservando la jerarquía visual respecto al H1 de página (`1.5rem`).
+- **Descripción:** Tipografía Inter tokenizada (`var(--oefa-font-size-sm, 0.875rem)`).
+- **CTA claro:** Texto tokenizado (`var(--oefa-font-size-sm, 0.875rem)`) y flecha `<oefa-icon name="arrow-right">` con animación fluida `translateX(6px)` en hover.
 
 #### Especificación de Imágenes Recomendadas
 | Dimensión Ideal | Relación de Aspecto | Formato Recomendado | Peso Máximo | Composición |
@@ -1521,6 +1547,98 @@ Contenedor sincronizado para paneles plegables `<oefa-collapsible>`. Soporta mod
   </oefa-collapsible>
 </oefa-accordion>
 ```
+
+### 24.3 `<oefa-description-list>` y `<oefa-description-item>`
+Componente institucional para renderizado de fichas técnicas, metadatos y listas de atributos (clave-valor) con soporte responsive automático y slots para contenido enriquecido (chips, badges, tablas, links):
+```html
+<oefa-description-list title="Clasificación Institucional" [columns]="2">
+  <oefa-description-item label="Proceso" value="Procesos Misionales" />
+  <oefa-description-item label="Sección" value="SUPERVISIÓN" />
+  <oefa-description-item label="Herramienta">
+    <oefa-chip variant="project">Power BI</oefa-chip>
+  </oefa-description-item>
+</oefa-description-list>
+```
+- **Inputs `<oefa-description-list>`:** `title`, `subtitle`, `columns` (`1 | 2 | 3 | 4 | 'auto'`), `density` (`'comfortable' | 'compact'`), `bordered` (`boolean`).
+- **Inputs `<oefa-description-item>`:** `label`, `value`, `fullWidth` (`boolean`), `colSpan` (`number`).
+
+### 24.4 `<oefa-chip>` vs `<oefa-status-badge>`
+Directriz institucional para diferenciación de componentes de etiquetado:
+
+| Criterio | `<oefa-status-badge>` (Badge de Estado) | `<oefa-chip>` (Chip Interactivo / Atributo) |
+|---|---|---|
+| **Propósito** | Informar el estado transaccional o de ciclo de vida del dato (`Activo`, `Inactivo`, `Alerta`). | Clasificación semántica, atributos con icono/logo o botones de filtro rápido de tablas/catálogos. |
+| **Interactividad** | **Pasivo (Solo lectura)**. No recibe eventos de clic ni foco. | **Accionable**. Admite clic, selección toggle (`[active]`), foco de teclado y remoción (`[removable]`). |
+| **Soporte de Iconos** | Punto indicador minimalista opcional (`dot`). | Iconos SVG vectoriales (`[icon]`), logos proyectados (`[logo]`) y botón cerrar (`✕`). |
+
+#### Consumo de `<oefa-chip>`:
+```html
+<!-- 1. Chips de Filtro Rápido (Toggle) -->
+<oefa-chip [active]="filtro === 'todos'" (clicked)="filtrar('todos')">Todos</oefa-chip>
+<oefa-chip icon="star" [active]="filtro === 'destacados'" (clicked)="filtrar('destacados')">Destacados</oefa-chip>
+
+<!-- 2. Chip con Logo / Icono de Tecnología -->
+<oefa-chip variant="default">
+  <img src="assets/icons/powerbi.svg" logo class="oefa-chip-logo" />
+  Power BI
+</oefa-chip>
+
+<!-- 3. Chip Removible (Filtro Activo) -->
+<oefa-chip [removable]="true" (removed)="removerFiltro('proceso')">
+  Proceso: Fiscalización
+</oefa-chip>
+
+<!-- 4. Variantes Institucionales OEFA -->
+<oefa-chip variant="project" label="PRY-2026-001" />
+<oefa-chip variant="siged" label="EXP-2025-0130" />
+<oefa-chip variant="area" label="DFAI" />
+```
+
+- **Inputs `<oefa-chip>`:** `variant` (`'project' | 'maintenance' | 'siged' | 'area' | 'deliverable' | 'filter' | 'default'`), `label`, `title`, `icon`, `active`, `clickable`, `removable`, `disabled`.
+- **Outputs `<oefa-chip>`:** `(clicked)`, `(activeChange)`, `(removed)`.
+- **Slots `<ng-content>`:** `[icon]`, `[logo]`, contenido predeterminado (texto/HTML libre).
+
+### 24.5 `<oefa-stat>` (Métrica Institucional / KPI)
+Componente reutilizable para visualización de cifras institucionales, indicadores de impacto y KPIs. Resuelve la colisión de jerarquía visual frente al `H1` mediante 3 tamaños precalibrados:
+```html
+<!-- 1. Tamaño MD (Recomendado para Dashboards y Tarjetas de Cifras) -->
+<oefa-stat 
+  value="18,520" 
+  label="Supervisiones realizadas" 
+  icon="shield" 
+  color="primary" 
+  size="md" 
+  badge="+12%" 
+  badgeStatus="success" />
+
+<!-- 2. Tamaño SM (Compacto para tablas, drawers y barras laterales) -->
+<oefa-stat 
+  value="45" 
+  label="Pendientes" 
+  icon="clock" 
+  color="warning" 
+  size="sm" />
+
+<!-- 3. Tamaño LG (Hero / Portales institucionales de alto impacto) -->
+<oefa-stat 
+  value="99.4%" 
+  label="Cumplimiento ambiental" 
+  icon="check-circle" 
+  color="success" 
+  size="lg" />
+```
+
+#### API de `<oefa-stat>`
+| Propiedad | Tipo | Default | Descripción |
+|---|---|---|---|
+| `[value]` | `string \| number` | `''` | Cifra o valor cuantitativo principal. |
+| `[label]` | `string` | `''` | Etiqueta semántica o descripción de la métrica. |
+| `[icon]` | `string` | `''` | Nombre del icono institucional (`<oefa-icon>`). |
+| `[size]` | `'sm' \| 'md' \| 'lg'` | `'md'` | Escala visual (`sm`: 16px/1rem, `md`: 20px/1.25rem, `lg`: 30px/1.875rem). |
+| `[color]` | `'primary' \| 'secondary' \| 'success' \| 'warning' \| 'error' \| 'neutral'` | `'primary'` | Rol semántico de color aplicado al icono y acentos. |
+| `[badge]` | `string` | `''` | Texto de badge contextual (ej. `+14%`, `Meta`). |
+| `[badgeStatus]` | `'info' \| 'success' \| 'danger' \| 'error' \| 'neutral' \| 'accent'` | `'neutral'` | Estado de color del badge (`<oefa-status-badge>`). |
+| `[layout]` | `'horizontal' \| 'vertical' \| 'auto'` | `'auto'` | Disposición del icono y contenido (`auto`: vertical en `lg`, horizontal en `sm`/`md`). |
 
 ---
 

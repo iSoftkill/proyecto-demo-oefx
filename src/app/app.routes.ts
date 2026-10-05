@@ -1,95 +1,34 @@
 import { Routes } from '@angular/router';
 import { CatalogoComponent } from './views/catalogo/catalogo.component';
 import { LoginComponent } from './views/login/login.component';
-import { DesignSystemColorsComponent } from './views/design-system/design-system-colors.component';
-import { DesignSystemTypographyComponent } from './views/design-system/design-system-typography.component';
-import { DesignSystemButtonsComponent } from './views/design-system/design-system-buttons.component';
-import { DesignSystemInputsComponent } from './views/design-system/design-system-inputs.component';
-import { DesignSystemBadgesComponent } from './views/design-system/design-system-badges.component';
-import { DesignSystemIconsComponent } from './views/design-system/design-system-icons.component';
-import { DesignSystemTabsComponent } from './views/design-system/design-system-tabs.component';
-import { DesignSystemStepsComponent } from './views/design-system/design-system-steps.component';
-import { DesignSystemTablesComponent } from './views/design-system/design-system-tables.component';
-import { DesignSystemResponsiveComponent } from './views/design-system/design-system-responsive.component';
-import { DesignSystemNavigationComponent } from './views/design-system/design-system-navigation.component';
-import { DesignSystemFeedbackComponent } from './views/design-system/design-system-feedback.component';
-import { DesignSystemSegmentedSwitchComponent } from './views/design-system/design-system-segmented-switch.component';
-import { DesignSystemPaginationComponent } from './views/design-system/design-system-pagination.component';
-import { DesignSystemDropdownsComponent } from './views/design-system/design-system-dropdowns.component';
-import { DesignSystemEmptyStatesComponent } from './views/design-system/design-system-empty-states.component';
-import { DesignSystemModalsComponent } from './views/design-system/design-system-modals.component';
-import { DesignSystemDrawersComponent } from './views/design-system/design-system-drawers.component';
-import { DesignSystemPageHeaderComponent } from './views/design-system/design-system-page-header.component';
-import { DesignSystemAlertsComponent } from './views/design-system/design-system-alerts.component';
-import { DesignSystemToastsComponent } from './views/design-system/design-system-toasts.component';
-import { DesignSystemSelectionCardComponent } from './views/design-system/design-system-selection-card.component';
-import { DesignSystemDatePickerComponent } from './views/design-system/design-system-date-picker.component';
-import { DesignSystemFileUploaderComponent } from './views/design-system/design-system-file-uploader.component';
-import { DesignSystemMotionComponent } from './views/design-system/design-system-motion.component';
-import { DesignSystemBentoKpiComponent } from './views/design-system/design-system-bento-kpi.component';
-import { DesignSystemCatalogCardComponent } from './views/design-system/design-system-catalog-card.component';
-import { DesignSystemFilterSidebarComponent } from './views/design-system/design-system-filter-sidebar.component';
 
 // PROYECTO ------------------------------------
 
 import { InicioComponent } from './views/inicio/inicio.component';
 import { TablerosComponent } from './views/configuraciones/tableros/tableros.component';
+import { VisorTableroComponent } from './views/catalogo/visor-tablero/visor-tablero.component';
 
 export const routes: Routes = [
+
+  // PROYECTO ------------------------------------
+
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'catalogo', component: CatalogoComponent },
-  { path: 'dashboard', redirectTo: 'catalogo', pathMatch: 'full' },
-  
-  // Módulo Sistema de Diseño OEFA
-  { path: 'design-system', redirectTo: 'design-system/colores', pathMatch: 'full' },
-  { path: 'design-system/colores', component: DesignSystemColorsComponent },
-  { path: 'design-system/tipografia', component: DesignSystemTypographyComponent },
-  { path: 'design-system/motion', component: DesignSystemMotionComponent },
-  { path: 'design-system/iconos', component: DesignSystemIconsComponent },
-  { path: 'design-system/botones', component: DesignSystemButtonsComponent },
-  { path: 'design-system/badges', component: DesignSystemBadgesComponent },
-  { path: 'design-system/inputs', component: DesignSystemInputsComponent },
-  { path: 'design-system/tabs', component: DesignSystemTabsComponent },
-  { path: 'design-system/pasos', component: DesignSystemStepsComponent },
-  { path: 'design-system/steps', component: DesignSystemStepsComponent },
-  { path: 'design-system/tablas', component: DesignSystemTablesComponent },
-  { path: 'design-system/responsive', component: DesignSystemResponsiveComponent },
-  { path: 'design-system/responsividad', component: DesignSystemResponsiveComponent },
-  { path: 'design-system/navegacion', component: DesignSystemNavigationComponent },
-  { path: 'design-system/feedback', component: DesignSystemFeedbackComponent },
-  { path: 'design-system/switch', component: DesignSystemSegmentedSwitchComponent },
-  { path: 'design-system/segmented-switch', component: DesignSystemSegmentedSwitchComponent },
-  { path: 'design-system/paginacion', component: DesignSystemPaginationComponent },
-  { path: 'design-system/dropdowns', component: DesignSystemDropdownsComponent },
-  { path: 'design-system/empty-states', component: DesignSystemEmptyStatesComponent },
-  { path: 'design-system/modales', component: DesignSystemModalsComponent },
-  { path: 'design-system/drawers', component: DesignSystemDrawersComponent },
-  { path: 'design-system/page-header', component: DesignSystemPageHeaderComponent },
-  { path: 'design-system/alerts', component: DesignSystemAlertsComponent },
-  { path: 'design-system/alertas', component: DesignSystemAlertsComponent },
-  { path: 'design-system/toasts', component: DesignSystemToastsComponent },
-  { path: 'design-system/selection-cards', component: DesignSystemSelectionCardComponent },
-  { path: 'design-system/date-picker', component: DesignSystemDatePickerComponent },
-  { path: 'design-system/file-uploader', component: DesignSystemFileUploaderComponent },
-  { path: 'design-system/bento-kpi', component: DesignSystemBentoKpiComponent },
-  { path: 'design-system/catalog-card', component: DesignSystemCatalogCardComponent },
-  { path: 'design-system/catalog-cards', component: DesignSystemCatalogCardComponent },
-  { path: 'design-system/filter-sidebar', component: DesignSystemFilterSidebarComponent },
+  { path: 'catalogo/:id', component: VisorTableroComponent },
 
-  // PROYECTO ------------------------------------
 
   { path: 'inicio', component: InicioComponent },
   {
     path: 'configuraciones',
     children: [
-      {path: '', redirectTo: 'tableros', pathMatch: 'full'},
-      {path: 'tableros', component: TablerosComponent}
+      { path: '', redirectTo: 'tableros', pathMatch: 'full' },
+      { path: 'tableros', component: TablerosComponent }
     ]
   },
 
   // Wildcard SIEMPRE al final
-  
+
   { path: '**', redirectTo: 'inicio' },
 
 ];

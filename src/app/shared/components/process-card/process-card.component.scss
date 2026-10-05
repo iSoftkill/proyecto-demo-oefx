@@ -6,7 +6,7 @@
 .oefa-process-card {
   position: relative;
   overflow: hidden;
-  border-radius: var(--oefa-radius-xl, 20px);
+  border-radius: var(--oefa-radius-xl, 24px);
   min-height: 240px;
   display: flex;
   flex-direction: column;
@@ -14,9 +14,9 @@
   padding: 28px;
   cursor: pointer;
   user-select: none;
-  box-shadow: 0 4px 16px rgba(10, 24, 50, 0.08);
-  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1),
-              box-shadow 0.25s cubic-bezier(0.2, 0, 0, 1);
+  box-shadow: var(--oefa-shadow-md, 0 4px 16px rgba(10, 24, 50, 0.08));
+  transition: transform var(--oefa-duration-medium-1, 250ms) var(--oefa-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+              box-shadow var(--oefa-duration-medium-1, 250ms) var(--oefa-ease-standard, cubic-bezier(0.2, 0, 0, 1));
 
   &:hover {
     transform: translateY(-4px);
@@ -32,33 +32,33 @@
   }
 
   &:focus-visible {
-    outline: 3px solid var(--oefa-primary-root, #144AA7);
+    outline: 3px solid var(--oefa-focus-ring, var(--oefa-primary-root, #144AA7));
     outline-offset: 2px;
   }
 
   /* Variante tema inverso / claro (soft tones) */
   &.theme-light {
-    background-color: #FFFFFF;
+    background-color: var(--oefa-surface-card, #FFFFFF);
     border: 1px solid var(--oefa-border-color, #E2E8F0);
-    box-shadow: 0 4px 16px rgba(10, 24, 50, 0.06);
+    box-shadow: var(--oefa-shadow-sm, 0 1px 3px rgba(15, 23, 42, 0.06));
 
     &:hover {
-      box-shadow: 0 12px 28px rgba(10, 24, 50, 0.12);
+      box-shadow: var(--oefa-shadow-md, 0 4px 16px rgba(15, 23, 42, 0.12));
     }
 
     .card-foreground {
-      color: #1D1D1B;
+      color: var(--oefa-text-primary, #1D1D1B);
     }
 
     .card-title {
-      color: #0F172A;
+      color: var(--oefa-text-primary, #1D1D1B);
       text-shadow: none;
     }
 
     .card-description {
-      color: #475569;
+      color: var(--oefa-text-secondary, #334155);
       text-shadow: none;
-      font-weight: 500;
+      font-weight: var(--oefa-font-weight-medium, 500);
     }
 
     .card-icon-circle {
@@ -69,7 +69,7 @@
     &.variant-estrategico {
       border-color: rgba(20, 74, 167, 0.22);
       .card-action {
-        color: #144AA7;
+        color: var(--oefa-primary-root, #144AA7);
         text-shadow: none;
       }
     }
@@ -77,7 +77,7 @@
     &.variant-misional {
       border-color: rgba(22, 163, 74, 0.25);
       .card-action {
-        color: #15803D;
+        color: var(--oefa-success-ui-safe, #15803D);
         text-shadow: none;
       }
     }
@@ -85,7 +85,7 @@
     &.variant-apoyo {
       border-color: rgba(234, 88, 12, 0.25);
       .card-action {
-        color: #C2410C;
+        color: var(--oefa-tertiary-ui-safe, #C2410C);
         text-shadow: none;
       }
     }
@@ -100,7 +100,7 @@
   background-position: center right;
   z-index: 1;
   transform: scale(1.01);
-  transition: transform 0.4s ease;
+  transition: transform var(--oefa-duration-long-2, 400ms) ease;
   pointer-events: none;
 }
 
@@ -110,7 +110,7 @@
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  transition: background 0.3s ease;
+  transition: background var(--oefa-duration-medium, 300ms) ease;
 }
 
 /* 3. Contenido en primer plano */
@@ -120,83 +120,82 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  color: #FFFFFF;
+  color: var(--oefa-primary-on, #FFFFFF);
   pointer-events: none;
 }
 
 .card-header-row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 14px;
+  gap: var(--oefa-spacing-md, 16px);
+  margin-bottom: var(--oefa-spacing-sm, 12px);
 }
 
 .card-icon-circle {
   width: 58px;
   height: 58px;
   min-width: 58px;
-  border-radius: 50%;
+  border-radius: var(--oefa-radius-full, 50%);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.25);
   flex-shrink: 0;
-
-  .concentric-icon {
-    display: block;
-  }
 }
 
 .card-title {
   font-family: var(--oefa-font-display, 'Poppins', sans-serif);
-  font-size: 1.5rem;
-  font-weight: 800;
-  line-height: 1.15;
-  color: #FFFFFF;
+  font-size: var(--oefa-font-size-h4, 1.25rem);
+  font-weight: var(--oefa-font-weight-bold, 700);
+  line-height: var(--oefa-line-height-h4, 1.35);
+  color: var(--oefa-primary-on, #FFFFFF);
   margin: 0;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   white-space: pre-line;
 }
 
 .card-description {
   font-family: var(--oefa-font-body, 'Inter', sans-serif);
-  font-size: 0.9375rem;
-  line-height: 1.45;
+  font-size: var(--oefa-font-size-sm, 0.875rem);
+  line-height: var(--oefa-line-height-sm, 1.45);
   color: rgba(255, 255, 255, 0.94);
-  margin: 0 0 20px 0;
-  max-width: 68%;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  margin: 0 0 var(--oefa-spacing-lg, 20px) 0;
+  max-width: 72%;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 .card-action {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--oefa-spacing-xs, 8px);
   margin-top: auto;
-  color: #FFFFFF;
+  color: var(--oefa-primary-on, #FFFFFF);
   font-family: var(--oefa-font-body, 'Inter', sans-serif);
-  font-size: 1.125rem;
-  font-weight: 700;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  font-size: var(--oefa-font-size-sm, 0.875rem);
+  font-weight: var(--oefa-font-weight-semibold, 600);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 
   .action-arrow {
-    transition: transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    transition: transform var(--oefa-duration-short, 150ms) ease;
   }
 }
 
 @media (max-width: 768px) {
   .oefa-process-card {
-    padding: 22px;
-    min-height: 210px;
+    padding: var(--oefa-spacing-lg, 20px);
+    min-height: 200px;
   }
 
   .card-title {
-    font-size: 1.35rem;
+    font-size: 1.125rem;
+    line-height: 1.3;
   }
 
   .card-description {
-    max-width: 85%;
-    font-size: 0.875rem;
+    max-width: 100%;
+    font-size: var(--oefa-font-size-xs, 0.75rem);
   }
 }

@@ -6,12 +6,21 @@
 .oefa-page-header {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 20px;
+  /* padding lateral >= 4px para compensar margin:-4px de .header-main-row y .header-actions
+     sin esto, overflow:hidden del contenedor padre corta el borde de los botones */
+  padding-top: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-bottom: 2px;
+  box-sizing: border-box;
 }
 
 .breadcrumb-nav {
   font-size: 0.8125rem;
+  padding: 2px 0;
+  margin: 0;
 }
 
 .breadcrumb-list {
@@ -44,17 +53,24 @@
 .breadcrumb-link {
   color: var(--oefa-primary-root, #144AA7);
   text-decoration: none;
-  transition: color var(--oefa-duration-short, 150ms) ease;
+  padding: 2px 6px;
+  border-radius: var(--oefa-radius-sm, 4px);
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.25;
+  transition: all var(--oefa-duration-short, 150ms) ease;
 
   &:hover {
     text-decoration: underline;
     color: var(--oefa-primary-hover, var(--oefa-primary-root));
+    background-color: var(--oefa-surface-subtle, #f8fafc);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--oefa-focus-ring);
-    outline-offset: 2px;
-    border-radius: 2px;
+    outline: 2px solid var(--oefa-primary-root, #144AA7);
+    outline-offset: 1px;
+    box-shadow: 0 0 0 2px var(--oefa-focus-glow, rgba(20, 74, 167, 0.2));
+    background-color: var(--oefa-primary-container, #EEF4FF);
   }
 }
 
@@ -65,10 +81,12 @@
 
 .header-main-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
+  padding: 4px;
+  margin: -4px;
 }
 
 .title-section {
@@ -108,8 +126,9 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--oefa-focus-ring);
+    outline: 2px solid var(--oefa-primary-root, #144AA7);
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--oefa-focus-glow, rgba(20, 74, 167, 0.2));
   }
 }
 
@@ -135,6 +154,8 @@
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+  padding: 4px;
+  margin: -4px;
 }
 
 .header-extra {

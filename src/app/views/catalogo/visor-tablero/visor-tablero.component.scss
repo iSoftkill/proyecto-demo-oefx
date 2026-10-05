@@ -1,0 +1,61 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.visor-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    background-color: var(--oefa-surface-card);
+    border: 1px solid var(--oefa-border-color);
+    border-radius: var(--oefa-radius-lg);
+    overflow: hidden;
+}
+
+.visor-header-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--oefa-spacing-sm, 12px);
+    padding: 10px 16px;
+    background-color: var(--oefa-surface-subtle);
+    border-bottom: 1px solid var(--oefa-border-color);
+    font-size: 0.8125rem;
+}
+
+.badge-proceso {
+    font-weight: 600;
+    color: var(--oefa-primary-root);
+}
+
+.badge-herramienta {
+    color: var(--oefa-text-secondary);
+}
+
+.visor-frame-wrapper {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+}
+
+.dashboard-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: var(--oefa-surface-card);
+}
+
+.visor-loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--oefa-surface-card);
+    z-index: 10;
+}

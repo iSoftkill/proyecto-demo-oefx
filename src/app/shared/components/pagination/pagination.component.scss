@@ -2,3 +2,201 @@
   display: block;
   width: 100%;
 }
+
+.pagination-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--oefa-spacing-sm, 12px) var(--oefa-spacing-lg, 20px);
+  background-color: var(--oefa-surface-subtle);
+  border-top: 1px solid var(--oefa-border-color);
+  flex-wrap: wrap;
+  gap: var(--oefa-spacing-sm, 12px);
+  box-sizing: border-box;
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  gap: var(--oefa-spacing-md, 16px);
+  flex-wrap: wrap;
+}
+
+.pagination-text {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  color: var(--oefa-text-secondary);
+  font-weight: 500;
+
+  &.pagination-text-mobile {
+    display: none;
+  }
+}
+
+.page-size-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--oefa-spacing-2xs, 6px);
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  color: var(--oefa-text-secondary);
+}
+
+.page-size-select {
+  padding: 4px 8px;
+  border-radius: var(--oefa-radius-sm, 4px);
+  border: 1px solid var(--oefa-border-color);
+  background-color: var(--oefa-surface-card);
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  color: var(--oefa-text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--oefa-duration-short, 150ms) ease;
+
+  &:focus {
+    border-color: var(--oefa-primary-root);
+  }
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--oefa-spacing-2xs, 4px);
+}
+
+.pagination-page-numbers {
+  display: flex;
+  align-items: center;
+  gap: var(--oefa-spacing-2xs, 4px);
+}
+
+.pagination-mobile-counter {
+  display: none;
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--oefa-text-primary);
+  padding: 0 var(--oefa-spacing-xs, 6px);
+  user-select: none;
+}
+
+.btn-page-nav,
+.btn-page {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--oefa-border-color);
+  background-color: var(--oefa-surface-card);
+  color: var(--oefa-text-primary);
+  border-radius: var(--oefa-radius-sm, 4px);
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              border-color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease),
+              color var(--oefa-duration-short, 150ms) var(--oefa-ease-standard, ease);
+
+  &:hover:not(:disabled):not(.active) {
+    background-color: var(--oefa-surface-subtle);
+    border-color: var(--oefa-primary-root);
+    color: var(--oefa-primary-root);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-focus-ring);
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: transparent;
+  }
+
+  &.active {
+    background-color: var(--oefa-primary-root);
+    border-color: var(--oefa-primary-root);
+    color: var(--oefa-primary-on);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   RESPONSIVE MOBILE STREAMLINED (≤ 640px)
+   Reorganiza el paginador a 1 SOLA FILA COMPACTA (44px)
+   ------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .pagination-bar {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 6px 12px;
+    gap: 8px;
+    min-height: 44px;
+  }
+
+  .pagination-info {
+    flex: 1;
+    min-width: 0;
+    gap: 8px;
+    flex-wrap: nowrap;
+
+    .pagination-text-desktop {
+      display: none;
+    }
+
+    .pagination-text-mobile {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .page-size-selector {
+      label {
+        display: none;
+      }
+
+      .page-size-select {
+        height: 28px;
+        padding: 2px 6px;
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .pagination-controls {
+    flex-shrink: 0;
+
+    .btn-page-nav-extreme {
+      display: none;
+    }
+
+    .pagination-page-numbers {
+      display: none;
+    }
+
+    .pagination-mobile-counter {
+      display: inline-flex;
+    }
+
+    .btn-page-nav {
+      min-width: 32px;
+      height: 32px;
+      padding: 0 4px;
+    }
+  }
+}
+
+/* En teléfonos muy estrechos (≤ 400px), oculta el selector para proteger touch targets */
+@media (max-width: 400px) {
+  .page-size-selector {
+    display: none !important;
+  }
+}

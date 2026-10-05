@@ -118,19 +118,26 @@
 }
 
 .drawer-title {
-  font-size: 1.125rem;
+  font-family: var(--oefa-font-display, 'Poppins', sans-serif);
+  font-size: 1.25rem;
   font-weight: 700;
-  color: var(--oefa-text-primary);
+  color: var(--oefa-primary-root);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
   margin: 0;
 }
 
 .drawer-subtitle {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
   font-size: 0.8125rem;
   color: var(--oefa-text-secondary);
+  line-height: 1.4;
   margin: 0;
 }
 
 .drawer-body {
+  font-family: var(--oefa-font-body, 'Inter', sans-serif);
+  color: var(--oefa-text-primary);
   padding: 24px;
   overflow-y: auto;
   display: flex;

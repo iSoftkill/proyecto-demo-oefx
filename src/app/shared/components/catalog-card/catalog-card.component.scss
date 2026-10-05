@@ -223,6 +223,11 @@
     transform: translateX(2px);
     filter: brightness(0.95);
   }
+
+  &:focus-visible {
+    outline: 2px solid var(--oefa-primary-root, #144aa7);
+    outline-offset: 2px;
+  }
 }
 
 @media (max-width: 576px) {

@@ -1,7 +1,8 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
+
 import {
   OefaButtonComponent,
   OefaEmptyStateComponent,
@@ -51,10 +52,22 @@ export class CatalogoComponent {
     { label: 'Catálogo de Tableros' }
   ];
 
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   // Búsqueda y Filtros
   searchQuery = signal<string>('');
-  selectedProcessFilter = signal<string>('todos');
+  selectedProcessFilter = signal<string>(this.route.snapshot.queryParamMap.get('proceso') || 'todos');
   selectedCategoryFilter = signal<string>('todas');
+
+  constructor() {
+    this.route.queryParamMap.subscribe(params => {
+      const proc = params.get('proceso');
+      if (proc) {
+        this.selectedProcessFilter.set(proc);
+      }
+    });
+  }
 
   // Drawer de filtros en móvil
   isMobileFilterOpen = signal<boolean>(false);
@@ -74,7 +87,7 @@ export class CatalogoComponent {
   // Grupos facetados de filtros para el Filter Sidebar
   filterGroups = signal<FilterGroupItem[]>([
     {
-      label: 'Dirección / Categoría',
+      label: 'Sección',
       open: true,
       options: [
         { label: 'EVALUACIÓN', count: 1, checked: false },
@@ -87,7 +100,20 @@ export class CatalogoComponent {
       ]
     },
     {
-      label: 'Etiquetas / Temas',
+      label: 'Categoría',
+      open: true,
+      options: [
+        { label: 'Consulta general', count: 4, checked: false },
+        { label: 'Supervisión', count: 2, checked: false },
+        { label: 'Evaluación', count: 1, checked: false },
+        { label: 'Fiscalización', count: 1, checked: false },
+        { label: 'PLANEFA', count: 2, checked: false },
+        { label: 'Sancionador', count: 1, checked: false },
+        { label: 'Compromisos', count: 1, checked: false }
+      ]
+    },
+    {
+      label: 'Tipo',
       open: true,
       options: [
         { label: 'Consulta general', count: 4, checked: false },
@@ -241,6 +267,7 @@ export class CatalogoComponent {
   }
 
   onAbrirTablero(item: TableroItem): void {
+    this.router.navigate(['/catalogo', item.id]);
     // Abrir tablero o navegar según corresponda en el sistema interno
     console.log('Abriendo tablero:', item.id);
   }
@@ -273,5 +300,9 @@ export class CatalogoComponent {
 
       return matchQuery && matchCatPill && matchProc && matchFeatured && matchPlanefa && matchCatCheck && matchTagCheck;
     });
+  }
+
+  irAConfiguraciones(): void {
+    this.router.navigate(['/configuraciones/tableros']);
   }
 }

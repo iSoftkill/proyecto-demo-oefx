@@ -58,6 +58,10 @@ export { OefaBentoKpiTileComponent } from './components/bento-kpi-tile/bento-kpi
 export { OefaCatalogCardComponent } from './components/catalog-card/catalog-card.component';
 export { OefaProcessCardComponent } from './components/process-card/process-card.component';
 export { OefaCardComponent } from './components/card/card.component';
+export { OefaStatComponent } from './components/stat/stat.component';
+export { OefaDescriptionListComponent, OefaDescriptionItemComponent } from './components/description-list';
+export type { DescriptionListColumns, DescriptionListDensity, DescriptionListLayout } from './components/description-list';
+export type { OefaStatSize, OefaStatLayout } from './components/stat/stat.component';
 
 // Utils
 export { getStatusBadgeClass, getStatusLabel } from './utils/status.utils';

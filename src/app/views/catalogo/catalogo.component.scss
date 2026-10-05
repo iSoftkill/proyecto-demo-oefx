@@ -14,62 +14,8 @@
   align-items: center;
   gap: var(--oefa-spacing-sm, 12px);
   flex-wrap: wrap;
-
-  .search-field-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    min-width: 280px;
-    max-width: 400px;
-    flex: 1;
-
-    .search-icon {
-      position: absolute;
-      left: var(--oefa-spacing-sm, 12px);
-      color: var(--oefa-text-secondary);
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    input.form-input {
-      padding-left: calc(var(--oefa-spacing-sm, 12px) + 24px);
-      padding-right: calc(var(--oefa-spacing-sm, 12px) + 24px);
-      height: 38px;
-      font-size: 0.875rem;
-      border-radius: var(--oefa-radius-md, 8px);
-      border: 1px solid var(--oefa-border-color);
-      background-color: var(--oefa-surface-input, var(--oefa-surface-card));
-      color: var(--oefa-text-primary);
-      transition: border-color var(--oefa-duration-short, 0.15s) ease,
-                  box-shadow var(--oefa-duration-short, 0.15s) ease;
-
-      &:focus {
-        border-color: var(--oefa-primary-root);
-        box-shadow: 0 0 0 3px var(--oefa-focus-glow, rgba(20, 74, 167, 0.15));
-      }
-    }
-
-    .btn-clear-search {
-      position: absolute;
-      right: var(--oefa-spacing-xs, 8px);
-      background: transparent;
-      border: none;
-      color: var(--oefa-text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--oefa-spacing-3xs, 2px);
-      border-radius: var(--oefa-radius-sm, 4px);
-      transition: color var(--oefa-duration-short, 0.15s) ease;
-
-      &:hover {
-        color: var(--oefa-text-primary);
-      }
-    }
-  }
+  padding: 2px;
+  margin: -2px;
 }
 
 // Layout principal Split Fijo (Sidebar + Contenido independiente)
@@ -132,11 +78,11 @@
   flex-direction: column;
 
   @media (max-width: 768px) {
-    display: none;
+    display: contents;
   }
 }
 
-// Columna derecha: Contenido con scroll independiente
+// Columna derecha: Contenido con scroll independiente y buffer anti-recorte para navegación por teclado
 .tableros-content-column {
   min-width: 0;
   height: 100%;
@@ -144,16 +90,21 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding-right: var(--oefa-spacing-xs, 8px);
+  scroll-padding-top: var(--oefa-spacing-md, 16px);
+  scroll-padding-bottom: var(--oefa-spacing-2xl, 32px);
+  padding: 4px var(--oefa-spacing-sm, 12px) var(--oefa-spacing-2xl, 32px) 4px;
+  box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: var(--oefa-border-color, #cbd5e1) transparent;
 
   &::-webkit-scrollbar {
     width: 6px;
   }
+
   &::-webkit-scrollbar-track {
     background: transparent;
   }
+
   &::-webkit-scrollbar-thumb {
     background: var(--oefa-border-color, #cbd5e1);
     border-radius: 999px;
@@ -210,6 +161,12 @@
           color: var(--oefa-primary-root);
         }
 
+        &:focus-visible {
+          outline: 2px solid var(--oefa-primary-root);
+          outline-offset: 2px;
+          box-shadow: 0 0 0 2px var(--oefa-focus-glow);
+        }
+
         &.active {
           background-color: var(--oefa-primary-root);
           border-color: var(--oefa-primary-root);
@@ -248,16 +205,22 @@
       &:hover {
         background-color: var(--oefa-error-container);
       }
+
+      &:focus-visible {
+        outline: 2px solid var(--oefa-error-root);
+        outline-offset: 2px;
+      }
     }
   }
 }
 
-// Grilla interna de tarjetas de tableros
+// Grilla interna de tarjetas de tableros con buffer lateral anti-recorte de foco
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: var(--oefa-spacing-lg, 20px);
-  margin-bottom: var(--oefa-spacing-2xl, 32px);
+  padding: 4px;
+  margin: -4px -4px var(--oefa-spacing-2xl, 32px) -4px;
 }
 
 // Contenedor de Estado Vacío
