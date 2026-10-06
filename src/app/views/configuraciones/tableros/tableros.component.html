@@ -108,7 +108,7 @@
                 </button>
                 <button type="button" class="dropdown-item" (click)="onToggleEstado(item)">
                   <oefa-icon name="pause-circle" size="sm" color="var(--oefa-text-secondary)" />
-                  <span>{{ item.activo ? 'Pausar' : 'Activar' }}</span>
+                  <span>{{ item.activo ? 'Inactivar' : 'Activar' }}</span>
                 </button>
                 <div class="dropdown-divider"></div>
                 <button type="button" class="dropdown-item text-danger" (click)="onEliminar(item)">
@@ -191,7 +191,7 @@
           <!-- Icono: select con buscador -->
           <div class="form-group oefa-mb-sm">
             <label class="form-label">Icono</label>
-            <oefa-dropdown [isOpen]="isIconDropdownOpen()" [fixedPosition]="true" [closeOnItemClick]="false"
+            <oefa-dropdown [isOpen]="isIconDropdownOpen()" [closeOnItemClick]="false"
               align="left" (isOpenChange)="isIconDropdownOpen.set($event)">
 
               <div trigger class="icon-dropdown-trigger" role="combobox" aria-haspopup="listbox"

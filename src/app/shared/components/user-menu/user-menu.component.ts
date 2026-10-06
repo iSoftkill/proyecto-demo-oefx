@@ -24,9 +24,9 @@ export class UserMenuComponent {
   @Input() user: UserMenuProfile = {
     name: 'Jerson Alvarez',
     initials: 'JA',
-    role: 'Especialista de Seguimiento',
+    role: 'Administrador',
     email: 'jalvarez@oefa.gob.pe',
-    area: 'Subdirección de Adm. y Finanzas'
+    area: 'OTI'
   };
 
   @Input() helpUrl: string = 'http://localhost:3000';

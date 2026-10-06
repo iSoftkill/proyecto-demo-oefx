@@ -29,21 +29,21 @@
           <span class="menu-user-name">{{ user.name }}</span>
           <span class="menu-user-role">{{ user.role }}</span>
           <span class="menu-user-email">{{ user.email }}</span>
-          <div class="menu-user-node">
+<!--           <div class="menu-user-node">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2">
               <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
               <circle cx="12" cy="10" r="3" />
             </svg>
             <span>{{ user.area }}</span>
-          </div>
+          </div> -->
         </div>
       </div>
 
       <div class="menu-divider"></div>
 
       <!-- 2. Opciones de Gestión -->
-      <div class="menu-section">
+<!--       <div class="menu-section">
         <button class="menu-item" (click)="onProfileClick()" role="menuitem">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -51,9 +51,9 @@
             <circle cx="12" cy="7" r="4" />
           </svg>
           <span>Mi Perfil</span>
-        </button>
+        </button> -->
 
-        <button class="menu-item" (click)="onChangeAreaClick()" role="menuitem">
+<!--         <button class="menu-item" (click)="onChangeAreaClick()" role="menuitem">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
@@ -65,9 +65,9 @@
             <path d="M10 18h4" />
           </svg>
           <span>Cambiar Área / Nodo</span>
-        </button>
+        </button> -->
 
-        <button class="menu-item" (click)="onPreferencesClick()" role="menuitem">
+<!--         <button class="menu-item" (click)="onPreferencesClick()" role="menuitem">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path
@@ -76,12 +76,12 @@
           </svg>
           <span>Preferencias del Sistema</span>
         </button>
-      </div>
+      </div> -->
 
-      <div class="menu-divider"></div>
+<!--       <div class="menu-divider"></div> -->
 
       <!-- Selector de Tema (Light / Dark / Auto) -->
-      <div class="menu-theme-selector">
+<!--       <div class="menu-theme-selector">
         <span class="theme-selector-label">Tema de Interfaz</span>
         <div class="theme-options-pills">
           <button type="button" class="theme-pill" [class.active]="themeService.currentTheme() === 'light'"
@@ -118,10 +118,10 @@
         </div>
       </div>
 
-      <div class="menu-divider"></div>
+      <div class="menu-divider"></div> -->
 
       <!-- 3. Sección Centro de Ayuda -->
-      <div class="menu-section">
+<!--       <div class="menu-section">
         <button class="menu-item" (click)="onHelpClick()" role="menuitem">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -135,9 +135,9 @@
             <span class="item-subtext">Manuales, Guías y Soporte OTI</span>
           </div>
         </button>
-      </div>
+      </div> -->
 
-      <div class="menu-divider"></div>
+<!--       <div class="menu-divider"></div> -->
 
       <!-- 4. Sección Cierre de Sesión -->
       <div class="menu-section">
